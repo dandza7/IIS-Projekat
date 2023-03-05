@@ -16,12 +16,7 @@ namespace IIS_Projekat.Controllers
         [HttpPost("registration", Name = "RegisterUser")]
         public ActionResult<long> RegisterUser([FromBody] NewUserDTO newUserDTO)
         {
-            var createdUserId = _userService.Register(newUserDTO);
-            if (createdUserId == 0)
-            {
-                return BadRequest("User with this email already exists!");
-            }
-            return Ok(createdUserId);
+            return Ok(_userService.Register(newUserDTO));
         }
     }
 }

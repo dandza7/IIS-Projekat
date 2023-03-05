@@ -25,11 +25,6 @@ namespace IIS_Projekat.Services.Impl
 
         public long Register(NewUserDTO newUserDTO)
         {
-            var user = _unitOfWork.UserRepository.GetAll().FirstOrDefault(u => u.Email == newUserDTO.Email);
-            if (user != null)
-            {
-                return 0L;
-            }
             var newUser = new User();
             newUser.Email = newUserDTO.Email;
             byte[] salt;
@@ -39,6 +34,11 @@ namespace IIS_Projekat.Services.Impl
             newUser = _unitOfWork.UserRepository.Create(newUser);
             _unitOfWork.SaveChanges();
             return newUser.Id;
+        }
+        public bool IsEmailAvailable(string email)
+        {
+            var user = _unitOfWork.UserRepository.GetAll().FirstOrDefault(u => u.Email == email);
+            return user == null;
         }
     }
 }
