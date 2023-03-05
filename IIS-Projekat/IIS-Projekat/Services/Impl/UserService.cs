@@ -35,6 +35,21 @@ namespace IIS_Projekat.Services.Impl
             _unitOfWork.SaveChanges();
             return newUser.Id;
         }
+
+        public bool Authenticate(UserCredentialsDTO userCredentialsDTO)
+        {
+            User? user = _unitOfWork.UserRepository.GetAll().FirstOrDefault(u => u.Email == userCredentialsDTO.Email);
+            if (user == null)
+            {
+                return false;
+            }
+            if (PasswordHasher.VerifyPassword(userCredentialsDTO.Password, user.Password, user.Salt))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool IsEmailAvailable(string email)
         {
             var user = _unitOfWork.UserRepository.GetAll().FirstOrDefault(u => u.Email == email);

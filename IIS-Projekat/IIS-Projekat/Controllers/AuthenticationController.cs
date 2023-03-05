@@ -13,10 +13,17 @@ namespace IIS_Projekat.Controllers
         {
             _userService = userService;
         }
+
         [HttpPost("registration", Name = "RegisterUser")]
         public ActionResult<long> RegisterUser([FromBody] NewUserDTO newUserDTO)
         {
             return Ok(_userService.Register(newUserDTO));
+        }
+
+        [HttpPost("login", Name = "Login")]
+        public ActionResult<bool> Login([FromBody] UserCredentialsDTO userCredentialsDTO)
+        {
+            return Ok(_userService.Authenticate(userCredentialsDTO));
         }
     }
 }
