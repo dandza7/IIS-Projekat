@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace IIS_Projekat.SupportClasses
+namespace IIS_Projekat.SupportClasses.PasswordHasher
 {
     static public class PasswordHasher
     {

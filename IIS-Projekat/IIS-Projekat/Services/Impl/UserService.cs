@@ -2,7 +2,7 @@
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Repositories;
-using IIS_Projekat.SupportClasses;
+using IIS_Projekat.SupportClasses.PasswordHasher;
 using IIS_Projekat.SupportClasses.Roles;
 
 namespace IIS_Projekat.Services.Impl

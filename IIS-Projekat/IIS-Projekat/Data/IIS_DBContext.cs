@@ -1,5 +1,5 @@
 ﻿using IIS_Projekat.Models;
-using IIS_Projekat.SupportClasses;
+using IIS_Projekat.SupportClasses.PasswordHasher;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.EntityFrameworkCore;
 
