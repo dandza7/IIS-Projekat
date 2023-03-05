@@ -58,5 +58,21 @@ namespace IIS_Projekat.Services.Impl
             var user = _unitOfWork.UserRepository.GetAll().FirstOrDefault(u => u.Email == email);
             return user == null;
         }
+
+        public void UpdateRole(UpdateUsersRoleDTO updateUsersRoleDTO)
+        {
+            var user = _unitOfWork.UserRepository.GetById(updateUsersRoleDTO.Id);
+            if (user == null)
+            {
+                return;
+            }
+            if (user.Id == 1)
+            {
+                return;
+            }
+            user.Role = updateUsersRoleDTO.Role;
+            _unitOfWork.UserRepository.Update(user);
+            _unitOfWork.SaveChanges();
+        }
     }
 }

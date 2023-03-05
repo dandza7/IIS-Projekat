@@ -21,5 +21,13 @@ namespace IIS_Projekat.Controllers
         {
             return Ok(_userService.GetAll());
         }
+
+        [HttpPost("role-update", Name = "UpdateRole")]
+        [Authorize(Roles = "ADMIN")]
+        public ActionResult UpdateRole([FromBody] UpdateUsersRoleDTO updateUsersRoleDTO)
+        {
+            _userService.UpdateRole(updateUsersRoleDTO);
+            return Ok();
+        }
     }
 }

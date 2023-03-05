@@ -42,7 +42,7 @@ namespace IIS_Projekat.Repositories
             return entities;
         }
 
-        public T? GetById(int id, params Expression<Func<T, object>>[] includes)
+        public T? GetById(long id, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> entities = _dbContext.Set<T>();
             if (includes != null)
