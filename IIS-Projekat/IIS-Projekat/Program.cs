@@ -4,10 +4,12 @@ using IIS_Projekat.Data;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.Services;
 using IIS_Projekat.Services.Impl;
+using IIS_Projekat.SupportClasses.JWToken;
 using IIS_Projekat.SupportClasses.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +22,31 @@ builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsi
 builder.Services.AddValidatorsFromAssemblyContaining<BaseValidator>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        In = ParameterLocation.Header,
+        Description = "Enter JWToken here in format \"Bearer [token]\":"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
 //JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -40,6 +66,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //Dependency Injections
 builder.Services.AddDbContext<IIS_DBContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("ConStr")));
 builder.Services.AddScoped<DbContext, IIS_DBContext>();
+builder.Services.AddScoped<IJWTGenerator, JWTGenerator>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();

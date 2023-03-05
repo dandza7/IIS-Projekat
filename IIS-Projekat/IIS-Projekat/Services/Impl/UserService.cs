@@ -2,6 +2,7 @@
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Repositories;
+using IIS_Projekat.SupportClasses.JWToken;
 using IIS_Projekat.SupportClasses.PasswordHasher;
 using IIS_Projekat.SupportClasses.Roles;
 
@@ -11,11 +12,13 @@ namespace IIS_Projekat.Services.Impl
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IJWTGenerator _jwtGenerator;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IJWTGenerator jwtGenerator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _jwtGenerator = jwtGenerator;
         }
 
         public IEnumerable<PreviewUserDTO> GetAll()
@@ -36,18 +39,18 @@ namespace IIS_Projekat.Services.Impl
             return newUser.Id;
         }
 
-        public bool Authenticate(UserCredentialsDTO userCredentialsDTO)
+        public LogInResponseDTO Authenticate(UserCredentialsDTO userCredentialsDTO)
         {
             User? user = _unitOfWork.UserRepository.GetAll().FirstOrDefault(u => u.Email == userCredentialsDTO.Email);
             if (user == null)
             {
-                return false;
+                return null;
             }
             if (PasswordHasher.VerifyPassword(userCredentialsDTO.Password, user.Password, user.Salt))
             {
-                return true;
+                return _jwtGenerator.GenerateToken(user);
             }
-            return false;
+            return null;
         }
 
         public bool IsEmailAvailable(string email)
