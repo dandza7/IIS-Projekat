@@ -6,6 +6,8 @@ namespace IIS_Projekat.Services
     {
         public IEnumerable<PreviewUserDTO> GetAll();
         public long Register(NewUserDTO newUserDTO);
+        public LogInResponseDTO Authenticate(UserCredentialsDTO userCredentialsDTO);
         public bool IsEmailAvailable(string email);
+        public void UpdateRole(UpdateUsersRoleDTO updateUsersRoleDTO);
     }
 }

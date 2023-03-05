@@ -2,6 +2,7 @@
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Repositories;
+using IIS_Projekat.SupportClasses.JWToken;
 using IIS_Projekat.SupportClasses.PasswordHasher;
 using IIS_Projekat.SupportClasses.Roles;
 
@@ -11,11 +12,13 @@ namespace IIS_Projekat.Services.Impl
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IJWTGenerator _jwtGenerator;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IJWTGenerator jwtGenerator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _jwtGenerator = jwtGenerator;
         }
 
         public IEnumerable<PreviewUserDTO> GetAll()
@@ -35,10 +38,41 @@ namespace IIS_Projekat.Services.Impl
             _unitOfWork.SaveChanges();
             return newUser.Id;
         }
+
+        public LogInResponseDTO Authenticate(UserCredentialsDTO userCredentialsDTO)
+        {
+            User? user = _unitOfWork.UserRepository.GetAll().FirstOrDefault(u => u.Email == userCredentialsDTO.Email);
+            if (user == null)
+            {
+                return null;
+            }
+            if (PasswordHasher.VerifyPassword(userCredentialsDTO.Password, user.Password, user.Salt))
+            {
+                return _jwtGenerator.GenerateToken(user);
+            }
+            return null;
+        }
+
         public bool IsEmailAvailable(string email)
         {
             var user = _unitOfWork.UserRepository.GetAll().FirstOrDefault(u => u.Email == email);
             return user == null;
+        }
+
+        public void UpdateRole(UpdateUsersRoleDTO updateUsersRoleDTO)
+        {
+            var user = _unitOfWork.UserRepository.GetById(updateUsersRoleDTO.Id);
+            if (user == null)
+            {
+                return;
+            }
+            if (user.Id == 1)
+            {
+                return;
+            }
+            user.Role = updateUsersRoleDTO.Role;
+            _unitOfWork.UserRepository.Update(user);
+            _unitOfWork.SaveChanges();
         }
     }
 }
