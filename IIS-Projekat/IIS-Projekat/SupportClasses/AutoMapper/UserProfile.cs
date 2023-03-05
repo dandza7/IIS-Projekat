@@ -9,6 +9,7 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
         public UserProfile()
         {
             CreateMap<User, PreviewUserDTO>();
+            CreateMap<NewUserDTO, User>();
         }
     }
 }
