@@ -1,4 +1,4 @@
-﻿using IIS_Projekat.Models.DTOs;
+﻿using IIS_Projekat.Models.DTOs.User;
 
 namespace IIS_Projekat.Services
 {

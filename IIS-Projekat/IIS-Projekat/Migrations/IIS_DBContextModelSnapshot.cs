@@ -23,50 +23,50 @@ namespace IISProjekat.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("IIS_Projekat.Models.User", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("CreatedDate")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("bit");
 
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("ModifiedDate")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Password")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Role")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Users");
+                b.ToTable("Users");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CreatedDate = new DateTime(2023, 3, 4, 23, 32, 7, 361, DateTimeKind.Utc).AddTicks(7415),
-                            Email = "admin@gmail.com",
-                            IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 3, 4, 23, 32, 7, 361, DateTimeKind.Utc).AddTicks(7421),
-                            Password = "123",
-                            Role = "ADMIN"
-                        });
-                });
+                b.HasData(
+                    new
+                    {
+                        Id = 1L,
+                        CreatedDate = new DateTime(2023, 3, 4, 23, 32, 7, 361, DateTimeKind.Utc).AddTicks(7415),
+                        Email = "admin@gmail.com",
+                        IsDeleted = false,
+                        ModifiedDate = new DateTime(2023, 3, 4, 23, 32, 7, 361, DateTimeKind.Utc).AddTicks(7421),
+                        Password = "123",
+                        Role = "ADMIN"
+                    });
+            });
 #pragma warning restore 612, 618
         }
     }

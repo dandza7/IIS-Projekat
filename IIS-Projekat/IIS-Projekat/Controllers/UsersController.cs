@@ -1,4 +1,4 @@
-﻿using IIS_Projekat.Models.DTOs;
+﻿using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Services;
 using Microsoft.AspNetCore.Mvc;
 

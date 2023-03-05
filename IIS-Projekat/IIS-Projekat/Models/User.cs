@@ -13,6 +13,8 @@ namespace IIS_Projekat.Models
         [Required]
         public string Password { get; set; }
         [Required]
+        public byte[] Salt { get; set; }
+        [Required]
         public string Role { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }

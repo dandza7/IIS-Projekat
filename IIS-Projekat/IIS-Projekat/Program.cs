@@ -12,8 +12,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //Dependency Injections
-
 builder.Services.AddDbContext<IIS_DBContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("ConStr")));
 builder.Services.AddScoped<DbContext, IIS_DBContext>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

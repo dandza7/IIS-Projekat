@@ -1,4 +1,5 @@
 ﻿using IIS_Projekat.Models;
+using IIS_Projekat.SupportClasses;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,7 @@ namespace IIS_Projekat.Data
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            byte[] salt;
             modelBuilder.Entity<User>().HasQueryFilter(user => !user.IsDeleted);
             modelBuilder.Entity<User>(user =>
             {
@@ -18,7 +20,8 @@ namespace IIS_Projekat.Data
                     {
                         Id = 1L,
                         Email = "admin@gmail.com",
-                        Password = "123",
+                        Password = PasswordHasher.HashPassword("123", out salt),
+                        Salt = salt,
                         Role = Roles.Admin,
                         CreatedDate = DateTime.UtcNow,
                         ModifiedDate = DateTime.UtcNow,
