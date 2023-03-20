@@ -4,6 +4,7 @@ using IIS_Projekat.Data;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.Services;
 using IIS_Projekat.Services.Impl;
+using IIS_Projekat.SupportClasses.GlobalExceptionHandler;
 using IIS_Projekat.SupportClasses.JWToken;
 using IIS_Projekat.SupportClasses.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -79,6 +80,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+// Global Exception Handler
+app.AddGlobalExceptionHandler();
 
 app.UseHttpsRedirection();
 

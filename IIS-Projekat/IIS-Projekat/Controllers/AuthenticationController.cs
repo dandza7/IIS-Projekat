@@ -27,14 +27,7 @@ namespace IIS_Projekat.Controllers
         public ActionResult<LogInResponseDTO> Login([FromBody] UserCredentialsDTO userCredentialsDTO)
         {
             var token = _userService.Authenticate(userCredentialsDTO);
-            if (token != null)
-            {
-                return Ok(token);
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return Ok(token);
         }
     }
 }
