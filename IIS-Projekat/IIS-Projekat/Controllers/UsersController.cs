@@ -1,4 +1,5 @@
-﻿using IIS_Projekat.Models.DTOs.User;
+﻿using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,11 @@ namespace IIS_Projekat.Controllers
         /// [Admin] Gets all users
         /// </summary>
         /// <response code="200">Returns all users</response>
-        [HttpGet(Name = "GetAllUsers")]
+        [HttpPost(Name = "GetAllUsers")]
         [Authorize(Roles = "ADMIN")]
-        public ActionResult<IEnumerable<PreviewUserDTO>> GetAllUsers()
+        public ActionResult<IEnumerable<PreviewUserDTO>> GetAllUsers([FromBody] PaginationQuery paginationQuery)
         {
-            return Ok(_userService.GetAll());
+            return Ok(_userService.GetAll(paginationQuery));
         }
 
         /// <summary>
