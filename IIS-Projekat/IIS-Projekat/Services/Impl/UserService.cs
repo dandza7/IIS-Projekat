@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
+using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
@@ -22,9 +23,12 @@ namespace IIS_Projekat.Services.Impl
             _jwtGenerator = jwtGenerator;
         }
 
-        public IEnumerable<PreviewUserDTO> GetAll()
+        public PaginationWrapper<PreviewUserDTO> GetAll(PaginationQuery? paginationQuery)
         {
-            return _mapper.Map<IEnumerable<PreviewUserDTO>>(_unitOfWork.UserRepository.GetAll().ToList());
+
+            var paginationResult = _unitOfWork.UserRepository.Filter(paginationQuery);
+
+            return new PaginationWrapper<PreviewUserDTO>(_mapper.Map<List<PreviewUserDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
 
         public long Register(NewUserDTO newUserDTO)
