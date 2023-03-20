@@ -34,6 +34,13 @@ namespace IIS_Projekat.SupportClasses.GlobalExceptionHandler
                 {
                     Console.WriteLine("[NO CONTENT] " + ex.Message);
                 }
+                else if (ExceptionsDictionary.RestrictedContentExceptions.Contains(ex.GetType()))
+                {
+                    var exceptionResult = JsonSerializer.Serialize(new { message = ex.Message });
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(exceptionResult);
+                    Console.WriteLine("[RESTRICTED CONTENT] " + ex.Message);
+                }
                 else
                 {
                     var exceptionResult = JsonSerializer.Serialize(new { message = ex.Message });

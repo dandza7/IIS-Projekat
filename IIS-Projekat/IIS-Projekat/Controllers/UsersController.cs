@@ -15,6 +15,10 @@ namespace IIS_Projekat.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// [Admin] Gets all users
+        /// </summary>
+        /// <response code="200">Returns all users</response>
         [HttpGet(Name = "GetAllUsers")]
         [Authorize(Roles = "ADMIN")]
         public ActionResult<IEnumerable<PreviewUserDTO>> GetAllUsers()
@@ -22,6 +26,12 @@ namespace IIS_Projekat.Controllers
             return Ok(_userService.GetAll());
         }
 
+        /// <summary>
+        /// [Admin] Updates role of existing user
+        /// </summary>
+        /// <response code="200">If role is updated succesfully</response>
+        /// <response code="400">If role is not valid</response>
+        /// <response code="404">If user with sent id does not exists</response>
         [HttpPost("role-update", Name = "UpdateRole")]
         [Authorize(Roles = "ADMIN")]
         public ActionResult UpdateRole([FromBody] UpdateUsersRoleDTO updateUsersRoleDTO)

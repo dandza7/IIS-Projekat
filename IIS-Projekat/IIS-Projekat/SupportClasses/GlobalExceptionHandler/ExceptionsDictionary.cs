@@ -9,15 +9,20 @@ namespace IIS_Projekat.SupportClasses.GlobalExceptionHandler
         {
             {typeof(Exception), HttpStatusCode.InternalServerError},
             {typeof(NotFoundException), HttpStatusCode.NotFound},
-            {typeof(BadCredentialsException), HttpStatusCode.BadRequest}
+            {typeof(BadCredentialsException), HttpStatusCode.BadRequest},
+            {typeof(RestrictedContentException), HttpStatusCode.UnavailableForLegalReasons}
         };
         public static Type[] BadRequestExceptions =
         {
-            typeof(BadCredentialsException)
+            typeof(BadCredentialsException),
+            typeof(NotFoundException),
         };
         public static Type[] NoContentExceptions =
         {
-            typeof(NotFoundException)
+        };
+        public static Type[] RestrictedContentExceptions =
+        {
+            typeof(RestrictedContentException)
         };
 
         public static HttpStatusCode GetExceptionStatusCode(Exception ex)

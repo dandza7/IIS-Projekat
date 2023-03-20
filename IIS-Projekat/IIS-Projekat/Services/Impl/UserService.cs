@@ -65,11 +65,11 @@ namespace IIS_Projekat.Services.Impl
             var user = _unitOfWork.UserRepository.GetById(updateUsersRoleDTO.Id);
             if (user == null)
             {
-                return;
+                throw new NotFoundException($"User with sent ID {updateUsersRoleDTO.Id} does not exist!");
             }
             if (user.Id == 1)
             {
-                return;
+                throw new RestrictedContentException("Super admin is not allowed to be changed!");
             }
             user.Role = updateUsersRoleDTO.Role;
             _unitOfWork.UserRepository.Update(user);
