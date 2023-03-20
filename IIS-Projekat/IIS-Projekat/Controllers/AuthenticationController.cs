@@ -15,6 +15,11 @@ namespace IIS_Projekat.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// [Anonymous] Registers new user
+        /// </summary>
+        /// <response code="200">If user is succesfully registered, returns its ID</response>
+        /// <response code="400">If credentials did not pass the validation</response>
         [HttpPost("registration", Name = "RegisterUser")]
         [AllowAnonymous]
         public ActionResult<long> RegisterUser([FromBody] NewUserDTO newUserDTO)
@@ -22,19 +27,18 @@ namespace IIS_Projekat.Controllers
             return Ok(_userService.Register(newUserDTO));
         }
 
+        /// <summary>
+        /// [Anonymous] Authenticates user
+        /// </summary>
+        /// <response code="200">Returns JWToken and its expiration date</response>
+        /// <response code="400">If credentials do not match</response>
+        /// <response code="404">If email does not exists in database</response>
         [HttpPost("login", Name = "Login")]
         [AllowAnonymous]
         public ActionResult<LogInResponseDTO> Login([FromBody] UserCredentialsDTO userCredentialsDTO)
         {
             var token = _userService.Authenticate(userCredentialsDTO);
-            if (token != null)
-            {
-                return Ok(token);
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return Ok(token);
         }
     }
 }

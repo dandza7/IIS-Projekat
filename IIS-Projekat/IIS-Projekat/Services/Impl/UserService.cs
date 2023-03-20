@@ -2,6 +2,7 @@
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Repositories;
+using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 using IIS_Projekat.SupportClasses.JWToken;
 using IIS_Projekat.SupportClasses.PasswordHasher;
 using IIS_Projekat.SupportClasses.Roles;
@@ -44,13 +45,13 @@ namespace IIS_Projekat.Services.Impl
             User? user = _unitOfWork.UserRepository.GetAll().FirstOrDefault(u => u.Email == userCredentialsDTO.Email);
             if (user == null)
             {
-                return null;
+                throw new NotFoundException($"User with email: {userCredentialsDTO.Email} does not exists!");
             }
             if (PasswordHasher.VerifyPassword(userCredentialsDTO.Password, user.Password, user.Salt))
             {
                 return _jwtGenerator.GenerateToken(user);
             }
-            return null;
+            throw new BadCredentialsException();
         }
 
         public bool IsEmailAvailable(string email)
@@ -64,11 +65,11 @@ namespace IIS_Projekat.Services.Impl
             var user = _unitOfWork.UserRepository.GetById(updateUsersRoleDTO.Id);
             if (user == null)
             {
-                return;
+                throw new NotFoundException($"User with sent ID {updateUsersRoleDTO.Id} does not exist!");
             }
             if (user.Id == 1)
             {
-                return;
+                throw new RestrictedContentException("Super admin is not allowed to be changed!");
             }
             user.Role = updateUsersRoleDTO.Role;
             _unitOfWork.UserRepository.Update(user);
