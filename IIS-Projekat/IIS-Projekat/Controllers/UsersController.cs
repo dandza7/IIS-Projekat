@@ -32,6 +32,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="200">If role is updated succesfully</response>
         /// <response code="400">If role is not valid</response>
         /// <response code="404">If user with sent id does not exists</response>
+        /// <response code="451">If user with sent id is super admin</response>
         [HttpPost("role-update", Name = "UpdateRole")]
         [Authorize(Roles = "ADMIN")]
         public ActionResult UpdateRole([FromBody] UpdateUsersRoleDTO updateUsersRoleDTO)
