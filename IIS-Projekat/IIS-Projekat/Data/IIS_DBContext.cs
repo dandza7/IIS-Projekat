@@ -13,6 +13,10 @@ namespace IIS_Projekat.Data
         {
             byte[] salt;
             modelBuilder.Entity<User>().HasQueryFilter(user => !user.IsDeleted);
+            modelBuilder.Entity<User>().HasKey(u => u.Id);
+            modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
+            modelBuilder.Entity<User>().Property(u => u.Password).IsRequired();
+            modelBuilder.Entity<User>().Property(u => u.Role).IsRequired();
             modelBuilder.Entity<User>(user =>
             {
                 user.HasData(
