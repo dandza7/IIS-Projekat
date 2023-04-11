@@ -24,13 +24,29 @@ export const Login = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(values);
-    navigate("/Menu");
+    fetch("http://localhost:5041/api/authentication/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email: values.email,
+        password: values.pass,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        console.log(data.token);
+      });
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setValues({
       ...values,
       [e.target.name]: e.target.value,
