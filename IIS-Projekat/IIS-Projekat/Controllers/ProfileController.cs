@@ -46,7 +46,7 @@ namespace IIS_Projekat.Controllers
         /// </summary>
         /// <response code="200">If users profile is successfully updated</response>
         /// <response code="404">If user with sent id does not exists in database</response>
-        [HttpPatch("update", Name = "UpdateUsersProfile")]
+        [HttpPut("update", Name = "UpdateUsersProfile")]
         [Authorize(Roles = "ADMIN")]
         public ActionResult UpdateUsersProfile([FromBody] UpdateUsersProfileDTO updateUsersProfileDTO)
         {
@@ -59,7 +59,7 @@ namespace IIS_Projekat.Controllers
         /// </summary>
         /// <response code="200">If profile is successfully updated</response>
         /// <response code="404">If user with email sent inside JWToken does not exist in database anymore</response>
-        [HttpPatch("update/own", Name = "UpdateOwnProfile")]
+        [HttpPut("update/own", Name = "UpdateOwnProfile")]
         [Authorize(Roles = "ADMIN, CUSTOMER")]
         public ActionResult UpdateOwnProfile([FromBody] UpdateOwnProfileDTO updateOwnProfileDTO)
         {

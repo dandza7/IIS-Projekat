@@ -35,6 +35,8 @@ namespace IIS_Projekat.Services.Impl
         {
             var newUser = new User();
             newUser.Profile = new UsersProfile();
+            newUser.Profile.CreatedDate = DateTime.UtcNow;
+            newUser.Profile.ModifiedDate = DateTime.UtcNow;
             newUser.Email = newUserDTO.Email;
             byte[] salt;
             newUser.Password = PasswordHasher.HashPassword(newUserDTO.Password, out salt);
