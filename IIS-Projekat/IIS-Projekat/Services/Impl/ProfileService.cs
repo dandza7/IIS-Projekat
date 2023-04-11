@@ -2,6 +2,7 @@
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.UsersProfile;
 using IIS_Projekat.Repositories;
+using IIS_Projekat.SupportClasses.FileConverter;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 using IIS_Projekat.SupportClasses.JWToken;
 
@@ -18,6 +19,30 @@ namespace IIS_Projekat.Services.Impl
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _jwtGenerator = jwtGenerator;
+        }
+
+        public void DeleteOwnAvatar(string email)
+        {
+            User user = _unitOfWork.UserRepository.GetAll(u => u.Profile).Where(u => u.Email == email).FirstOrDefault();
+            if (user == null)
+            {
+                throw new NotFoundException("User with sent Email does not exists in database!");
+            }
+            user.Profile.Avatar = null;
+            user.Profile.ModifiedDate = DateTime.UtcNow;
+            _unitOfWork.SaveChanges();
+        }
+
+        public void DeleteUsersAvatar(long id)
+        {
+            User user = _unitOfWork.UserRepository.GetAll(u => u.Profile).Where(u => u.Id == id).FirstOrDefault();
+            if (user == null)
+            {
+                throw new NotFoundException("User with sent ID does not exists in database!");
+            }
+            user.Profile.Avatar = null;
+            user.Profile.ModifiedDate = DateTime.UtcNow;
+            _unitOfWork.SaveChanges();
         }
 
         public PreviewUsersProfileDTO GetProfilePreview(long id)
@@ -38,6 +63,47 @@ namespace IIS_Projekat.Services.Impl
                 throw new NotFoundException("User with sent Email does not exists in database!");
             }
             return _mapper.Map<PreviewUsersProfileDTO>(user);
+        }
+
+        public byte[] PreviewOwnAvatar(string email)
+        {
+            User user = _unitOfWork.UserRepository.GetAll(u => u.Profile).Where(u => u.Email == email).FirstOrDefault();
+            if (user == null)
+            {
+                throw new NotFoundException("User with sent Email does not exists in database!");
+            }
+            if (user.Profile.Avatar == null)
+            {
+                throw new NoContentException();
+            }
+            return user.Profile.Avatar;
+        }
+
+        public byte[] PreviewUsersAvatar(long id)
+        {
+            User user = _unitOfWork.UserRepository.GetAll(u => u.Profile).Where(u => u.Id == id).FirstOrDefault();
+            if (user == null)
+            {
+                throw new NotFoundException("User with sent ID does not exists in database!");
+            }
+            if (user.Profile.Avatar == null)
+            {
+                throw new NoContentException();
+            }
+            return user.Profile.Avatar;
+        }
+
+        public void UpdateOwnAvatar(IFormFile avatar, string email)
+        {
+            User user = _unitOfWork.UserRepository.GetAll(u => u.Profile).Where(u => u.Email == email).FirstOrDefault();
+            if (user == null)
+            {
+                throw new NotFoundException("User with sent Email does not exists in database!");
+            }
+            user.Profile.Avatar = FileConverter.FormFileToBytes(avatar);
+            user.Profile.ModifiedDate = DateTime.UtcNow;
+            _unitOfWork.UserRepository.Update(user);
+            _unitOfWork.SaveChanges();
         }
 
         public void UpdateOwnProfile(UpdateOwnProfileDTO updateOwnProfileDTO, string email)
