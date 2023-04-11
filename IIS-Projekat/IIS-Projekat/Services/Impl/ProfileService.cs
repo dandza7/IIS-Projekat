@@ -20,6 +20,47 @@ namespace IIS_Projekat.Services.Impl
             _jwtGenerator = jwtGenerator;
         }
 
+        public PreviewUsersProfileDTO GetProfilePreview(long id)
+        {
+            var user = _unitOfWork.UserRepository.GetAll(u => u.Profile).Where(u => u.Id == id).FirstOrDefault();
+            if (user == null)
+            {
+                throw new NotFoundException("User with sent ID does not exists in database!");
+            }
+            return _mapper.Map<PreviewUsersProfileDTO>(user);
+        }
+
+        public PreviewUsersProfileDTO GetProfilePreview(string email)
+        {
+            var user = _unitOfWork.UserRepository.GetAll(u => u.Profile).Where(u => u.Email == email).FirstOrDefault();
+            if (user == null)
+            {
+                throw new NotFoundException("User with sent Email does not exists in database!");
+            }
+            return _mapper.Map<PreviewUsersProfileDTO>(user);
+        }
+
+        public void UpdateOwnProfile(UpdateOwnProfileDTO updateOwnProfileDTO, string email)
+        {
+            var user = _unitOfWork.UserRepository.GetAll(u => u.Profile).Where(u => u.Email == email).FirstOrDefault();
+            if (user == null)
+            {
+                throw new NotFoundException("User with sent Email does not exists in database!");
+            }
+            if (user.Profile == null)
+            {
+                user.Profile = new UsersProfile();
+                user.Profile.CreatedDate = DateTime.UtcNow;
+            }
+            user.Profile.ModifiedDate = DateTime.UtcNow;
+            user.Profile.Name = updateOwnProfileDTO.Name;
+            user.Profile.Surname = updateOwnProfileDTO.Surname;
+            user.Profile.BirthDate = updateOwnProfileDTO.BirthDate;
+            user.Profile.Gender = updateOwnProfileDTO.Gender;
+            _unitOfWork.UserRepository.Update(user);
+            _unitOfWork.SaveChanges();
+        }
+
         public void UpdateUsersProfile(UpdateUsersProfileDTO updateUsersProfileDTO)
         {
             var user = _unitOfWork.UserRepository.GetAll(u => u.Profile).Where(u => u.Id == updateUsersProfileDTO.UserId).FirstOrDefault();
