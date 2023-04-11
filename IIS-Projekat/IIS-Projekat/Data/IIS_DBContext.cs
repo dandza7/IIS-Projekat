@@ -8,6 +8,7 @@ namespace IIS_Projekat.Data
     public class IIS_DBContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<UsersProfile> Profiles { get; set; }
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -17,6 +18,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Password).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Role).IsRequired();
+            modelBuilder.Entity<User>().HasOne(u => u.Profile).WithOne(p => p.User).HasForeignKey<UsersProfile>(p => p.UserId);
             modelBuilder.Entity<User>(user =>
             {
                 user.HasData(
@@ -32,6 +34,11 @@ namespace IIS_Projekat.Data
                         IsDeleted = false
                     });
             });
+            modelBuilder.Entity<UsersProfile>().Property(up => up.Name).IsRequired(false);
+            modelBuilder.Entity<UsersProfile>().Property(up => up.Surname).IsRequired(false);
+            modelBuilder.Entity<UsersProfile>().Property(up => up.BirthDate).IsRequired();
+            modelBuilder.Entity<UsersProfile>().Property(up => up.Gender).IsRequired(false);
+            modelBuilder.Entity<UsersProfile>().Property(up => up.Avatar).IsRequired(false);
         }
     }
 }

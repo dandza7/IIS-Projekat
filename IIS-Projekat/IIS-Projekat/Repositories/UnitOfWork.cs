@@ -6,6 +6,7 @@ namespace IIS_Projekat.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private IGenericRepository<User> _userRepository;
+        private IGenericRepository<UsersProfile> _profileRepository;
         private DbContext _dbContext;
 
         public UnitOfWork(DbContext dbContext)
@@ -19,6 +20,15 @@ namespace IIS_Projekat.Repositories
             {
                 _userRepository ??= new GenericRepository<User>(_dbContext);
                 return _userRepository;
+            }
+        }
+
+        public IGenericRepository<UsersProfile> ProfileRepository
+        {
+            get
+            {
+                _profileRepository ??= new GenericRepository<UsersProfile>(_dbContext);
+                return _profileRepository;
             }
         }
 
