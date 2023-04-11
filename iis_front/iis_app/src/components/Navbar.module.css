@@ -1,0 +1,27 @@
+.navbar {
+  background-color: rgba(19, 101, 69, 1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+.list {
+  list-style: none;
+  text-decoration: none;
+  list-style-type: none;
+  color: white;
+  display: flex;
+  gap: 1rem;
+}
+li {
+  text-decoration: none;
+}
+
+li > a {
+  text-decoration: none;
+  color: white;
+}
