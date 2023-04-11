@@ -34,6 +34,7 @@ namespace IIS_Projekat.Services.Impl
         public long Register(NewUserDTO newUserDTO)
         {
             var newUser = new User();
+            newUser.Profile = new UsersProfile();
             newUser.Email = newUserDTO.Email;
             byte[] salt;
             newUser.Password = PasswordHasher.HashPassword(newUserDTO.Password, out salt);
