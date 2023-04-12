@@ -1,0 +1,140 @@
+.welcome {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  background-color: rgb(238, 238, 228);
+}
+
+.banner {
+  display: flex;
+  justify-content: space-between;
+}
+.bannerDiv {
+  background-color: rgb(238, 238, 228);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 700px;
+  gap: 2rem;
+}
+
+.bannerDiv > h1,
+h2 {
+  color: rgba(14, 48, 38, 0.85);
+}
+.bannerDiv > h1 {
+  font-size: 64px;
+}
+
+.bannerButton {
+  background-color: rgba(14, 48, 38, 0.85);
+  padding: 1rem;
+  color: white;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.bannerImg {
+  background-image: url("../assets/banner2.jpg");
+  filter: blur(2px);
+  width: auto;
+  height: 800px;
+  width: 1000px;
+  display: flex;
+}
+
+.welcome {
+  color: white;
+}
+.welcomeButton {
+  background-color: transparent;
+  width: 200px;
+  padding: 1rem;
+  border: 3px solid white;
+  color: white;
+  border-radius: 2rem;
+  cursor: pointer;
+  z-index: 1;
+}
+.cards {
+  display: flex;
+  gap: 4rem;
+  justify-content: center;
+  align-items: center;
+}
+.card {
+  width: 400px;
+  height: 300px;
+  background-color: white;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.offers {
+  background-color: rgb(15, 54, 41);
+  min-height: 400px;
+  z-index: 20;
+  display: flex;
+  padding: 2rem;
+  gap: 3rem;
+  color: white;
+  justify-content: center;
+  align-content: center;
+}
+.offer {
+  gap: 1rem;
+  padding: 2rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px solid rgba(162, 161, 161, 0.8);
+  border-radius: 2rem 0rem;
+}
+.offer > h2 {
+  color: white;
+}
+.bgbannerDiv {
+  background-color: rgb(15, 54, 41);
+  padding: 5rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  color: white;
+  gap: 2rem;
+}
+.bgbannerDiv > h2 {
+  color: white;
+}
+
+.ImgNutrition {
+  background-image: url("https://media-cldnry.s-nbcnews.com/image/upload/newscms/2017_28/1228258/healthy-food-live-longer-today-170712-tease.jpg");
+  background-size: cover;
+  width: auto;
+  height: 800px;
+  min-width: 60vw;
+  display: flex;
+}
+
+.imgSpa {
+  background-image: url("https://i0.wp.com/www.thelodhi.com/wp-content/uploads/sites/3/2020/10/spa-slider1.jpg?resize=1300%2C730&ssl=1");
+  background-size: cover;
+  width: auto;
+  height: 800px;
+  min-width: 60vw;
+  display: flex;
+}
+
+.imgGym {
+  background-image: url("https://wallpaperaccess.com/full/2591617.jpg");
+  background-size: cover;
+  width: auto;
+  height: 800px;
+  min-width: 60vw;
+  display: flex;
+}

@@ -1,0 +1,40 @@
+.sidebar {
+  height: 100%;
+  width: 240px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  color: white;
+}
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  text-decoration: none;
+  list-style-type: none;
+  display: flex;
+  gap: 1rem;
+  margin-left: 1rem;
+  color: white;
+}
+.listItem {
+  text-decoration: none;
+  color: white;
+}
+
+.listItem > a {
+  text-decoration: none;
+  color: white;
+}

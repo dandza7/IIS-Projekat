@@ -12,8 +12,9 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../store/auth-context";
 
 export const Login = () => {
   const [values, setValues] = useState({
@@ -21,7 +22,7 @@ export const Login = () => {
     pass: "",
     showPass: false,
   });
-
+  const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = (e: any) => {
@@ -39,12 +40,38 @@ export const Login = () => {
       .then((res) => {
         if (res.ok) {
           return res.json();
+        } else if (res.status == 400) {
+          throw new Error("Wrong password or email");
+        } else if (res.status == 404) {
+          throw new Error("Account with this email does not exist");
         }
       })
       .then((data) => {
-        console.log(data.token);
+        const parsedJWT = parseJwt(data.token);
+        authCtx.login(parsedJWT.role, parsedJWT.email, data.token);
+        navigateLogin(parsedJWT.role);
+      })
+      .catch((error) => {
+        alert(error);
       });
   };
+
+  const navigateLogin = (role: string) => {
+    if (role == "ADMIN") {
+      navigate("/admin-dashboard", { replace: true });
+    } else {
+      navigate("/home", { replace: true });
+    }
+  };
+
+  function parseJwt(token: any) {
+    if (!token) {
+      return;
+    }
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse(window.atob(base64));
+  }
 
   const handleChange = (e: any) => {
     setValues({

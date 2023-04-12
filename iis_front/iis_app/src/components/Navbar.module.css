@@ -1,27 +1,77 @@
 .navbar {
-  background-color: rgba(19, 101, 69, 1);
+  background-color: rgb(30, 73, 58);
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  padding: 1.5rem;
-  color: white;
+  color: black;
   position: sticky;
   top: 0;
+  color: rgb(255, 255, 255);
+  z-index: 100;
+  margin: auto;
 }
 
 .list {
   list-style: none;
   text-decoration: none;
   list-style-type: none;
-  color: white;
   display: flex;
   gap: 1rem;
+  color: rgb(255, 255, 255);
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 400;
+  font-weight: 500;
 }
-li {
+.navlistItem {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+
+.navlistItem > a {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+
+.loginButton {
+  background-color: rgb(30, 73, 58);
+  margin: 10px;
+  padding: 7px 20px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border: 2px solid white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
   text-decoration: none;
 }
 
-li > a {
-  text-decoration: none;
+.registerButton {
+  background-color: rgb(30, 73, 58);
+  margin: 10px;
+  padding: 7px 20px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
   color: white;
+  border: 2px solid white;
+  border-radius: 3px;
+  display: block;
+  cursor: pointer;
+}
+
+.registerButton:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.logo {
+  margin-left: 50px;
 }
