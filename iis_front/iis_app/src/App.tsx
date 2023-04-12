@@ -20,6 +20,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import { Users } from "./pages/Users";
 import { Welcome } from "./pages/Welcome";
 import { PackagesPreview } from "./pages/PackagesPreview";
+import MyProfile from "./pages/MyProfile";
+import Profile from "./pages/Profile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,11 +35,13 @@ const router = createBrowserRouter(
           element={<AdminDashboard></AdminDashboard>}
         ></Route>
         <Route path="/home" element={<Home></Home>}></Route>
+        <Route path="/profile" element={<MyProfile></MyProfile>}></Route>
         <Route
           path="/packages-preview"
           element={<PackagesPreview></PackagesPreview>}
         ></Route>
         <Route path="/users" element={<Users></Users>}></Route>
+        <Route path="/users/:userId" element={<Profile></Profile>}></Route>
       </Route>
     </Route>
   )

@@ -1,5 +1,5 @@
 .navbar {
-  background-color: rgb(30, 73, 58);
+  background-color: rgb(15, 54, 41);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -34,7 +34,7 @@
 }
 
 .loginButton {
-  background-color: rgb(30, 73, 58);
+  background-color: rgb(15, 54, 41);
   margin: 10px;
   padding: 7px 20px;
   text-align: center;
@@ -47,13 +47,16 @@
 }
 
 .loginButton:hover {
-  background-position: right center; /* change the direction of the change here */
-  color: #fff;
+  color: #99db48;
+  border: 2px solid #99db48;
   text-decoration: none;
 }
 
+.navlistItem:hover {
+  color: #99db48;
+}
 .registerButton {
-  background-color: rgb(30, 73, 58);
+  background-color: rgb(15, 54, 41);
   margin: 10px;
   padding: 7px 20px;
   text-align: center;
@@ -65,13 +68,18 @@
   display: block;
   cursor: pointer;
 }
-
 .registerButton:hover {
-  background-position: right center; /* change the direction of the change here */
-  color: #fff;
+  color: #99db48;
+  border: 2px solid #99db48;
   text-decoration: none;
 }
 
 .logo {
   margin-left: 50px;
+}
+
+@media only screen and (max-width: 600px) {
+  .registerButton {
+    display: none;
+  }
 }

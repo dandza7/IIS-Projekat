@@ -1,21 +1,24 @@
 .sidebar {
-  height: 100%;
-  width: 240px;
+  height: 100vh;
   position: fixed;
   z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #111;
-  padding-top: 20px;
+  background-color: rgb(15, 54, 41);
   display: flex;
   flex-direction: column;
-  gap: 100px;
+  justify-content: space-between;
   color: white;
+  align-items: center;
 }
 .avatar {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url("https://www.w3schools.com/howto/img_avatar2.png");
+  background-size: cover;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 5rem;
+  margin-top: 5rem;
 }
 
 .list {
@@ -24,17 +27,40 @@
   list-style: none;
   text-decoration: none;
   list-style-type: none;
-  display: flex;
-  gap: 1rem;
-  margin-left: 1rem;
   color: white;
 }
 .listItem {
   text-decoration: none;
   color: white;
+  padding: 2rem 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .listItem > a {
   text-decoration: none;
   color: white;
+}
+.listItem:hover {
+  text-decoration: none;
+  background-color: rgba(12, 200, 138, 0.1);
+}
+
+.navLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logoutButton {
+  color: white;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.logoutButton:hover {
+  color: #99db48;
 }

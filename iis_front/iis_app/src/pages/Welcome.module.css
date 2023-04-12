@@ -15,8 +15,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 700px;
+  max-width: 700px;
   gap: 2rem;
+  padding: 4rem;
 }
 
 .bannerDiv > h1,
@@ -39,14 +40,14 @@ h2 {
 .bannerImg {
   background-image: url("../assets/banner2.jpg");
   filter: blur(2px);
-  width: auto;
+  background-size: cover;
   height: 800px;
-  width: 1000px;
-  display: flex;
+  width: 60vw;
 }
 
 .welcome {
   color: white;
+  scroll-behavior: smooth;
 }
 .welcomeButton {
   background-color: transparent;
@@ -106,6 +107,7 @@ h2 {
   flex-direction: column;
   z-index: 10;
   color: white;
+  max-width: 700px;
   gap: 2rem;
 }
 .bgbannerDiv > h2 {
@@ -115,26 +117,66 @@ h2 {
 .ImgNutrition {
   background-image: url("https://media-cldnry.s-nbcnews.com/image/upload/newscms/2017_28/1228258/healthy-food-live-longer-today-170712-tease.jpg");
   background-size: cover;
-  width: auto;
   height: 800px;
-  min-width: 60vw;
+  width: 60vw;
   display: flex;
 }
 
 .imgSpa {
   background-image: url("https://i0.wp.com/www.thelodhi.com/wp-content/uploads/sites/3/2020/10/spa-slider1.jpg?resize=1300%2C730&ssl=1");
   background-size: cover;
-  width: auto;
   height: 800px;
-  min-width: 60vw;
+  width: 60vw;
   display: flex;
 }
 
 .imgGym {
   background-image: url("https://wallpaperaccess.com/full/2591617.jpg");
   background-size: cover;
-  width: auto;
   height: 800px;
-  min-width: 60vw;
+  width: 60vw;
   display: flex;
+}
+.aboutUs {
+  background-color: rgb(15, 54, 41);
+  display: flex;
+  padding: 1rem;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 2rem;
+  color: white;
+  flex-direction: column;
+}
+.aboutUs > p {
+  font-size: 64px;
+}
+.aboutUs > h2 {
+  color: white;
+}
+@media only screen and (max-width: 600px) {
+  .banner {
+    display: flex;
+    flex-direction: column;
+  }
+  .bgbannerDiv {
+    display: flex;
+    flex-direction: column;
+  }
+  .bannerImg {
+    background-image: url("../assets/banner2.jpg");
+    filter: blur(2px);
+    background-size: cover;
+    height: 800px;
+    width: 100%;
+  }
+  .imgSpa {
+    width: 100%;
+  }
+  .imgGym {
+    width: 100%;
+  }
+  .ImgNutrition {
+    width: 100%;
+  }
 }

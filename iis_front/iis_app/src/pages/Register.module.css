@@ -1,5 +1,6 @@
 .login {
   display: flex;
+  gap: 2rem;
 }
 .loginImage {
   background-image: linear-gradient(

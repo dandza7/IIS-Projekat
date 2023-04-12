@@ -309,7 +309,7 @@ const Register = () => {
                         variant="contained"
                         disabled={!passwordValidation.compare}
                       >
-                        Sign In
+                        Sign Up
                       </Button>
                     </Grid>
                   </Grid>

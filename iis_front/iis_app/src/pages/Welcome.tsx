@@ -18,7 +18,23 @@ export const Welcome = () => {
         </div>
         <div className={classes.bannerImg}></div>
       </div>
-
+      <div className={classes.aboutUs}>
+        <p>About us</p>
+        <h2>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, nihil
+          earum, eius inventore porro incidunt in error eveniet fugit commodi
+          voluptatem distinctio cupiditate eos possimus ipsam enim et sint ut?
+          Nihil mollitia, autem provident, dolorum eius incidunt dolor
+          asperiores dicta, expedita excepturi iusto suscipit aperiam nisi
+          tempore eveniet. Inventore, delectus quo. Ab, expedita voluptate!
+          Aspernatur recusandae libero dolorum labore obcaecati, facere, vel hic
+          esse maiores iure dicta! Et aliquid corrupti eius animi quas
+          perferendis asperiores fugiat aspernatur excepturi ab ea, dolores
+          commodi repellat magni voluptas autem! Ad temporibus molestias ducimus
+          fuga quia cumque asperiores, optio accusantium, voluptate ex fugit
+          inventore?
+        </h2>
+      </div>
       <div className={classes.banner}>
         <div className={classes.ImgNutrition}></div>
         <div className={classes.bannerDiv}>
