@@ -1,0 +1,9 @@
+.nav {
+}
+.side {
+  display: flex;
+  gap: 100px;
+}
+.sideMain {
+  margin-left: 250px;
+}
