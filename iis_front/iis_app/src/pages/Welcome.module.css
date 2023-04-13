@@ -20,6 +20,25 @@
   padding: 4rem;
 }
 
+.bannerDivWelcome {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 700px;
+  gap: 2rem;
+  padding: 4rem;
+  background-color: rgba(2, 13, 10, 0.221);
+}
+.bannerDivWelcome > h1 {
+  color: rgba(14, 48, 38, 0.85);
+  font-size: 64px;
+}
+.bannerDivWelcome > h2 {
+  color: white;
+}
+
 .bannerDiv > h1,
 h2 {
   color: rgba(14, 48, 38, 0.85);
@@ -29,36 +48,32 @@ h2 {
 }
 
 .bannerButton {
-  background-color: rgba(14, 48, 38, 0.85);
-  padding: 1rem;
-  color: white;
-  border: 1px solid white;
-  font-weight: 500;
+  background-color: rgba(51, 152, 85, 0.9);
+  padding: 1.2rem 1.5rem;
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
 }
-
+.bannerButton:hover {
+  background-color: rgb(38, 187, 85);
+}
 .bannerImg {
-  background-image: url("../assets/banner2.jpg");
-  filter: blur(2px);
+  background-image: url("https://images.wallpaperscraft.com/image/single/road_man_run_142042_3840x2160.jpg");
   background-size: cover;
   height: 800px;
-  width: 60vw;
+  width: 100vw;
+  display: flex;
+  color: white;
 }
 
-.welcome {
-  color: white;
-  scroll-behavior: smooth;
+.Link {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
 }
-.welcomeButton {
-  background-color: transparent;
-  width: 200px;
-  padding: 1rem;
-  border: 3px solid white;
-  color: white;
-  border-radius: 2rem;
-  cursor: pointer;
-  z-index: 1;
-}
+
 .cards {
   display: flex;
   gap: 4rem;
@@ -163,9 +178,9 @@ h2 {
     display: flex;
     flex-direction: column;
   }
+
   .bannerImg {
-    background-image: url("../assets/banner2.jpg");
-    filter: blur(2px);
+    background-image: url("https://images.wallpaperscraft.com/image/single/road_man_run_142042_3840x2160.jpg");
     background-size: cover;
     height: 800px;
     width: 100%;

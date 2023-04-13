@@ -22,6 +22,9 @@ import { Welcome } from "./pages/Welcome";
 import { PackagesPreview } from "./pages/PackagesPreview";
 import MyProfile from "./pages/MyProfile";
 import Profile from "./pages/Profile";
+import ScrollToTop from "./components/ScrollToTop";
+import { useLocation } from "react-router";
+import { useEffect } from "react";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,7 +32,7 @@ const router = createBrowserRouter(
       <Route path="/register" element={<Register></Register>} />
       <Route path="/login" element={<Login></Login>} />
       <Route path="/" element={<RootLayout></RootLayout>}>
-        <Route index element={<Welcome></Welcome>}></Route>
+        {<Route path="/" index element={<Welcome></Welcome>}></Route>}
         <Route
           path="/admin-dashboard"
           element={<AdminDashboard></AdminDashboard>}
@@ -50,7 +53,11 @@ const router = createBrowserRouter(
 function App() {
   const authCtx = useContext(AuthContext);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router}></RouterProvider>
+    </>
+  );
 }
 
 export default App;

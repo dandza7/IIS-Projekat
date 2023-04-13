@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./PackagesPreview.module.css";
+import { Link } from "react-router-dom";
 
 export const PackagesPreview = () => {
   return (
@@ -72,7 +73,11 @@ export const PackagesPreview = () => {
           </p>{" "}
         </div>
       </div>
-      <button className={classes.loginButton}>Sign in for reservation!</button>
+      <button className={classes.loginButton}>
+        <Link to="/login" className={classes.Link}>
+          Sign in for reservation!
+        </Link>
+      </button>
     </div>
   );
 };

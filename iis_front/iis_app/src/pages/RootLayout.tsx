@@ -23,10 +23,12 @@ const RootLayout = () => {
       {authCtx.isLoggedIn && (
         <>
           <div className={classes.side}>
-            <Sidebar></Sidebar>
-            <main className={classes.sideMain}>
+            <div>
+              <Sidebar></Sidebar>
+            </div>
+            <div className={classes.sideMain}>
               <Outlet></Outlet>
-            </main>
+            </div>
           </div>
         </>
       )}
