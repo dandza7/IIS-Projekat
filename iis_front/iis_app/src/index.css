@@ -1,4 +1,9 @@
 * {
   margin: 0px;
   padding: 0px;
+  --darkGreen: rgb(18, 67, 56);
+  --selectedGreen: #99db48;
+  --bodyBeige: rgb(238, 238, 228);
+  --acceptButtonGreen: #0ba04c;
+  --closeButton: rgb(95, 25, 24);
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
 import { Users } from "./Users";
-import classes from "./MyProfile.module.css";
+import classes from "./Profile.module.css";
 
 const MyProfile = () => {
   const [user, setUser] = useState<User>({});
@@ -81,7 +81,7 @@ const MyProfile = () => {
     <>
       {!toggleEdit && (
         <div className={classes.myProfile}>
-          <div className={classes.myProfile_title}>My Profile</div>
+          <div className={classes.title}>My Profile</div>
           <div className={classes.span}>
             <span>Name: </span>
             <span>{user.name}</span>
@@ -112,7 +112,7 @@ const MyProfile = () => {
       )}
       {toggleEdit && (
         <div className={classes.myProfile}>
-          <div className={classes.myProfile_title}>Edit Profile</div>
+          <div className={classes.title}>Edit Profile</div>
           <div className={classes.span}>
             <span>Name: </span>
             <input ref={nameInputRef} defaultValue={user.name}></input>

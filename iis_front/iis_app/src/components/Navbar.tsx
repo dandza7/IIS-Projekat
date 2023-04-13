@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <nav className={authCtx.isLoggedIn ? classes.sidebar : classes.navbar}>
-      <div className={classes.logo}>
+      <div className={classes.navLogo}>
         <img
           alt="logo"
           src="https://images.squarespace-cdn.com/content/v1/5bfc0cee9d5abb437583b9fd/1581440140166-JEAP1CNU81DHQ02RJNRA/BALANCE_LOGO-UPDATE.png?format=1500w"
@@ -21,22 +21,22 @@ const Navbar = () => {
         ></img>
       </div>
       <ul className={classes.list}>
-        <li className={classes.navlistItem}>
+        <li className={classes.navListItem}>
           <NavLink to="/">Home</NavLink>
         </li>
 
         {!authCtx.isLoggedIn && (
-          <li className={classes.navlistItem}>
+          <li className={classes.navListItem}>
             <NavLink to="/packages-preview">Packages</NavLink>
           </li>
         )}
-        <li className={classes.navlistItem}>
+        <li className={classes.navListItem}>
           <NavLink to="/login">
             <button className={classes.loginButton}>Login</button>
           </NavLink>
         </li>
         {!authCtx.isLoggedIn && (
-          <li className={classes.navlistItem}>
+          <li className={classes.navListItem}>
             <NavLink to="/register">
               <button className={classes.registerButton}>Register</button>
             </NavLink>
