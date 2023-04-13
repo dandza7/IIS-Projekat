@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import AuthContext from "../store/auth-context";
-import classes from "./MyProfile.module.css";
+import classes from "./Profile.module.css";
 import EditIcon from "@mui/icons-material/Edit";
 
 const Profile = () => {
@@ -113,7 +113,6 @@ const Profile = () => {
       {!toggleEdit && (
         <div className={classes.myProfile}>
           <div className={classes.myProfile_title}>User Profile</div>
-          <br></br>
           <div className={classes.span}>
             <span>Name: </span>
             <span>{user.name}</span>
@@ -150,7 +149,6 @@ const Profile = () => {
       {toggleEdit && (
         <div className={classes.myProfile}>
           <div className={classes.myProfile_title}>Update User Profile</div>
-          <br></br>
           <div className={classes.span}>
             <span>Name: </span>
             <input ref={nameInputRef} defaultValue={user.name}></input>

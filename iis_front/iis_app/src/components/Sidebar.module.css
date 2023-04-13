@@ -1,5 +1,5 @@
 .sidebar {
-  background-color: rgb(15, 54, 41);
+  background-color: var(--darkGreen);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -30,9 +30,9 @@
 .listItem {
   text-decoration: none;
   color: white;
-  padding: 2rem 2rem;
   display: flex;
-  justify-content: center;
+  padding: 2rem;
+  justify-content: start;
   align-items: center;
   gap: 0.5rem;
 }
@@ -43,7 +43,7 @@
 }
 .listItem:hover {
   text-decoration: none;
-  background-color: rgba(12, 200, 138, 0.1);
+  background-color: rgba(4, 239, 161, 0.129);
 }
 
 .navLink {
@@ -60,7 +60,7 @@
   cursor: pointer;
 }
 .logoutButton:hover {
-  color: #99db48;
+  color: var(--selectedGreen);
 }
 
 .menuButton {
@@ -73,5 +73,5 @@
   cursor: pointer;
 }
 .menuIcon:hover {
-  color: #99db48;
+  color: var(--selectedGreen);
 }

@@ -217,7 +217,7 @@ const Register = () => {
                       />
                     </Grid>
                     <Grid item>
-                      <div className={classes.valContainer}>
+                      <div className={classes.validationContainer}>
                         {passwordValidation.len ? (
                           <CheckBoxIcon />
                         ) : (
@@ -227,7 +227,7 @@ const Register = () => {
                       </div>
                     </Grid>
                     <Grid item>
-                      <div className={classes.valContainer}>
+                      <div className={classes.validationContainer}>
                         {passwordValidation.numbers ? (
                           <CheckBoxIcon />
                         ) : (
@@ -237,7 +237,7 @@ const Register = () => {
                       </div>
                     </Grid>
                     <Grid item>
-                      <div className={classes.valContainer}>
+                      <div className={classes.validationContainer}>
                         {passwordValidation.upperCase ? (
                           <CheckBoxIcon />
                         ) : (
@@ -247,7 +247,7 @@ const Register = () => {
                       </div>
                     </Grid>
                     <Grid item>
-                      <div className={classes.valContainer}>
+                      <div className={classes.validationContainer}>
                         {passwordValidation.lowerCase ? (
                           <CheckBoxIcon />
                         ) : (
@@ -257,7 +257,7 @@ const Register = () => {
                       </div>
                     </Grid>
                     <Grid item>
-                      <div className={classes.valContainer}>
+                      <div className={classes.validationContainer}>
                         {passwordValidation.specChar ? (
                           <CheckBoxIcon />
                         ) : (

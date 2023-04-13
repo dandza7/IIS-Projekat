@@ -14,7 +14,7 @@ import MenuSharpIcon from "@mui/icons-material/MenuSharp";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
-  const [toggleMenu, setToggleMenu] = useState(true);
+  const [toggleMenu, setToggleMenu] = useState(false);
 
   const logoutHandler = () => {
     authCtx.logout();

@@ -73,8 +73,8 @@ export const PackagesPreview = () => {
           </p>{" "}
         </div>
       </div>
-      <button className={classes.loginButton}>
-        <Link to="/login" className={classes.Link}>
+      <button className={classes.signInButton}>
+        <Link to="/login" className={classes.signInLink}>
           Sign in for reservation!
         </Link>
       </button>

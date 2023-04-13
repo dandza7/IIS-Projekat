@@ -25,6 +25,8 @@ import Profile from "./pages/Profile";
 import ScrollToTop from "./components/ScrollToTop";
 import { useLocation } from "react-router";
 import { useEffect } from "react";
+import PrivateRoutes from "./utils/LoginRoutes";
+import AdminRoutes from "./utils/AdminRoutes";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,17 +36,21 @@ const router = createBrowserRouter(
       <Route path="/" element={<RootLayout></RootLayout>}>
         {<Route path="/" index element={<Welcome></Welcome>}></Route>}
         <Route
-          path="/admin-dashboard"
-          element={<AdminDashboard></AdminDashboard>}
-        ></Route>
-        <Route path="/home" element={<Home></Home>}></Route>
-        <Route path="/profile" element={<MyProfile></MyProfile>}></Route>
-        <Route
           path="/packages-preview"
           element={<PackagesPreview></PackagesPreview>}
         ></Route>
-        <Route path="/users" element={<Users></Users>}></Route>
-        <Route path="/users/:userId" element={<Profile></Profile>}></Route>
+        <Route element={<PrivateRoutes />}>
+          <Route path="/home" element={<Home></Home>}></Route>
+          <Route path="/profile" element={<MyProfile></MyProfile>}></Route>
+          <Route element={<AdminRoutes />}>
+            <Route
+              path="/admin-dashboard"
+              element={<AdminDashboard></AdminDashboard>}
+            ></Route>
+            <Route path="/users" element={<Users></Users>}></Route>
+            <Route path="/users/:userId" element={<Profile></Profile>}></Route>
+          </Route>
+        </Route>
       </Route>
     </Route>
   )

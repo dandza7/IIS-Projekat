@@ -49,7 +49,9 @@ export const Login = () => {
       .then((data) => {
         const parsedJWT = parseJwt(data.token);
         authCtx.login(parsedJWT.role, parsedJWT.email, data.token);
-        navigateLogin(parsedJWT.role);
+        setTimeout(() => {
+          navigateLogin(parsedJWT.role);
+        }, 100);
       })
       .catch((error) => {
         alert(error);
@@ -60,7 +62,7 @@ export const Login = () => {
     if (role == "ADMIN") {
       navigate("/admin-dashboard", { replace: true });
     } else {
-      navigate("/home", { replace: true });
+      navigate("/profile", { replace: true });
     }
   };
 

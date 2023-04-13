@@ -4,19 +4,19 @@
   gap: 2rem;
   align-items: center;
   justify-content: center;
-  background-color: rgb(238, 238, 228);
+  background-color: var(--bodyBeige);
 }
 .package {
   display: flex;
   padding: 3rem;
   gap: 2rem;
-  background-color: rgb(15, 54, 41);
+  background-color: var(--darkGreen);
   color: white;
   flex-direction: column;
   align-items: center;
 }
-.loginButton {
-  background-color: rgba(51, 152, 85, 1);
+.signInButton {
+  background-color: var(--acceptButtonGreen);
   padding: 1.3rem;
   color: white;
   border: 1px solid white;
@@ -28,9 +28,9 @@
   margin-bottom: 50px;
 }
 
-.Link {
+.signInLink {
   text-decoration: none;
-  color: rgb(255, 255, 255);
+  color: white;
 }
 
 .packagesContainer {
@@ -38,9 +38,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgb(238, 238, 228);
+  background-color: var(--bodyBeige);
 }
-@media only screen and (max-width: 600px) {
+
+@media only screen and (max-width: 900px) {
   .packages {
     display: flex;
     flex-direction: column;
