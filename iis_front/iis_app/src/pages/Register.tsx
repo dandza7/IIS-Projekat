@@ -303,7 +303,7 @@ const Register = () => {
                     </Grid>
                     <Grid item>
                       <Button
-                        className={classes.loginButton}
+                        className={classes.registerButton}
                         type="submit"
                         fullWidth
                         variant="contained"

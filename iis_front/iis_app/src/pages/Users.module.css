@@ -1,5 +1,5 @@
 .styledTable thead tr {
-  background-color: rgb(15, 54, 41);
+  background-color: rgba(15, 54, 41, 0.9);
   color: #ffffff;
   text-align: left;
 }
@@ -10,7 +10,9 @@
 }
 .styledTable th {
   font-size: 1rem;
+  font-weight: 400;
 }
+
 .styledTable tbody tr {
   border-bottom: 1px solid #dddddd;
 }
@@ -37,12 +39,16 @@
   flex-direction: column;
 }
 
-.users > h1 {
-  color: rgb(15, 54, 41);
-  font-size: 72px;
+.users > p {
+  color: black;
+  font-size: 64px;
 }
 
-.userTableContainer {
-  width: 90%;
-  margin: auto;
+.viewProfileButton {
+  background-color: rgb(24, 24, 24);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
 }

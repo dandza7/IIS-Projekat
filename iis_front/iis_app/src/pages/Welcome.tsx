@@ -1,22 +1,38 @@
 import React from "react";
 import classes from "./Welcome.module.css";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import AuthContext from "../store/auth-context";
+import { useContext } from "react";
 export const Welcome = () => {
+  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (authCtx.isLoggedIn) {
+      navigate("/home");
+    }
+  }, []);
+
   return (
     <div className={classes.welcome}>
       <div className={classes.banner}>
-        <div className={classes.bannerDiv}>
-          <h1>Lorem ipsum dolor sit</h1>
-          <h2>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit
-            quos libero temporibus unde molestiae et pariatur labore delectus,
-            odio necessitatibus tempore harum eveniet fugit earum alias?
-            Possimus vero maxime deserunt assumenda debitis tenetur fugiat modi
-            provident sed? Minus, eaque iste.
-          </h2>
-          <button className={classes.bannerButton}>View packages</button>
+        <div className={classes.bannerImg}>
+          <div className={classes.bannerDivWelcome}>
+            <h1>Lorem ipsum dolor sit</h1>
+            <h2>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit
+              quos libero temporibus unde molestiae et pariatur labore delectus,
+              odio necessitatibus tempore harum eveniet fugit earum alias?
+              Possimus vero maxime deserunt assumenda debitis tenetur fugiat
+              modi provident sed? Minus, eaque iste.
+            </h2>
+            <button className={classes.bannerButton}>
+              <Link to="/packages-preview" className={classes.Link}>
+                View Packages
+              </Link>
+            </button>
+          </div>
         </div>
-        <div className={classes.bannerImg}></div>
       </div>
       <div className={classes.aboutUs}>
         <p>About us</p>

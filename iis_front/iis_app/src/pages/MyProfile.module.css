@@ -1,0 +1,54 @@
+.myProfile_title {
+  font-size: 64px;
+}
+.span {
+  font-size: 20px;
+  padding: 0.5rem 0rem;
+}
+.avatar {
+  padding: 2rem;
+  background-color: red;
+  border-radius: 5rem;
+  width: 40px;
+  height: 40px;
+}
+.editProfileButton {
+  background-color: rgb(24, 24, 24);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}
+.closeButton {
+  background-color: rgb(95, 25, 24);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}
+.changeRoleButton {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}
+.changeAvatarButton {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}
+.saveChangesButton {
+  background-color: rgb(8, 114, 59);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}

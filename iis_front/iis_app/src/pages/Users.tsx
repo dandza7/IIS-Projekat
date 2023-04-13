@@ -34,7 +34,7 @@ export const Users = () => {
 
   return (
     <div className={classes.users}>
-      <h1>Users</h1>
+      <p className={classes.title}>Users</p>
       {users && (
         <div className={classes.userTableContainer}>
           <table className={classes.styledTable}>
@@ -43,7 +43,7 @@ export const Users = () => {
                 <th>Id</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>View Details</th>
+                <th>Profile</th>
               </tr>
             </thead>
             <tbody>
@@ -53,7 +53,10 @@ export const Users = () => {
                   <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>
-                    <button onClick={() => handleViewUserProfile(user.id)}>
+                    <button
+                      className={classes.viewProfileButton}
+                      onClick={() => handleViewUserProfile(user.id)}
+                    >
                       View Profile
                     </button>
                   </td>

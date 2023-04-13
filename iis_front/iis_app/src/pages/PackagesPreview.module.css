@@ -16,15 +16,23 @@
   align-items: center;
 }
 .loginButton {
-  background-color: rgba(14, 48, 38, 0.85);
-  padding: 1rem;
+  background-color: rgba(51, 152, 85, 1);
+  padding: 1.3rem;
   color: white;
   border: 1px solid white;
-  font-weight: 500;
+  font-size: 1rem;
   cursor: pointer;
-  width: 300px;
+  border-radius: 1rem;
+  width: 250px;
+  font-weight: 700;
   margin-bottom: 50px;
 }
+
+.Link {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+
 .packagesContainer {
   display: flex;
   flex-direction: column;

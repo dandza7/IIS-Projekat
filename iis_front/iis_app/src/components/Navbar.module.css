@@ -46,6 +46,11 @@
   cursor: pointer;
 }
 
+.navlistItem > a:hover {
+  text-decoration: none;
+  color: #99db48;
+}
+
 .loginButton:hover {
   color: #99db48;
   border: 2px solid #99db48;

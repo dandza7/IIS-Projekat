@@ -5,9 +5,9 @@
 .loginImage {
   background-image: linear-gradient(
     to right,
-    #02aab0 0%,
-    #00cdac 51%,
-    #02aab0 100%
+    #1d976c 0%,
+    #93f9b9 51%,
+    #1d976c 100%
   );
   width: 60%;
   height: 100vh;
@@ -15,9 +15,9 @@
 .registerImage {
   background-image: linear-gradient(
     to right,
-    #1a2980 0%,
-    #26d0ce 51%,
-    #1a2980 100%
+    #093028 0%,
+    #237a57 51%,
+    #093028 100%
   );
   width: 60%;
   height: 100vh;
@@ -60,9 +60,9 @@
 .loginButton {
   background-image: linear-gradient(
     to right,
-    #02aab0 0%,
-    #00cdac 51%,
-    #02aab0 100%
+    #1d976c 0%,
+    #93f9b9 51%,
+    #1d976c 100%
   );
   margin: 10px;
   padding: 15px 45px;
@@ -91,9 +91,9 @@
 .registerButton {
   background-image: linear-gradient(
     to right,
-    #1a2980 0%,
-    #26d0ce 51%,
-    #1a2980 100%
+    #093028 0%,
+    #237a57 51%,
+    #093028 100%
   );
   margin: 10px;
   padding: 15px 45px;
