@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 namespace IIS_Projekat.Data
 {
     public class IIS_DBContext : DbContext
-    {   
+    {
+        public DbSet<ExerciseMuscleGroup> ExerciseMuscleGroups { get; set; }
         public DbSet<MuscleGroup> MuscleGroups { get; set; }
         public DbSet<TrainingPlanRequest> TrainingPlanRequests { get; set; }
         public DbSet<TrainingPlan> TrainingPlans { get; set; }
@@ -51,148 +52,218 @@ namespace IIS_Projekat.Data
                     {
                         Id = 1L,
                         Name = "Calves",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 2L,
                         Name = "Quads",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 3L,
                         Name = "Hamstrings",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 4L,
                         Name = "Abductors",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 5L,
                         Name = "Adductors",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 6L,
                         Name = "Gluteus",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 7L,
                         Name = "Core",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 8L,
                         Name = "Abs",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 9L,
                         Name = "Lower Back",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 10L,
                         Name = "Lats",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 11L,
                         Name = "Teres Major",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 12L,
                         Name = "Lower Traps",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 13L,
                         Name = "Traps",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 14L,
                         Name = "Rear Delts",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 15L,
                         Name = "Side Delts",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 16L,
                         Name = "Front Delts",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 17L,
                         Name = "Upper Chest",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 18L,
                         Name = "Lower Chest",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 19L,
                         Name = "Biceps",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 20L,
                         Name = "Triceps",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 21L,
                         Name = "Brachialis",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
                 mg.HasData(
                     new
                     {
-                        Id = 1L,
+                        Id = 22L,
                         Name = "Forearms",
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow,
+                        IsDeleted = false
                     });
             });
             #endregion
+            modelBuilder.Entity<MuscleGroup>().HasMany(mg => mg.MuscleGroups).WithOne(emg => emg.MuscleGroup).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<Exercise>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<Exercise>().HasKey(e => e.Id);
             modelBuilder.Entity<Exercise>().Property(e => e.Name).IsRequired();
-            modelBuilder.Entity<Exercise>().Property(e => e.PrimaryTargetMuscle).IsRequired();
-            modelBuilder.Entity<Exercise>().Property(e => e.SecondaryTargetMuscles).IsRequired();
             modelBuilder.Entity<Exercise>().Property(e => e.Repetitions).IsRequired();
+            modelBuilder.Entity<Exercise>().HasMany(e => e.Exercises).WithOne(emg => emg.Exercise).OnDelete(DeleteBehavior.Cascade).IsRequired();
+
+            modelBuilder.Entity<ExerciseMuscleGroup>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<ExerciseMuscleGroup>().HasKey(e => e.Id);
+            modelBuilder.Entity<ExerciseMuscleGroup>().Property(e => e.IsPrimaryMuscleGroup).IsRequired();
 
             modelBuilder.Entity<TrainingSession>().HasQueryFilter(ts => !ts.IsDeleted);
             modelBuilder.Entity<TrainingSession>().HasKey(ts => ts.Id);
             modelBuilder.Entity<TrainingSession>().Property(ts => ts.NumberOfExercises).IsRequired();
-            modelBuilder.Entity<TrainingSession>().HasMany(ts => ts.Exercises).WithOne(e => e.TrainingSession).OnDelete(DeleteBehavior.Cascade).IsRequired();
-
+            modelBuilder.Entity<TrainingSession>().HasMany(ts => ts.Exercises).WithMany(e => e.TrainingSessions);
+            
             modelBuilder.Entity<TrainingPlan>().HasQueryFilter(tp => !tp.IsDeleted);
             modelBuilder.Entity<TrainingPlan>().HasKey(tp => tp.Id);
             modelBuilder.Entity<TrainingPlan>().Property(tp => tp.TrainingGoal).IsRequired();

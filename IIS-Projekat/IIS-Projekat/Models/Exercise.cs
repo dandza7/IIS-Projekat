@@ -10,9 +10,8 @@ namespace IIS_Projekat.Models
         public DateTime ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
         public string Name { get; set; }
-        public MuscleGroup PrimaryTargetMuscle { get; set; }
-        public ICollection<MuscleGroup> SecondaryTargetMuscles { get; set; } = new List<MuscleGroup>();
         public string Repetitions { get; set; }
-        public TrainingSession TrainingSession { get; set; }
+        public ICollection<TrainingSession> TrainingSessions { get; set; } = new List<TrainingSession>();
+        public ICollection<ExerciseMuscleGroup> Exercises { get; set; } = new List<ExerciseMuscleGroup>();
     }
 }
