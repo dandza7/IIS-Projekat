@@ -3,6 +3,6 @@
     public class TrainingSessionDTO
     {
         public long TrainingSessionId { get; set; }
-        public IList<ExerciseDTO> Exercises { get; set; }
+        public ICollection<ExerciseDTO> Exercises { get; set; } = new List<ExerciseDTO>();
     }
 }

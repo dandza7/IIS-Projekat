@@ -4,6 +4,6 @@
     {
         public long ClientId { get; set; }
         public int SessionsPerWeek { get; set; }
-        public Goal TrainingGoal { get; set; }
+        public string TrainingGoal { get; set; }
     }
 }
