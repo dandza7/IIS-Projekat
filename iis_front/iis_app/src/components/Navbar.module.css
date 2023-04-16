@@ -1,0 +1,70 @@
+.navbar {
+  background-color: var(--darkGreen);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.list {
+  list-style: none;
+  text-decoration: none;
+  list-style-type: none;
+  display: flex;
+  gap: 1rem;
+  color: white;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 400;
+  font-weight: 500;
+}
+
+.navListItem > a {
+  text-decoration: none;
+  color: white;
+}
+
+.navListItem > a:hover {
+  text-decoration: none;
+  color: var(--selectedGreen);
+}
+
+.loginButton {
+  background-color: transparent;
+  padding: 7px 20px;
+  transition: 0.5s;
+  color: white;
+  border: 1px solid white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  color: var(--selectedGreen);
+  border: 1px solid var(--selectedGreen);
+  text-decoration: none;
+}
+
+.registerButton {
+  background-color: transparent;
+  padding: 7px 20px;
+  text-align: center;
+  transition: 0.5s;
+  color: white;
+  border: 1px solid white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.registerButton:hover {
+  color: var(--selectedGreen);
+  border: 1px solid var(--selectedGreen);
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .registerButton {
+    display: none;
+  }
+}

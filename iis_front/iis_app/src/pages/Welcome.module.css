@@ -1,0 +1,152 @@
+.welcome {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  background-color: var(--bodyBeige);
+}
+
+.banner {
+  display: flex;
+  justify-content: space-between;
+}
+.bannerDiv {
+  background-color: var(--bodyBeige);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 700px;
+  gap: 2rem;
+  padding: 4rem;
+}
+
+.bannerDivWelcome {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 700px;
+  gap: 2rem;
+  padding: 4rem;
+  background-color: rgba(0, 15, 11, 0.389);
+}
+.bannerDivWelcome > h1 {
+  color: var(--darkGreen);
+  font-size: 64px;
+}
+.bannerDivWelcome > h2 {
+  color: white;
+}
+
+.bannerDiv > h1 {
+  font-size: 64px;
+}
+
+.bannerButton {
+  background-color: var(--acceptButtonGreen);
+  padding: 1.2rem 1.5rem;
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.bannerButton:hover {
+  background-color: #16c963;
+}
+.bannerImg {
+  background-image: url("https://images.wallpaperscraft.com/image/single/road_man_run_142042_3840x2160.jpg");
+  background-size: cover;
+  height: 800px;
+  width: 100vw;
+  display: flex;
+  color: white;
+}
+
+.Link {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+
+.bgbannerDiv {
+  background-color: var(--darkGreen);
+  padding: 5rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  color: white;
+  max-width: 700px;
+  gap: 2rem;
+}
+.bgbannerDiv > h2 {
+  color: white;
+}
+
+.ImgNutrition {
+  background-image: url("https://media-cldnry.s-nbcnews.com/image/upload/newscms/2017_28/1228258/healthy-food-live-longer-today-170712-tease.jpg");
+  background-size: cover;
+  height: 800px;
+  width: 60vw;
+  display: flex;
+}
+
+.imgSpa {
+  background-image: url("https://i0.wp.com/www.thelodhi.com/wp-content/uploads/sites/3/2020/10/spa-slider1.jpg?resize=1300%2C730&ssl=1");
+  background-size: cover;
+  height: 800px;
+  width: 60vw;
+  display: flex;
+}
+
+.imgGym {
+  background-image: url("https://wallpaperaccess.com/full/2591617.jpg");
+  background-size: cover;
+  height: 800px;
+  width: 60vw;
+  display: flex;
+}
+.aboutUs {
+  background-color: var(--darkGreen);
+  display: flex;
+  padding: 1rem;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 2rem;
+  color: white;
+  flex-direction: column;
+}
+.aboutUs > p {
+  font-size: 64px;
+}
+.aboutUs > h2 {
+  color: white;
+}
+@media only screen and (max-width: 600px) {
+  .banner {
+    display: flex;
+    flex-direction: column;
+  }
+  .bgbannerDiv {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bannerImg {
+    background-image: url("https://images.wallpaperscraft.com/image/single/road_man_run_142042_3840x2160.jpg");
+    background-size: cover;
+    height: 800px;
+    width: 100%;
+  }
+  .imgSpa {
+    width: 100%;
+  }
+  .imgGym {
+    width: 100%;
+  }
+  .ImgNutrition {
+    width: 100%;
+  }
+}

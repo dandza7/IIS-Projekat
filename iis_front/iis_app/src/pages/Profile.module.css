@@ -1,0 +1,48 @@
+.title {
+  font-size: 64px;
+  margin-bottom: 2rem;
+}
+.span {
+  font-size: 20px;
+  padding: 0.5rem 0rem;
+}
+.editProfileButton {
+  background-color: black;
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}
+.closeButton {
+  background-color: var(--closeButton);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}
+.changeRoleButton {
+  background-color: black;
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}
+.changeAvatarButton {
+  background-color: black;
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}
+.saveChangesButton {
+  background-color: var(--acceptButtonGreen);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}

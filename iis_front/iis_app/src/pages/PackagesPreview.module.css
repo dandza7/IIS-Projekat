@@ -1,0 +1,49 @@
+.packages {
+  padding: 3rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bodyBeige);
+}
+.package {
+  display: flex;
+  padding: 3rem;
+  gap: 2rem;
+  background-color: var(--darkGreen);
+  color: white;
+  flex-direction: column;
+  align-items: center;
+}
+.signInButton {
+  background-color: var(--acceptButtonGreen);
+  padding: 1.3rem;
+  color: white;
+  border: 1px solid white;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 1rem;
+  width: 250px;
+  font-weight: 700;
+  margin-bottom: 50px;
+}
+
+.signInLink {
+  text-decoration: none;
+  color: white;
+}
+
+.packagesContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bodyBeige);
+}
+
+@media only screen and (max-width: 900px) {
+  .packages {
+    display: flex;
+    flex-direction: column;
+  }
+}

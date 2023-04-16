@@ -1,0 +1,8 @@
+.side {
+  display: flex;
+}
+.sideMain {
+  display: flex;
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
