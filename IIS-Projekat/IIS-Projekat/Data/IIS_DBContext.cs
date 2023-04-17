@@ -2,6 +2,7 @@
 using IIS_Projekat.SupportClasses.PasswordHasher;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace IIS_Projekat.Data
 {
@@ -40,6 +41,12 @@ namespace IIS_Projekat.Data
                         IsDeleted = false
                     });
             });
+
+            modelBuilder.Entity<UsersProfile>().Property(up => up.Name).IsRequired(false);
+            modelBuilder.Entity<UsersProfile>().Property(up => up.Surname).IsRequired(false);
+            modelBuilder.Entity<UsersProfile>().Property(up => up.BirthDate).IsRequired();
+            modelBuilder.Entity<UsersProfile>().Property(up => up.Gender).IsRequired(false);
+            modelBuilder.Entity<UsersProfile>().Property(up => up.Avatar).IsRequired(false);
 
             modelBuilder.Entity<MuscleGroup>().HasQueryFilter(mg => !mg.IsDeleted);
             modelBuilder.Entity<MuscleGroup>().HasKey(mg => mg.Id);
@@ -269,11 +276,13 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<TrainingPlan>().Property(tp => tp.TrainingGoal).IsRequired();
             modelBuilder.Entity<TrainingPlan>().Property(tp => tp.SessionsPerWeek).IsRequired();
             modelBuilder.Entity<TrainingPlan>().HasMany(tp => tp.TrainingSessions).WithOne(ts => ts.TrainingPlan).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<TrainingPlan>().HasOne(tp => tp.Client).WithMany().HasForeignKey(tp => tp.ClientId).IsRequired();
 
             modelBuilder.Entity<TrainingPlanRequest>().HasQueryFilter(tpr => !tpr.IsDeleted);
             modelBuilder.Entity<TrainingPlanRequest>().HasKey(tpr => tpr.Id);
             modelBuilder.Entity<TrainingPlanRequest>().Property(tpr => tpr.SessionsPerWeek).IsRequired();
             modelBuilder.Entity<TrainingPlanRequest>().Property(tpr => tpr.TrainingGoal).IsRequired();
+            modelBuilder.Entity<TrainingPlanRequest>().HasOne(tpr => tpr.Client).WithMany().HasForeignKey(tpr => tpr.ClientId).IsRequired();
         }
     }
 }
