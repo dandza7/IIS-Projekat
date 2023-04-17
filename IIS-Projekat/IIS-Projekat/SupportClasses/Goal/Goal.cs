@@ -1,13 +1,14 @@
-﻿namespace IIS_Projekat.SupportClasses.TrainingGoal
+﻿namespace IIS_Projekat.SupportClasses.Goal
 {
-    public static class TrainingGoal
+    public static class Goal
     {
         const string Bulk = "Bulk";
         const string Cut = "Cut";
         const string Recomp = "Recomp";
         const string Endurance = "Endurance";
+        public const string ValidGoals = $"{Bulk}, {Cut}, {Recomp}, {Endurance}.";
 
-        public static bool IsTrainingGoalValid(string goal)
+        public static bool IsGoalValid(string goal)
         {
             switch(goal)
             {

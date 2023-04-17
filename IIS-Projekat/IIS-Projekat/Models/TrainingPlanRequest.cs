@@ -3,7 +3,7 @@
 namespace IIS_Projekat.Models
 {
 
-    public class TrainingPlanRequest
+    public class TrainingPlanRequest : IEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
@@ -12,5 +12,7 @@ namespace IIS_Projekat.Models
         public bool IsDeleted { get; set; }
         public int SessionsPerWeek { get; set; }
         public string TrainingGoal { get; set; }
+        public long ClientId { get; set; }
+        public User Client { get; set; }
     }
 }

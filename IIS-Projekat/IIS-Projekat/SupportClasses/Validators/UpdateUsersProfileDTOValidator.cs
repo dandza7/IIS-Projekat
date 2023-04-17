@@ -8,7 +8,7 @@ namespace IIS_Projekat.SupportClasses.Validators
         public UpdateUsersProfileDTOValidator()
         {
             RuleFor(p => p.UserId).NotNull();
-            RuleFor(p => p.Gender).Must(gender => gender == "Male" || gender == "Female").WithMessage("Gender must be either \"Male\" or \"Female\"");
+            RuleFor(p => p.Gender).Must(gender => gender == "Male" || gender == "Female").WithMessage("Gender must be either Male or Female");
         }
     }
 }

@@ -4,7 +4,8 @@
     {
         public const string Admin = "ADMIN";
         public const string Customer = "CUSTOMER";
-        public const string AvailableRoles = Admin + ", " + Customer;
+        public const string Trainer = "TRAINER";
+        public const string AvailableRoles = $"{Admin}, {Customer}, {Trainer}";
 
         static public bool IsRoleValid(string roleName)
         {
@@ -14,9 +15,10 @@
                     return true;
                 case Customer:
                     return true;
+                case Trainer:
+                    return true;
                 default:
                     return false;
-
             }
         }
     }
