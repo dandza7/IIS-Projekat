@@ -2,10 +2,8 @@
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.Training;
-using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
-using IIS_Projekat.SupportClasses.Goal;
 
 namespace IIS_Projekat.Services.Impl
 {

@@ -6,6 +6,9 @@ namespace IIS_Projekat.Repositories
     {
         IGenericRepository<User> UserRepository { get; }
         IGenericRepository<TrainingPlanRequest> TrainingPlanRequestRepository { get; }
+        IGenericRepository<Exercise> ExerciseRepository { get; }
+        IGenericRepository<MuscleGroup> MuscleGroupRepository { get; }
+        IGenericRepository<ExerciseMuscleGroup> ExerciseMuscleGroupRepository { get; }
         void SaveChanges();
     }
 }
