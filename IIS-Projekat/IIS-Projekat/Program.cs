@@ -81,6 +81,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<ITrainingPlanRequestService, TrainingPlanRequestService>();
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
 
 // Enabled CORS
 

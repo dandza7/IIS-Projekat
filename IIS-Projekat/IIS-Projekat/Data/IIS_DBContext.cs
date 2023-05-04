@@ -259,7 +259,6 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Exercise>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<Exercise>().HasKey(e => e.Id);
             modelBuilder.Entity<Exercise>().Property(e => e.Name).IsRequired();
-            modelBuilder.Entity<Exercise>().Property(e => e.Repetitions).IsRequired();
             modelBuilder.Entity<Exercise>().HasMany(e => e.Exercises).WithOne(emg => emg.Exercise).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<ExerciseMuscleGroup>().HasQueryFilter(e => !e.IsDeleted);
