@@ -82,7 +82,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<ITrainingPlanRequestService, TrainingPlanRequestService>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
-
+builder.Services.AddScoped<IMuscleGroupService, MuscleGroupService>();
+    
 // Enabled CORS
 
 var devCorsPolicy = "devCorsPolicy";
