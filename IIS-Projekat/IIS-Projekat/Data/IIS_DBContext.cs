@@ -19,6 +19,10 @@ namespace IIS_Projekat.Data
         public DbSet<Nutrition> Nutritions { get; set; }
         public DbSet<Allergy> Allergies { get; set; }
         public DbSet<Food> Food { get; set; }
+        public DbSet<NutritionShare> NutritionShares { get; set; }
+        public DbSet<Recipe> Recipe { get; set; }
+        public DbSet<FoodShare> FoodShares { get; set; }
+        public DbSet<Injury> Injuries { get; set; }
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -303,6 +307,23 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Food>().HasKey(f => f.Id);
             modelBuilder.Entity<Food>().Property(f => f.Name).IsRequired();
             modelBuilder.Entity<Food>().Property(f => f.Category).IsRequired();
+
+            modelBuilder.Entity<NutritionShare>().HasQueryFilter(ns => !ns.IsDeleted);
+            modelBuilder.Entity<NutritionShare>().HasKey(ns => ns.Id);
+            modelBuilder.Entity<NutritionShare>().Property(ns => ns.Share).IsRequired();
+            modelBuilder.Entity<NutritionShare>().Property(ns => ns.Unit).IsRequired();
+
+            modelBuilder.Entity<Recipe>().HasQueryFilter(r => !r.IsDeleted);
+            modelBuilder.Entity<Recipe>().HasKey(r => r.Id);
+            modelBuilder.Entity<Recipe>().Property(r => r.Name).IsRequired();
+
+            modelBuilder.Entity<FoodShare>().HasQueryFilter(fs => !fs.IsDeleted);
+            modelBuilder.Entity<FoodShare>().HasKey(fs => fs.Id);
+            modelBuilder.Entity<FoodShare>().Property(fs => fs.Share).IsRequired();
+
+            modelBuilder.Entity<Injury>().HasQueryFilter(i => !i.IsDeleted);
+            modelBuilder.Entity<Injury>().HasKey(i => i.Id);
+            modelBuilder.Entity<Injury>().Property(i => i.InjurySeverity).IsRequired();
         }
     }
 }
