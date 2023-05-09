@@ -16,6 +16,9 @@ namespace IIS_Projekat.Data
         public DbSet<User> Users { get; set; }
         public DbSet<UsersProfile> Profiles { get; set; }
         public DbSet<Diagnosis> Diagnoses { get; set; }
+        public DbSet<Nutrition> Nutritions { get; set; }
+        public DbSet<Allergy> Allergies { get; set; }
+        public DbSet<Food> Food { get; set; }
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -288,7 +291,18 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Diagnosis>().HasKey(d => d.Id);
             modelBuilder.Entity<Diagnosis>().Property(d => d.Name).IsRequired();
 
+            modelBuilder.Entity<Nutrition>().HasQueryFilter(n => !n.IsDeleted);
+            modelBuilder.Entity<Nutrition>().HasKey(n => n.Id);
+            modelBuilder.Entity<Nutrition>().Property(n => n.Name).IsRequired();
 
+            modelBuilder.Entity<Allergy>().HasQueryFilter(a => !a.IsDeleted);
+            modelBuilder.Entity<Allergy>().HasKey(a => a.Id);
+            modelBuilder.Entity<Allergy>().Property(a => a.Name).IsRequired();
+
+            modelBuilder.Entity<Food>().HasQueryFilter(f => !f.IsDeleted);
+            modelBuilder.Entity<Food>().HasKey(f => f.Id);
+            modelBuilder.Entity<Food>().Property(f => f.Name).IsRequired();
+            modelBuilder.Entity<Food>().Property(f => f.Category).IsRequired();
         }
     }
 }
