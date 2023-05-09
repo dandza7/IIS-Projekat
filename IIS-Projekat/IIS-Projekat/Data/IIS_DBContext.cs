@@ -331,8 +331,8 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<MedicalRecord>().HasQueryFilter(mr => !mr.IsDeleted);
             modelBuilder.Entity<MedicalRecord>().HasKey(mr => mr.Id);
             modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Anamnesis).IsRequired(false);
-            modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Weight).IsRequired(false);
-            modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Height).IsRequired(false);
+            modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Weight).IsRequired();
+            modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Height).IsRequired();
             modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Therapy).IsRequired(false);
 
             modelBuilder.Entity<Appointment>().HasQueryFilter(a => !a.IsDeleted);
