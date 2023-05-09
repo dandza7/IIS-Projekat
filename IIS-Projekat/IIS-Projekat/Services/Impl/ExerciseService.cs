@@ -4,21 +4,29 @@ using IIS_Projekat.Models.DTOs.Exercise;
 using IIS_Projekat.SupportClasses.Exercise_Properties;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
+using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.User;
 
 namespace IIS_Projekat.Services.Impl
 {
     public class ExerciseService : IExerciseService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public ExerciseService(IUnitOfWork unitOfWork)
+        public ExerciseService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;   
         }
 
         public long CreateExercise(NewExerciseDTO newExerciseDTO)
         {
             Exercise newExercise = new Exercise();
+            if(_unitOfWork.ExerciseRepository.GetAll().Where(e => e.Name == newExerciseDTO.Name).FirstOrDefault() != null)
+            {
+                throw new ArgumentException("Exercise with given name already exists in the database!");
+            }
             newExercise.Name = newExerciseDTO.Name;
             newExercise.IsHypertrophic = (newExerciseDTO.IsHypertrophic) ? true : false;
             AddPrimaryMuscleGroup(newExercise, newExerciseDTO.PrimaryMuscleGroup);
@@ -26,6 +34,13 @@ namespace IIS_Projekat.Services.Impl
             newExercise = _unitOfWork.ExerciseRepository.Create(newExercise);
             _unitOfWork.SaveChanges();
             return newExercise.Id;
+        }
+
+        public PaginationWrapper<ExerciseDTO> GetAll(PaginationQuery? paginationQuery)
+        {
+
+            var paginationResult = _unitOfWork.ExerciseRepository.Filter(paginationQuery);
+            return new PaginationWrapper<ExerciseDTO>(_mapper.Map<List<ExerciseDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
 
         public void DeleteExercise(long id)
