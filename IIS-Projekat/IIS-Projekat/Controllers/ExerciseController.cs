@@ -46,7 +46,7 @@ namespace IIS_Projekat.Controllers
         /// <br/>  >>> OrderField must be one of the following: ID, Name
         /// <br/>  >>> Ordering must be either ASC or DESC
         /// </remarks>
-        /// <response code="200">Returns all users</response>
+        /// <response code="200">Returns all exercises</response>
         [HttpPost("get", Name = "GetAllExercises")]
         [Authorize(Roles = Roles.Trainer)]
         public ActionResult<IEnumerable<Models.DTOs.Exercise.ExerciseDTO>> GetAllExercises([FromBody] PaginationQuery paginationQuery)
