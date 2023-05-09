@@ -310,6 +310,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Food>().HasKey(f => f.Id);
             modelBuilder.Entity<Food>().Property(f => f.Name).IsRequired();
             modelBuilder.Entity<Food>().Property(f => f.Category).IsRequired();
+            modelBuilder.Entity<Food>().HasMany(f => f.Participations).WithOne(fs => fs.Food).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<NutritionShare>().HasQueryFilter(ns => !ns.IsDeleted);
             modelBuilder.Entity<NutritionShare>().HasKey(ns => ns.Id);
@@ -319,6 +320,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Recipe>().HasQueryFilter(r => !r.IsDeleted);
             modelBuilder.Entity<Recipe>().HasKey(r => r.Id);
             modelBuilder.Entity<Recipe>().Property(r => r.Name).IsRequired();
+            modelBuilder.Entity<Recipe>().HasMany(r => r.FoodShares).WithOne(fs => fs.Recipe).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<FoodShare>().HasQueryFilter(fs => !fs.IsDeleted);
             modelBuilder.Entity<FoodShare>().HasKey(fs => fs.Id);

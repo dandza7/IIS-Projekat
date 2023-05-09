@@ -7,6 +7,8 @@ namespace IIS_Projekat.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public int Share { get; set; }
+        public Food Food { get; set; }
+        public Recipe Recipe { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
