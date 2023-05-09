@@ -3,6 +3,7 @@ using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Exercise;
 using IIS_Projekat.SupportClasses.Exercise_Properties;
 using IIS_Projekat.Repositories;
+using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -25,6 +26,23 @@ namespace IIS_Projekat.Services.Impl
             newExercise = _unitOfWork.ExerciseRepository.Create(newExercise);
             _unitOfWork.SaveChanges();
             return newExercise.Id;
+        }
+
+        public void DeleteExercise(long id)
+        {
+            Exercise exercise = _unitOfWork.ExerciseRepository.GetById(id);
+            if (exercise == null)
+            {
+                throw new NotFoundException("Exercise with given ID does not exist in the database!");
+            }
+            if (exercise.IsDeleted)
+            {
+                throw new ArgumentException("Exercise with given ID is already deleted.");
+            }
+
+            exercise.IsDeleted = true;
+            exercise.ModifiedDate = DateTime.UtcNow;
+            _unitOfWork.SaveChanges();
         }
 
         private void AddPrimaryMuscleGroup(Exercise exercise, string muscleGroup)

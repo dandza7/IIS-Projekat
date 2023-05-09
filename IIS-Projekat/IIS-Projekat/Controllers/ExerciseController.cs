@@ -31,5 +31,19 @@ namespace IIS_Projekat.Controllers
         {
             return Ok(_exerciseService.CreateExercise(newExerciseDTO));
         }
+
+        /// <summary>
+        /// [Trainer] Deletes Exercise
+        /// </summary>
+        /// <response code="200">If exercise is successfully deleted</response>
+        /// <response code="400">If exercise is already deleted</response>
+        /// <response code="404">If exercise does not exist in the database</response>
+        [HttpDelete("delete/{id}", Name = "DeleteExercise")]
+        [Authorize(Roles = Roles.Trainer)]
+        public ActionResult DeleteExercise(long id)
+        {
+            _exerciseService.DeleteExercise(id);
+            return Ok();
+        }
     }
 }

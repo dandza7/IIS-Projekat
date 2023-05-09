@@ -7,5 +7,6 @@ namespace IIS_Projekat.Services
     {
         //public PaginationWrapper<ExerciseDTO> GetAll(PaginationQuery? paginationQuery);
         public long CreateExercise(NewExerciseDTO newExerciseDTO);
+        public void DeleteExercise(long id);
     }
 }
