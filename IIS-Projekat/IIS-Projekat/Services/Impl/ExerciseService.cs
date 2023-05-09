@@ -19,6 +19,7 @@ namespace IIS_Projekat.Services.Impl
         {
             Exercise newExercise = new Exercise();
             newExercise.Name = newExerciseDTO.Name;
+            newExercise.IsHypertrophic = (newExerciseDTO.IsHypertrophic) ? true : false;
             AddPrimaryMuscleGroup(newExercise, newExerciseDTO.PrimaryMuscleGroup);
             AddSecondaryMuscleGroups(newExercise, newExerciseDTO.SecondaryMuscleGroups);
             newExercise = _unitOfWork.ExerciseRepository.Create(newExercise);
