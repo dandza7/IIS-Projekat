@@ -25,7 +25,7 @@ namespace IIS_Projekat.Controllers
         /// </summary>
         /// <response code="200">If new exercise was addedd successfully</response>
         /// <response code="400">If muscle group is not valid</response>
-        [HttpPost("create", Name = "CreateExercise")]
+        [HttpPost("create", Name = "ExerciseCreation")]
         [Authorize(Roles = Roles.Trainer)]
         public ActionResult<long> CreateExercise([FromBody] NewExerciseDTO newExerciseDTO)
         {
