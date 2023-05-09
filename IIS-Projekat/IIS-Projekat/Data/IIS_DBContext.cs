@@ -23,6 +23,9 @@ namespace IIS_Projekat.Data
         public DbSet<Recipe> Recipe { get; set; }
         public DbSet<FoodShare> FoodShares { get; set; }
         public DbSet<Injury> Injuries { get; set; }
+        public DbSet<MedicalRecord> MedicalRecords { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Report> Reports { get; set; }
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -324,6 +327,22 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Injury>().HasQueryFilter(i => !i.IsDeleted);
             modelBuilder.Entity<Injury>().HasKey(i => i.Id);
             modelBuilder.Entity<Injury>().Property(i => i.InjurySeverity).IsRequired();
+
+            modelBuilder.Entity<MedicalRecord>().HasQueryFilter(mr => !mr.IsDeleted);
+            modelBuilder.Entity<MedicalRecord>().HasKey(mr => mr.Id);
+            modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Anamnesis).IsRequired(false);
+            modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Weight).IsRequired(false);
+            modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Height).IsRequired(false);
+            modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Therapy).IsRequired(false);
+
+            modelBuilder.Entity<Appointment>().HasQueryFilter(a => !a.IsDeleted);
+            modelBuilder.Entity<Appointment>().HasKey(a => a.Id);
+            modelBuilder.Entity<Appointment>().Property(a => a.Beginning).IsRequired();
+            modelBuilder.Entity<Appointment>().Property(a => a.Ending).IsRequired();
+
+            modelBuilder.Entity<Report>().HasQueryFilter(r => !r.IsDeleted);
+            modelBuilder.Entity<Report>().HasKey(r => r.Id);
+            modelBuilder.Entity<Report>().Property(r => r.Message).IsRequired();
         }
     }
 }
