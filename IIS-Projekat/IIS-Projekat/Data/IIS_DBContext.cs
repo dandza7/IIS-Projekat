@@ -2,7 +2,6 @@
 using IIS_Projekat.SupportClasses.PasswordHasher;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace IIS_Projekat.Data
 {
@@ -12,10 +11,11 @@ namespace IIS_Projekat.Data
         public DbSet<MuscleGroup> MuscleGroups { get; set; }
         public DbSet<TrainingPlanRequest> TrainingPlanRequests { get; set; }
         public DbSet<TrainingPlan> TrainingPlans { get; set; }
-        public DbSet<TrainingSession> TrainingSessions { get; set; }   
+        public DbSet<TrainingSession> TrainingSessions { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UsersProfile> Profiles { get; set; }
+        public DbSet<Diagnosis> Diagnoses { get; set; }
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -270,7 +270,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<TrainingSession>().HasKey(ts => ts.Id);
             modelBuilder.Entity<TrainingSession>().Property(ts => ts.NumberOfExercises).IsRequired();
             modelBuilder.Entity<TrainingSession>().HasMany(ts => ts.Exercises).WithMany(e => e.TrainingSessions);
-            
+
             modelBuilder.Entity<TrainingPlan>().HasQueryFilter(tp => !tp.IsDeleted);
             modelBuilder.Entity<TrainingPlan>().HasKey(tp => tp.Id);
             modelBuilder.Entity<TrainingPlan>().Property(tp => tp.TrainingGoal).IsRequired();
@@ -283,6 +283,12 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<TrainingPlanRequest>().Property(tpr => tpr.SessionsPerWeek).IsRequired();
             modelBuilder.Entity<TrainingPlanRequest>().Property(tpr => tpr.TrainingGoal).IsRequired();
             modelBuilder.Entity<TrainingPlanRequest>().HasOne(tpr => tpr.Client).WithMany().HasForeignKey(tpr => tpr.ClientId).IsRequired();
+
+            modelBuilder.Entity<Diagnosis>().HasQueryFilter(d => !d.IsDeleted);
+            modelBuilder.Entity<Diagnosis>().HasKey(d => d.Id);
+            modelBuilder.Entity<Diagnosis>().Property(d => d.Name).IsRequired();
+
+
         }
     }
 }
