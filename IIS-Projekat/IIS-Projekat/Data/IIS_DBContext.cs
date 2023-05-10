@@ -36,6 +36,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<User>().Property(u => u.Password).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Role).IsRequired();
             modelBuilder.Entity<User>().HasOne(u => u.Profile).WithOne(p => p.User).HasForeignKey<UsersProfile>(p => p.UserId);
+            modelBuilder.Entity<User>().HasOne(u => u.MedicalRecord).WithOne(mr => mr.Patient).HasForeignKey<MedicalRecord>(p => p.PatientId);
             modelBuilder.Entity<User>(user =>
             {
                 user.HasData(

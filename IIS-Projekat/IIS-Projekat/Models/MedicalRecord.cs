@@ -6,6 +6,8 @@ namespace IIS_Projekat.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+        public long PatientId { get; set; }
+        public User Patient { get; set; }
         public string Anamnesis { get; set; } = string.Empty;
         public int Height { get; set; } = 0;
         public int Weight { get; set; } = 0;
