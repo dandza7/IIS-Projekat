@@ -14,5 +14,6 @@ namespace IIS_Projekat.Models
         public DateTime ModifiedDate { get; set; }
         public bool IsDeleted { get; set; } = false;
         public virtual UsersProfile Profile { get; set; }
+        public virtual MedicalRecord MedicalRecord { get; set; }
     }
 }

@@ -11,6 +11,17 @@ namespace IIS_Projekat.Repositories
         private IGenericRepository<Exercise> _exerciseRepository;
         private IGenericRepository<MuscleGroup> _muscleGroupRepository;
         private IGenericRepository<ExerciseMuscleGroup> _exerciseMuscleGroupRepository;
+        private IGenericRepository<Diagnosis> _diagnosisRepository;
+        private IGenericRepository<Nutrition> _nutritionRepository;
+        private IGenericRepository<Allergy> _allergyRepository;
+        private IGenericRepository<Food> _foodRepository;
+        private IGenericRepository<NutritionShare> _nutritionShareRepository;
+        private IGenericRepository<Recipe> _recipeRepository;
+        private IGenericRepository<FoodShare> _foodShareRepository;
+        private IGenericRepository<Injury> _injuryRepository;
+        private IGenericRepository<MedicalRecord> _medicalRecordRepository;
+        private IGenericRepository<Appointment> _appointmentRepository;
+        private IGenericRepository<Report> _reportRepository;
 
         private DbContext _dbContext;
 
@@ -63,13 +74,112 @@ namespace IIS_Projekat.Repositories
                 return _muscleGroupRepository;
             }
         }
-        
+
         public IGenericRepository<ExerciseMuscleGroup> ExerciseMuscleGroupRepository
         {
             get
             {
                 _exerciseMuscleGroupRepository ??= new GenericRepository<ExerciseMuscleGroup>(_dbContext);
                 return _exerciseMuscleGroupRepository;
+            }
+        }
+
+        public IGenericRepository<Diagnosis> DiagnosisRepository
+        {
+            get
+            {
+                _diagnosisRepository ??= new GenericRepository<Diagnosis>(_dbContext);
+                return _diagnosisRepository;
+            }
+        }
+
+        public IGenericRepository<Nutrition> NutritionRepository
+        {
+            get
+            {
+                _nutritionRepository ??= new GenericRepository<Nutrition>(_dbContext);
+                return _nutritionRepository;
+            }
+        }
+
+        public IGenericRepository<Allergy> AllergyRepository
+        {
+            get
+            {
+                _allergyRepository ??= new GenericRepository<Allergy>(_dbContext);
+                return _allergyRepository;
+            }
+        }
+
+        public IGenericRepository<Food> FoodRepository
+        {
+            get
+            {
+                _foodRepository ??= new GenericRepository<Food>(_dbContext);
+                return _foodRepository;
+            }
+        }
+
+        public IGenericRepository<NutritionShare> NutritionShareRepository
+        {
+            get
+            {
+                _nutritionShareRepository ??= new GenericRepository<NutritionShare>(_dbContext);
+                return _nutritionShareRepository;
+            }
+        }
+
+        public IGenericRepository<Recipe> RecipeRepository
+        {
+            get
+            {
+                _recipeRepository ??= new GenericRepository<Recipe>(_dbContext);
+                return _recipeRepository;
+            }
+        }
+
+        public IGenericRepository<FoodShare> FoodShareRepository
+        {
+            get
+            {
+                _foodShareRepository ??= new GenericRepository<FoodShare>(_dbContext);
+                return _foodShareRepository;
+            }
+        }
+
+        public IGenericRepository<Injury> InjuryRepository
+        {
+            get
+            {
+                _injuryRepository ??= new GenericRepository<Injury>(_dbContext);
+                return _injuryRepository;
+            }
+        }
+
+        public IGenericRepository<MedicalRecord> MedicalRecordRepository
+        {
+            get
+            {
+                _medicalRecordRepository ??= new GenericRepository<MedicalRecord>(_dbContext);
+                return _medicalRecordRepository;
+            }
+        }
+
+        public IGenericRepository<Appointment> AppointmentRepository
+        {
+            get
+            {
+                _appointmentRepository ??= new GenericRepository<Appointment>(_dbContext);
+                return _appointmentRepository;
+            }
+        }
+
+        public IGenericRepository<Report> ReportRepository
+        {
+            get
+            {
+                _reportRepository ??= new GenericRepository<Report>(_dbContext);
+                return _reportRepository;
             }
         }
 

@@ -4,6 +4,7 @@ using IIS_Projekat.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IISProjekat.Migrations
 {
     [DbContext(typeof(IIS_DBContext))]
-    partial class IISDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230510150118_AddedAllergiesToMedicalRecord")]
+    partial class AddedAllergiesToMedicalRecord
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,21 +53,6 @@ namespace IISProjekat.Migrations
                     b.HasIndex("MedicalRecordsId");
 
                     b.ToTable("AllergyMedicalRecord");
-                });
-
-            modelBuilder.Entity("DiagnosisMedicalRecord", b =>
-                {
-                    b.Property<long>("DiagnosesId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("MedicalRecordsId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("DiagnosesId", "MedicalRecordsId");
-
-                    b.HasIndex("MedicalRecordsId");
-
-                    b.ToTable("DiagnosisMedicalRecord");
                 });
 
             modelBuilder.Entity("ExerciseTrainingSession", b =>
@@ -122,9 +110,6 @@ namespace IISProjekat.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("DoctorId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("Ending")
                         .HasColumnType("datetime2");
 
@@ -134,20 +119,7 @@ namespace IISProjekat.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("PatientId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ReportId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("ReportId")
-                        .IsUnique();
 
                     b.ToTable("Appointments");
                 });
@@ -407,177 +379,177 @@ namespace IISProjekat.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2386),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4030),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2387),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4031),
                             Name = "Calves"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2465),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4043),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2466),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4043),
                             Name = "Quads"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2468),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4193),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2469),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4194),
                             Name = "Hamstrings"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2470),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4201),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2471),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4202),
                             Name = "Abductors"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2472),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4203),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2473),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4203),
                             Name = "Adductors"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2476),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4206),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2476),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4206),
                             Name = "Gluteus"
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2478),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4208),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2478),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4208),
                             Name = "Core"
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2480),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4210),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2480),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4210),
                             Name = "Abs"
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2482),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4211),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2482),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4212),
                             Name = "Lower Back"
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2484),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4214),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2484),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4215),
                             Name = "Lats"
                         },
                         new
                         {
                             Id = 11L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2486),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4216),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2486),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4216),
                             Name = "Teres Major"
                         },
                         new
                         {
                             Id = 12L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2488),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4218),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2488),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4218),
                             Name = "Lower Traps"
                         },
                         new
                         {
                             Id = 13L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2490),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4219),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2490),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4220),
                             Name = "Traps"
                         },
                         new
                         {
                             Id = 14L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2492),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4221),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2492),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4221),
                             Name = "Rear Delts"
                         },
                         new
                         {
                             Id = 15L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2499),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4233),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2499),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4233),
                             Name = "Side Delts"
                         },
                         new
                         {
                             Id = 16L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2501),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4234),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2501),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4235),
                             Name = "Front Delts"
                         },
                         new
                         {
                             Id = 17L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2503),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4237),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2503),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4237),
                             Name = "Upper Chest"
                         },
                         new
                         {
                             Id = 18L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2506),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4239),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2506),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4239),
                             Name = "Lower Chest"
                         },
                         new
                         {
                             Id = 19L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2508),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4241),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2508),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4241),
                             Name = "Biceps"
                         },
                         new
                         {
                             Id = 20L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2509),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4242),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2510),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4243),
                             Name = "Triceps"
                         },
                         new
                         {
                             Id = 21L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2512),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4244),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2512),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4244),
                             Name = "Brachialis"
                         },
                         new
                         {
                             Id = 22L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2514),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4246),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 569, DateTimeKind.Utc).AddTicks(2514),
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(4246),
                             Name = "Forearms"
                         });
                 });
@@ -670,7 +642,7 @@ namespace IISProjekat.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipe");
                 });
 
             modelBuilder.Entity("IIS_Projekat.Models.Report", b =>
@@ -838,13 +810,13 @@ namespace IISProjekat.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 5, 10, 15, 21, 44, 568, DateTimeKind.Utc).AddTicks(9530),
+                            CreatedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(1243),
                             Email = "admin@gmail.com",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 10, 15, 21, 44, 568, DateTimeKind.Utc).AddTicks(9532),
-                            Password = "34BC4480734C626D94CC448226D32472F095967D2D8B978EE0722906FDC4E78FAA52368BEE69FF809C575EF9A9B7905A9D4BE4FC47B794133588328C0AB802D4",
+                            ModifiedDate = new DateTime(2023, 5, 10, 15, 1, 17, 735, DateTimeKind.Utc).AddTicks(1245),
+                            Password = "A9E1EE8B3199C22486B4833B0402E560AF22A15833EE2BBF7C8450ACAAB81A8104DADBBAC98A37FE3002EA8E164827BFC8B1F12CE2412A3301C6E2F42AA66408",
                             Role = "ADMIN",
-                            Salt = new byte[] { 193, 242, 89, 98, 152, 79, 60, 125, 35, 24, 72, 117, 239, 69, 195, 245, 159, 108, 37, 155, 25, 228, 247, 135, 11, 61, 238, 209, 239, 37, 214, 39, 127, 104, 204, 251, 2, 252, 160, 195, 46, 184, 4, 254, 24, 81, 53, 72, 93, 251, 214, 136, 63, 55, 63, 135, 115, 156, 129, 21, 187, 42, 106, 167 }
+                            Salt = new byte[] { 38, 11, 115, 221, 205, 76, 189, 213, 224, 72, 162, 107, 184, 59, 250, 6, 82, 87, 215, 217, 239, 94, 131, 96, 69, 87, 57, 1, 149, 242, 23, 12, 64, 63, 91, 65, 34, 199, 100, 108, 54, 151, 7, 111, 7, 55, 174, 2, 153, 254, 159, 79, 156, 46, 135, 21, 29, 54, 93, 123, 115, 53, 207, 137 }
                         });
                 });
 
@@ -936,21 +908,6 @@ namespace IISProjekat.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DiagnosisMedicalRecord", b =>
-                {
-                    b.HasOne("IIS_Projekat.Models.Diagnosis", null)
-                        .WithMany()
-                        .HasForeignKey("DiagnosesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IIS_Projekat.Models.MedicalRecord", null)
-                        .WithMany()
-                        .HasForeignKey("MedicalRecordsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ExerciseTrainingSession", b =>
                 {
                     b.HasOne("IIS_Projekat.Models.Exercise", null)
@@ -964,33 +921,6 @@ namespace IISProjekat.Migrations
                         .HasForeignKey("TrainingSessionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("IIS_Projekat.Models.Appointment", b =>
-                {
-                    b.HasOne("IIS_Projekat.Models.User", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("IIS_Projekat.Models.User", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("IIS_Projekat.Models.Report", "Report")
-                        .WithOne("Appointment")
-                        .HasForeignKey("IIS_Projekat.Models.Appointment", "ReportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("Report");
                 });
 
             modelBuilder.Entity("IIS_Projekat.Models.ExerciseMuscleGroup", b =>
@@ -1158,12 +1088,6 @@ namespace IISProjekat.Migrations
             modelBuilder.Entity("IIS_Projekat.Models.Recipe", b =>
                 {
                     b.Navigation("FoodShares");
-                });
-
-            modelBuilder.Entity("IIS_Projekat.Models.Report", b =>
-                {
-                    b.Navigation("Appointment")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("IIS_Projekat.Models.TrainingPlan", b =>
