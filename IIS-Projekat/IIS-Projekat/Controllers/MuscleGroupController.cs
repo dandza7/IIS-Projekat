@@ -30,7 +30,7 @@ namespace IIS_Projekat.Controllers
         /// <br/>  >>> Ordering must be either ASC or DESC
         /// </remarks>
         /// <response code="200">Returns all muscle groups</response>
-        [HttpPost("get", Name = "GetAllMuscleGroups")]
+        [HttpPost(Name = "GetAllMuscleGroups")]
         [Authorize(Roles = Roles.Trainer)]
         public ActionResult<IEnumerable<MuscleGroupDTO>> GetAllMuscleGroups ([FromBody] PaginationQuery paginationQuery)
         {
