@@ -20,7 +20,7 @@ namespace IIS_Projekat.Data
         public DbSet<Allergy> Allergies { get; set; }
         public DbSet<Food> Food { get; set; }
         public DbSet<NutritionShare> NutritionShares { get; set; }
-        public DbSet<Recipe> Recipe { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
         public DbSet<FoodShare> FoodShares { get; set; }
         public DbSet<Injury> Injuries { get; set; }
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
@@ -349,10 +349,13 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Appointment>().HasKey(a => a.Id);
             modelBuilder.Entity<Appointment>().Property(a => a.Beginning).IsRequired();
             modelBuilder.Entity<Appointment>().Property(a => a.Ending).IsRequired();
+            modelBuilder.Entity<Appointment>().HasOne(a => a.Patient).WithMany().OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Appointment>().HasOne(a => a.Doctor).WithMany().OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Report>().HasQueryFilter(r => !r.IsDeleted);
             modelBuilder.Entity<Report>().HasKey(r => r.Id);
             modelBuilder.Entity<Report>().Property(r => r.Message).IsRequired();
+            modelBuilder.Entity<Report>().HasOne(r => r.Appointment).WithOne(a => a.Report).HasForeignKey<Appointment>(a => a.ReportId);
         }
     }
 }
