@@ -315,6 +315,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Food>().Property(f => f.Category).IsRequired();
             modelBuilder.Entity<Food>().HasMany(f => f.Participations).WithOne(fs => fs.Food).OnDelete(DeleteBehavior.Cascade).IsRequired();
             modelBuilder.Entity<Food>().HasMany(f => f.NutritionShares).WithOne(ns => ns.Food).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<Food>().HasMany(f => f.Allergies).WithMany(a => a.Food);
 
             modelBuilder.Entity<NutritionShare>().HasQueryFilter(ns => !ns.IsDeleted);
             modelBuilder.Entity<NutritionShare>().HasKey(ns => ns.Id);
@@ -341,6 +342,8 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Height).IsRequired();
             modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Therapy).IsRequired(false);
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Injuries).WithMany(i => i.MedicalRecords);
+            modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Allergies).WithMany(a => a.MedicalRecords);
+            modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Diagnoses).WithMany(d => d.MedicalRecords);
 
             modelBuilder.Entity<Appointment>().HasQueryFilter(a => !a.IsDeleted);
             modelBuilder.Entity<Appointment>().HasKey(a => a.Id);
