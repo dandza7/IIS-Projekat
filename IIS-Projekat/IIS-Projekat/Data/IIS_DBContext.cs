@@ -266,6 +266,7 @@ namespace IIS_Projekat.Data
             });
             #endregion
             modelBuilder.Entity<MuscleGroup>().HasMany(mg => mg.MuscleGroups).WithOne(emg => emg.MuscleGroup).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<MuscleGroup>().HasMany(mg => mg.Injuries).WithOne(i => i.Muscle).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<Exercise>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<Exercise>().HasKey(e => e.Id);

@@ -2,7 +2,7 @@
 
 namespace IIS_Projekat.Models
 {
-    public class MuscleGroup: IEntity
+    public class MuscleGroup : IEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
@@ -11,5 +11,6 @@ namespace IIS_Projekat.Models
         public bool IsDeleted { get; set; }
         public string Name { get; set; }
         public ICollection<ExerciseMuscleGroup> MuscleGroups { get; set; } = new List<ExerciseMuscleGroup>();
+        public ICollection<Injury> Injuries { get; set; } = new List<Injury>();
     }
 }
