@@ -340,6 +340,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Weight).IsRequired();
             modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Height).IsRequired();
             modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Therapy).IsRequired(false);
+            modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Injuries).WithMany(i => i.MedicalRecords);
 
             modelBuilder.Entity<Appointment>().HasQueryFilter(a => !a.IsDeleted);
             modelBuilder.Entity<Appointment>().HasKey(a => a.Id);
