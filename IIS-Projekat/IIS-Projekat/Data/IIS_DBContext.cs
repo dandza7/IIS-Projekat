@@ -304,6 +304,191 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Nutrient>().HasKey(n => n.Id);
             modelBuilder.Entity<Nutrient>().Property(n => n.Name).IsRequired();
             modelBuilder.Entity<Nutrient>().HasMany(r => r.Participations).WithOne(ns => ns.Nutrient).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            #region Nutrient Dummy Data
+            modelBuilder.Entity<Nutrient>(n =>
+            {
+                n.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "Protein",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 2L,
+                            Name = "Fat",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 3L,
+                            Name = "Carbohydrates",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 4L,
+                            Name = "Fiber",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 5L,
+                            Name = "Sugar",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 6L,
+                            Name = "Vitamin A",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 7L,
+                            Name = "Vitamin B1",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 8L,
+                            Name = "Vitamin B2",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 9L,
+                            Name = "Vitamin B3",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 10L,
+                            Name = "Vitamin C",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 11L,
+                            Name = "Vitamin D",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 12L,
+                            Name = "Vitamin E",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 13L,
+                            Name = "Calcium",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 14L,
+                            Name = "Iron",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 15L,
+                            Name = "Magnesium",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 16L,
+                            Name = "Potassium",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 17L,
+                            Name = "Sodium",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 18L,
+                            Name = "Zinc",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+            });
+            #endregion
 
             modelBuilder.Entity<Allergy>().HasQueryFilter(a => !a.IsDeleted);
             modelBuilder.Entity<Allergy>().HasKey(a => a.Id);
