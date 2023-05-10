@@ -11,12 +11,14 @@ namespace IIS_Projekat.SupportClasses.GlobalExceptionHandler
             {typeof(NotFoundException), HttpStatusCode.NotFound},
             {typeof(BadCredentialsException), HttpStatusCode.BadRequest},
             {typeof(RestrictedContentException), HttpStatusCode.UnavailableForLegalReasons},
-            {typeof(NoContentException), HttpStatusCode.NoContent}
+            {typeof(NoContentException), HttpStatusCode.NoContent},
+            {typeof(DuplicateItemException), HttpStatusCode.BadRequest}
         };
         public static Type[] BadRequestExceptions =
         {
             typeof(BadCredentialsException),
             typeof(NotFoundException),
+            typeof(DuplicateItemException)
         };
         public static Type[] NoContentExceptions =
         {

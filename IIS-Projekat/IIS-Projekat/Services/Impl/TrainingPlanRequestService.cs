@@ -32,6 +32,10 @@ namespace IIS_Projekat.Services.Impl
             {
                 throw new NotFoundException($"User with email: {email} does not exists!");
             }
+            if(_unitOfWork.TrainingPlanRequestRepository.GetAll().Where(tr => tr.Client == client).FirstOrDefault() != null)
+            {
+                throw new DuplicateItemException("User has already created a training plan request!");
+            }
             trainingPlanRequest.Client = client;
             trainingPlanRequest.ClientId = client.Id;
             trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.Create(trainingPlanRequest);
