@@ -14,7 +14,7 @@ import MenuSharpIcon from "@mui/icons-material/MenuSharp";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
-  const [toggleMenu, setToggleMenu] = useState(false);
+  const [toggleMenu, setToggleMenu] = useState(true);
 
   const logoutHandler = () => {
     authCtx.logout();
@@ -27,14 +27,6 @@ export const Sidebar = () => {
 
   return (
     <div className={classes.sidebar}>
-      <div className={classes.menu}>
-        <button className={classes.menuButton} onClick={toggleMenuHandler}>
-          <MenuSharpIcon
-            className={classes.menuIcon}
-            fontSize="medium"
-          ></MenuSharpIcon>
-        </button>
-      </div>
       {toggleMenu && <div className={classes.avatar}></div>}
       {<div className={classes.avatarClosed}></div>}
       <ul className={classes.list}>
@@ -65,6 +57,51 @@ export const Sidebar = () => {
             </div>
           </NavLink>
         </li>
+        {authCtx.role == "CUSTOMER" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/training-plan-request"
+              style={({ isActive }) => ({
+                color: isActive ? "#99db48" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <AccountBoxIcon></AccountBoxIcon>
+                {toggleMenu && <span>Training plan request</span>}
+              </div>
+            </NavLink>
+          </li>
+        )}
+        {authCtx.role == "TRAINER" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/new-exercise"
+              style={({ isActive }) => ({
+                color: isActive ? "#99db48" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <DashboardIcon></DashboardIcon>
+                {toggleMenu && <span>Add Exercise</span>}
+              </div>
+            </NavLink>
+          </li>
+        )}
+        {authCtx.role == "TRAINER" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/foods"
+              style={({ isActive }) => ({
+                color: isActive ? "#99db48" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <DashboardIcon></DashboardIcon>
+                {toggleMenu && <span>Food</span>}
+              </div>
+            </NavLink>
+          </li>
+        )}
 
         {authCtx.role == "ADMIN" && (
           <li className={classes.listItem}>

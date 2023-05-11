@@ -6,6 +6,8 @@
   color: white;
   align-items: center;
   height: 100vh;
+  width: 230px;
+  position: fixed;
 }
 .avatar {
   display: flex;

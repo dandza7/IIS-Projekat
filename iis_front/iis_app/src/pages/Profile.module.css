@@ -6,6 +6,10 @@
   font-size: 20px;
   padding: 0.5rem 0rem;
 }
+.myProfile {
+  display: flex;
+  flex-direction: column;
+}
 .editProfileButton {
   background-color: black;
   color: white;
@@ -13,6 +17,7 @@
   border: 1px solid white;
   font-weight: 500;
   cursor: pointer;
+  margin-top: 1rem;
 }
 .closeButton {
   background-color: var(--closeButton);

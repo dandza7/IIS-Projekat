@@ -23,6 +23,7 @@ export const Users = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
+        console.log(actualData.items);
         setUsers(actualData.items);
       });
   }, []);
