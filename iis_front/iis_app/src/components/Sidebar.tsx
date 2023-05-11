@@ -90,6 +90,22 @@ export const Sidebar = () => {
         {authCtx.role == "TRAINER" && (
           <li className={classes.listItem}>
             <NavLink
+              to="/training-plan-requests"
+              style={({ isActive }) => ({
+                color: isActive ? "#99db48" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <DashboardIcon></DashboardIcon>
+                {toggleMenu && <span>Training Plan Requests</span>}
+              </div>
+            </NavLink>
+          </li>
+        )}
+
+        {authCtx.role == "TRAINER" && (
+          <li className={classes.listItem}>
+            <NavLink
               to="/foods"
               style={({ isActive }) => ({
                 color: isActive ? "#99db48" : "#fff",
