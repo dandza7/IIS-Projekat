@@ -506,7 +506,6 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<NutrientShare>().HasQueryFilter(ns => !ns.IsDeleted);
             modelBuilder.Entity<NutrientShare>().HasKey(ns => ns.Id);
             modelBuilder.Entity<NutrientShare>().Property(ns => ns.Share).IsRequired();
-            modelBuilder.Entity<NutrientShare>().Property(ns => ns.Unit).IsRequired();
 
             modelBuilder.Entity<Recipe>().HasQueryFilter(r => !r.IsDeleted);
             modelBuilder.Entity<Recipe>().HasKey(r => r.Id);

@@ -124,33 +124,32 @@ namespace IIS_Projekat.Services.Impl
 
         private void AddNutrientsToFood(NutrientTableDTO nutrientTableDTO, Food newFood)
         {
-            CreateNutrientShare("Protein", newFood, nutrientTableDTO.Protein, "g");
-            CreateNutrientShare("Fat", newFood, nutrientTableDTO.Fat, "g");
-            CreateNutrientShare("Carbohydrates", newFood, nutrientTableDTO.Carbohydrates, "g");
-            CreateNutrientShare("Fiber", newFood, nutrientTableDTO.Fiber, "g");
-            CreateNutrientShare("Sugar", newFood, nutrientTableDTO.Sugar, "g");
-            CreateNutrientShare("Vitamin A", newFood, nutrientTableDTO.VitaminA, "UI");
-            CreateNutrientShare("Vitamin B1", newFood, nutrientTableDTO.VitaminB1, "mg");
-            CreateNutrientShare("Vitamin B2", newFood, nutrientTableDTO.VitaminB2, "mg");
-            CreateNutrientShare("Vitamin B3", newFood, nutrientTableDTO.VitaminB3, "mg");
-            CreateNutrientShare("Vitamin C", newFood, nutrientTableDTO.VitaminC, "mg");
-            CreateNutrientShare("Vitamin D", newFood, nutrientTableDTO.VitaminD, "mg");
-            CreateNutrientShare("Vitamin E", newFood, nutrientTableDTO.VitaminE, "UI");
-            CreateNutrientShare("Calcium", newFood, nutrientTableDTO.Calcium, "mg");
-            CreateNutrientShare("Iron", newFood, nutrientTableDTO.Iron, "mg");
-            CreateNutrientShare("Magnesium", newFood, nutrientTableDTO.Magnesium, "mg");
-            CreateNutrientShare("Potassium", newFood, nutrientTableDTO.Potassium, "mg");
-            CreateNutrientShare("Sodium", newFood, nutrientTableDTO.Sodium, "mg");
-            CreateNutrientShare("Zinc", newFood, nutrientTableDTO.Zinc, "mg");
+            CreateNutrientShare("Protein", newFood, nutrientTableDTO.Protein);
+            CreateNutrientShare("Fat", newFood, nutrientTableDTO.Fat);
+            CreateNutrientShare("Carbohydrates", newFood, nutrientTableDTO.Carbohydrates);
+            CreateNutrientShare("Fiber", newFood, nutrientTableDTO.Fiber);
+            CreateNutrientShare("Sugar", newFood, nutrientTableDTO.Sugar);
+            CreateNutrientShare("Vitamin A", newFood, nutrientTableDTO.VitaminA);
+            CreateNutrientShare("Vitamin B1", newFood, nutrientTableDTO.VitaminB1);
+            CreateNutrientShare("Vitamin B2", newFood, nutrientTableDTO.VitaminB2);
+            CreateNutrientShare("Vitamin B3", newFood, nutrientTableDTO.VitaminB3);
+            CreateNutrientShare("Vitamin C", newFood, nutrientTableDTO.VitaminC);
+            CreateNutrientShare("Vitamin D", newFood, nutrientTableDTO.VitaminD);
+            CreateNutrientShare("Vitamin E", newFood, nutrientTableDTO.VitaminE);
+            CreateNutrientShare("Calcium", newFood, nutrientTableDTO.Calcium);
+            CreateNutrientShare("Iron", newFood, nutrientTableDTO.Iron);
+            CreateNutrientShare("Magnesium", newFood, nutrientTableDTO.Magnesium);
+            CreateNutrientShare("Potassium", newFood, nutrientTableDTO.Potassium);
+            CreateNutrientShare("Sodium", newFood, nutrientTableDTO.Sodium);
+            CreateNutrientShare("Zinc", newFood, nutrientTableDTO.Zinc);
         }
 
-        private void CreateNutrientShare(string nutrientName, Food newFood, int share, string unit)
+        private void CreateNutrientShare(string nutrientName, Food newFood, int share)
         {
             _unitOfWork.NutrientShareRepository.Create(
                     new NutrientShare
                     {
                         Share = share,
-                        Unit = unit,
                         Nutrient = _unitOfWork.NutrientRepository.GetAll().Where(n => n.Name == nutrientName).FirstOrDefault(),
                         Food = newFood
                     }
