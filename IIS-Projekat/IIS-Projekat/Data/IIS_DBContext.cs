@@ -16,10 +16,10 @@ namespace IIS_Projekat.Data
         public DbSet<User> Users { get; set; }
         public DbSet<UsersProfile> Profiles { get; set; }
         public DbSet<Diagnosis> Diagnoses { get; set; }
-        public DbSet<Nutrition> Nutritions { get; set; }
+        public DbSet<Nutrient> Nutrients { get; set; }
         public DbSet<Allergy> Allergies { get; set; }
         public DbSet<Food> Food { get; set; }
-        public DbSet<NutritionShare> NutritionShares { get; set; }
+        public DbSet<NutrientShare> NutrientShares { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<FoodShare> FoodShares { get; set; }
         public DbSet<Injury> Injuries { get; set; }
@@ -300,10 +300,195 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Diagnosis>().HasKey(d => d.Id);
             modelBuilder.Entity<Diagnosis>().Property(d => d.Name).IsRequired();
 
-            modelBuilder.Entity<Nutrition>().HasQueryFilter(n => !n.IsDeleted);
-            modelBuilder.Entity<Nutrition>().HasKey(n => n.Id);
-            modelBuilder.Entity<Nutrition>().Property(n => n.Name).IsRequired();
-            modelBuilder.Entity<Nutrition>().HasMany(r => r.Participations).WithOne(ns => ns.Nutrition).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<Nutrient>().HasQueryFilter(n => !n.IsDeleted);
+            modelBuilder.Entity<Nutrient>().HasKey(n => n.Id);
+            modelBuilder.Entity<Nutrient>().Property(n => n.Name).IsRequired();
+            modelBuilder.Entity<Nutrient>().HasMany(r => r.Participations).WithOne(ns => ns.Nutrient).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            #region Nutrient Dummy Data
+            modelBuilder.Entity<Nutrient>(n =>
+            {
+                n.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "Protein",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 2L,
+                            Name = "Fat",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 3L,
+                            Name = "Carbohydrates",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 4L,
+                            Name = "Fiber",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 5L,
+                            Name = "Sugar",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 6L,
+                            Name = "Vitamin A",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 7L,
+                            Name = "Vitamin B1",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 8L,
+                            Name = "Vitamin B2",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 9L,
+                            Name = "Vitamin B3",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 10L,
+                            Name = "Vitamin C",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 11L,
+                            Name = "Vitamin D",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 12L,
+                            Name = "Vitamin E",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 13L,
+                            Name = "Calcium",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 14L,
+                            Name = "Iron",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 15L,
+                            Name = "Magnesium",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 16L,
+                            Name = "Potassium",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 17L,
+                            Name = "Sodium",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+                n.HasData(
+                        new
+                        {
+                            Id = 18L,
+                            Name = "Zinc",
+                            CreatedDate = DateTime.UtcNow,
+                            ModifiedDate = DateTime.UtcNow,
+                            IsDeleted = false
+                        }
+                    );
+            });
+            #endregion
 
             modelBuilder.Entity<Allergy>().HasQueryFilter(a => !a.IsDeleted);
             modelBuilder.Entity<Allergy>().HasKey(a => a.Id);
@@ -313,14 +498,14 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Food>().HasKey(f => f.Id);
             modelBuilder.Entity<Food>().Property(f => f.Name).IsRequired();
             modelBuilder.Entity<Food>().Property(f => f.Category).IsRequired();
+            modelBuilder.Entity<Food>().Property(f => f.Calories).IsRequired();
             modelBuilder.Entity<Food>().HasMany(f => f.Participations).WithOne(fs => fs.Food).OnDelete(DeleteBehavior.Cascade).IsRequired();
-            modelBuilder.Entity<Food>().HasMany(f => f.NutritionShares).WithOne(ns => ns.Food).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<Food>().HasMany(f => f.NutrientShares).WithOne(ns => ns.Food).OnDelete(DeleteBehavior.Cascade).IsRequired();
             modelBuilder.Entity<Food>().HasMany(f => f.Allergies).WithMany(a => a.Food);
 
-            modelBuilder.Entity<NutritionShare>().HasQueryFilter(ns => !ns.IsDeleted);
-            modelBuilder.Entity<NutritionShare>().HasKey(ns => ns.Id);
-            modelBuilder.Entity<NutritionShare>().Property(ns => ns.Share).IsRequired();
-            modelBuilder.Entity<NutritionShare>().Property(ns => ns.Unit).IsRequired();
+            modelBuilder.Entity<NutrientShare>().HasQueryFilter(ns => !ns.IsDeleted);
+            modelBuilder.Entity<NutrientShare>().HasKey(ns => ns.Id);
+            modelBuilder.Entity<NutrientShare>().Property(ns => ns.Share).IsRequired();
 
             modelBuilder.Entity<Recipe>().HasQueryFilter(r => !r.IsDeleted);
             modelBuilder.Entity<Recipe>().HasKey(r => r.Id);

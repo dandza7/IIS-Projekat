@@ -12,10 +12,10 @@ namespace IIS_Projekat.Repositories
         private IGenericRepository<MuscleGroup> _muscleGroupRepository;
         private IGenericRepository<ExerciseMuscleGroup> _exerciseMuscleGroupRepository;
         private IGenericRepository<Diagnosis> _diagnosisRepository;
-        private IGenericRepository<Nutrition> _nutritionRepository;
+        private IGenericRepository<Nutrient> _nutrientRepository;
         private IGenericRepository<Allergy> _allergyRepository;
         private IGenericRepository<Food> _foodRepository;
-        private IGenericRepository<NutritionShare> _nutritionShareRepository;
+        private IGenericRepository<NutrientShare> _nutrientShareRepository;
         private IGenericRepository<Recipe> _recipeRepository;
         private IGenericRepository<FoodShare> _foodShareRepository;
         private IGenericRepository<Injury> _injuryRepository;
@@ -93,12 +93,12 @@ namespace IIS_Projekat.Repositories
             }
         }
 
-        public IGenericRepository<Nutrition> NutritionRepository
+        public IGenericRepository<Nutrient> NutrientRepository
         {
             get
             {
-                _nutritionRepository ??= new GenericRepository<Nutrition>(_dbContext);
-                return _nutritionRepository;
+                _nutrientRepository ??= new GenericRepository<Nutrient>(_dbContext);
+                return _nutrientRepository;
             }
         }
 
@@ -120,12 +120,12 @@ namespace IIS_Projekat.Repositories
             }
         }
 
-        public IGenericRepository<NutritionShare> NutritionShareRepository
+        public IGenericRepository<NutrientShare> NutrientShareRepository
         {
             get
             {
-                _nutritionShareRepository ??= new GenericRepository<NutritionShare>(_dbContext);
-                return _nutritionShareRepository;
+                _nutrientShareRepository ??= new GenericRepository<NutrientShare>(_dbContext);
+                return _nutrientShareRepository;
             }
         }
 
