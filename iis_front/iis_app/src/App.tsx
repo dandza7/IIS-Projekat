@@ -27,7 +27,11 @@ import { useLocation } from "react-router";
 import { useEffect } from "react";
 import PrivateRoutes from "./utils/LoginRoutes";
 import AdminRoutes from "./utils/AdminRoutes";
-
+import TrainingPlanRequest from "./pages/TrainingPlanRequest";
+import NewExercise from "./pages/NewExercise";
+import DiagnosesAndAllergies from "./pages/DiagnosesAndAllergies";
+import Foods from "./pages/Foods";
+import Food from "./pages/Food";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -42,6 +46,20 @@ const router = createBrowserRouter(
         <Route element={<PrivateRoutes />}>
           <Route path="/home" element={<Home></Home>}></Route>
           <Route path="/profile" element={<MyProfile></MyProfile>}></Route>
+          <Route
+            path="/new-exercise"
+            element={<NewExercise></NewExercise>}
+          ></Route>
+          <Route
+            path="/diagnoses"
+            element={<DiagnosesAndAllergies></DiagnosesAndAllergies>}
+          ></Route>
+          <Route path="/foods" element={<Foods></Foods>}></Route>
+          <Route path="/food/:name" element={<Food></Food>}></Route>
+          <Route
+            path="/training-plan-request"
+            element={<TrainingPlanRequest></TrainingPlanRequest>}
+          ></Route>
           <Route element={<AdminRoutes />}>
             <Route
               path="/admin-dashboard"

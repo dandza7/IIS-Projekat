@@ -25,7 +25,7 @@ const Profile = () => {
     role: string;
   };
   const genders = ["Female", "Male"];
-  const roleOptions = ["ADMIN", "CUSTOMER", "NUTRITIONIST"];
+  const roleOptions = ["ADMIN", "CUSTOMER", "NUTRITIONIST", "TRAINER"];
 
   const handleToggleEdit = () => {
     setToggleEdit(true);
@@ -137,7 +137,6 @@ const Profile = () => {
             <span>Role: </span>
             <span>{user.role}</span>
           </div>
-          <br></br>
           <button
             className={classes.editProfileButton}
             onClick={handleToggleEdit}

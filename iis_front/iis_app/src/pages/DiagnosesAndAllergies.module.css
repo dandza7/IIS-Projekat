@@ -1,0 +1,86 @@
+.dal {
+  display: flex;
+  flex-direction: column;
+}
+
+.dalTitle {
+  font-size: 64px;
+  margin-bottom: 2rem;
+}
+
+.dalContainer {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 10px;
+  padding: 10px;
+  gap: 5rem;
+}
+
+.dalContainer > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 20px;
+}
+
+.item1 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+.styledTable thead tr {
+  background-color: var(--darkGreen);
+  color: #ffffff;
+  text-align: left;
+}
+.styledTable th,
+.styledTable td {
+  padding: 1rem 3rem;
+}
+
+.styledTable th {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.styledTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styledTable tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styledTable tbody tr:last-of-type {
+  border-bottom: 1px solid var(--darkGreen);
+}
+
+.styledTable {
+  margin: 0rem 0rem 0rem 0rem;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  overflow-wrap: break-word;
+  font-family: sans-serif;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 2rem;
+}
+
+.categories {
+  display: flex;
+  gap: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  align-items: center;
+}
+.addButton {
+  background-color: black;
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}

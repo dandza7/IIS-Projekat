@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10rem;
+}
+.macro {
+  display: flex;
+  flex-direction: column;
+}
+.micro {
+  display: flex;
+  flex-direction: column;
+}
