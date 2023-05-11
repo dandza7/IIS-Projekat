@@ -79,11 +79,12 @@ builder.Services.AddScoped<IJWTGenerator, JWTGenerator>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFoodService, FoodService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<ITrainingPlanRequestService, TrainingPlanRequestService>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<IMuscleGroupService, MuscleGroupService>();
-    
+
 // Enabled CORS
 
 var devCorsPolicy = "devCorsPolicy";
