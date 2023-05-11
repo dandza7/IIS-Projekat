@@ -51,3 +51,11 @@
   font-weight: 500;
   cursor: pointer;
 }
+.addButton {
+  background-color: black;
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+}

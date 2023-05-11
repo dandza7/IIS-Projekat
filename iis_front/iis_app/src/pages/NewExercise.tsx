@@ -45,7 +45,7 @@ const NewExercise = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5041/api/muscle-group/get", {
+    fetch("http://localhost:5041/api/muscle-group", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

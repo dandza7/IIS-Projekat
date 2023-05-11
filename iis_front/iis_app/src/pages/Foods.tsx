@@ -1,38 +1,40 @@
 import React from "react";
 import classes from "./DiagnosesAndAllergies.module.css";
 import { useNavigate } from "react-router-dom";
-const foodList = [
-  {
-    name: "Rice",
-    calories: 350,
-    allergies: "Rice",
-    nutrients: { a: 10, b: 30 },
-  },
-  {
-    name: "Chicken Breast",
-    calories: 350,
-    allergies: "Rice",
-    nutrients: { a: 10, b: 30 },
-  },
-  {
-    name: "Apple",
-    calories: 350,
-    allergies: "Rice",
-    nutrients: { a: 10, b: 30 },
-  },
-  {
-    name: "Banana",
-    calories: 350,
-    allergies: "Rice",
-    nutrients: { a: 10, b: 30 },
-  },
-];
+import { useEffect, useState, useRef, useContext } from "react";
+import AuthContext from "../store/auth-context";
 
 const Food = () => {
   const navigate = useNavigate();
 
+  const [foodList, setfoodList] = useState<any[]>([]);
+  const authCtx = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log(authCtx.token);
+    fetch("http://localhost:5041/api/food", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({
+        paginationQuery: {},
+      }),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        console.log(actualData.items);
+        setfoodList(actualData.items);
+      });
+  }, []);
+
   const selectFoodHandler = (name: any) => {
     navigate("/food/" + name);
+  };
+
+  const handleButtonClick = () => {
+    navigate("/new-food");
   };
 
   return (
@@ -46,7 +48,9 @@ const Food = () => {
           <span>Fish</span>
           <span>Dairy</span>
         </div>
-        <button className={classes.addButton}>Add Food</button>
+        <button className={classes.addButton} onClick={handleButtonClick}>
+          Add Food
+        </button>
       </div>
       <table className={classes.styledTable}>
         <thead>
