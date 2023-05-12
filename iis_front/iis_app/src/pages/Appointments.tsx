@@ -55,6 +55,7 @@ const Appointments = () => {
                 <th>Surname</th>
                 <th>Start</th>
                 <th>End</th>
+                <th>Type</th>
                 <th></th>
               </tr>
             </thead>
@@ -64,7 +65,8 @@ const Appointments = () => {
                   <td>{appointment.name}</td>
                   <td>{appointment.surname}</td>
                   <td>{appointment.start}</td>
-                  <td>{appointment.end}</td>
+                  <td>{appointment.start}</td>
+                  <td>Regular</td>
                   <td>
                     <button className={classes.startButton}>Start</button>
                   </td>

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
 import { useParams } from "react-router-dom";
-
 const micros = [
   "VitaminA",
   "VitaminB1",
@@ -21,6 +20,7 @@ const food1 = {
   name: "Rice",
   calories: 350,
   allergies: [],
+  category: "Grains",
   nutrientTable: {
     protein: 10,
     fat: 0,
@@ -39,7 +39,7 @@ const food1 = {
     magnesium: 0,
     potassium: 0,
     sodium: 0,
-    zinc: 0
+    zinc: 0,
   },
 };
 
@@ -59,27 +59,26 @@ const Food = () => {
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-          pageSize: 0,
-          page: 0,
-          order: [
-            {
-              orderField: "ID",
-              ordering: "ASC",
-            },
-          ],
-          filters: [
-            {
-              property: "name",
-              connecting: 0,
-              filterValues: [
-                {
-                  value: foodName,
-                  operation: 0,
-                }
-              ]
-            }
-          ]
-        
+        pageSize: 0,
+        page: 0,
+        order: [
+          {
+            orderField: "ID",
+            ordering: "ASC",
+          },
+        ],
+        filters: [
+          {
+            property: "name",
+            connecting: 0,
+            filterValues: [
+              {
+                value: foodName,
+                operation: 0,
+              },
+            ],
+          },
+        ],
       }),
     })
       .then((response) => response.json())
@@ -89,97 +88,270 @@ const Food = () => {
       });
   }, []);
 
-  return <div>
-  <div className={classes.title}>{food.name}</div>
-  <div className={classes.container}>
-    <div className={classes.macro}>
-      <span>Calories</span> <span>{food.calories}</span>
-      <span>Protein</span> <span>{food1.nutrientTable.protein}</span>
-      <span>Fats</span> <span>{food1.nutrientTable.fat}</span>
-      <span>Carbohydrates</span>
-      <span>{food1.nutrientTable.carbohydrates}</span>
-      <span>Fiber</span>
-      <span>{food1.nutrientTable.fiber}</span>
-      <span>Sugar</span>
-      <span>{food1.nutrientTable.sugar}</span>
+  return (
+    <div>
+      <div>
+        <div className={classes.title}>{food.name}</div>
+        <div>
+          <form className={classes.form}>
+            <div className={classes.nutrientsContainer}>
+              <div className={classes.macros}>
+                <h2>
+                  <label>Category: </label>
+                  <span>{food.category}</span>
+                </h2>
+                <h2>General</h2>
+                <table className={classes.styledTableNutrients}>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Amount</th>
+                      <th>Unit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Energy(kcal)</td>
+                      <td>
+                        <span>{food.calories}</span>
+                      </td>
+                      <td>
+                        <span>kcal</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <h2>Carbohydrates</h2>
+                <table className={classes.styledTableNutrients}>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Amount</th>
+                      <th>Unit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Total</td>
+                      <td>
+                        <span>{food?.nutrientTable?.carbohydrates}</span>
+                      </td>
+                      <td>
+                        <span>g</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Fiber</td>
+                      <td>
+                        <span>{food?.nutrientTable?.fiber}</span>
+                      </td>
+                      <td>
+                        <span>g</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Sugars</td>
+                      <td>
+                        <span>{food?.nutrientTable?.sugar}</span>
+                      </td>
+                      <td>
+                        <span>g</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <h2>Protein</h2>
+                <table className={classes.styledTableNutrients}>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Amount</th>
+                      <th>Unit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Total Protein</td>
+                      <td>
+                        <span>{food?.nutrientTable?.protein}</span>
+                      </td>
+                      <td>
+                        <span>g</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <h2>Lipids</h2>
+                <table className={classes.styledTableNutrients}>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Amount</th>
+                      <th>Unit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Total Fat</td>
+                      <td>
+                        <span>{food?.nutrientTable?.fat}</span>
+                      </td>
+                      <td>
+                        <span>g</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className={classes.micros}>
+                <h2>Vitamins</h2>
+                <table className={classes.styledTableNutrients}>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Amount</th>
+                      <th>Unit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Vitamin A</td>
+                      <td>
+                        <span>{food?.nutrientTable?.vitaminA}</span>
+                      </td>
+                      <td>
+                        <span>IU</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Vitamin B1</td>
+                      <td>
+                        <span>{food?.nutrientTable?.vitaminB1}</span>
+                      </td>
+                      <td>
+                        <span>mg</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Vitamin B2</td>
+                      <td>
+                        <span>{food?.nutrientTable?.vitaminB2}</span>
+                      </td>
+                      <td>
+                        <span>mg</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Vitamin B3</td>
+                      <td>
+                        <span>{food?.nutrientTable?.vitaminB3}</span>
+                      </td>
+                      <td>
+                        <span>mg</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Vitamin C</td>
+                      <td>
+                        <span>{food?.nutrientTable?.vitaminC}</span>
+                      </td>
+                      <td>
+                        <span>mg</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Vitamin D</td>
+                      <td>
+                        <span>{food?.nutrientTable?.vitaminD}</span>
+                      </td>
+                      <td>
+                        <span>IU</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Vitamin E</td>
+                      <td>
+                        <span>{food?.nutrientTable?.vitaminE}</span>
+                      </td>
+                      <td>
+                        <span>mg</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <h2>Minerals</h2>
+                <table className={classes.styledTableNutrients}>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Amount</th>
+                      <th>Unit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Calcium</td>
+                      <td>
+                        <span>{food?.nutrientTable?.calcium}</span>
+                      </td>
+                      <td>
+                        <span>mg</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Iron</td>
+                      <td>
+                        <span>{food?.nutrientTable?.iron}</span>
+                      </td>
+                      <td>
+                        <span>mg</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Magnesium</td>
+                      <td>
+                        <span>{food?.nutrientTable?.magnesium}</span>
+                      </td>
+                      <td>
+                        <span>mg</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Pottasium</td>
+                      <td>
+                        <span>{food?.nutrientTable?.potassium}</span>
+                      </td>
+                      <td>
+                        <span>mg</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Sodium</td>
+                      <td>
+                        <span>{food?.nutrientTable?.sodium}</span>
+                      </td>
+                      <td>
+                        <span>mg</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Zinc</td>
+                      <td>
+                        <span>{food?.nutrientTable?.zinc}</span>
+                      </td>
+                      <td>
+                        <span>mg</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div className={classes.micro}>
-      <table className={classes.styledTableNutrients}>
-        <thead>
-          <tr>
-            <th>Vitamin</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Vitamin A</td>
-            <td>{food1.nutrientTable.vitaminA}</td>
-          </tr>
-          <tr>
-            <td>Vitamin B1</td>
-            <td>{food1.nutrientTable.vitaminB1}</td>
-          </tr>
-          <tr>
-            <td>Vitamin B2</td>
-            <td>{food1.nutrientTable.vitaminB2}</td>
-          </tr>
-          <tr>
-            <td>Vitamin B3</td>
-            <td>{food1.nutrientTable.vitaminB3}</td>
-          </tr>
-          <tr>
-            <td>Vitamin C</td>
-            <td>{food1.nutrientTable.vitaminC}</td>
-          </tr>
-          <tr>
-            <td>Vitamin D</td>
-            <td>{food1.nutrientTable.vitaminD}</td>
-          </tr>
-          <tr>
-            <td>Vitamin E</td>
-            <td>{food1.nutrientTable.vitaminE}</td>
-          </tr>
-        </tbody>
-      </table>
-      <br></br>
-      <table className={classes.styledTableNutrients}>
-        <thead>
-          <tr>
-            <th>Mineral</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Calcium</td>
-            <td>{food1.nutrientTable.calcium}</td>
-          </tr>
-          <tr>
-            <td>Iron</td>
-            <td>{food1.nutrientTable.iron}</td>
-          </tr>
-          <tr>
-            <td>Magnesium</td>
-            <td>{food1.nutrientTable.magnesium}</td>
-          </tr>
-          <tr>
-            <td>Potassium</td>
-            <td>{food1.nutrientTable.potassium}</td>
-          </tr>
-          <tr>
-            <td>Sodium</td>
-            <td>{food1.nutrientTable.sodium}</td>
-          </tr>
-          <tr>
-            <td>Zink</td>
-            <td>{food1.nutrientTable.zinc}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>;
+  );
 };
 
 export default Food;
