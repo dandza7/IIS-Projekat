@@ -23,6 +23,8 @@
                     return true;
                 case Nutritionist:
                     return true;
+                case Physiotherapist:
+                    return true;
                 default:
                     return false;
             }
