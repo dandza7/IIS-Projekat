@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
+using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.UsersProfile;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.FileConverter;
@@ -43,6 +44,12 @@ namespace IIS_Projekat.Services.Impl
             user.Profile.Avatar = null;
             user.Profile.ModifiedDate = DateTime.UtcNow;
             _unitOfWork.SaveChanges();
+        }
+
+        public PaginationWrapper<PreviewUsersProfileDTO> GetAll(PaginationQuery paginationQuery)
+        {
+            var paginationResult = _unitOfWork.UserRepository.Filter(paginationQuery, u => u.Profile);
+            return new PaginationWrapper<PreviewUsersProfileDTO>(_mapper.Map<List<PreviewUsersProfileDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
 
         public PreviewUsersProfileDTO GetProfilePreview(long id)
