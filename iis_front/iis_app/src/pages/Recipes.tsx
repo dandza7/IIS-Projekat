@@ -8,17 +8,17 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-const recipes = [{ name: "Pilaf" }, { name: "Chicken risotto" }];
+const recipesPlaceholder = [{ name: "Pilaf" }, { name: "Chicken risotto" }];
 
 const Recipes = () => {
   const navigate = useNavigate();
 
-  const [foodList, setfoodList] = useState<any[]>([]);
+  const [recipes, setRecipes] = useState<any[]>([]);
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
     console.log(authCtx.token);
-    fetch("http://localhost:5041/api/food", {
+    fetch("http://localhost:5041/api/recipes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +31,7 @@ const Recipes = () => {
       .then((response) => response.json())
       .then((actualData) => {
         console.log(actualData.items);
-        setfoodList(actualData.items);
+        setRecipes(actualData.items);
       });
   }, []);
 
@@ -88,7 +88,6 @@ const Recipes = () => {
           <tr>
             <th>Name</th>
             <th>Calories (per 100 grams)</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -97,7 +96,6 @@ const Recipes = () => {
               <td>{recipe.name}</td>
               <td>
                 <button
-                  onClick={() => selectFoodHandler(user.name)}
                   className={classes.detailsButton}
                 >
                   Details
