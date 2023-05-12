@@ -87,6 +87,21 @@ export const Sidebar = () => {
             </NavLink>
           </li>
         )}
+        {authCtx.role == "TRAINER" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/appointments"
+              style={({ isActive }) => ({
+                color: isActive ? "#99db48" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <DashboardIcon></DashboardIcon>
+                {toggleMenu && <span>My Appointments</span>}
+              </div>
+            </NavLink>
+          </li>
+        )}
 
         {authCtx.role == "NUTRITIONIST" && (
           <li className={classes.listItem}>
@@ -103,6 +118,39 @@ export const Sidebar = () => {
             </NavLink>
           </li>
         )}
+
+        {authCtx.role == "TRAINER" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/patients"
+              style={({ isActive }) => ({
+                color: isActive ? "#99db48" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <DashboardIcon></DashboardIcon>
+                {toggleMenu && <span>Patients</span>}
+              </div>
+            </NavLink>
+          </li>
+        )}
+
+        {authCtx.role == "NUTRITIONIST" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/recipes"
+              style={({ isActive }) => ({
+                color: isActive ? "#99db48" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <DashboardIcon></DashboardIcon>
+                {toggleMenu && <span>Recipes</span>}
+              </div>
+            </NavLink>
+          </li>
+        )}
+
         {authCtx.role == "TRAINER" && (
           <li className={classes.listItem}>
             <NavLink

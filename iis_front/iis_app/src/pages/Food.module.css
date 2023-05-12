@@ -12,3 +12,44 @@
   display: flex;
   flex-direction: column;
 }
+
+.title{
+  font-size: 64px;
+  margin-bottom: 2rem;
+}
+
+.styledTableNutrients thead tr {
+  background-color: var(--darkGreen);
+  color: #ffffff;
+  text-align: left;
+}
+.styledTableNutrients th,
+.styledTableNutrients td {
+  padding: 0rem 1rem;
+}
+
+.styledTableNutrients th {
+  font-size: 1rem;
+  font-weight: 200;
+}
+
+.styledTableNutrients tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styledTableNutrients tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styledTableNutrients tbody tr:last-of-type {
+  border-bottom: 1px solid var(--darkGreen);
+}
+
+.styledTableNutrients {
+  margin: 0rem 0rem 0rem 0rem;
+  border-collapse: collapse;
+  width: 30%;
+  table-layout: fixed;
+  overflow-wrap: break-word;
+  font-family: sans-serif;
+}
