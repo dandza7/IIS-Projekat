@@ -6,7 +6,7 @@
 
 .styledTable th,
 .styledTable td {
-  padding: 1rem 8rem;
+  padding: 1rem 4rem;
 }
 .styledTable th {
   font-size: 1rem;
@@ -30,7 +30,7 @@
   margin: 25px 0;
   font-size: 0.9em;
   font-family: sans-serif;
-  min-width: 400px;
+  width: 100%;
 }
 
 .users {
@@ -69,4 +69,13 @@
 .title {
   font-size: 64px;
   margin-bottom: 2rem;
+}
+.startButton {
+  background-color: var(--acceptButtonGreen);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+  width: 200px;
 }

@@ -6,6 +6,25 @@ import AuthContext from "../store/auth-context";
 const NewFood = () => {
   const navigate = useNavigate();
   const nameRef = useRef(null);
+  const energyRef = useRef(null);
+  const proteinRef = useRef(null);
+  const carbsRef = useRef(null);
+  const fiberRef = useRef(null);
+  const sugarRef = useRef(null);
+  const fatRef = useRef(null);
+  const vitaminARef = useRef(null);
+  const vitaminB1Ref = useRef(null);
+  const vitaminB2Ref = useRef(null);
+  const vitaminB3Ref = useRef(null);
+  const vitaminCRef = useRef(null);
+  const vitaminDRef = useRef(null);
+  const vitaminERef = useRef(null);
+  const calciumRef = useRef(null);
+  const ironRef = useRef(null);
+  const magnesiumRef = useRef(null);
+  const potassiumRef = useRef(null);
+  const sodiumRef = useRef(null);
+  const zinkRef = useRef(null);
   const authCtx = useContext(AuthContext);
 
   const addFoodHandler = () => {
@@ -53,6 +72,7 @@ const NewFood = () => {
 
   return (
     <div>
+      <div className={classes.title}>Add new food</div>
       <div>
         <form className={classes.form} onSubmit={addFoodHandler}>
           <div className={classes.container}>
@@ -70,84 +90,86 @@ const NewFood = () => {
             </div>
             <div>
               <label>Energy (kcal)</label>
-              <input></input>
+              <input ref={energyRef}></input>
             </div>
             <div>
               <label>Protein (grams)</label>
-              <input></input>
+              <input ref={proteinRef}></input>
             </div>
             <div>
               <label>Carbohydrates (grams)</label>
-              <input></input>
+              <input ref={carbsRef}></input>
             </div>
             <div>
               <label>Fiber (grams)</label>
-              <input></input>
+              <input ref={fiberRef}></input>
             </div>
             <div>
               <label>Sugars (grams)</label>
-              <input></input>
+              <input ref={sugarRef}></input>
             </div>
             <div>
               <label>Fat (grams)</label>
-              <input></input>
+              <input ref={fatRef}></input>
             </div>
           </div>
           <div className={classes.micros}>
             <div>
               <label>Vitamin A (IU)</label>
-              <input></input>
+              <input ref={vitaminARef}></input>
             </div>
             <div>
               <label>Vitamin B1 (miligrams)</label>
-              <input></input>
+              <input ref={vitaminB1Ref}></input>
             </div>
             <div>
               <label>Vitamin B2 (miligrams)</label>
-              <input></input>
+              <input ref={vitaminB2Ref}></input>
             </div>
             <div>
               <label>Vitamin B3 (miligrams)</label>
-              <input></input>
+              <input ref={vitaminB3Ref}></input>
             </div>
             <div>
               <label>Vitamin C (miligrams)</label>
-              <input></input>
+              <input ref={vitaminCRef}></input>
             </div>
             <div>
               <label>Vitamin D (IU)</label>
-              <input></input>
+              <input ref={vitaminDRef}></input>
             </div>
             <div>
               <label>Vitamin E (miligrams)</label>
-              <input></input>
+              <input ref={vitaminERef}></input>
             </div>
             <div>
               <label>Calcium (miligrams)</label>
-              <input></input>
+              <input ref={calciumRef}></input>
             </div>
             <div>
               <label>Iron (miligrams)</label>
-              <input></input>
+              <input ref={ironRef}></input>
             </div>
             <div>
               <label>Magnesium (miligrams)</label>
-              <input></input>
+              <input ref={magnesiumRef}></input>
             </div>
             <div>
               <label>Potassium (miligrams)</label>
-              <input></input>
+              <input ref={potassiumRef}></input>
             </div>
             <div>
               <label>Sodium (miligrams)</label>
-              <input></input>
+              <input ref={sodiumRef}></input>
             </div>
             <div>
               <label>Zink (miligrams)</label>
-              <input></input>
+              <input ref={zinkRef}></input>
             </div>
           </div>
-          <button type="submit">Add Food</button>
+          <button type="submit" className={classes.addButton}>
+            Add Food
+          </button>
         </form>
       </div>
     </div>

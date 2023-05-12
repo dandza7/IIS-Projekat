@@ -26,7 +26,7 @@ const Exercises = () => {
         console.log(actualData.items);
         setExercises(actualData.items);
       });
-  }, [exercises]);
+  }, []);
 
   const handleButtonClick = () => {
     navigate("/new-exercise");
@@ -48,11 +48,13 @@ const Exercises = () => {
   };
 
   return (
-    <div className={classes.users}>
+    <div className={classes.exercises}>
       <p className={classes.title}>Exercises</p>
-      <button className={classes.addButton} onClick={handleButtonClick}>
-        Add Exercise
-      </button>
+      <div className={classes.buttonContainer}>
+        <button className={classes.addButton} onClick={handleButtonClick}>
+          Add Exercise
+        </button>
+      </div>
       {exercises && (
         <div className={classes.userTableContainer}>
           <table className={classes.styledTable}>
@@ -61,6 +63,8 @@ const Exercises = () => {
                 <th>Id</th>
                 <th>Name</th>
                 <th></th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -68,6 +72,8 @@ const Exercises = () => {
                 <tr key={exercise.id}>
                   <td>{exercise.id}</td>
                   <td>{exercise.name}</td>
+                  <td></td>
+                  <td></td>
                   <td>
                     <button
                       className={classes.viewProfileButton}

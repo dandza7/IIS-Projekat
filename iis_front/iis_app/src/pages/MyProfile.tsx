@@ -81,7 +81,7 @@ const MyProfile = () => {
     <>
       {!toggleEdit && (
         <div className={classes.myProfile}>
-          <div className={classes.title}>My Profile</div>
+          <div className={classes.myProfile_title}>My Profile</div>
           <div className={classes.span}>
             <span>Name: </span>
             <span>{user.name}</span>
@@ -112,7 +112,7 @@ const MyProfile = () => {
       )}
       {toggleEdit && (
         <div className={classes.myProfile}>
-          <div className={classes.title}>Edit Profile</div>
+          <div className={classes.myProfile_title}>Edit Profile</div>
           <div className={classes.span}>
             <span>Name: </span>
             <input ref={nameInputRef} defaultValue={user.name}></input>
