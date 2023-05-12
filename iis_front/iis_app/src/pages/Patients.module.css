@@ -71,3 +71,9 @@
   font-size: 64px;
   margin-bottom: 2rem;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

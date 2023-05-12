@@ -25,7 +25,13 @@ const Profile = () => {
     role: string;
   };
   const genders = ["Female", "Male"];
-  const roleOptions = ["ADMIN", "CUSTOMER", "NUTRITIONIST", "TRAINER"];
+  const roleOptions = [
+    "ADMIN",
+    "CUSTOMER",
+    "NUTRITIONIST",
+    "TRAINER",
+    "PHYSIOTHERAPIST",
+  ];
 
   const handleToggleEdit = () => {
     setToggleEdit(true);

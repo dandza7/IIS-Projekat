@@ -48,8 +48,40 @@
 .styledTableNutrients {
   margin: 0rem 0rem 0rem 0rem;
   border-collapse: collapse;
-  width: 30%;
+  width: 80%;
   table-layout: fixed;
   overflow-wrap: break-word;
   font-family: sans-serif;
+}
+.nutrientInput {
+  width: 50px;
+  border: none;
+  background-color: rgb(212, 231, 213);
+}
+.form {
+  gap: 1rem;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.nutrientsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.micros {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.macros {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.title {
+  font-size: 32px;
+  margin-bottom: 2rem;
 }

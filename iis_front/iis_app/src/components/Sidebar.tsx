@@ -118,7 +118,21 @@ export const Sidebar = () => {
             </NavLink>
           </li>
         )}
-
+        {authCtx.role == "NUTRITIONIST" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/diagnoses"
+              style={({ isActive }) => ({
+                color: isActive ? "#99db48" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <DashboardIcon></DashboardIcon>
+                {toggleMenu && <span>Diagnoses</span>}
+              </div>
+            </NavLink>
+          </li>
+        )}
         {authCtx.role == "TRAINER" && (
           <li className={classes.listItem}>
             <NavLink

@@ -185,6 +185,9 @@ const Food = () => {
                         <option>Grains</option>
                         <option>Meat</option>
                         <option>Fish</option>
+                        <option>Oil</option>
+                        <option>Fruit</option>
+                        <option>Vegetables</option>
                       </select>
                     </div>
                     <span>General</span>
