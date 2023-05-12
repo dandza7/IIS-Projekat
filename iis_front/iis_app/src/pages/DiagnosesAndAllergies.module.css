@@ -185,3 +185,11 @@
   cursor: pointer;
   width: 100px;
 }
+
+.modal{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
