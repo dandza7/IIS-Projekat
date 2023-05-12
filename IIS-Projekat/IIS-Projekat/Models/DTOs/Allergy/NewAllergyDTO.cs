@@ -1,8 +1,7 @@
 ﻿namespace IIS_Projekat.Models.DTOs.Allergy
 {
-    public class PreviewAllergyDTO
+    public class NewAllergyDTO
     {
-        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

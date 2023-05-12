@@ -1,6 +1,5 @@
 ﻿using IIS_Projekat.Models.DTOs.Food;
 using IIS_Projekat.Models.DTOs.Pagination;
-using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Services;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.AspNetCore.Authorization;
@@ -23,16 +22,29 @@ namespace IIS_Projekat.Controllers
         /// </summary>
         /// <response code="200">If food is succesfully created, returns its ID</response>
         /// <response code="400">If category is not valid or food already exists!</response>
-        /// <response code="404">If allergy with sent DI is not found!</response>
+        /// <response code="404">If allergy with sent ID is not found!</response>
         [HttpPost("new", Name = "CreateFood")]
         [Authorize(Roles = Roles.Nutritionist)]
-        public ActionResult<long> RegisterUser([FromBody] NewFoodDTO newFoodDTO)
+        public ActionResult<long> CreateAllergy([FromBody] NewFoodDTO newFoodDTO)
         {
             return Ok(_foodService.Create(newFoodDTO));
         }
 
         /// <summary>
-        /// [Nutritionist] Gets all food (with pagination, sorting and filtering optional)
+        /// [Nutritionist] Deletes existing Food
+        /// </summary>
+        /// <response code="200">If food is succesfully deleted</response>
+        /// <response code="404">If food with sent ID is not found!</response>
+        [HttpDelete("{id}", Name = "DeleteFood")]
+        [Authorize(Roles = Roles.Nutritionist)]
+        public ActionResult<long> DeleteFood(long id)
+        {
+            _foodService.Delete(id);
+            return Ok();
+        }
+
+        /// <summary>
+        /// [Nutritionist, Customer] Gets all food (with pagination, sorting and filtering optional)
         /// </summary>
         /// <remarks>
         /// Pagination constraints (Everything is case insenstive):
@@ -49,8 +61,8 @@ namespace IIS_Projekat.Controllers
         /// </remarks>
         /// <response code="200">Returns all food</response>
         [HttpPost(Name = "GetAllFood")]
-        [Authorize(Roles = Roles.Nutritionist)]
-        public ActionResult<PaginationWrapper<PreviewUserDTO>> GetAllFood([FromBody] PaginationQuery paginationQuery)
+        [Authorize(Roles = $"{Roles.Nutritionist}, {Roles.Customer}")]
+        public ActionResult<PaginationWrapper<PreviewFoodDTO>> GetAllFood([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_foodService.GetAll(paginationQuery));
         }

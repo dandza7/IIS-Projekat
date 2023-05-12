@@ -155,5 +155,16 @@ namespace IIS_Projekat.Services.Impl
                     }
                 );
         }
+
+        public void Delete(long id)
+        {
+            var food = _unitOfWork.FoodRepository.GetById(id);
+            if (food == null)
+            {
+                throw new NotFoundException($"Food with ID {id} is not found!");
+            }
+            _unitOfWork.FoodRepository.Delete(food);
+            _unitOfWork.SaveChanges();
+        }
     }
 }
