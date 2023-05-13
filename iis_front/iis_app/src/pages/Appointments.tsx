@@ -3,6 +3,7 @@ import classes from "./Appointments.module.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
 import { useNavigate } from "react-router-dom";
+import dayjs, { Dayjs } from "dayjs";
 
 const appointments = [
   {
@@ -20,13 +21,13 @@ const appointments = [
 ];
 
 const Appointments = () => {
-  const [users, setUsers] = useState<any[]>([]);
+  const [appointments, setAppointments] = useState<any[]>([]);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log(authCtx.token);
-    fetch("http://localhost:5041/api/users", {
+    fetch("http://localhost:5041/api/appointments", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +40,7 @@ const Appointments = () => {
       .then((response) => response.json())
       .then((actualData) => {
         console.log(actualData.items);
-        setUsers(actualData.items);
+        setAppointments(actualData.items);
       });
   }, []);
 
@@ -62,10 +63,18 @@ const Appointments = () => {
             <tbody>
               {appointments.map((appointment, index) => (
                 <tr key={index}>
-                  <td>{appointment.name}</td>
-                  <td>{appointment.surname}</td>
-                  <td>{appointment.start}</td>
-                  <td>{appointment.start}</td>
+                  <td>{appointment.patient.name}</td>
+                  <td>{appointment.patient.surname}</td>
+                  <td>
+                    {dayjs(appointment.beginning).format(
+                      "ddd, MMM D, YYYY h:mm A"
+                    )}
+                  </td>
+                  <td>
+                    {dayjs(appointment.ending).format(
+                      "ddd, MMM D, YYYY h:mm A"
+                    )}
+                  </td>
                   <td>Regular</td>
                   <td>
                     <button className={classes.startButton}>Start</button>

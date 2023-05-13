@@ -21,7 +21,7 @@ const patients = [
   },
   {
     name: "Milos",
-    surname: "Milosevic",
+    surname: "Petrovic",
     birthDate: new Date().toJSON(),
   },
 ];
@@ -34,14 +34,33 @@ export const Patients = () => {
 
   useEffect(() => {
     console.log(authCtx.token);
-    fetch("http://localhost:5041/api/users", {
+    fetch("http://localhost:5041/api/profiles", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        paginationQuery: {},
+        pageSize: 0,
+        page: 0,
+        order: [
+          {
+            orderField: "ID",
+            ordering: "ASC",
+          },
+        ],
+        filters: [
+          {
+            property: "Role",
+            connecting: 0,
+            filterValues: [
+              {
+                value: "CUSTOMER",
+                operation: 1,
+              },
+            ],
+          },
+        ],
       }),
     })
       .then((response) => response.json())
@@ -79,6 +98,7 @@ export const Patients = () => {
   const scheduleAppointmentHandler = () => {
     event?.preventDefault();
     console.log(selected);
+    console.log(value);
   };
 
   return (
@@ -92,7 +112,8 @@ export const Patients = () => {
                 <th>Name</th>
                 <th>Surname</th>
                 <th>Birth date</th>
-                <th></th>
+                <th>Gender</th>
+                <th> asd</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -100,12 +121,12 @@ export const Patients = () => {
               </tr>
             </thead>
             <tbody>
-              {patients.map((patient, index) => (
+              {users.map((patient, index) => (
                 <tr key={index}>
                   <td>{patient.name}</td>
                   <td>{patient.surname}</td>
-                  <td>{patient.birthDate}</td>
-                  <td></td>
+                  <td>{dayjs(patient.birthDate).format("MMM D, YYYY")}</td>
+                  <td>{patient.gender}</td>
                   <td></td>
                   <td></td>
                   <td>
@@ -116,7 +137,7 @@ export const Patients = () => {
                   <td>
                     <button
                       className={classes.viewProfileButton}
-                      onClick={() => handleOpen(patient.name)}
+                      onClick={() => handleOpen(patient.email)}
                     >
                       New Appointment
                     </button>
@@ -135,7 +156,8 @@ export const Patients = () => {
       >
         <Box sx={style}>
           <div>
-            <div className={classes.title}></div>
+            <h2>New appointment</h2>
+            <br></br> <br></br>
             <div>
               <form
                 className={classes.form}
@@ -153,7 +175,8 @@ export const Patients = () => {
                     />
                   </LocalizationProvider>
                 </div>
-                <select>
+                <span>Type: </span>
+                <select style={{ width: 100 }}>
                   <option>Regular</option>
                   <option>Spa</option>
                 </select>

@@ -87,7 +87,7 @@ export const Sidebar = () => {
             </NavLink>
           </li>
         )}
-        {authCtx.role == "TRAINER" && (
+        {authCtx.role == "PHYSIOTHERAPIST" && (
           <li className={classes.listItem}>
             <NavLink
               to="/appointments"
@@ -133,7 +133,7 @@ export const Sidebar = () => {
             </NavLink>
           </li>
         )}
-        {authCtx.role == "TRAINER" && (
+        {authCtx.role == "PHYSIOTHERAPIST" && (
           <li className={classes.listItem}>
             <NavLink
               to="/patients"
