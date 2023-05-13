@@ -46,8 +46,9 @@ namespace IIS_Projekat.Controllers
         /// <summary>
         /// [Doctors] Creates new Appointment
         /// </summary>
-        /// <response code="200">If allergy is succesfully created, returns its ID</response>
-        /// <response code="400">If alergy name is already taken!</response>
+        /// <response code="200">If appointment is succesfully created, returns its ID</response>
+        /// <response code="400">If there is already another appointment in same time interval!</response>
+        /// <response code="404">If patient with sent email does not exists!</response>
         [HttpPost("new", Name = "CreateDoctor")]
         [Authorize(Roles = Roles.Doctors)]
         public ActionResult<long> CreateDoctor([FromBody] NewAppointmentByDoctorDTO newAppointment)
