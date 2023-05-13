@@ -1,6 +1,8 @@
-﻿using IIS_Projekat.Models.DTOs.Pagination;
+﻿using IIS_Projekat.Models.DTOs.Appointment;
+using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Services;
+using IIS_Projekat.SupportClasses.Extensions;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +41,18 @@ namespace IIS_Projekat.Controllers
         public ActionResult<PaginationWrapper<PreviewUserDTO>> GetAllUsers([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_appointmentService.GetAll(paginationQuery));
+        }
+
+        /// <summary>
+        /// [Doctors] Creates new Appointment
+        /// </summary>
+        /// <response code="200">If allergy is succesfully created, returns its ID</response>
+        /// <response code="400">If alergy name is already taken!</response>
+        [HttpPost("new", Name = "CreateDoctor")]
+        [Authorize(Roles = Roles.Doctors)]
+        public ActionResult<long> CreateDoctor([FromBody] NewAppointmentByDoctorDTO newAppointment)
+        {
+            return Ok(_appointmentService.Create(newAppointment, User.GetEmail()));
         }
     }
 }
