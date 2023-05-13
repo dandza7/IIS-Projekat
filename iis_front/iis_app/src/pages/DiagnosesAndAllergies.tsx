@@ -8,13 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
 
-
 const DiagnosesAndAllergies = () => {
   const [toggleAllergies, setToggleAllergies] = useState(false);
   const [allergies, setAllergies] = useState<any[]>([]);
   const authCtx = useContext(AuthContext);
-
-
 
   useEffect(() => {
     console.log(authCtx.token);
@@ -89,34 +86,30 @@ const DiagnosesAndAllergies = () => {
 
   const nameRef = useRef(null);
 
-const addAllergyHandler = () =>{
-  event?.preventDefault();
-  const name = nameRef.current.value;
+  const addAllergyHandler = () => {
+    event?.preventDefault();
+    const name = nameRef.current.value;
 
-  fetch("http://localhost:5041/api/allergies/new", {
-    method: "POST",
-    body: JSON.stringify({
-      name: name,
-    }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + authCtx.token,
-    },
-  })
-    .then((res) => {
-      if (res.ok) {
-        console.log(res);
-        return res;
-      }
+    fetch("http://localhost:5041/api/allergies/new", {
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
     })
-    .then((data) => {
-      alert("You have succesfully added allergy!");
-    });
-
-
-
-}
-
+      .then((res) => {
+        if (res.ok) {
+          console.log(res);
+          return res;
+        }
+      })
+      .then((data) => {
+        alert("You have succesfully added allergy!");
+      });
+  };
 
   return (
     <>
@@ -131,9 +124,7 @@ const addAllergyHandler = () =>{
               >
                 View allergies
               </button>
-              <button
-                className={classes.addDiagnoseButton}
-              >
+              <button className={classes.addDiagnoseButton}>
                 Add Diagnose
               </button>
             </>
@@ -146,7 +137,12 @@ const addAllergyHandler = () =>{
               >
                 View Diagnoses
               </button>
-              <button className={classes.addDiagnoseButton} onClick={handleOpen}>Add Allergy</button>
+              <button
+                className={classes.addDiagnoseButton}
+                onClick={handleOpen}
+              >
+                Add Allergy
+              </button>
             </>
           )}
         </div>
@@ -197,10 +193,14 @@ const addAllergyHandler = () =>{
       >
         <Box sx={style}>
           <form className={classes.modal} onSubmit={addAllergyHandler}>
-            <div><label>Name </label>
-            <input ref={nameRef} type="text"></input></div>
+            <div>
+              <label>Name </label>
+              <input ref={nameRef} type="text"></input>
+            </div>
             <div className={classes.buttonContainer}>
-            <button type= "submit" className={classes.detailsButton}>Add</button>
+              <button type="submit" className={classes.detailsButton}>
+                Add
+              </button>
             </div>
           </form>
         </Box>
