@@ -38,7 +38,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="200">Returns all users</response>
         [HttpPost(Name = "GetAllAppointments")]
         [Authorize(Roles = $"{Roles.Customer}, {Roles.Physiotherapist}")]
-        public ActionResult<PaginationWrapper<PreviewUserDTO>> GetAllUsers([FromBody] PaginationQuery paginationQuery)
+        public ActionResult<PaginationWrapper<PreviewAppointmentDTO>> GetAllUsers([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_appointmentService.GetAll(paginationQuery));
         }
