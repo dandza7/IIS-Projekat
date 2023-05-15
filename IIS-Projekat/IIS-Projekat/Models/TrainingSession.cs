@@ -9,8 +9,8 @@ namespace IIS_Projekat.Models
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
-        public int NumberOfExercises { get; set; }
+        public string Name { get; set; }
         public TrainingPlan TrainingPlan { get; set; }
-        public ICollection<Exercise> Exercises { get; set; } = new List<Exercise>();
+        public ICollection<ExerciseTrainingSession> TrainingSessions { get; set; } = new List<ExerciseTrainingSession>();
     }
 }
