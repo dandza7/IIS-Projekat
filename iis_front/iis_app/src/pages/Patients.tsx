@@ -12,6 +12,7 @@ import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import utils from "./Utils.module.css";
 
 export const Patients = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -72,6 +73,7 @@ export const Patients = () => {
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
+    borderRadius: 2,
   };
 
   const [open, setOpen] = React.useState(false);
@@ -112,17 +114,16 @@ export const Patients = () => {
 
   return (
     <div className={classes.users}>
-      <p className={classes.title}>Patients</p>
+      <p className={utils.title}>Patients</p>
       {users && (
-        <div className={classes.userTableContainer}>
-          <table className={classes.styledTable}>
+        <div className={utils.tableContainer}>
+          <table className={utils.styledTable}>
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Surname</th>
                 <th>Birth date</th>
                 <th>Gender</th>
-                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -139,13 +140,13 @@ export const Patients = () => {
                   <td></td>
                   <td></td>
                   <td>
-                    <button className={classes.viewProfileButton}>
+                    <button className={utils.greenButton}>
                       Medical Record
                     </button>
                   </td>
                   <td>
                     <button
-                      className={classes.viewProfileButton}
+                      className={utils.blackButton}
                       onClick={() => handleOpen(patient.email)}
                     >
                       New Appointment
@@ -176,7 +177,6 @@ export const Patients = () => {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateTimePicker
                       renderInput={(props) => <TextField {...props} />}
-                      label="DateTimePicker"
                       value={value}
                       onChange={(newValue) => {
                         setValue(newValue);
@@ -189,9 +189,15 @@ export const Patients = () => {
                   <option>Regular</option>
                   <option>Spa</option>
                 </select>
-                <div className={classes.buttonContainer}>
-                  <button type="submit" className={classes.addButton}>
-                    Schedule Appointment
+                <div className={utils.buttonContainerRight}>
+                  <button
+                    className={utils.lightGreyButton}
+                    onClick={handleClose}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className={utils.greenButton}>
+                    Schedule
                   </button>
                 </div>
               </form>

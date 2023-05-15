@@ -4,21 +4,7 @@ import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
 import { useNavigate } from "react-router-dom";
 import dayjs, { Dayjs } from "dayjs";
-
-const appointments = [
-  {
-    name: "Petar",
-    surname: "Petorivc",
-    start: new Date().toJSON(),
-    end: new Date().toJSON(),
-  },
-  {
-    name: "Milos",
-    surname: "Milosevic",
-    start: new Date().toJSON(),
-    end: new Date().toJSON(),
-  },
-];
+import utils from "./Utils.module.css";
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState<any[]>([]);
@@ -46,10 +32,10 @@ const Appointments = () => {
 
   return (
     <div className={classes.appointments}>
-      <p className={classes.title}>Appointments</p>
+      <p className={utils.title}>Appointments</p>
       {appointments && (
-        <div className={classes.userTableContainer}>
-          <table className={classes.styledTable}>
+        <div className={utils.tableContainer}>
+          <table className={utils.styledTable}>
             <thead>
               <tr>
                 <th>Name</th>
@@ -77,7 +63,7 @@ const Appointments = () => {
                   </td>
                   <td>Regular</td>
                   <td>
-                    <button className={classes.startButton}>Start</button>
+                    <button className={utils.greenButton}>Start</button>
                   </td>
                 </tr>
               ))}
