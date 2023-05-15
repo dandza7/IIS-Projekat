@@ -22,7 +22,8 @@ namespace IIS_Projekat.Repositories
         private IGenericRepository<MedicalRecord> _medicalRecordRepository;
         private IGenericRepository<Appointment> _appointmentRepository;
         private IGenericRepository<Report> _reportRepository;
-
+        private IGenericRepository<TrainingPlan> _trainingPlanRepository;
+        
         private DbContext _dbContext;
 
         public UnitOfWork(DbContext dbContext)
@@ -180,6 +181,15 @@ namespace IIS_Projekat.Repositories
             {
                 _reportRepository ??= new GenericRepository<Report>(_dbContext);
                 return _reportRepository;
+            }
+        }
+
+        public IGenericRepository<TrainingPlan> TrainingPlanRepository
+        {
+            get
+            {
+                _trainingPlanRepository ??= new GenericRepository<TrainingPlan>(_dbContext);
+                return _trainingPlanRepository;
             }
         }
 

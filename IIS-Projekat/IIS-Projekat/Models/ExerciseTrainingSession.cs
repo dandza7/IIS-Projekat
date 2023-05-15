@@ -12,5 +12,6 @@ namespace IIS_Projekat.Models
         public Exercise Exercise { get; set; }
         public TrainingSession TrainingSession { get; set; }
         public string RepetitionRange { get; set; }
+        public int NumberOfSets { get; set; }
     }
 }

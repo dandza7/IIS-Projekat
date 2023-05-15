@@ -282,6 +282,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<ExerciseTrainingSession>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<ExerciseTrainingSession>().HasKey(e => e.Id);
             modelBuilder.Entity<ExerciseTrainingSession>().Property(e => e.RepetitionRange).IsRequired();
+            modelBuilder.Entity<ExerciseTrainingSession>().Property(e => e.NumberOfSets).IsRequired();
 
             modelBuilder.Entity<TrainingSession>().HasQueryFilter(ts => !ts.IsDeleted);
             modelBuilder.Entity<TrainingSession>().HasKey(ts => ts.Id);
