@@ -47,7 +47,7 @@ namespace IIS_Projekat.Controllers
         /// <summary>
         /// [Customer] Creates New Training Plan Request
         /// </summary>
-        /// <response code="200">If new training plan was addedd successfully</response>
+        /// <response code="200">If new training plan was requested successfully</response>
         /// <response code="400">If number of sessions per week is not between 2 and 6 inclusively</response>
         /// <response code="400">If training goal is not valid</response>
         /// <response code="400">If user has already created a training plan request</response>

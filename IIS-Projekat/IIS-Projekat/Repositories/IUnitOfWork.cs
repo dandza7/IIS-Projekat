@@ -20,8 +20,8 @@ namespace IIS_Projekat.Repositories
         IGenericRepository<MedicalRecord> MedicalRecordRepository { get; }
         IGenericRepository<Appointment> AppointmentRepository { get; }
         IGenericRepository<Report> ReportRepository { get; }
-
-
+        IGenericRepository<TrainingPlan> TrainingPlanRepository { get;  }
+        
         void SaveChanges();
     }
 }
