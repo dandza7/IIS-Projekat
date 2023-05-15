@@ -2,7 +2,8 @@
 {
     public class TrainingSessionDTO
     {
-        public long TrainingSessionId { get; set; }
-        public ICollection<ExerciseDTO> Exercises { get; set; } = new List<ExerciseDTO>();
+        public long TrainingPlanId { get; set; }
+        public string Name { get; set; }
+        public ICollection<ExerciseTrainingSessionDTO> ExerciseInfo { get; set; } = new List<ExerciseTrainingSessionDTO>();
     }
 }

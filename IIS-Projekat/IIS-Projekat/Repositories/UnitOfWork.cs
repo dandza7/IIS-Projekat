@@ -23,7 +23,9 @@ namespace IIS_Projekat.Repositories
         private IGenericRepository<Appointment> _appointmentRepository;
         private IGenericRepository<Report> _reportRepository;
         private IGenericRepository<TrainingPlan> _trainingPlanRepository;
-        
+        private IGenericRepository<TrainingSession> _trainingSessionRepository;
+        private IGenericRepository<ExerciseTrainingSession> _exerciseTrainingSessionRepository;
+
         private DbContext _dbContext;
 
         public UnitOfWork(DbContext dbContext)
@@ -190,6 +192,24 @@ namespace IIS_Projekat.Repositories
             {
                 _trainingPlanRepository ??= new GenericRepository<TrainingPlan>(_dbContext);
                 return _trainingPlanRepository;
+            }
+        }
+
+        public IGenericRepository<TrainingSession> TrainingSessionRepository
+        {
+            get
+            {
+                _trainingSessionRepository ??= new GenericRepository<TrainingSession>(_dbContext);
+                return _trainingSessionRepository;
+            }
+        }
+
+        public IGenericRepository<ExerciseTrainingSession> ExerciseTrainingSessionRepository
+        {
+            get
+            {
+                _exerciseTrainingSessionRepository ??= new GenericRepository<ExerciseTrainingSession>(_dbContext);
+                return _exerciseTrainingSessionRepository;
             }
         }
 

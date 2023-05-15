@@ -31,7 +31,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="400">If muscle group is not valid</response>
         [HttpPost("create", Name = "ExerciseCreation")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<long> CreateExercise([FromBody] NewExerciseDTO newExerciseDTO)
+        public ActionResult<long> CreateExercise([FromBody] Models.DTOs.Exercise.ExerciseDTO newExerciseDTO)
         {
             return Ok(_exerciseService.CreateExercise(newExerciseDTO));
         }
@@ -49,7 +49,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="200">Returns all exercises</response>
         [HttpPost(Name = "GetAllExercises")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<IEnumerable<Models.DTOs.Exercise.ExerciseDTO>> GetAllExercises([FromBody] PaginationQuery paginationQuery)
+        public ActionResult<IEnumerable<Models.DTOs.Exercise.ExercisePreviewDTO>> GetAllExercises([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_exerciseService.GetAll(paginationQuery));
         }
