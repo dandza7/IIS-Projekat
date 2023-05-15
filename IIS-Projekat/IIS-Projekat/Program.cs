@@ -88,6 +88,7 @@ builder.Services.AddScoped<ITrainingPlanRequestService, TrainingPlanRequestServi
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<IMuscleGroupService, MuscleGroupService>();
 builder.Services.AddScoped<ITrainingPlanService, TrainingPlanService>();
+builder.Services.AddScoped<ITrainingSessionService, TrainingSessionService>();
 
 // Enabled CORS
 

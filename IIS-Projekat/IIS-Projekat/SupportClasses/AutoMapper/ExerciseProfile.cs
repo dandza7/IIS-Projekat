@@ -8,8 +8,8 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
     {
         public ExerciseProfile()
         {
-            CreateMap<NewExerciseDTO, Exercise>();
-            CreateMap<Exercise, ExerciseDTO>();
+            CreateMap<ExerciseDTO, Exercise>();
+            CreateMap<Exercise, ExercisePreviewDTO>();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace IIS_Projekat.Services.Impl
             _mapper = mapper;   
         }
 
-        public long CreateExercise(NewExerciseDTO newExerciseDTO)
+        public long CreateExercise(ExerciseDTO newExerciseDTO)
         {
             Exercise newExercise = new Exercise();
             if(_unitOfWork.ExerciseRepository.GetAll().Where(e => e.Name == newExerciseDTO.Name).FirstOrDefault() != null)
@@ -36,11 +36,11 @@ namespace IIS_Projekat.Services.Impl
             return newExercise.Id;
         }
 
-        public PaginationWrapper<ExerciseDTO> GetAll(PaginationQuery? paginationQuery)
+        public PaginationWrapper<ExercisePreviewDTO> GetAll(PaginationQuery? paginationQuery)
         {
 
             var paginationResult = _unitOfWork.ExerciseRepository.Filter(paginationQuery);
-            return new PaginationWrapper<ExerciseDTO>(_mapper.Map<List<ExerciseDTO>>(paginationResult.Items), paginationResult.TotalCount);
+            return new PaginationWrapper<ExercisePreviewDTO>(_mapper.Map<List<ExercisePreviewDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
 
         public void DeleteExercise(long id)

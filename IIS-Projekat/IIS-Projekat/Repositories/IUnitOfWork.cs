@@ -21,7 +21,9 @@ namespace IIS_Projekat.Repositories
         IGenericRepository<Appointment> AppointmentRepository { get; }
         IGenericRepository<Report> ReportRepository { get; }
         IGenericRepository<TrainingPlan> TrainingPlanRepository { get;  }
-        
+        IGenericRepository<TrainingSession> TrainingSessionRepository { get; }
+        IGenericRepository<ExerciseTrainingSession> ExerciseTrainingSessionRepository { get; }
+
         void SaveChanges();
     }
 }

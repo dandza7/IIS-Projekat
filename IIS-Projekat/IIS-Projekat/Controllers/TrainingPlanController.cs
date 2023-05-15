@@ -20,7 +20,7 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
-        /// [Customer] Creates New Training Plan Request
+        /// [Trainer] Creates New Training Plan
         /// </summary>
         /// <response code="200">If new training plan was added successfully</response>
         /// <response code="400">If training plan request for the plan is deleted</response>
