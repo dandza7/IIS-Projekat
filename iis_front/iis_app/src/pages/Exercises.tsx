@@ -1,7 +1,8 @@
 import React from "react";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
-import classes from "./Users.module.css";
+import utils from "./Utils.module.css";
+import classes from "./Exercises.module.css";
 import { useNavigate } from "react-router-dom";
 
 const Exercises = () => {
@@ -32,6 +33,24 @@ const Exercises = () => {
     navigate("/new-exercise");
   };
 
+  const fetchData = () => {
+    fetch("http://localhost:5041/api/exercise", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({
+        paginationQuery: {},
+      }),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        console.log(actualData.items);
+        setExercises(actualData.items);
+      });
+  };
+
   const deleteExerciseHandler = (id: any) => {
     console.log(id);
     fetch("http://localhost:5041/api/exercise/delete/" + id, {
@@ -44,27 +63,26 @@ const Exercises = () => {
       .then((response) => response.json())
       .then((actualData) => {
         alert("You successfully deleted exercise!");
+        fetchData();
       });
   };
 
   return (
     <div className={classes.exercises}>
-      <p className={classes.title}>Exercises</p>
-      <div className={classes.buttonContainer}>
-        <button className={classes.addButton} onClick={handleButtonClick}>
+      <p className={utils.title}>Exercises</p>
+      <div className={utils.buttonContainerRight}>
+        <button className={utils.blackButton} onClick={handleButtonClick}>
           Add Exercise
         </button>
       </div>
       {exercises && (
-        <div className={classes.userTableContainer}>
-          <table className={classes.styledTable}>
+        <div className={utils.tableContainer}>
+          <table className={utils.styledTable}>
             <thead>
               <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>asd</th>
               </tr>
             </thead>
             <tbody>
@@ -72,16 +90,7 @@ const Exercises = () => {
                 <tr key={exercise.id}>
                   <td>{exercise.id}</td>
                   <td>{exercise.name}</td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <button
-                      className={classes.viewProfileButton}
-                      onClick={() => deleteExerciseHandler(exercise.id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
+                  <td>as</td>
                 </tr>
               ))}
             </tbody>

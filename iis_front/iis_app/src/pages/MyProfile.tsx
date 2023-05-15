@@ -3,6 +3,11 @@ import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
 import { Users } from "./Users";
 import classes from "./Profile.module.css";
+import utils from "./Utils.module.css";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs, { Dayjs } from "dayjs";
 
 const MyProfile = () => {
   const [user, setUser] = useState<User>({});
@@ -12,7 +17,7 @@ const MyProfile = () => {
   const nameInputRef = useRef<any>(null);
   const surnameInputRef = useRef<any>(null);
   const genderRef = useRef<any>(null);
-
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs("2023-05-14"));
   const genders = ["Female", "Male"];
 
   type User = {
@@ -81,68 +86,95 @@ const MyProfile = () => {
     <>
       {!toggleEdit && (
         <div className={classes.myProfile}>
-          <div className={classes.myProfile_title}>My Profile</div>
-          <div className={classes.span}>
-            <span>Name: </span>
-            <span>{user.name}</span>
+          <div className={utils.title}>My Profile</div>
+          <div className={classes.inputContainerVertical}>
+            <div className={classes.inputContainer}>
+              <div className={classes.avatar}></div>
+              <div>
+                <div className={classes.span}>
+                  <span>Name: </span>
+                  <span>{user.name}</span>
+                </div>
+                <div className={classes.span}>
+                  <span>Surname: </span>
+                  <span>{user.surname}</span>
+                </div>
+                <div className={classes.span}>
+                  <span>Email: </span>
+                  <span>{user.email}</span>
+                </div>
+                <div className={classes.span}>
+                  <span>Gender: </span>
+                  <span>{user.gender}</span>
+                </div>
+                <div className={classes.span}>
+                  <span>Birthdate: </span>
+                  <span>{user.birthDate}</span>
+                </div>
+              </div>
+            </div>
+            <button className={utils.blackButton} onClick={handleToggleEdit}>
+              Edit Profile
+            </button>
           </div>
-          <div className={classes.span}>
-            <span>Surname: </span>
-            <span>{user.surname}</span>
-          </div>
-          <div className={classes.span}>
-            <span>Email: </span>
-            <span>{user.email}</span>
-          </div>
-          <div className={classes.span}>
-            <span>Gender: </span>
-            <span>{user.gender}</span>
-          </div>
-          <div className={classes.span}>
-            <span>Birthdate: </span>
-            <span>{user.birthDate}</span>
-          </div>
-          <button
-            className={classes.editProfileButton}
-            onClick={handleToggleEdit}
-          >
-            Edit Profile
-          </button>
         </div>
       )}
       {toggleEdit && (
         <div className={classes.myProfile}>
-          <div className={classes.myProfile_title}>Edit Profile</div>
-          <div className={classes.span}>
-            <span>Name: </span>
-            <input ref={nameInputRef} defaultValue={user.name}></input>
+          <div className={utils.title}>Edit Profile</div>
+          <div className={classes.inputContainerVertical}>
+            <div className={classes.span}>
+              <span>Name: </span>
+              <input
+                ref={nameInputRef}
+                defaultValue={user.name}
+                className={classes.input}
+              ></input>
+            </div>
+            <div className={classes.span}>
+              <span>Surname: </span>
+              <input
+                ref={surnameInputRef}
+                defaultValue={user.surname}
+                className={classes.input}
+              ></input>
+            </div>
+            <div className={classes.span}>
+              <span>Gender: </span>
+              <select
+                defaultValue={user.gender}
+                ref={genderRef}
+                className={classes.select}
+              >
+                {genders.map((gender, index) => {
+                  return <option key={index}>{gender}</option>;
+                })}
+              </select>
+            </div>
+            <div className={classes.span}>
+              <span>Birthdate: </span>
+              <div className={classes.container}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    renderInput={(props) => <TextField {...props} />}
+                    value={value}
+                    onChange={(newValue) => {
+                      setValue(newValue);
+                    }}
+                  />
+                </LocalizationProvider>
+              </div>
+            </div>
+            <div className={utils.buttonCoitaner}>
+              <button className={utils.blackButton}>Change avatar</button>
+              <button className={utils.greenButton} onClick={handleSaveChanges}>
+                Save
+              </button>
+              <button className={utils.redButton} onClick={handleCloseEdit}>
+                Close
+              </button>
+            </div>
           </div>
-          <div className={classes.span}>
-            <span>Surname: </span>
-            <input ref={surnameInputRef} defaultValue={user.surname}></input>
-          </div>
-          <div className={classes.span}>
-            <span>Gender: </span>
-            <select defaultValue={user.gender} ref={genderRef}>
-              {genders.map((gender, index) => {
-                return <option key={index}>{gender}</option>;
-              })}
-            </select>
-          </div>
-          <div className={classes.span}>
-            <span>Birthdate: </span>
-            <span>{user.birthDate}</span>
-          </div>
-          <button className={classes.changeAvatarButton}>Change avatar</button>
-          <button
-            className={classes.saveChangesButton}
-            onClick={handleSaveChanges}
-          >
-            Save
-          </button>
-          <button className={classes.closeButton} onClick={handleCloseEdit}>
-            Close
-          </button>
         </div>
       )}
     </>

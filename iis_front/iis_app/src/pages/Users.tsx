@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
 import classes from "./Users.module.css";
+import utils from "./Utils.module.css";
 import { useNavigate } from "react-router-dom";
 
 export const Users = () => {
@@ -35,16 +36,16 @@ export const Users = () => {
 
   return (
     <div className={classes.users}>
-      <p className={classes.title}>Users</p>
+      <p className={utils.title}>Users</p>
       {users && (
-        <div className={classes.userTableContainer}>
-          <table className={classes.styledTable}>
+        <div className={utils.userTableContainer}>
+          <table className={utils.styledTable}>
             <thead>
               <tr>
                 <th>Id</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>Profile</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -55,7 +56,7 @@ export const Users = () => {
                   <td>{user.role}</td>
                   <td>
                     <button
-                      className={classes.viewProfileButton}
+                      className={utils.greenButton}
                       onClick={() => handleViewUserProfile(user.id)}
                     >
                       View Profile

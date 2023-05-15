@@ -1,0 +1,107 @@
+.tableContainer {
+  overflow-x: auto;
+  border-radius: 1rem;
+}
+
+.styledTable thead tr {
+  background-color: rgb(71, 195, 145);
+  color: #ffffff;
+  text-align: left;
+}
+
+.styledTable th,
+.styledTable td {
+  padding: 1rem 2rem;
+}
+.styledTable th {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.styledTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styledTable tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styledTable tbody tr:nth-of-type(odd) {
+  background-color: #ffffff;
+}
+
+.styledTable tbody tr:last-of-type {
+  border-bottom: 1px solid var(--darkGreen);
+}
+
+.styledTable {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.buttonContainerCenter {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  gap: 0.5rem;
+}
+.buttonContainerRight {
+  display: flex;
+  align-items: right;
+  justify-content: right;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 64px;
+  margin-bottom: 2rem;
+  color: var(--darkGrey);
+}
+
+.blackButton {
+  background-color: rgb(51, 51, 51);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+  width: 150px;
+  border-radius: 1rem;
+}
+
+.greenButton {
+  background-color: rgb(27, 111, 122);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+  width: 150px;
+  border-radius: 1rem;
+}
+
+.redButton {
+  background-color: var(--closeButton);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid white;
+  font-weight: 500;
+  cursor: pointer;
+  width: 150px;
+  border-radius: 1rem;
+}
+.lightGreyButton {
+  background-color: transparent;
+  font-weight: 500;
+  color: rgb(78, 77, 77);
+  border: 1px solid rgb(78, 77, 77);
+  cursor: pointer;
+  width: 150px;
+  border-radius: 1rem;
+}

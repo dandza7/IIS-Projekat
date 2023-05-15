@@ -12,25 +12,14 @@ import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-
-const patients = [
-  {
-    name: "Petar",
-    surname: "Petorivc",
-    birthDate: new Date().toJSON(),
-  },
-  {
-    name: "Milos",
-    surname: "Petrovic",
-    birthDate: new Date().toJSON(),
-  },
-];
+import utils from "./Utils.module.css";
 
 export const Patients = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [selected, setSelected] = useState(null);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
+  const typeRef = useRef();
 
   useEffect(() => {
     console.log(authCtx.token);
@@ -84,36 +73,57 @@ export const Patients = () => {
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
+    borderRadius: 2,
   };
 
   const [open, setOpen] = React.useState(false);
-  const handleOpen = (name: any) => {
+  const handleOpen = (email: any) => {
     setOpen(true);
-    setSelected(name);
+    setSelected(email);
   };
   const handleClose = () => setOpen(false);
 
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs("2022-04-07"));
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs("2023-05-14"));
 
   const scheduleAppointmentHandler = () => {
+    const type = typeRef.current.value;
+    let beginning = dayjs(value).format("YYYY-MM-DDTHH:mm:ss.sss[Z]");
+    let ending1 = value?.add(1, "hour");
+    let ending = dayjs(ending1).format("YYYY-MM-DDTHH:mm:ss.sss[Z]");
     event?.preventDefault();
     console.log(selected);
     console.log(value);
+    fetch("http://localhost:5041/api/appointments/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({
+        patientEmail: selected,
+        reportMessage: type,
+        beginning: beginning,
+        ending: ending,
+      }),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        alert("Success");
+      });
   };
 
   return (
     <div className={classes.users}>
-      <p className={classes.title}>Patients</p>
+      <p className={utils.title}>Patients</p>
       {users && (
-        <div className={classes.userTableContainer}>
-          <table className={classes.styledTable}>
+        <div className={utils.tableContainer}>
+          <table className={utils.styledTable}>
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Surname</th>
                 <th>Birth date</th>
                 <th>Gender</th>
-                <th> asd</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -130,13 +140,13 @@ export const Patients = () => {
                   <td></td>
                   <td></td>
                   <td>
-                    <button className={classes.viewProfileButton}>
+                    <button className={utils.greenButton}>
                       Medical Record
                     </button>
                   </td>
                   <td>
                     <button
-                      className={classes.viewProfileButton}
+                      className={utils.blackButton}
                       onClick={() => handleOpen(patient.email)}
                     >
                       New Appointment
@@ -167,7 +177,6 @@ export const Patients = () => {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateTimePicker
                       renderInput={(props) => <TextField {...props} />}
-                      label="DateTimePicker"
                       value={value}
                       onChange={(newValue) => {
                         setValue(newValue);
@@ -176,13 +185,19 @@ export const Patients = () => {
                   </LocalizationProvider>
                 </div>
                 <span>Type: </span>
-                <select style={{ width: 100 }}>
+                <select style={{ width: 100 }} ref={typeRef}>
                   <option>Regular</option>
                   <option>Spa</option>
                 </select>
-                <div className={classes.buttonContainer}>
-                  <button type="submit" className={classes.addButton}>
-                    Schedule Appointment
+                <div className={utils.buttonContainerRight}>
+                  <button
+                    className={utils.lightGreyButton}
+                    onClick={handleClose}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className={utils.greenButton}>
+                    Schedule
                   </button>
                 </div>
               </form>
