@@ -272,16 +272,21 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Exercise>().HasKey(e => e.Id);
             modelBuilder.Entity<Exercise>().Property(e => e.Name).IsRequired();
             modelBuilder.Entity<Exercise>().Property(e => e.IsHypertrophic).IsRequired();
-            modelBuilder.Entity<Exercise>().HasMany(e => e.Exercises).WithOne(emg => emg.Exercise).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<Exercise>().HasMany(e => e.ExercisesMG).WithOne(emg => emg.Exercise).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<Exercise>().HasMany(e => e.ExercisesTS).WithOne(ets => ets.Exercise).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<ExerciseMuscleGroup>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<ExerciseMuscleGroup>().HasKey(e => e.Id);
             modelBuilder.Entity<ExerciseMuscleGroup>().Property(e => e.IsPrimaryMuscleGroup).IsRequired();
 
+            modelBuilder.Entity<ExerciseTrainingSession>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<ExerciseTrainingSession>().HasKey(e => e.Id);
+            modelBuilder.Entity<ExerciseTrainingSession>().Property(e => e.RepetitionRange).IsRequired();
+
             modelBuilder.Entity<TrainingSession>().HasQueryFilter(ts => !ts.IsDeleted);
             modelBuilder.Entity<TrainingSession>().HasKey(ts => ts.Id);
-            modelBuilder.Entity<TrainingSession>().Property(ts => ts.NumberOfExercises).IsRequired();
-            modelBuilder.Entity<TrainingSession>().HasMany(ts => ts.Exercises).WithMany(e => e.TrainingSessions);
+            modelBuilder.Entity<TrainingSession>().Property(ts => ts.Name).IsRequired();
+            modelBuilder.Entity<TrainingSession>().HasMany(ts => ts.TrainingSessions).WithOne(ets => ets.TrainingSession).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<TrainingPlan>().HasQueryFilter(tp => !tp.IsDeleted);
             modelBuilder.Entity<TrainingPlan>().HasKey(tp => tp.Id);

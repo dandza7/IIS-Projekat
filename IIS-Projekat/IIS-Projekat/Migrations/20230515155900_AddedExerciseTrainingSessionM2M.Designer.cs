@@ -4,6 +4,7 @@ using IIS_Projekat.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IISProjekat.Migrations
 {
     [DbContext(typeof(IIS_DBContext))]
-    partial class IISDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230515155900_AddedExerciseTrainingSessionM2M")]
+    partial class AddedExerciseTrainingSessionM2M
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -435,177 +438,177 @@ namespace IISProjekat.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2933),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(610),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2935),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(612),
                             Name = "Calves"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2946),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(628),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2947),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(628),
                             Name = "Quads"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2949),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(630),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2949),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(631),
                             Name = "Hamstrings"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2950),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(633),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2951),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(633),
                             Name = "Abductors"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2953),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(634),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2953),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(635),
                             Name = "Adductors"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2956),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(637),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2956),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(637),
                             Name = "Gluteus"
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2958),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(639),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2958),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(639),
                             Name = "Core"
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2960),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(641),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2960),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(641),
                             Name = "Abs"
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2961),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(642),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2962),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(643),
                             Name = "Lower Back"
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2964),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(646),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2964),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(646),
                             Name = "Lats"
                         },
                         new
                         {
                             Id = 11L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2966),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(648),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2966),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(648),
                             Name = "Teres Major"
                         },
                         new
                         {
                             Id = 12L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2968),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(649),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2968),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(649),
                             Name = "Lower Traps"
                         },
                         new
                         {
                             Id = 13L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2970),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(651),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2971),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(651),
                             Name = "Traps"
                         },
                         new
                         {
                             Id = 14L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2972),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(653),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2972),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(653),
                             Name = "Rear Delts"
                         },
                         new
                         {
                             Id = 15L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2982),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(666),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2982),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(666),
                             Name = "Side Delts"
                         },
                         new
                         {
                             Id = 16L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2984),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(668),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2984),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(668),
                             Name = "Front Delts"
                         },
                         new
                         {
                             Id = 17L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2985),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(670),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2986),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(670),
                             Name = "Upper Chest"
                         },
                         new
                         {
                             Id = 18L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2988),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(672),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2988),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(673),
                             Name = "Lower Chest"
                         },
                         new
                         {
                             Id = 19L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2990),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(676),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2990),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(676),
                             Name = "Biceps"
                         },
                         new
                         {
                             Id = 20L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2993),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(677),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2993),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(678),
                             Name = "Triceps"
                         },
                         new
                         {
                             Id = 21L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2996),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(680),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2996),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(680),
                             Name = "Brachialis"
                         },
                         new
                         {
                             Id = 22L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2998),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(683),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(2998),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 116, DateTimeKind.Utc).AddTicks(683),
                             Name = "Forearms"
                         });
                 });
@@ -639,145 +642,145 @@ namespace IISProjekat.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4184),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5704),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4185),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5706),
                             Name = "Protein"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4195),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5723),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4196),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5723),
                             Name = "Fat"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4198),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5726),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4198),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5726),
                             Name = "Carbohydrates"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4200),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5728),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4200),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5728),
                             Name = "Fiber"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4201),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5730),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4202),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5730),
                             Name = "Sugar"
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4204),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5732),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4205),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5733),
                             Name = "Vitamin A"
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4206),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5734),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4207),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5734),
                             Name = "Vitamin B1"
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4228),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5755),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4229),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5755),
                             Name = "Vitamin B2"
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4230),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5757),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4230),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5757),
                             Name = "Vitamin B3"
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4233),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5759),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4233),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5760),
                             Name = "Vitamin C"
                         },
                         new
                         {
                             Id = 11L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4234),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5761),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4235),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5761),
                             Name = "Vitamin D"
                         },
                         new
                         {
                             Id = 12L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4236),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5763),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4236),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5763),
                             Name = "Vitamin E"
                         },
                         new
                         {
                             Id = 13L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4238),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5764),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4238),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5765),
                             Name = "Calcium"
                         },
                         new
                         {
                             Id = 14L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4240),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5767),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4240),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5767),
                             Name = "Iron"
                         },
                         new
                         {
                             Id = 15L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4242),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5769),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4242),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5769),
                             Name = "Magnesium"
                         },
                         new
                         {
                             Id = 16L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4243),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5770),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4244),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5771),
                             Name = "Potassium"
                         },
                         new
                         {
                             Id = 17L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4245),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5772),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4245),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5772),
                             Name = "Sodium"
                         },
                         new
                         {
                             Id = 18L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4248),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5774),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 959, DateTimeKind.Utc).AddTicks(4249),
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 117, DateTimeKind.Utc).AddTicks(5775),
                             Name = "Zinc"
                         });
                 });
@@ -954,9 +957,8 @@ namespace IISProjekat.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("NumberOfExercises")
+                        .HasColumnType("int");
 
                     b.Property<long>("TrainingPlanId")
                         .HasColumnType("bigint");
@@ -1009,13 +1011,13 @@ namespace IISProjekat.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(669),
+                            CreatedDate = new DateTime(2023, 5, 15, 15, 59, 0, 115, DateTimeKind.Utc).AddTicks(7355),
                             Email = "admin@gmail.com",
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2023, 5, 15, 16, 3, 2, 958, DateTimeKind.Utc).AddTicks(672),
-                            Password = "C88054D99BD53340E69ECAF5ABF251D96F7BB37A5361DA93B9634F2799F6C2DACBD11CA656C8E54BB86F4CB94E692C2D553FAE7CED81681FB6F0B96697A84AF2",
+                            ModifiedDate = new DateTime(2023, 5, 15, 15, 59, 0, 115, DateTimeKind.Utc).AddTicks(7362),
+                            Password = "2655CD5112027B73128542E0DF43A8CBEE93538E6150306171221C0ACA7F805E8C848D4F06FD2DA2F811E135483EFC51AC6231C4C36C1E46871C7DDCE9DD940D",
                             Role = "ADMIN",
-                            Salt = new byte[] { 121, 242, 193, 208, 22, 111, 38, 155, 199, 182, 78, 147, 205, 119, 251, 198, 120, 199, 52, 103, 41, 176, 175, 215, 106, 129, 51, 99, 12, 244, 243, 77, 186, 109, 68, 19, 54, 182, 190, 60, 4, 170, 228, 39, 68, 49, 233, 123, 120, 159, 114, 169, 15, 119, 247, 143, 219, 79, 250, 9, 82, 219, 204, 224 }
+                            Salt = new byte[] { 90, 242, 57, 242, 221, 70, 55, 207, 65, 99, 51, 186, 0, 193, 107, 171, 145, 112, 94, 186, 103, 187, 34, 45, 78, 197, 29, 167, 15, 118, 52, 26, 142, 223, 38, 154, 87, 153, 182, 152, 244, 104, 128, 159, 199, 124, 201, 184, 157, 219, 53, 142, 35, 121, 22, 189, 169, 201, 55, 189, 0, 153, 130, 178 }
                         });
                 });
 
