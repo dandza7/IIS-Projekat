@@ -1,7 +1,8 @@
 import React from "react";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
-import classes from "./Users.module.css";
+import utils from "./Utils.module.css";
+import classes from "./TrainingPlanRequest.module.css";
 import { useNavigate } from "react-router-dom";
 
 const TrainingPlanRequests = () => {
@@ -31,11 +32,11 @@ const TrainingPlanRequests = () => {
   return (
     <div>
       {" "}
-      <div className={classes.users}>
-        <p className={classes.title}>Training Plan Requests</p>
+      <div className={classes.trainingPlanRequest}>
+        <p className={utils.title}>Training Plan Requests</p>
         {users && (
-          <div className={classes.userTableContainer}>
-            <table className={classes.styledTable}>
+          <div className={utils.tableContainer}>
+            <table className={utils.styledTable}>
               <thead>
                 <tr>
                   <th>Name</th>
@@ -51,9 +52,7 @@ const TrainingPlanRequests = () => {
                     <td>{user.sessionsPerWeek}</td>
                     <td>{user.trainingGoal}</td>
                     <td>
-                      <button className={classes.viewProfileButton}>
-                        Respond
-                      </button>
+                      <button className={utils.greenButton}>Respond</button>
                     </td>
                   </tr>
                 ))}

@@ -13,24 +13,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
-const patients = [
-  {
-    name: "Petar",
-    surname: "Petorivc",
-    birthDate: new Date().toJSON(),
-  },
-  {
-    name: "Milos",
-    surname: "Petrovic",
-    birthDate: new Date().toJSON(),
-  },
-];
-
 export const Patients = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [selected, setSelected] = useState(null);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
+  const typeRef = useRef();
 
   useEffect(() => {
     console.log(authCtx.token);
@@ -87,18 +75,39 @@ export const Patients = () => {
   };
 
   const [open, setOpen] = React.useState(false);
-  const handleOpen = (name: any) => {
+  const handleOpen = (email: any) => {
     setOpen(true);
-    setSelected(name);
+    setSelected(email);
   };
   const handleClose = () => setOpen(false);
 
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs("2022-04-07"));
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs("2023-05-14"));
 
   const scheduleAppointmentHandler = () => {
+    const type = typeRef.current.value;
+    let beginning = dayjs(value).format("YYYY-MM-DDTHH:mm:ss.sss[Z]");
+    let ending1 = value?.add(1, "hour");
+    let ending = dayjs(ending1).format("YYYY-MM-DDTHH:mm:ss.sss[Z]");
     event?.preventDefault();
     console.log(selected);
     console.log(value);
+    fetch("http://localhost:5041/api/appointments/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({
+        patientEmail: selected,
+        reportMessage: type,
+        beginning: beginning,
+        ending: ending,
+      }),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        alert("Success");
+      });
   };
 
   return (
@@ -113,7 +122,7 @@ export const Patients = () => {
                 <th>Surname</th>
                 <th>Birth date</th>
                 <th>Gender</th>
-                <th> asd</th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -176,7 +185,7 @@ export const Patients = () => {
                   </LocalizationProvider>
                 </div>
                 <span>Type: </span>
-                <select style={{ width: 100 }}>
+                <select style={{ width: 100 }} ref={typeRef}>
                   <option>Regular</option>
                   <option>Spa</option>
                 </select>

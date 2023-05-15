@@ -14,7 +14,7 @@ import MenuSharpIcon from "@mui/icons-material/MenuSharp";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
-  const [toggleMenu, setToggleMenu] = useState(true);
+  const [toggleMenu, setToggleMenu] = useState(false);
 
   const logoutHandler = () => {
     authCtx.logout();
@@ -27,6 +27,14 @@ export const Sidebar = () => {
 
   return (
     <div className={classes.sidebar}>
+      <div className={classes.menu}>
+        <button className={classes.menuButton} onClick={toggleMenuHandler}>
+          <MenuSharpIcon
+            className={classes.menuIcon}
+            fontSize="medium"
+          ></MenuSharpIcon>
+        </button>
+      </div>
       {toggleMenu && <div className={classes.avatar}></div>}
       {<div className={classes.avatarClosed}></div>}
       <ul className={classes.list}>
@@ -34,12 +42,12 @@ export const Sidebar = () => {
           <NavLink
             to="/home"
             style={({ isActive }) => ({
-              color: isActive ? "#99db48" : "#fff",
+              color: isActive ? "#45FF93" : "#fff",
             })}
           >
             <div className={classes.navLink}>
               <HomeIcon></HomeIcon>
-              {toggleMenu && <span>Home</span>}
+              {toggleMenu && <span className={classes.text}>Home</span>}
             </div>
           </NavLink>
         </li>
@@ -48,12 +56,12 @@ export const Sidebar = () => {
           <NavLink
             to="/profile"
             style={({ isActive }) => ({
-              color: isActive ? "#99db48" : "#fff",
+              color: isActive ? "#45FF93" : "#fff",
             })}
           >
             <div className={classes.navLink}>
               <AccountBoxIcon></AccountBoxIcon>
-              {toggleMenu && <span>My Profile</span>}
+              {toggleMenu && <span className={classes.text}>My Profile</span>}
             </div>
           </NavLink>
         </li>
@@ -62,12 +70,14 @@ export const Sidebar = () => {
             <NavLink
               to="/training-plan-request"
               style={({ isActive }) => ({
-                color: isActive ? "#99db48" : "#fff",
+                color: isActive ? "#45FF93" : "#fff",
               })}
             >
               <div className={classes.navLink}>
                 <AccountBoxIcon></AccountBoxIcon>
-                {toggleMenu && <span>Training plan request</span>}
+                {toggleMenu && (
+                  <span className={classes.text}>Training plan request</span>
+                )}
               </div>
             </NavLink>
           </li>
@@ -77,12 +87,14 @@ export const Sidebar = () => {
             <NavLink
               to="/training-plan-requests"
               style={({ isActive }) => ({
-                color: isActive ? "#99db48" : "#fff",
+                color: isActive ? "#45FF93" : "#fff",
               })}
             >
               <div className={classes.navLink}>
                 <DashboardIcon></DashboardIcon>
-                {toggleMenu && <span>Training Plan Requests</span>}
+                {toggleMenu && (
+                  <span className={classes.text}>Training Plan Requests</span>
+                )}
               </div>
             </NavLink>
           </li>
@@ -92,12 +104,14 @@ export const Sidebar = () => {
             <NavLink
               to="/appointments"
               style={({ isActive }) => ({
-                color: isActive ? "#99db48" : "#fff",
+                color: isActive ? "#45FF93" : "#fff",
               })}
             >
               <div className={classes.navLink}>
                 <DashboardIcon></DashboardIcon>
-                {toggleMenu && <span>My Appointments</span>}
+                {toggleMenu && (
+                  <span className={classes.text}>My Appointments</span>
+                )}
               </div>
             </NavLink>
           </li>
@@ -108,12 +122,12 @@ export const Sidebar = () => {
             <NavLink
               to="/foods"
               style={({ isActive }) => ({
-                color: isActive ? "#99db48" : "#fff",
+                color: isActive ? "#45FF93" : "#fff",
               })}
             >
               <div className={classes.navLink}>
                 <DashboardIcon></DashboardIcon>
-                {toggleMenu && <span>Food</span>}
+                {toggleMenu && <span className={classes.text}>Food</span>}
               </div>
             </NavLink>
           </li>
@@ -123,12 +137,12 @@ export const Sidebar = () => {
             <NavLink
               to="/diagnoses"
               style={({ isActive }) => ({
-                color: isActive ? "#99db48" : "#fff",
+                color: isActive ? "#45FF93" : "#fff",
               })}
             >
               <div className={classes.navLink}>
                 <DashboardIcon></DashboardIcon>
-                {toggleMenu && <span>Diagnoses</span>}
+                {toggleMenu && <span className={classes.text}>Diagnoses</span>}
               </div>
             </NavLink>
           </li>
@@ -138,12 +152,12 @@ export const Sidebar = () => {
             <NavLink
               to="/patients"
               style={({ isActive }) => ({
-                color: isActive ? "#99db48" : "#fff",
+                color: isActive ? "#45FF93" : "#fff",
               })}
             >
               <div className={classes.navLink}>
                 <DashboardIcon></DashboardIcon>
-                {toggleMenu && <span>Patients</span>}
+                {toggleMenu && <span className={classes.text}>Patients</span>}
               </div>
             </NavLink>
           </li>
@@ -154,12 +168,12 @@ export const Sidebar = () => {
             <NavLink
               to="/recipes"
               style={({ isActive }) => ({
-                color: isActive ? "#99db48" : "#fff",
+                color: isActive ? "#45FF93" : "#fff",
               })}
             >
               <div className={classes.navLink}>
                 <DashboardIcon></DashboardIcon>
-                {toggleMenu && <span>Recipes</span>}
+                {toggleMenu && <span className={classes.text}>Recipes</span>}
               </div>
             </NavLink>
           </li>
@@ -170,7 +184,8 @@ export const Sidebar = () => {
             <NavLink
               to="/exercises"
               style={({ isActive }) => ({
-                color: isActive ? "#99db48" : "#fff",
+                color: isActive ? "#45FF93" : "#fff",
+                display: "inline-block",
               })}
             >
               <div className={classes.navLink}>
@@ -185,7 +200,7 @@ export const Sidebar = () => {
             <NavLink
               to="/admin-dashboard"
               style={({ isActive }) => ({
-                color: isActive ? "#99db48" : "#fff",
+                color: isActive ? "#45FF93" : "#fff",
               })}
             >
               <div className={classes.navLink}>
@@ -200,7 +215,7 @@ export const Sidebar = () => {
             <NavLink
               to="/users"
               style={({ isActive }) => ({
-                color: isActive ? "#99db48" : "#fff",
+                color: isActive ? "#45FF93" : "#fff",
               })}
             >
               <div className={classes.navLink}>
@@ -215,7 +230,7 @@ export const Sidebar = () => {
             <NavLink
               to=""
               style={({ isActive }) => ({
-                color: isActive ? "#99db48" : "#fff",
+                color: isActive ? "#45FF93" : "#fff",
               })}
             >
               <div className={classes.navLink}>
