@@ -12,7 +12,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import MenuSharpIcon from "@mui/icons-material/MenuSharp";
 import GroupIcon from "@mui/icons-material/Group";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
@@ -128,27 +130,13 @@ export const Sidebar = () => {
               })}
             >
               <div className={classes.navLink}>
-                <DashboardIcon></DashboardIcon>
+                <RestaurantIcon></RestaurantIcon>
                 {toggleMenu && <span className={classes.text}>Food</span>}
               </div>
             </NavLink>
           </li>
         )}
-        {authCtx.role == "NUTRITIONIST" && (
-          <li className={classes.listItem}>
-            <NavLink
-              to="/diagnoses"
-              style={({ isActive }) => ({
-                color: isActive ? "#45FF93" : "#fff",
-              })}
-            >
-              <div className={classes.navLink}>
-                <DashboardIcon></DashboardIcon>
-                {toggleMenu && <span className={classes.text}>Diagnoses</span>}
-              </div>
-            </NavLink>
-          </li>
-        )}
+
         {authCtx.role == "PHYSIOTHERAPIST" && (
           <li className={classes.listItem}>
             <NavLink
@@ -174,13 +162,27 @@ export const Sidebar = () => {
               })}
             >
               <div className={classes.navLink}>
-                <DashboardIcon></DashboardIcon>
+                <MenuBookIcon></MenuBookIcon>
                 {toggleMenu && <span className={classes.text}>Recipes</span>}
               </div>
             </NavLink>
           </li>
         )}
-
+        {authCtx.role == "NUTRITIONIST" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/diagnoses"
+              style={({ isActive }) => ({
+                color: isActive ? "#45FF93" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <MonitorHeartIcon></MonitorHeartIcon>
+                {toggleMenu && <span className={classes.text}>Diagnoses</span>}
+              </div>
+            </NavLink>
+          </li>
+        )}
         {authCtx.role == "TRAINER" && (
           <li className={classes.listItem}>
             <NavLink

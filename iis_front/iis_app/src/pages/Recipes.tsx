@@ -1,6 +1,5 @@
 import React from "react";
-
-import classes from "./DiagnosesAndAllergies.module.css";
+import classes from "./Recipes.module.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
@@ -8,7 +7,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-const recipesPlaceholder = [{ name: "Pilaf" }, { name: "Chicken risotto" }];
+import utils from "./Utils.module.css";
 
 const Recipes = () => {
   const navigate = useNavigate();
@@ -61,7 +60,7 @@ const Recipes = () => {
 
   return (
     <div className={classes.dal}>
-      <div className={classes.dalTitle}>Recipe list</div>
+      <div className={utils.title}>Recipe list</div>
       <div className={classes.filters}>
         <div className={classes.categories}>
           <span>Breakfast</span>
@@ -69,37 +68,31 @@ const Recipes = () => {
           <span>Dinner</span>
           <span>Snack</span>
         </div>
-        <button className={classes.addButton} onClick={handleOpen}>
+        <button className={utils.blackButton} onClick={handleOpen}>
           Add Recipe
         </button>
       </div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <div></div>
-        </Box>
-      </Modal>
-      <table className={classes.styledTable}>
+      <table className={utils.styledTable}>
         <thead>
           <tr>
             <th>Name</th>
-            <th>Calories (per 100 grams)</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {recipes.map((recipe, index) => (
             <tr key={index}>
               <td>{recipe.name}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td>
-                <button
-                  className={classes.detailsButton}
-                >
-                  Details
-                </button>
+                <button className={utils.greenButton}>Details</button>
               </td>
             </tr>
           ))}

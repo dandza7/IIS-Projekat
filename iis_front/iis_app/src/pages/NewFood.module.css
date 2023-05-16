@@ -6,21 +6,170 @@
   flex-direction: column;
   gap: 1rem;
 }
+.nutrientsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  color: var(--darkGrey);
+}
+
 .micros {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  background-color: white;
+  padding: 1rem 3rem 1rem 3rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
 }
-.title {
-  font-size: 64px;
-  margin-bottom: 2rem;
+.macros {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: white;
+  padding: 1rem 3rem 1rem 3rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
 }
-.addButton {
-  background-color: black;
+.styledTableNutrients thead tr {
+  background-color: rgb(47, 96, 76);
+  color: #ffffff;
+  text-align: left;
+}
+
+.styledTableNutrients th,
+.styledTableNutrients td {
+  padding: 0.5rem 1rem;
+}
+.styledTableNutrients th {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.styledTableNutrients tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styledTableNutrients tbody tr:nth-of-type(odd) {
+  background-color: #f3f3f3;
+}
+
+.styledTableNutrients tbody tr:nth-of-type(even) {
+  background-color: #ffffff;
+}
+
+.styledTableNutrients tbody tr:last-of-type {
+  border-bottom: 1px solid var(--darkGreen);
+}
+
+.styledTableNutrients {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.nutrientInput {
+  width: 50px;
+  padding: 0.1rem;
+  border: none;
+  background-color: rgb(212, 231, 213);
+}
+
+.smallTitle {
+  font-size: 1.5rem;
+  color: var(--darkGrey);
+}
+
+.buttonContainerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  margin-top: 5rem;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.styledTable thead tr {
+  background-color: rgb(47, 96, 76);
+  color: #ffffff;
+  text-align: left;
+}
+
+.styledTable th,
+.styledTable td {
+  padding: 1rem 6.45rem;
+}
+.styledTable th {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.styledTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styledTable tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styledTable tbody tr:nth-of-type(odd) {
+  background-color: #ffffff;
+}
+
+.styledTable tbody tr:last-of-type {
+  border-bottom: 1px solid var(--darkGreen);
+}
+
+.styledTable {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  border-radius: 1rem;
+  height: 300px;
+  overflow-y: scroll;
+  display: block;
+}
+
+.allergyContainer {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.allergy {
+  background-color: rgb(162, 165, 164);
+  border: 1px solid rgb(159, 150, 150);
+  color: white;
+  border-radius: 1rem;
+  padding: 0.5rem 2rem;
+  cursor: pointer;
+}
+.blackButton {
+  background-color: rgb(149, 142, 142);
   color: white;
   padding: 0.8rem;
-  border: 1px solid white;
+  border: 1px solid rgb(255, 255, 255);
   font-weight: 500;
   cursor: pointer;
-  width: 200px;
+  width: 50px;
+  border-radius: 1rem;
+}
+.allergySearchInput {
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(170, 169, 169);
+  width: 760px;
+  padding-left: 10px;
+  background-color: rgb(239, 239, 239);
+  margin-bottom: 1.5rem;
 }

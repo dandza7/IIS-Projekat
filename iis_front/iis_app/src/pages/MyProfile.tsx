@@ -170,7 +170,7 @@ const MyProfile = () => {
                 </LocalizationProvider>
               </div>
             </div>
-            <div className={utils.buttonCoitaner}>
+            <div className={utils.buttonContainer}>
               <button className={utils.redButton} onClick={handleCloseEdit}>
                 Close
               </button>

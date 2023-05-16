@@ -1,5 +1,6 @@
 .myProfile {
   width: 100vw;
+  color: var(--darkGrey);
 }
 .span {
   font-size: 20px;

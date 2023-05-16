@@ -203,7 +203,7 @@ const Profile = () => {
                 </LocalizationProvider>
               </div>
             </div>
-            <div className={utils.buttonCoitaner}>
+            <div className={utils.buttonContainer}>
               <button className={utils.blackButton}>Change avatar</button>
               <button className={utils.blackButton} onClick={handleChangeRole}>
                 Change role
