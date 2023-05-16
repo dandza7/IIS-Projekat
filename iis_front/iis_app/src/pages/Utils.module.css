@@ -105,3 +105,30 @@
   width: 150px;
   border-radius: 1rem;
 }
+
+.avatarProfile {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  background-image: url("https://www.w3schools.com/howto/img_avatar2.png");
+  background-size: cover;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 5rem;
+}
+
+.whiteButton {
+  background-color: white;
+  color: rgb(61, 61, 61);
+  padding: 0.8rem;
+  border: 1px solid rgb(58, 58, 58);
+  font-weight: 500;
+  cursor: pointer;
+  width: 150px;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}

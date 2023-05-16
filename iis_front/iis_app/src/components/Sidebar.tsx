@@ -10,6 +10,8 @@ import PeopleIcon from "@mui/icons-material/People";
 import LogoutIcon from "@mui/icons-material/Logout";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuSharpIcon from "@mui/icons-material/MenuSharp";
+import GroupIcon from "@mui/icons-material/Group";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 export const Sidebar = () => {
   const navigate = useNavigate();
@@ -108,7 +110,7 @@ export const Sidebar = () => {
               })}
             >
               <div className={classes.navLink}>
-                <DashboardIcon></DashboardIcon>
+                <CalendarMonthIcon></CalendarMonthIcon>
                 {toggleMenu && (
                   <span className={classes.text}>My Appointments</span>
                 )}
@@ -156,7 +158,7 @@ export const Sidebar = () => {
               })}
             >
               <div className={classes.navLink}>
-                <DashboardIcon></DashboardIcon>
+                <GroupIcon></GroupIcon>
                 {toggleMenu && <span className={classes.text}>Patients</span>}
               </div>
             </NavLink>

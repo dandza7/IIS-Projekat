@@ -8,6 +8,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
+import EditIcon from "@mui/icons-material/Edit";
 
 const MyProfile = () => {
   const [user, setUser] = useState<User>({});
@@ -89,7 +90,10 @@ const MyProfile = () => {
           <div className={utils.title}>My Profile</div>
           <div className={classes.inputContainerVertical}>
             <div className={classes.inputContainer}>
-              <div className={classes.avatar}></div>
+              <div>
+                <div className={utils.avatarProfile}></div>
+              </div>
+
               <div>
                 <div className={classes.span}>
                   <span>Name: </span>
@@ -113,7 +117,8 @@ const MyProfile = () => {
                 </div>
               </div>
             </div>
-            <button className={utils.blackButton} onClick={handleToggleEdit}>
+            <button className={utils.whiteButton} onClick={handleToggleEdit}>
+              <EditIcon></EditIcon>
               Edit Profile
             </button>
           </div>
@@ -122,8 +127,8 @@ const MyProfile = () => {
       {toggleEdit && (
         <div className={classes.myProfile}>
           <div className={utils.title}>Edit Profile</div>
-          <div className={classes.inputContainerVertical}>
-            <div className={classes.span}>
+          <div className={classes.inputContainerVerticalEdit}>
+            <div className={classes.spanEdit}>
               <span>Name: </span>
               <input
                 ref={nameInputRef}
@@ -131,7 +136,7 @@ const MyProfile = () => {
                 className={classes.input}
               ></input>
             </div>
-            <div className={classes.span}>
+            <div className={classes.spanEdit}>
               <span>Surname: </span>
               <input
                 ref={surnameInputRef}
@@ -139,7 +144,7 @@ const MyProfile = () => {
                 className={classes.input}
               ></input>
             </div>
-            <div className={classes.span}>
+            <div className={classes.spanEdit}>
               <span>Gender: </span>
               <select
                 defaultValue={user.gender}
@@ -151,7 +156,7 @@ const MyProfile = () => {
                 })}
               </select>
             </div>
-            <div className={classes.span}>
+            <div className={classes.spanEdit}>
               <span>Birthdate: </span>
               <div className={classes.container}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -166,12 +171,11 @@ const MyProfile = () => {
               </div>
             </div>
             <div className={utils.buttonCoitaner}>
-              <button className={utils.blackButton}>Change avatar</button>
-              <button className={utils.greenButton} onClick={handleSaveChanges}>
-                Save
-              </button>
               <button className={utils.redButton} onClick={handleCloseEdit}>
                 Close
+              </button>
+              <button className={utils.greenButton} onClick={handleSaveChanges}>
+                Save
               </button>
             </div>
           </div>
