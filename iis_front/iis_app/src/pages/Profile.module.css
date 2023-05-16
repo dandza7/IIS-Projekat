@@ -1,5 +1,6 @@
 .myProfile {
   width: 100vw;
+  color: var(--darkGrey);
 }
 .span {
   font-size: 20px;
@@ -7,6 +8,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+  border-bottom: 1px solid rgba(165, 165, 165, 0.679);
 }
 .myProfile {
   display: flex;
@@ -70,6 +72,20 @@
   background-color: rgb(255, 255, 255);
   border-radius: 1rem;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.inputContainerVerticalEdit {
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.spanEdit {
+  font-size: 20px;
+  padding: 0.5rem 0rem;
   display: flex;
   flex-direction: column;
 }

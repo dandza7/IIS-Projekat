@@ -1,0 +1,13 @@
+.filters {
+  display: flex;
+  justify-content: space-between;
+  color: var(--darkGrey);
+  padding-bottom: 0.5rem;
+}
+.categories {
+  display: flex;
+  gap: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  align-items: center;
+}

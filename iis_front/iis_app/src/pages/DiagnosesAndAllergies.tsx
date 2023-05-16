@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
+import utils from "./Utils.module.css";
 
 const DiagnosesAndAllergies = () => {
   const [toggleAllergies, setToggleAllergies] = useState(false);
@@ -50,21 +51,6 @@ const DiagnosesAndAllergies = () => {
     { code: 300, name: "Diabetes" },
   ];
 
-  const allergiesPlaceholder = [
-    "Gluten",
-    "Grain",
-    "Nuts",
-    "Walnut",
-    "Gluten",
-    "Grain",
-    "Nuts",
-    "Walnut",
-    "Gluten",
-    "Grain",
-    "Nuts",
-    "Walnut",
-  ];
-
   const toggleAllergiesHandler = () => {
     setToggleAllergies(!toggleAllergies);
   };
@@ -78,10 +64,11 @@ const DiagnosesAndAllergies = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 300,
+    width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
+    p: 0.5,
+    borderRadius: 3,
   };
 
   const nameRef = useRef(null);
@@ -114,33 +101,28 @@ const DiagnosesAndAllergies = () => {
   return (
     <>
       <div className={classes.dal}>
-        <div className={classes.dalTitle}>Diagnoses and allergies</div>
-        <div className={classes.addDiagnosebuttonContainer}>
+        <div className={utils.title}>Diagnoses and allergies</div>
+        <div className={utils.buttonContainerRight}>
           {!toggleAllergies && (
             <>
               <button
-                className={classes.addButton}
+                className={utils.blackButton}
                 onClick={toggleAllergiesHandler}
               >
                 View allergies
               </button>
-              <button className={classes.addDiagnoseButton}>
-                Add Diagnose
-              </button>
+              <button className={utils.blackButton}>Add Diagnose</button>
             </>
           )}
           {toggleAllergies && (
             <>
               <button
-                className={classes.addButton}
+                className={utils.blackButton}
                 onClick={toggleAllergiesHandler}
               >
                 View Diagnoses
               </button>
-              <button
-                className={classes.addDiagnoseButton}
-                onClick={handleOpen}
-              >
+              <button className={utils.blackButton} onClick={handleOpen}>
                 Add Allergy
               </button>
             </>
@@ -148,7 +130,7 @@ const DiagnosesAndAllergies = () => {
         </div>
         {!toggleAllergies && (
           <div className={classes.dalContainer}>
-            <table className={classes.styledTable}>
+            <table className={utils.styledTable}>
               <thead>
                 <tr>
                   <th>Code</th>
@@ -168,7 +150,7 @@ const DiagnosesAndAllergies = () => {
         )}
         {toggleAllergies && (
           <div className={classes.dalContainer}>
-            <table className={classes.styledTable}>
+            <table className={utils.styledTable}>
               <thead>
                 <tr>
                   <th>Name</th>
@@ -192,17 +174,35 @@ const DiagnosesAndAllergies = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <form className={classes.modal} onSubmit={addAllergyHandler}>
-            <div>
-              <label>Name </label>
-              <input ref={nameRef} type="text"></input>
+          <div className={utils.modal}>
+            <div className={utils.modalTitle}>
+              <h2>Add allergy</h2>
             </div>
-            <div className={classes.buttonContainer}>
-              <button type="submit" className={classes.detailsButton}>
-                Add
-              </button>
+            <div className={utils.modalContainer}>
+              <form className={classes.form} onSubmit={addAllergyHandler}>
+                <span className={classes.span}>
+                  <label>Name </label>
+                  <input
+                    ref={nameRef}
+                    type="text"
+                    className={classes.input}
+                  ></input>
+                </span>
+                <br></br>
+                <div className={utils.buttonContainerRight}>
+                  <button
+                    className={utils.lightGreyButton}
+                    onClick={handleClose}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className={utils.greenButton}>
+                    Add
+                  </button>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </Box>
       </Modal>
     </>

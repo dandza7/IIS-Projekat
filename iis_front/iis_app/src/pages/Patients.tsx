@@ -69,11 +69,11 @@ export const Patients = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: 500,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
-    borderRadius: 2,
+    p: 0.5,
+    borderRadius: 3,
   };
 
   const [open, setOpen] = React.useState(false);
@@ -165,14 +165,16 @@ export const Patients = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div>
-            <h2>New appointment</h2>
-            <br></br> <br></br>
-            <div>
+          <div className={utils.modal}>
+            <div className={utils.modalTitle}>
+              <h2>New appointment</h2>
+            </div>
+            <div className={utils.modalContainer}>
               <form
                 className={classes.form}
                 onSubmit={scheduleAppointmentHandler}
               >
+                <span>Date: </span>
                 <div className={classes.container}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateTimePicker
@@ -185,7 +187,7 @@ export const Patients = () => {
                   </LocalizationProvider>
                 </div>
                 <span>Type: </span>
-                <select style={{ width: 100 }} ref={typeRef}>
+                <select className={utils.selectType} ref={typeRef}>
                   <option>Regular</option>
                   <option>Spa</option>
                 </select>
