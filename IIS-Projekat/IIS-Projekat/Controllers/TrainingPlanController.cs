@@ -1,5 +1,5 @@
 ﻿using IIS_Projekat.Models.DTOs.Pagination;
-using IIS_Projekat.Models.DTOs.Training;
+using IIS_Projekat.Models.DTOs.Training.Plan;
 using IIS_Projekat.Services;
 using IIS_Projekat.Services.Impl;
 using IIS_Projekat.SupportClasses.Extensions;
@@ -43,9 +43,9 @@ namespace IIS_Projekat.Controllers
         /// </remarks>
         [HttpPost(Name = "GetAllTrainingPlans")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<IEnumerable<PreviewTrainingPlanDTO>> GetAll()
+        public ActionResult<IEnumerable<PreviewTrainingPlanDTO>> GetAll([FromBody] PaginationQuery paginationQuery)
         {
-            return Ok(_trainingPlanService.GetAll());
+            return Ok(_trainingPlanService.GetAll(paginationQuery));
         }
 
         /// <summary>

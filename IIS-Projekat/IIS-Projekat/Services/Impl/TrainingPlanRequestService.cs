@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Pagination;
-using IIS_Projekat.Models.DTOs.Training;
+using IIS_Projekat.Models.DTOs.Training.Request;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 

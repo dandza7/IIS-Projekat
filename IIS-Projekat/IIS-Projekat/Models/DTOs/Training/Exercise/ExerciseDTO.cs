@@ -1,4 +1,4 @@
-﻿namespace IIS_Projekat.Models.DTOs.Training
+﻿namespace IIS_Projekat.Models.DTOs.Training.Exercise
 {
     public class ExerciseDTO
     {

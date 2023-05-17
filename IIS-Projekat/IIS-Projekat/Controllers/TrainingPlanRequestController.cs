@@ -1,5 +1,5 @@
 ﻿using IIS_Projekat.Models.DTOs.Pagination;
-using IIS_Projekat.Models.DTOs.Training;
+using IIS_Projekat.Models.DTOs.Training.Request;
 using IIS_Projekat.Services;
 using IIS_Projekat.SupportClasses.Extensions;
 using IIS_Projekat.SupportClasses.Roles;

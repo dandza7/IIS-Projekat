@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using IIS_Projekat.Models.DTOs.Training;
 using IIS_Projekat.Models;
+using IIS_Projekat.Models.DTOs.Training.Session;
 
 namespace IIS_Projekat.SupportClasses.AutoMapper
 {

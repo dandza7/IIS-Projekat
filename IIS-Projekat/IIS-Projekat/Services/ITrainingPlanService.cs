@@ -1,5 +1,5 @@
 ﻿using IIS_Projekat.Models.DTOs.Pagination;
-using IIS_Projekat.Models.DTOs.Training;
+using IIS_Projekat.Models.DTOs.Training.Plan;
 
 namespace IIS_Projekat.Services
 {
@@ -7,6 +7,6 @@ namespace IIS_Projekat.Services
     {
         public long CreateTrainingPlan(TrainingPlanDTO trainingPlanDTO);
         public PreviewDetailedTrainingPlanDTO GetDetailedTrainingPlanForTrainer(long id);
-        public PaginationWrapper<PreviewTrainingPlanDTO> GetAll();
+        public PaginationWrapper<PreviewTrainingPlanDTO> GetAll(PaginationQuery paginationQuery);
     }
 }

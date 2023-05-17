@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Training;
+using IIS_Projekat.Models.DTOs.Training.Session;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.Exercise_Properties;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
