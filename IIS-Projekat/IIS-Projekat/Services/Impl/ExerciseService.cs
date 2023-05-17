@@ -55,8 +55,8 @@ namespace IIS_Projekat.Services.Impl
                 else highSeverityInjuries.Add(injury.Muscle);
             });
 
-            ICollection<Exercise> primarilyInjured = GetUnsuitableExercisesWithLowSeverityInjury(lowSeverityInjuries);
-            ICollection<Exercise> secondarilyInjured = GetUnsuitableExercisesWithHighSeverityInjury(highSeverityInjuries);
+            ICollection<Exercise> primarilyInjured = GetHypertrophyExercisesWithPrimaryMuscleGroups(lowSeverityInjuries);
+            ICollection<Exercise> secondarilyInjured = GetHypertrophyExercisesWithMuscleGroups(highSeverityInjuries);
             ICollection<Exercise> unnecessaryRehabilitationalExercises = GetUnnecessaryRehabilitationalExercises(highSeverityInjuries);
             ICollection<Exercise> suitableExercises = _unitOfWork.ExerciseRepository.GetAll()
                 .ToHashSet().Except(primarilyInjured).Except(secondarilyInjured).Except(unnecessaryRehabilitationalExercises).ToList();
@@ -119,7 +119,7 @@ namespace IIS_Projekat.Services.Impl
             });
         }
 
-        private ICollection<Exercise> GetUnsuitableExercisesWithLowSeverityInjury(HashSet<MuscleGroup> injuredMuscleGroups)
+        private ICollection<Exercise> GetHypertrophyExercisesWithPrimaryMuscleGroups(HashSet<MuscleGroup> injuredMuscleGroups)
         {
             ICollection<Exercise> exercises = new List<Exercise>();
             _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise).Where(emg => injuredMuscleGroups.Contains(emg.MuscleGroup) && emg.IsPrimaryMuscleGroup == true && emg.Exercise.IsHypertrophic == true).ToList()
@@ -127,7 +127,7 @@ namespace IIS_Projekat.Services.Impl
             return exercises;
         }
 
-        private ICollection<Exercise> GetUnsuitableExercisesWithHighSeverityInjury(HashSet<MuscleGroup> injuredMuscleGroups)
+        private ICollection<Exercise> GetHypertrophyExercisesWithMuscleGroups(HashSet<MuscleGroup> injuredMuscleGroups)
         {
             ICollection<Exercise> exercises = new List<Exercise>();
             _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise).Where(emg => injuredMuscleGroups.Contains(emg.MuscleGroup) && emg.Exercise.IsHypertrophic == true).ToList()

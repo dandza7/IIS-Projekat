@@ -1,4 +1,5 @@
-﻿using IIS_Projekat.Models.DTOs.Training;
+﻿using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.Training;
 using IIS_Projekat.Services;
 using IIS_Projekat.Services.Impl;
 using IIS_Projekat.SupportClasses.Extensions;
@@ -31,5 +32,34 @@ namespace IIS_Projekat.Controllers
         {
             return Ok(_trainingPlanService.CreateTrainingPlan(trainingPlanDTO));
         }
+
+        /// <summary>
+        /// [Trainer] Gets all training plans (with pagination)
+        /// </summary>
+        /// <response code="200">Returns all training plans</response>
+        /// <remarks>
+        /// Pagination constraints (Everything is case insenstive):
+        /// <br/>  > Page and PageSize must be greater than 0 (0 if you want all items at once)
+        /// </remarks>
+        [HttpPost(Name = "GetAllTrainingPlans")]
+        [Authorize(Roles = Roles.Trainer)]
+        public ActionResult<IEnumerable<PreviewTrainingPlanDTO>> GetAll()
+        {
+            return Ok(_trainingPlanService.GetAll());
+        }
+
+        /// <summary>
+        /// [Trainer] Get Detailed Training Plan
+        /// </summary>
+        /// <response code="200">If new training plan was added successfully</response>
+        /// <response code="404">If training plan was not found</response>
+        /// <response code="404">If client for training plan was not found</response>
+        [HttpPost("detailedTrainingPlan/{planId}", Name = "GetDetailedTrainingPlan")]
+        [Authorize(Roles = Roles.Trainer)]
+        public ActionResult<PreviewDetailedTrainingPlanDTO> GetDetailedTrainingPlanForTrainer(long planId)
+        {
+            return Ok(_trainingPlanService.GetDetailedTrainingPlanForTrainer(planId));
+        }
+        
     }
 }

@@ -9,6 +9,8 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
         public TrainingPlanProfile()
         {
             CreateMap<TrainingPlanDTO, TrainingPlan>();
+            CreateMap<TrainingPlan, PreviewTrainingPlanDTO>();
+            CreateMap<TrainingPlan, PreviewDetailedTrainingPlanDTO>();
         }
     }
 }
