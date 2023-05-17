@@ -1,6 +1,6 @@
 ﻿namespace IIS_Projekat.Models.DTOs.Training
 {
-    public class ViewTrainingPlanRequestDTO
+    public class PreviewTrainingPlanRequestDTO
     {
         public long Id { get; set; }
         public string ClientFullName { get; set; }

@@ -1,8 +1,9 @@
 ﻿namespace IIS_Projekat.Models.DTOs.Exercise
 {
-    public class ExercisePreviewDTO
+    public class PreviewExerciseDTO
     {
         public string Name { get; set; }
         public int Id { get; set; }
+        public string Type { get; set; }
     }
 }

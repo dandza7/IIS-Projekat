@@ -6,6 +6,7 @@ using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.User;
+using Microsoft.EntityFrameworkCore;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -20,7 +21,7 @@ namespace IIS_Projekat.Services.Impl
             _mapper = mapper;   
         }
 
-        public long CreateExercise(ExerciseDTO newExerciseDTO)
+        public long CreateExercise(NewExerciseDTO newExerciseDTO)
         {
             Exercise newExercise = new Exercise();
             if(_unitOfWork.ExerciseRepository.GetAll().Where(e => e.Name == newExerciseDTO.Name).FirstOrDefault() != null)
@@ -36,11 +37,38 @@ namespace IIS_Projekat.Services.Impl
             return newExercise.Id;
         }
 
-        public PaginationWrapper<ExercisePreviewDTO> GetAll(PaginationQuery? paginationQuery)
+        public PaginationWrapper<PreviewExerciseDTO> GetSuitableExercisesForClient(long clientId)
+        {
+            var medicalRecord = _unitOfWork.MedicalRecordRepository.GetAll().Where(mr => mr.PatientId == clientId).FirstOrDefault();
+            if(medicalRecord == null)
+            {
+                throw new NotFoundException($"Client with ID: {clientId} does not have a medical record.");
+            }
+            HashSet<MuscleGroup> lowSeverityInjuries = new HashSet<MuscleGroup>();
+            HashSet<MuscleGroup> highSeverityInjuries = new HashSet<MuscleGroup>();
+
+            ICollection<InjuryMedicalRecord> clientInjuries = _unitOfWork.InjuryMedicalRecordRepository.GetAll(imr => imr.Injury).Where(imr => imr.MedicalRecord == medicalRecord).ToList();
+            
+            clientInjuries.ToList().ForEach(injuryMR => {
+                var injury = _unitOfWork.InjuryRepository.GetById(injuryMR.Injury.Id, i => i.Muscle);
+                if (injuryMR.InjurySeverity == "Low") lowSeverityInjuries.Add(injury.Muscle);
+                else highSeverityInjuries.Add(injury.Muscle);
+            });
+
+            ICollection<Exercise> primarilyInjured = GetUnsuitableExercisesWithLowSeverityInjury(lowSeverityInjuries);
+            ICollection<Exercise> secondarilyInjured = GetUnsuitableExercisesWithHighSeverityInjury(highSeverityInjuries);
+            ICollection<Exercise> unnecessaryRehabilitationalExercises = GetUnnecessaryRehabilitationalExercises(highSeverityInjuries);
+            ICollection<Exercise> suitableExercises = _unitOfWork.ExerciseRepository.GetAll()
+                .ToHashSet().Except(primarilyInjured).Except(secondarilyInjured).Except(unnecessaryRehabilitationalExercises).ToList();
+               
+            return new PaginationWrapper<PreviewExerciseDTO>(_mapper.Map<List<PreviewExerciseDTO>>(suitableExercises), suitableExercises.Count);
+        }
+
+        public PaginationWrapper<PreviewExerciseDTO> GetAll(PaginationQuery? paginationQuery)
         {
 
             var paginationResult = _unitOfWork.ExerciseRepository.Filter(paginationQuery);
-            return new PaginationWrapper<ExercisePreviewDTO>(_mapper.Map<List<ExercisePreviewDTO>>(paginationResult.Items), paginationResult.TotalCount);
+            return new PaginationWrapper<PreviewExerciseDTO>(_mapper.Map<List<PreviewExerciseDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
 
         public void DeleteExercise(long id)
@@ -89,6 +117,30 @@ namespace IIS_Projekat.Services.Impl
                 exerciseMuscleGroup.IsPrimaryMuscleGroup = false;
                 exerciseMuscleGroup = _unitOfWork.ExerciseMuscleGroupRepository.Create(exerciseMuscleGroup);
             });
+        }
+
+        private ICollection<Exercise> GetUnsuitableExercisesWithLowSeverityInjury(HashSet<MuscleGroup> injuredMuscleGroups)
+        {
+            ICollection<Exercise> exercises = new List<Exercise>();
+            _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise).Where(emg => injuredMuscleGroups.Contains(emg.MuscleGroup) && emg.IsPrimaryMuscleGroup == true && emg.Exercise.IsHypertrophic == true).ToList()
+                .ForEach(emg => { exercises.Add(emg.Exercise); });
+            return exercises;
+        }
+
+        private ICollection<Exercise> GetUnsuitableExercisesWithHighSeverityInjury(HashSet<MuscleGroup> injuredMuscleGroups)
+        {
+            ICollection<Exercise> exercises = new List<Exercise>();
+            _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise).Where(emg => injuredMuscleGroups.Contains(emg.MuscleGroup) && emg.Exercise.IsHypertrophic == true).ToList()
+                .ForEach(emg => { exercises.Add(emg.Exercise); });
+            return exercises;
+        }
+
+        private ICollection<Exercise> GetUnnecessaryRehabilitationalExercises(HashSet<MuscleGroup> injuredMuscleGroups)
+        {
+            ICollection<Exercise> exercises = new List<Exercise>();
+            _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise).Where(emg => injuredMuscleGroups.Contains(emg.MuscleGroup) == false && emg.Exercise.IsHypertrophic == false).ToList()
+                .ForEach(emg => { exercises.Add(emg.Exercise); });
+            return exercises;
         }
     }
 }

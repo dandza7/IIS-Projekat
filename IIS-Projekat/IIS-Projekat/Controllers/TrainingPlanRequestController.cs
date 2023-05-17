@@ -39,7 +39,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="200">Returns all pending training plan requests</response>
         [HttpPost(Name = "GetAll")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<IEnumerable<ViewTrainingPlanRequestDTO>> GetAllTrainingPlanRequests([FromBody] PaginationQuery paginationQuery)
+        public ActionResult<IEnumerable<PreviewTrainingPlanRequestDTO>> GetAllTrainingPlanRequests([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_trainingPlanRequestService.GetAll(paginationQuery));
         }

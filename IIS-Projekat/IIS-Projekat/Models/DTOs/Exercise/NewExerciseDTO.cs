@@ -1,6 +1,6 @@
 ﻿namespace IIS_Projekat.Models.DTOs.Exercise
 {
-    public class ExerciseDTO
+    public class NewExerciseDTO
     {
         public string Name { get; set; }
         public string PrimaryMuscleGroup { get; set; }
