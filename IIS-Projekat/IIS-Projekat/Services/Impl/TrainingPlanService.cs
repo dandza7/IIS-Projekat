@@ -3,6 +3,8 @@ using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Exercise;
 using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.Training;
+using IIS_Projekat.Models.DTOs.Training.Plan;
+using IIS_Projekat.Models.DTOs.Training.Session;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 
@@ -43,7 +45,7 @@ namespace IIS_Projekat.Services.Impl
             return trainingPlan.Id;
         }
 
-        public PaginationWrapper<PreviewTrainingPlanDTO> GetAll()
+        public PaginationWrapper<PreviewTrainingPlanDTO> GetAll(PaginationQuery paginationQuery)
         {
             var trainingPlans = _unitOfWork.TrainingPlanRepository.GetAll(tp => tp.Client).ToList();
             ICollection<PreviewTrainingPlanDTO> trainingPlanDTOs = new List<PreviewTrainingPlanDTO>();

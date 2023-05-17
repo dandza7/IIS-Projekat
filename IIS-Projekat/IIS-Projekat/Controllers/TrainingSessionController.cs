@@ -1,4 +1,5 @@
 ﻿using IIS_Projekat.Models.DTOs.Training;
+using IIS_Projekat.Models.DTOs.Training.Session;
 using IIS_Projekat.Services;
 using IIS_Projekat.Services.Impl;
 using IIS_Projekat.SupportClasses.Roles;

@@ -1,4 +1,6 @@
-﻿namespace IIS_Projekat.Models.DTOs.Training
+﻿using IIS_Projekat.Models.DTOs.Training.Session;
+
+namespace IIS_Projekat.Models.DTOs.Training.Plan
 {
     public class PreviewDetailedTrainingPlanDTO
     {

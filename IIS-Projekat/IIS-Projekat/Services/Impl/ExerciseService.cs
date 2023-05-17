@@ -58,9 +58,9 @@ namespace IIS_Projekat.Services.Impl
             ICollection<Exercise> primarilyInjured = GetHypertrophyExercisesWithPrimaryMuscleGroups(lowSeverityInjuries);
             ICollection<Exercise> secondarilyInjured = GetHypertrophyExercisesWithMuscleGroups(highSeverityInjuries);
             ICollection<Exercise> unnecessaryRehabilitationalExercises = GetUnnecessaryRehabilitationalExercises(highSeverityInjuries);
-            ICollection<Exercise> suitableExercises = _unitOfWork.ExerciseRepository.GetAll()
+            ICollection<Exercise> suitableExercises = _unitOfWork.ExerciseRepository.GetAll(e => e.ExercisesMG)
                 .ToHashSet().Except(primarilyInjured).Except(secondarilyInjured).Except(unnecessaryRehabilitationalExercises).ToList();
-               
+
             return new PaginationWrapper<PreviewExerciseDTO>(_mapper.Map<List<PreviewExerciseDTO>>(suitableExercises), suitableExercises.Count);
         }
 
