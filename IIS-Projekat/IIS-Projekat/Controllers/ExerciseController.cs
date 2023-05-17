@@ -31,7 +31,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="400">If muscle group is not valid</response>
         [HttpPost("create", Name = "ExerciseCreation")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<long> CreateExercise([FromBody] Models.DTOs.Exercise.ExerciseDTO newExerciseDTO)
+        public ActionResult<long> CreateExercise([FromBody] Models.DTOs.Exercise.NewExerciseDTO newExerciseDTO)
         {
             return Ok(_exerciseService.CreateExercise(newExerciseDTO));
         }
@@ -49,9 +49,27 @@ namespace IIS_Projekat.Controllers
         /// <response code="200">Returns all exercises</response>
         [HttpPost(Name = "GetAllExercises")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<IEnumerable<Models.DTOs.Exercise.ExercisePreviewDTO>> GetAllExercises([FromBody] PaginationQuery paginationQuery)
+        public ActionResult<IEnumerable<Models.DTOs.Exercise.PreviewExerciseDTO>> GetAllExercises([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_exerciseService.GetAll(paginationQuery));
+        }
+
+        /// <summary>
+        /// [Trainer] Gets suitable Exercises for Client
+        /// </summary>
+        /// <remarks>
+        /// Suitable exercises are found based on clients injuries:
+        /// <br/> >If injury severity is low then hypertrophic exercises with primary muscle group injured will be filtered out
+        /// <br/> >If injury severity is high then hypertrophic exercises with primary or secondary muscle group injured will be filtered out
+        /// <br/> >If injury severity is not high then rehabilitational exercises with primary muscle group not injured will be filtered out
+        /// </remarks>
+        /// <response code="200">If suitable exercises were returned successfully</response>
+        /// <response code="404">If client does not have a medical record</response>
+        [HttpPost("suitableForClient/{clientId}", Name = "GetSuitableExercisesForClient")]
+        [Authorize(Roles = Roles.Trainer)]
+        public ActionResult<IEnumerable<Models.DTOs.Exercise.PreviewExerciseDTO>> GetSuitableExercisesForClient(long clientId)
+        {
+            return Ok(_exerciseService.GetSuitableExercisesForClient(clientId));
         }
 
         /// <summary>

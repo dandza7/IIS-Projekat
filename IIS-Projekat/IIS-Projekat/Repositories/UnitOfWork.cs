@@ -25,6 +25,7 @@ namespace IIS_Projekat.Repositories
         private IGenericRepository<TrainingPlan> _trainingPlanRepository;
         private IGenericRepository<TrainingSession> _trainingSessionRepository;
         private IGenericRepository<ExerciseTrainingSession> _exerciseTrainingSessionRepository;
+        private IGenericRepository<InjuryMedicalRecord> _injuryMedicalRecordRepository;
 
         private DbContext _dbContext;
 
@@ -210,6 +211,15 @@ namespace IIS_Projekat.Repositories
             {
                 _exerciseTrainingSessionRepository ??= new GenericRepository<ExerciseTrainingSession>(_dbContext);
                 return _exerciseTrainingSessionRepository;
+            }
+        }
+
+        public IGenericRepository<InjuryMedicalRecord> InjuryMedicalRecordRepository
+        {
+            get
+            {
+                _injuryMedicalRecordRepository ??= new GenericRepository<InjuryMedicalRecord>(_dbContext);
+                return _injuryMedicalRecordRepository;
             }
         }
 

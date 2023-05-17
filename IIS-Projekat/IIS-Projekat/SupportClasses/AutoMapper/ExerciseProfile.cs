@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models.DTOs.Exercise;
 using IIS_Projekat.Models;
+using IIS_Projekat.Models.DTOs.Training;
+using NewExerciseDTO = IIS_Projekat.Models.DTOs.Exercise.NewExerciseDTO;
 
 namespace IIS_Projekat.SupportClasses.AutoMapper
 {
@@ -8,8 +10,11 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
     {
         public ExerciseProfile()
         {
-            CreateMap<ExerciseDTO, Exercise>();
-            CreateMap<Exercise, ExercisePreviewDTO>();
+            CreateMap<NewExerciseDTO, Exercise>();
+            CreateMap<Exercise, PreviewExerciseDTO>()
+                .ForMember(e => e.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(e => e.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(e => e.Type, opt => opt.MapFrom(src => src.IsHypertrophic ? "Hypertrophic" : "Rehabilitational"));
         }
     }
 }

@@ -5,8 +5,9 @@ namespace IIS_Projekat.Services
 {
     public interface IExerciseService
     {
-        public long CreateExercise(ExerciseDTO newExerciseDTO);
-        public PaginationWrapper<ExercisePreviewDTO> GetAll(PaginationQuery? paginationQuery);
+        public long CreateExercise(NewExerciseDTO newExerciseDTO);
+        public PaginationWrapper<PreviewExerciseDTO> GetAll(PaginationQuery? paginationQuery);
+        public PaginationWrapper<PreviewExerciseDTO> GetSuitableExercisesForClient(long id);
         public void DeleteExercise(long id);
     }
 }

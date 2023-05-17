@@ -17,12 +17,12 @@ namespace IIS_Projekat.Services.Impl
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public PaginationWrapper<ViewTrainingPlanRequestDTO> GetAll(PaginationQuery? paginationQuery)
+        public PaginationWrapper<PreviewTrainingPlanRequestDTO> GetAll(PaginationQuery? paginationQuery)
         {
 
             var paginationResult = _unitOfWork.TrainingPlanRequestRepository.Filter(paginationQuery, tpr => tpr.Client, tpr => tpr.Client.Profile);
 
-            return new PaginationWrapper<ViewTrainingPlanRequestDTO>(_mapper.Map<List<ViewTrainingPlanRequestDTO>>(paginationResult.Items), paginationResult.TotalCount);
+            return new PaginationWrapper<PreviewTrainingPlanRequestDTO>(_mapper.Map<List<PreviewTrainingPlanRequestDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
         public long CreateTrainingPlanRequest(TrainingPlanRequestDTO trainingPlanRequestDTO, string email)
         {

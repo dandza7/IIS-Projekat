@@ -20,16 +20,16 @@ namespace IIS_Projekat.Services.Impl
         public long CreateTrainingPlan(TrainingPlanDTO trainingPlanDTO)
         {
             var trainingPlan = _mapper.Map<TrainingPlan>(trainingPlanDTO);
-            var trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.GetAll().Where(tpr => tpr.ClientId == trainingPlanDTO.ClientId).FirstOrDefault();
+            var trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.GetAll().Where(tpr => tpr.Id == trainingPlanDTO.TrainingPlanRequestId).FirstOrDefault();
             if (trainingPlanRequest == null)
             {
                 throw new BadHttpRequestException($"Training plan was not requested!");
             }
 
-            var client = _unitOfWork.UserRepository.GetAll().Where(c => c.Id == trainingPlanDTO.ClientId).FirstOrDefault();
+            var client = _unitOfWork.UserRepository.GetAll().Where(c => c.Id == trainingPlanRequest.ClientId).FirstOrDefault();
             if (client == null)
             {
-                throw new NotFoundException($"Client with ID: {trainingPlanDTO.ClientId} does not exist!");
+                throw new NotFoundException($"Client with ID: {trainingPlanRequest.ClientId} does not exist!");
             }
 
             trainingPlan.Client = client;

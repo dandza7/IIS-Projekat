@@ -6,7 +6,7 @@ namespace IIS_Projekat.Services
 {
     public interface ITrainingPlanRequestService
     {
-        public PaginationWrapper<ViewTrainingPlanRequestDTO> GetAll(PaginationQuery? paginationQuery);
+        public PaginationWrapper<PreviewTrainingPlanRequestDTO> GetAll(PaginationQuery? paginationQuery);
         public long CreateTrainingPlanRequest(TrainingPlanRequestDTO trainingPlanRequestDTO, string email);
     }
 }
