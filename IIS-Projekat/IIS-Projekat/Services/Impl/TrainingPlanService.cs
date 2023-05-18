@@ -132,5 +132,36 @@ namespace IIS_Projekat.Services.Impl
 
             return detailedTrainingPlan;
         }
+
+        public PreviewTrainingPlanForClient GetTrainingPlanForClient(string email)
+        {
+            var client = _unitOfWork.UserRepository.GetAll().ToList().Where(c => c.Email == email).FirstOrDefault();
+            if(client == null)
+            {
+                throw new NotFoundException("Client does not exist in the database.");
+            }
+            var trainingPlan = _unitOfWork.TrainingPlanRepository.GetAll().ToList().Where(tp => tp.Client == client).FirstOrDefault();
+            if(trainingPlan == null)
+            {
+                throw new NotFoundException("Client does not have a training plan.");
+            }
+            var trainingPlanDTO = _mapper.Map<PreviewTrainingPlanForClient>(trainingPlan);
+
+            ICollection<TrainingSession> trainingSessions = _unitOfWork.TrainingSessionRepository.GetAll().Where(ts => ts.TrainingPlan == trainingPlan).ToList();
+
+            foreach(var trainingSession in trainingSessions)
+            {
+                var trainingSessionDTO = _mapper.Map<PreviewTrainingSessionDTO>(trainingSession);
+                var exercisesInSession = _unitOfWork.ExerciseTrainingSessionRepository.GetAll(ets => ets.Exercise).Where(ets => ets.TrainingSession == trainingSession).ToList();
+                foreach(var exercise in exercisesInSession)
+                {
+                    var exerciseDTO = _mapper.Map<PreviewExerciseTrainingSessionDTO>(exercise);
+                    trainingSessionDTO.ExerciseInfo.Add(exerciseDTO);
+                }
+                trainingPlanDTO.TrainingSessions.Add(trainingSessionDTO);
+            }
+
+            return trainingPlanDTO;
+        }
     }
 }

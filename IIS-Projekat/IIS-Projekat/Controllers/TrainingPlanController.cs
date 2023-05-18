@@ -60,6 +60,19 @@ namespace IIS_Projekat.Controllers
         {
             return Ok(_trainingPlanService.GetDetailedTrainingPlanForTrainer(planId));
         }
-        
+
+        /// <summary>
+        /// [Customer] Gets customers Training Plan
+        /// </summary>
+        /// <response code="200">If new training plan was added successfully</response>
+        /// <response code="404">If client for training plan was not found</response>
+        /// <response code="404">If training plan was not found</response>
+        [HttpPost("trainingPlanForClient", Name = "GetTrainnigPlanForClient")]
+        [Authorize(Roles = Roles.Customer)]
+        public ActionResult<PreviewTrainingPlanForClient> GetTrainingPlanForClient(string email)
+        {
+            return Ok(_trainingPlanService.GetTrainingPlanForClient(email));
+        }
+
     }
 }
