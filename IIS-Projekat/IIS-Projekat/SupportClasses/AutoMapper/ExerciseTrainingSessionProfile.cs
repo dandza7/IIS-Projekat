@@ -13,6 +13,7 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
                 .ForMember(ets => ets.NumberOfSets, opt => opt.MapFrom(src => src.NumberOfSets))
                 .ForMember(ets => ets.RepetitionRange, opt => opt.MapFrom(src => src.RepetitionRange));
             CreateMap<ExerciseWithTrainingSessionDTO, ExerciseTrainingSession>();
+            CreateMap<UpdateExerciseTrainingSessionDTO, ExerciseTrainingSession>();
         }
     }
 }

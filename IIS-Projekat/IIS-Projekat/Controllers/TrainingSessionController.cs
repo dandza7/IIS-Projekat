@@ -20,30 +20,15 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
-        /// [Trainer] Creates New Training Session
+        /// [Trainer] Updates Training Session
         /// </summary>
-        /// <response code="200">If new training plan was added successfully</response>
-        /// <response code="404">If training plan for the session was not found</response>
-        [HttpPost("create", Name = "CreateTrainingSession")]
+        /// <response code="200">If new training session was updated successfully</response>
+        /// <response code="404">If training session was not found</response>
+        [HttpPut("update", Name = "UpdateTrainingSession")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<long> CreateTrainingSession([FromBody] TrainingSessionDTO trainingSessionDTO)
+        public ActionResult<long> UpdateTrainingSession([FromBody] UpdateTrainingSessionDTO trainingSessionDTO)
         {
-            return Ok(_trainingSessionService.CreateTrainingSession(trainingSessionDTO));
-        }
-
-        /// <summary>
-        /// [Trainer] Adds an exercise to a training session
-        /// </summary>
-        /// <response code="200">If new training plan was added successfully</response>
-        /// <response code="404">If exercse was not found</response>
-        /// <response code="404">If training session for the exercse was not found</response>
-        /// <response code="400">If repetition range is invalid</response>
-        /// <response code="400">If number of sets is invalid</response>
-        [HttpPost("add-exercise", Name = "AddExerciseToTrainingSession")]
-        [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<long> AddExerciseToTrainingSession([FromBody] ExerciseTrainingSessionDTO exerciseTrainingSessionDTO)
-        {
-            return Ok(_trainingSessionService.AddExerciseToTrainingSession(exerciseTrainingSessionDTO));
+            return Ok(_trainingSessionService.UpdateTrainingSession(trainingSessionDTO));
         }
         
     }

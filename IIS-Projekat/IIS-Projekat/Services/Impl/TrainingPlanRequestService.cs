@@ -42,5 +42,18 @@ namespace IIS_Projekat.Services.Impl
             _unitOfWork.SaveChanges();
             return trainingPlanRequest.Id;
         }
+
+        public PreviewTrainingPlanRequestDTO GetById(long id)
+        {
+            var trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.GetById(id, tpr => tpr.Client);
+            if(trainingPlanRequest == null)
+            {
+                throw new NotFoundException($"Training Plan Request with ID: {id} does not exist in the database.");
+            }
+            var trainingPlanRequestDTO = _mapper.Map<PreviewTrainingPlanRequestDTO>(trainingPlanRequest);
+            var client = _unitOfWork.UserRepository.GetById(trainingPlanRequest.ClientId, c => c.Profile);
+            trainingPlanRequestDTO.ClientFullName = $"{client.Profile.Name} {client.Profile.Surname}";
+            return trainingPlanRequestDTO;
+        }
     }
 }
