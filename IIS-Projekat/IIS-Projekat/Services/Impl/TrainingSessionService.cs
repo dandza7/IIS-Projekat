@@ -19,63 +19,34 @@ namespace IIS_Projekat.Services.Impl
             _mapper = mapper;
         }
 
-        public long CreateTrainingSession(TrainingSessionDTO trainingSessionDTO)
+        public long UpdateTrainingSession(UpdateTrainingSessionDTO trainingSessionDTO)
         {
-            var trainingSession = _mapper.Map<TrainingSession>(trainingSessionDTO);
-            var trainingPlan = _unitOfWork.TrainingPlanRepository.GetAll().Where(tp => tp.Id == trainingSessionDTO.TrainingPlanId).FirstOrDefault();
-            if(trainingPlan == null)
+            var trainingSession = _unitOfWork.TrainingSessionRepository.GetAll(ts => ts.TrainingPlan).Where(ts => ts.TrainingPlan.Id == trainingSessionDTO.TrainingPlanId && ts.Name == trainingSessionDTO.OldSessionName).FirstOrDefault();
+            if (trainingSession == null) 
             {
-                throw new NotFoundException($"Training plan with ID: {trainingSessionDTO.TrainingPlanId} does not exist.");
+                throw new NotFoundException($"Training Session with name: {trainingSessionDTO.OldSessionName} does not exist in the Training Plan.");
             }
-            var currentSessionsPerWeek = _unitOfWork.TrainingSessionRepository.GetAll().Where(ts => ts.TrainingPlan == trainingPlan).Count();
-            if(trainingPlan.SessionsPerWeek == currentSessionsPerWeek)
-            {
-                throw new BadHttpRequestException($"Training plan already has maximum number of sessions requested by client.");
-            }
+            trainingSession.Name = trainingSessionDTO.NewSessionName;
 
-            trainingSession.TrainingPlan = trainingPlan;
-            trainingSession = _unitOfWork.TrainingSessionRepository.Create(trainingSession);
-
-            if(trainingSessionDTO.ExerciseInfo != null)
+            var exercisesInTrainingSession = _unitOfWork.ExerciseTrainingSessionRepository.GetAll().Where(ets => ets.TrainingSession == trainingSession).ToList();
+            foreach(var exercise in exercisesInTrainingSession)
             {
-                trainingSessionDTO.ExerciseInfo.ToList().ForEach(exerciseInfo => {
-                    AddExerciseToTrainingSession(exerciseInfo);
-                });
+                _unitOfWork.ExerciseTrainingSessionRepository.Delete(exercise); 
             }
-            
+            foreach(var newExerciseTS in trainingSessionDTO.Exercises)
+            {
+                var newExercise = _unitOfWork.ExerciseRepository.GetAll().Where(e => e.Name == newExerciseTS.ExerciseName).FirstOrDefault();
+                if(newExercise == null)
+                {
+                    throw new NotFoundException($"Exercise with name: {newExerciseTS.ExerciseName} does not exist.");
+                }
+                ExerciseTrainingSession newExerciseInSession = _mapper.Map<ExerciseTrainingSession>(newExerciseTS);
+                newExerciseInSession.Exercise = newExercise;
+                newExerciseInSession.TrainingSession = trainingSession;
+                newExerciseInSession = _unitOfWork.ExerciseTrainingSessionRepository.Create(newExerciseInSession);
+            }
             _unitOfWork.SaveChanges();
             return trainingSession.Id;
-        }
-
-        public long AddExerciseToTrainingSession(ExerciseTrainingSessionDTO exerciseTrainingSessionDTO)
-        {
-            var exercise = _unitOfWork.ExerciseRepository.GetAll().Where(e => e.Id == exerciseTrainingSessionDTO.ExerciseId).FirstOrDefault();
-            if (exercise == null)
-            {
-                throw new NotFoundException($"Exercise with ID: {exerciseTrainingSessionDTO.ExerciseId} does not exist.");
-            }
-            var trainingSession = _unitOfWork.TrainingSessionRepository.GetAll().Where(ts => ts.Id == exerciseTrainingSessionDTO.TrainingSessionId).FirstOrDefault();
-            if (trainingSession == null)
-            {
-                throw new NotFoundException($"Training Session with ID: {exerciseTrainingSessionDTO.TrainingSessionId} does not exist.");
-            }
-            if (!RepetitionRange.IsRepetitionRangeValid(exerciseTrainingSessionDTO.RepetitionRange))
-            {
-                throw new BadHttpRequestException($"Repetition range is not valid.");
-            }
-            if (exerciseTrainingSessionDTO.NumberOfSets < 1 || exerciseTrainingSessionDTO.NumberOfSets > 8)
-            {
-                throw new BadHttpRequestException($"Number of sets per exercise must be between 1 and 8");
-            }
-
-            ExerciseTrainingSession exerciseTrainingSession = new ExerciseTrainingSession();
-            exerciseTrainingSession.Exercise = exercise;
-            exerciseTrainingSession.TrainingSession = trainingSession;
-            exerciseTrainingSession.RepetitionRange = exerciseTrainingSessionDTO.RepetitionRange;
-            exerciseTrainingSession.NumberOfSets = exerciseTrainingSessionDTO.NumberOfSets;
-            exerciseTrainingSession = _unitOfWork.ExerciseTrainingSessionRepository.Create(exerciseTrainingSession);
-            _unitOfWork.SaveChanges();
-            return exerciseTrainingSession.Id;
         }
     }
 }

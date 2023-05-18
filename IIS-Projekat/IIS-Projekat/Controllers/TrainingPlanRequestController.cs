@@ -1,6 +1,8 @@
 ﻿using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.Training.Plan;
 using IIS_Projekat.Models.DTOs.Training.Request;
 using IIS_Projekat.Services;
+using IIS_Projekat.Services.Impl;
 using IIS_Projekat.SupportClasses.Extensions;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.AspNetCore.Authorization;
@@ -57,6 +59,18 @@ namespace IIS_Projekat.Controllers
         public ActionResult<long> CreateTrainingPlanRequest([FromBody] TrainingPlanRequestDTO trainingPlanRequestDTO)
         {
             return Ok(_trainingPlanRequestService.CreateTrainingPlanRequest(trainingPlanRequestDTO, User.GetEmail()));
+        }
+
+        /// <summary>
+        /// [Trainer] Get Training Plan Request
+        /// </summary>
+        /// <response code="200">If getting training plan request was successful</response>
+        /// <response code="404">If training plan request was not found</response>
+        [HttpGet("{id}", Name = "GetTrainingPlanRequest")]
+        [Authorize(Roles = Roles.Trainer)]
+        public ActionResult<PreviewDetailedTrainingPlanDTO> GetById(long id)
+        {
+            return Ok(_trainingPlanRequestService.GetById(id));
         }
     }
 }

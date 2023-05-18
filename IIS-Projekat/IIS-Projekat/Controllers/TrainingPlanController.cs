@@ -26,6 +26,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="200">If new training plan was added successfully</response>
         /// <response code="400">If training plan request for the plan is deleted</response>
         /// <response code="404">If client that requested the plan is now deleted</response>
+        /// <response code="400">If there is duplicate training session name</response>
         [HttpPost("create", Name = "CreateTrainingPlan")]
         [Authorize(Roles = Roles.Trainer)]
         public ActionResult<long> CreateTrainingPlan([FromBody] TrainingPlanDTO trainingPlanDTO)

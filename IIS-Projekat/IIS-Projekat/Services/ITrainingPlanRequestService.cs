@@ -8,5 +8,6 @@ namespace IIS_Projekat.Services
     {
         public PaginationWrapper<PreviewTrainingPlanRequestDTO> GetAll(PaginationQuery? paginationQuery);
         public long CreateTrainingPlanRequest(TrainingPlanRequestDTO trainingPlanRequestDTO, string email);
+        public PreviewTrainingPlanRequestDTO GetById(long id);
     }
 }

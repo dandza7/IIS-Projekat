@@ -5,7 +5,6 @@ namespace IIS_Projekat.Services
 {
     public interface ITrainingSessionService
     {
-        public long CreateTrainingSession(TrainingSessionDTO trainingSessionDTO);
-        public long AddExerciseToTrainingSession(ExerciseTrainingSessionDTO exerciseTrainingSessionDTO);
+        public long UpdateTrainingSession(UpdateTrainingSessionDTO trainingSessionDTO);
     }
 }

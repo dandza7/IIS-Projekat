@@ -47,6 +47,15 @@ namespace IIS_Projekat.Services.Impl
             }
             foreach(var trainingSessionDTO in trainingPlanDTO.TrainingSessions)
             {
+                ICollection<TrainingSession> existingSessions = _unitOfWork.TrainingSessionRepository.GetAll().Where(ts => ts.TrainingPlan == trainingPlan).ToList();
+                foreach (var existingSession in existingSessions)
+                {
+                    if (existingSession.Name == trainingSessionDTO.Name)
+                    {
+                        throw new BadHttpRequestException("Training Session names in a single Training Plan must be unique.");
+                    }
+                }
+
                 var trainingSession = _mapper.Map<TrainingSession>(trainingSessionDTO);
                 trainingSession.TrainingPlan = trainingPlan;
                 trainingSession = _unitOfWork.TrainingSessionRepository.Create(trainingSession);

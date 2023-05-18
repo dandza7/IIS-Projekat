@@ -9,7 +9,6 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
     {
         public TrainingSessionProfile()
         {
-            CreateMap<TrainingSessionDTO, TrainingSession>();
             CreateMap<TrainingSession, PreviewTrainingSessionDTO>();
             CreateMap<TrainingSessionWithPlanDTO, TrainingSession>();
         }
