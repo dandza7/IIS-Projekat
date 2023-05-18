@@ -5,5 +5,6 @@
         public long TrainingPlanRequestId { get; set; }
         public int SessionsPerWeek { get; set; }
         public string TrainingGoal { get; set; }
+        public ICollection<TrainingSessionWithPlanDTO> TrainingSessions { get; set; } = new List<TrainingSessionWithPlanDTO>();
     }
 }

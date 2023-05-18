@@ -8,7 +8,7 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
     {
         public TrainingPlanProfile()
         {
-            CreateMap<TrainingPlanDTO, TrainingPlan>();
+            CreateMap<TrainingPlanDTO, TrainingPlan>().ForMember(tp => tp.TrainingSessions, opt => opt.Ignore());
             CreateMap<TrainingPlan, PreviewTrainingPlanDTO>();
             CreateMap<TrainingPlan, PreviewDetailedTrainingPlanDTO>();
         }
