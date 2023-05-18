@@ -11,3 +11,254 @@
   font-weight: 600;
   align-items: center;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: white;
+  padding: 1rem 3rem 1rem 3rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nutrientsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  color: var(--darkGrey);
+}
+
+.nutrientContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: white;
+
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.newRecipe {
+  width: 100vw;
+}
+.styledTableNutrients thead tr {
+  background-color: rgb(47, 96, 76);
+  color: #ffffff;
+  text-align: left;
+}
+
+.styledTableNutrients th,
+.styledTableNutrients td {
+  padding: 0.5rem 1rem;
+}
+.styledTableNutrients th {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.styledTableNutrients tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styledTableNutrients tbody tr:nth-of-type(odd) {
+  background-color: #f3f3f3;
+}
+
+.styledTableNutrients tbody tr:nth-of-type(even) {
+  background-color: #ffffff;
+}
+
+.styledTableNutrients tbody tr:last-of-type {
+  border-bottom: 1px solid var(--darkGreen);
+}
+
+.styledTableNutrients {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.styledTableFoods thead tr {
+  background-color: rgb(47, 96, 76);
+  color: #ffffff;
+  text-align: left;
+}
+
+.styledTableFoods th,
+.styledTableFoods td {
+  padding: 0.5rem 1rem;
+}
+.styledTableFoods th {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.styledTableFoods th:last-of-type {
+  padding-left: 10%;
+}
+.styledTableFoods tbody tr :last-of-type {
+  margin-left: 70%;
+}
+
+.styledTableFoods tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styledTableFoods tbody tr:nth-of-type(odd) {
+  background-color: #f3f3f3;
+}
+
+.styledTableFoods tbody tr:nth-of-type(even) {
+  background-color: #ffffff;
+}
+
+.styledTableFoods tbody tr:last-of-type {
+  border-bottom: 1px solid var(--darkGreen);
+}
+
+.styledTableFoods {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.styledTable thead tr {
+  background-color: rgb(47, 96, 76);
+  color: #ffffff;
+  text-align: left;
+}
+
+.styledTable th,
+.styledTable td {
+  padding: 1rem 6rem;
+}
+.styledTable th {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.styledTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styledTable tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styledTable tbody tr:nth-of-type(odd) {
+  background-color: #ffffff;
+}
+
+.styledTable {
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  border-radius: 1rem;
+  height: 300px;
+  overflow-y: scroll;
+  display: block;
+}
+.allergySearchInput {
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(170, 169, 169);
+  width: 760px;
+  padding-left: 10px;
+  background-color: rgb(239, 239, 239);
+  margin-bottom: 1.5rem;
+}
+.blackButton {
+  background-color: rgb(133, 140, 137);
+  color: white;
+  padding: 0.8rem;
+  border: 1px solid rgb(133, 140, 137);
+  font-weight: 500;
+  cursor: pointer;
+  width: 50px;
+  border-radius: 1rem;
+}
+.selectedIngredientContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  color: var(--darkGrey);
+  font-size: 1.3rem;
+}
+.selectedIngredient {
+  display: flex;
+  margin-top: 1rem;
+  gap: 20rem;
+  justify-content: space-between;
+  border: 1px solid rgb(189, 179, 179);
+  margin: 1rem;
+  border-radius: 1rem;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.food {
+  background-color: rgb(83, 186, 150);
+  border: 1px solid rgb(83, 186, 150);
+  color: white;
+  border-radius: 1rem;
+  padding: 0.5rem 2rem;
+  cursor: pointer;
+}
+.amountContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.amountInput {
+  height: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(170, 169, 169);
+  width: 100px;
+  padding-left: 10px;
+  background-color: rgb(239, 239, 239);
+}
+.selectedIngredientNutrientsContainer {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+}
+
+.deleteButton {
+  background-color: rgb(39, 40, 40);
+  color: white;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgb(39, 40, 40);
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+.smallTitle {
+  font-size: 1.5rem;
+  color: var(--darkGrey);
+}
+
+.nameContainer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  align-items: center;
+}

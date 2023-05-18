@@ -3,10 +3,6 @@ import classes from "./Recipes.module.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
 import utils from "./Utils.module.css";
 
 const Recipes = () => {
@@ -39,24 +35,8 @@ const Recipes = () => {
   };
 
   const addFoodHandler = () => {
-    event?.preventDefault();
-    const foodName = nameRef.current.value;
+    navigate("/new-recipe");
   };
-
-  const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 1000,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-  };
-
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   return (
     <div className={classes.dal}>
@@ -68,7 +48,7 @@ const Recipes = () => {
           <span>Dinner</span>
           <span>Snack</span>
         </div>
-        <button className={utils.blackButton} onClick={handleOpen}>
+        <button className={utils.blackButton} onClick={addFoodHandler}>
           Add Recipe
         </button>
       </div>
