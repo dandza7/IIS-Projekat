@@ -39,7 +39,9 @@ import Recipes from "./pages/Recipes";
 import Appointments from "./pages/Appointments";
 import SpaAppointments from "./pages/SpaAppointments";
 import { Patients } from "./pages/Patients";
-
+import NewTrainingPlan from "./pages/NewTrainingPlan";
+import NewRecipe from "./pages/NewRecipe";
+import Recipe from "./pages/Recipe";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -65,8 +67,14 @@ const router = createBrowserRouter(
           <Route path="/exercises" element={<Exercises></Exercises>}></Route>
           <Route path="/foods" element={<Foods></Foods>}></Route>
           <Route path="/recipes" element={<Recipes></Recipes>}></Route>
+          <Route path="/new-recipe" element={<NewRecipe></NewRecipe>}></Route>
+          <Route path="/recipes/:name" element={<Recipe></Recipe>}></Route>
           <Route path="/food/:name" element={<Food></Food>}></Route>
           <Route path="/patients" element={<Patients></Patients>}></Route>
+          <Route
+            path="/new-training-plan"
+            element={<NewTrainingPlan></NewTrainingPlan>}
+          ></Route>
           <Route
             path="/appointments"
             element={<Appointments></Appointments>}

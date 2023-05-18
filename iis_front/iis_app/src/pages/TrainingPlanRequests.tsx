@@ -29,6 +29,27 @@ const TrainingPlanRequests = () => {
       });
   }, []);
 
+  const respondHandler = (request: any) => {
+    console.log(request);
+    fetch("http://localhost:5041/api/training-plan/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({
+        clientId: request.clientId,
+        sessionsPerWeek: request.sessionsPerWeek,
+        trainingGoal: request.trainingGoal,
+      }),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        console.log(actualData);
+        localStorage.setItem("clientId", actualData.id);
+      });
+  };
+
   return (
     <div>
       {" "}
@@ -46,13 +67,18 @@ const TrainingPlanRequests = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
-                  <tr key={user.id}>
-                    <td>{user.clientFullName}</td>
-                    <td>{user.sessionsPerWeek}</td>
-                    <td>{user.trainingGoal}</td>
+                {users.map((request) => (
+                  <tr key={request.id}>
+                    <td>{request.clientFullName}</td>
+                    <td>{request.sessionsPerWeek}</td>
+                    <td>{request.trainingGoal}</td>
                     <td>
-                      <button className={utils.greenButton}>Respond</button>
+                      <button
+                        className={utils.greenButton}
+                        onClick={() => respondHandler(request)}
+                      >
+                        Respond
+                      </button>
                     </td>
                   </tr>
                 ))}

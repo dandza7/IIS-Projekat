@@ -172,7 +172,7 @@ const Food = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {food?.allergies?.map((allergy: any, index) => (
+                  {food?.allergies?.map((allergy: any, index: number) => (
                     <tr key={index}>
                       <td>{allergy}</td>
                     </tr>
