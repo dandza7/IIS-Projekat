@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: white;
+  padding: 1rem 3rem 1rem 3rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nutrientContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: white;
+
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.styledTableFoods thead tr {
+  background-color: rgb(47, 96, 76);
+  color: #ffffff;
+  text-align: left;
+}
+
+.styledTableFoods th,
+.styledTableFoods td {
+  padding: 0.5rem 1rem;
+}
+.styledTableFoods th {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.styledTableFoods tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styledTableFoods tbody tr:nth-of-type(odd) {
+  background-color: #f3f3f3;
+}
+
+.styledTableFoods tbody tr:nth-of-type(even) {
+  background-color: #ffffff;
+}
+
+.styledTableFoods tbody tr:last-of-type {
+  border-bottom: 1px solid var(--darkGreen);
+}
+
+.styledTableFoods {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.smallTitle {
+  font-size: 1.5rem;
+  color: var(--darkGrey);
+}
+
+.tablesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

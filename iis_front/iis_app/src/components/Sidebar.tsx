@@ -86,6 +86,23 @@ export const Sidebar = () => {
             </NavLink>
           </li>
         )}
+        {authCtx.role == "CUSTOMER" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/my-training-plan"
+              style={({ isActive }) => ({
+                color: isActive ? "#45FF93" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <AccountBoxIcon></AccountBoxIcon>
+                {toggleMenu && (
+                  <span className={classes.text}>Training plan request</span>
+                )}
+              </div>
+            </NavLink>
+          </li>
+        )}
         {authCtx.role == "TRAINER" && (
           <li className={classes.listItem}>
             <NavLink
@@ -98,6 +115,23 @@ export const Sidebar = () => {
                 <DashboardIcon></DashboardIcon>
                 {toggleMenu && (
                   <span className={classes.text}>Training Plan Requests</span>
+                )}
+              </div>
+            </NavLink>
+          </li>
+        )}
+        {authCtx.role == "TRAINER" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/training-plans"
+              style={({ isActive }) => ({
+                color: isActive ? "#45FF93" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <DashboardIcon></DashboardIcon>
+                {toggleMenu && (
+                  <span className={classes.text}>Training Plans</span>
                 )}
               </div>
             </NavLink>
