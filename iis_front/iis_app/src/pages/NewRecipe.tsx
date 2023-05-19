@@ -150,7 +150,7 @@ const NewRecipe = () => {
           <div className={classes.nutrientsContainer}>
             <div className={classes.container}>
               <div className={classes.nameContainer}>
-                <div className={utils.span}>
+                <div className={utils.spanFlex}>
                   <label>Name:</label>
                   <input
                     type="text"

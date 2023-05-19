@@ -5,14 +5,14 @@ import utils from "./Utils.module.css";
 import classes from "./TrainingPlanRequest.module.css";
 import { useNavigate } from "react-router-dom";
 
-const TrainingPlanRequests = () => {
+const TrainingPlans = () => {
   const [users, setUsers] = useState<any[]>([]);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log(authCtx.token);
-    fetch("http://localhost:5041/api/training-plan-request", {
+    fetch("http://localhost:5041/api/training-plan", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,10 +30,7 @@ const TrainingPlanRequests = () => {
   }, []);
 
   const respondHandler = (request: any) => {
-    localStorage.setItem("requestId", request.id);
-    localStorage.setItem("sessionsPerWeek", request.sessionsPerWeek);
-    localStorage.setItem("trainingGoal", request.trainingGoal);
-    navigate("/new-training-plan");
+    navigate("/training-plans/" + request.id);
   };
 
   return (
@@ -55,7 +52,7 @@ const TrainingPlanRequests = () => {
               <tbody>
                 {users.map((request) => (
                   <tr key={request.id}>
-                    <td>{request.clientFullName}</td>
+                    <td>{request.clientName}</td>
                     <td>{request.sessionsPerWeek}</td>
                     <td>{request.trainingGoal}</td>
                     <td>
@@ -63,7 +60,7 @@ const TrainingPlanRequests = () => {
                         className={utils.greenButton}
                         onClick={() => respondHandler(request)}
                       >
-                        Respond
+                        Details
                       </button>
                     </td>
                   </tr>
@@ -77,4 +74,4 @@ const TrainingPlanRequests = () => {
   );
 };
 
-export default TrainingPlanRequests;
+export default TrainingPlans;
