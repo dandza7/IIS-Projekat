@@ -30,8 +30,9 @@ const Recipes = () => {
       });
   }, []);
 
-  const selectFoodHandler = (name: any) => {
-    navigate("/food/" + name);
+  const viewRecipeDetailsHandler = (recipe: any) => {
+    localStorage.setItem("recipeId", recipe.id);
+    navigate("/recipes/" + recipe.name);
   };
 
   const addFoodHandler = () => {
@@ -72,7 +73,12 @@ const Recipes = () => {
               <td></td>
               <td></td>
               <td>
-                <button className={utils.greenButton}>Details</button>
+                <button
+                  className={utils.greenButton}
+                  onClick={() => viewRecipeDetailsHandler(recipe)}
+                >
+                  Details
+                </button>
               </td>
             </tr>
           ))}

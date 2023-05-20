@@ -190,6 +190,8 @@ const NewFood = () => {
                   <option>Oil</option>
                   <option>Fruit</option>
                   <option>Vegetables</option>
+                  <option>Water</option>
+                  <option>Eggs</option>
                 </select>
               </div>
               <span className={classes.smallTitle}>General</span>
