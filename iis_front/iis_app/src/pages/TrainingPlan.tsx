@@ -62,6 +62,11 @@ export const TrainingPlan = () => {
         setPlan(actualData);
       });
   }, []);
+
+  const updateSessionHandler = (name: string) => {
+    console.log(name);
+  };
+
   return (
     <div className={classes.newRecipe}>
       <div className={utils.title}>Update training plan</div>
@@ -74,8 +79,6 @@ export const TrainingPlan = () => {
                   <label>Name:</label>
                   <span>{plan?.clientName}</span>
                 </div>
-
-                <button className={utils.greenButton}>Update</button>
               </div>
               <div className={utils.span}>
                 <label>Training goal:</label>
@@ -88,32 +91,40 @@ export const TrainingPlan = () => {
               <div>
                 {plan?.trainingSessions.map(
                   (session: trainingSession, index) => (
-                    <table className={classes.styledTableFoods} key={index}>
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Number of sets</th>
-                          <th>Repetition range</th>
-                          <th>
-                            <AddIcon fontSize="small"></AddIcon>
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {session.exerciseInfo.map((exercise, index) => (
-                          <tr key={index}>
-                            <td>{exercise?.exerciseName}</td>
-                            <td>{exercise?.numberOfSets}</td>
-                            <td>{exercise?.repetitionRange}</td>
-                            <td>
-                              <button className={classes.deleteButton}>
-                                X
-                              </button>
-                            </td>
+                    <div key={index}>
+                      <button
+                        className={utils.greenButton}
+                        onClick={() => updateSessionHandler(session.name)}
+                      >
+                        Update
+                      </button>
+                      <table className={classes.styledTableFoods} key={index}>
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Number of sets</th>
+                            <th>Repetition range</th>
+                            <th>
+                              <AddIcon fontSize="small"></AddIcon>
+                            </th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {session.exerciseInfo.map((exercise, index) => (
+                            <tr key={index}>
+                              <td>{exercise?.exerciseName}</td>
+                              <td>{exercise?.numberOfSets}</td>
+                              <td>{exercise?.repetitionRange}</td>
+                              <td>
+                                <button className={classes.deleteButton}>
+                                  X
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   )
                 )}
               </div>
