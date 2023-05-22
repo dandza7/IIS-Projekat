@@ -1,11 +1,9 @@
-﻿using IIS_Projekat.Models.DTOs.Pagination;
-using IIS_Projekat.Models.DTOs.UsersProfile;
+﻿using IIS_Projekat.Models.DTOs.UsersProfile;
 
 namespace IIS_Projekat.Services
 {
     public interface IProfileService
     {
-        public PaginationWrapper<PreviewUsersProfileDTO> GetAll(PaginationQuery paginationQuery);
         public void UpdateUsersProfile(UpdateUsersProfileDTO updateUsersProfileDTO);
         public void UpdateOwnProfile(UpdateOwnProfileDTO updateOwnProfileDTO, string email);
         public void UpdateOwnAvatar(IFormFile avatar, string email);
