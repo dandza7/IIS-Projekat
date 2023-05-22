@@ -262,3 +262,10 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.dataContainer {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  gap: 1rem;
+}
