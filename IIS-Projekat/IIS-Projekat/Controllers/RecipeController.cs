@@ -33,12 +33,36 @@ namespace IIS_Projekat.Controllers
         /// <br/>  >>>>> FilterValue has to be able to be converted to correct type
         /// <br/>  >>>>> Operations: 0 - StringContains, 1 - StringEquals, 2 - NumberEquals, 3 - NumberLessThan, 4 - NumberGreaterThan
         /// </remarks>
-        /// <response code="200">Returns all food</response>
+        /// <response code="200">Returns all recipes</response>
         [HttpPost(Name = "GetAllRecipes")]
         [Authorize(Roles = $"{Roles.Nutritionist}, {Roles.Customer}")]
         public ActionResult<PaginationWrapper<PreviewRecipeDTO>> GetAllRecipes([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_recipeService.GetAll(paginationQuery));
+        }
+
+        /// <summary>
+        /// [Nutritionist, Customer] Gets all recipes detailed (with pagination, sorting and filtering optional)
+        /// </summary>
+        /// <remarks>
+        /// Pagination constraints (Everything is case insenstive):
+        /// <br/>  > Page and PageSize must be greater than 0 (0 if you want all items at once)
+        /// <br/>  > Orders:
+        /// <br/>  >>> OrderField must be one of the following: ID, Name
+        /// <br/>  >>> Ordering must be either ASC or DESC
+        /// <br/>  > Filters:
+        /// <br/>  >>> Property must be one of the following: ID (number), Name (string)
+        /// <br/>  >>> Connectings: 0 - AND, 1 - OR (filters will be applied as intersection for AND and will be applied as union for OR)
+        /// <br/>  >>> FilterValues:
+        /// <br/>  >>>>> FilterValue has to be able to be converted to correct type
+        /// <br/>  >>>>> Operations: 0 - StringContains, 1 - StringEquals, 2 - NumberEquals, 3 - NumberLessThan, 4 - NumberGreaterThan
+        /// </remarks>
+        /// <response code="200">Returns all recipes detailed</response>
+        [HttpPost("detailed", Name = "GetAllRecipesDetailed")]
+        [Authorize(Roles = $"{Roles.Nutritionist}, {Roles.Customer}")]
+        public ActionResult<PaginationWrapper<PreviewRecipeDTO>> GetAllRecipesDetailed([FromBody] PaginationQuery paginationQuery)
+        {
+            return Ok(_recipeService.GetAllDetailed(paginationQuery));
         }
 
         /// <summary>

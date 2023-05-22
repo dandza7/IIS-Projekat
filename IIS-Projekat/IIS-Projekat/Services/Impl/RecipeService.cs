@@ -55,6 +55,17 @@ namespace IIS_Projekat.Services.Impl
             return new PaginationWrapper<PreviewRecipeDTO>(_mapper.Map<List<PreviewRecipeDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
 
+        public PaginationWrapper<PreviewRecipeDetailedDTO> GetAllDetailed(PaginationQuery paginationQuery)
+        {
+            var paginationResult = _unitOfWork.RecipeRepository.Filter(paginationQuery);
+            var detailedList = new List<PreviewRecipeDetailedDTO>();
+            foreach (var recipe in paginationResult.Items)
+            {
+                detailedList.Add(GetDetailed(recipe.Id));
+            }
+            return new PaginationWrapper<PreviewRecipeDetailedDTO>(detailedList, paginationResult.TotalCount);
+        }
+
         public PreviewRecipeDetailedDTO GetDetailed(long id)
         {
             var recipe = _unitOfWork.RecipeRepository.GetById(id, r => r.FoodShares);
