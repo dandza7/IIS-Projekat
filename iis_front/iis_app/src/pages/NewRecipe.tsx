@@ -10,6 +10,28 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
 const NewRecipe = () => {
+  type nutrition = {
+    protein: number;
+    carbs: number;
+    fat: number;
+    energy: number;
+    fiber: number;
+    sugar: number;
+    vitaminA: number;
+    vitaminB1: number;
+    vitaminB2: number;
+    vitaminB3: number;
+    vitaminC: number;
+    vitaminD: number;
+    vitaminE: number;
+    calcium: number;
+    iron: number;
+    magnesium: number;
+    potassium: number;
+    sodium: number;
+    zinc: number;
+  };
+
   const navigate = useNavigate();
 
   const [foodList, setfoodList] = useState<any[]>([]);
@@ -67,27 +89,7 @@ const NewRecipe = () => {
     var updatedList = [...food];
     updatedList = [...food, si];
     setFood(updatedList);
-    setTotal({
-      protein: total.protein + si.amount * si.nutrientTable.protein,
-      carbs: total.carbs + si.amount * si.nutrientTable.carbohydrates,
-      fat: total.fat + si.amount * si.nutrientTable.fat,
-      sugar: total.sugar + si.amount * si.nutrientTable.sugar,
-      fiber: total.fiber + si.amount * si.nutrientTable.fiber,
-      energy: total.energy + si.amount * si.calories,
-      vitaminA: total.vitaminA + si.amount * si.nutrientTable.vitaminA,
-      vitaminB1: total.vitaminB1 + si.amount * si.nutrientTable.vitaminB1,
-      vitaminB2: total.vitaminB2 + si.amount * si.nutrientTable.vitaminB2,
-      vitaminB3: total.vitaminB3 + si.amount * si.nutrientTable.vitaminB3,
-      vitaminC: total.vitaminC + si.amount * si.nutrientTable.vitaminC,
-      vitaminD: total.vitaminE + si.amount * si.nutrientTable.vitaminD,
-      vitaminE: total.vitaminE + si.amount * si.nutrientTable.vitaminE,
-      calcium: total.calcium + si.amount * si.nutrientTable.calcium,
-      magnesium: total.magnesium + si.amount * si.nutrientTable.magnesium,
-      iron: total.iron + si.amount * si.nutrientTable.iron,
-      potassium: total.potassium + si.amount * si.nutrientTable.potassium,
-      sodium: total.sodium + si.amount * si.nutrientTable.sodium,
-      zinc: total.zinc + si.amount * si.nutrientTable.zinc,
-    });
+
     handleClose();
   };
 
@@ -98,6 +100,73 @@ const NewRecipe = () => {
   const removeFoodHandler = (foodId: number) => {
     setFood((current) => current.filter((food) => food.id !== foodId));
   };
+
+  useEffect(() => {
+    const totalT: nutrition = {
+      protein: 0,
+      carbs: 0,
+      fat: 0,
+      energy: 0,
+      fiber: 0,
+      sugar: 0,
+      vitaminA: 0,
+      vitaminB1: 0,
+      vitaminB2: 0,
+      vitaminB3: 0,
+      vitaminC: 0,
+      vitaminD: 0,
+      vitaminE: 0,
+      calcium: 0,
+      iron: 0,
+      magnesium: 0,
+      potassium: 0,
+      sodium: 0,
+      zinc: 0,
+    };
+    food.map((food) => {
+      totalT.protein += food.nutrientTable.protein * food.amount;
+      totalT.carbs += food.nutrientTable.carbohydrates * food.amount;
+      totalT.fat += food.nutrientTable.fat * food.amount;
+      totalT.energy += food.calories * food.amount;
+      totalT.fiber += food.nutrientTable.fiber * food.amount;
+      totalT.sugar += food.nutrientTable.sugar * food.amount;
+      totalT.vitaminA += food.nutrientTable.vitaminA * food.amount;
+      totalT.vitaminB1 += food.nutrientTable.vitaminB1 * food.amount;
+      totalT.vitaminB2 += food.nutrientTable.vitaminB2 * food.amount;
+      totalT.vitaminB3 += food.nutrientTable.vitaminB3 * food.amount;
+      totalT.vitaminC += food.nutrientTable.vitaminC * food.amount;
+      totalT.vitaminD += food.nutrientTable.vitaminD * food.amount;
+      totalT.vitaminE += food.nutrientTable.vitaminE * food.amount;
+      totalT.calcium += food.nutrientTable.calcium * food.amount;
+      totalT.iron += food.nutrientTable.iron * food.amount;
+      totalT.magnesium += food.nutrientTable.magnesium * food.amount;
+      totalT.potassium += food.nutrientTable.potassium * food.amount;
+      totalT.sodium += food.nutrientTable.sodium * food.amount;
+      totalT.zinc += food.nutrientTable.zinc * food.amount;
+    });
+
+    setTotal({
+      protein: totalT.protein,
+      carbs: totalT.carbs,
+      fat: totalT.fat,
+      sugar: totalT.sugar,
+      fiber: totalT.fiber,
+      energy: totalT.energy,
+      vitaminA: totalT.vitaminA,
+      vitaminB1: totalT.vitaminB1,
+      vitaminB2: totalT.vitaminB2,
+      vitaminB3: totalT.vitaminB3,
+      vitaminC: totalT.vitaminC,
+      vitaminD: totalT.vitaminD,
+      vitaminE: totalT.vitaminE,
+      calcium: totalT.calcium,
+      magnesium: totalT.magnesium,
+      iron: totalT.iron,
+      potassium: totalT.potassium,
+      sodium: totalT.sodium,
+      zinc: totalT.zinc,
+    });
+  }, [food]);
 
   const addRecipeHandler = () => {
     event?.preventDefault();
