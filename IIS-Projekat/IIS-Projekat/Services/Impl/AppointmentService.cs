@@ -26,7 +26,7 @@ namespace IIS_Projekat.Services.Impl
                        || (a.Ending >= appointment.Beginning && a.Ending <= appointment.Ending)
                        || (a.Beginning <= appointment.Beginning && a.Beginning >= appointment.Ending))).Any())
             {
-                throw new DuplicateItemExtension("You have other appointment in this time interval!");
+                throw new DuplicateItemException("You have other appointment in this time interval!");
             }
             var newAppointment = _unitOfWork.AppointmentRepository.Create(_mapper.Map<Appointment>(appointment));
             var patient = _unitOfWork.UserRepository.GetAll().Where(u => u.Email == appointment.PatientEmail).FirstOrDefault();
