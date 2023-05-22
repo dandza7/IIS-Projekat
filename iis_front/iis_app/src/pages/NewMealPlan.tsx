@@ -179,7 +179,7 @@ const NewMealPlan = () => {
         setPatient(actualData.items[0]);
       });
 
-    fetch("http://localhost:5041/api/recipes", {
+    fetch("http://localhost:5041/api/recipes/detailed", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

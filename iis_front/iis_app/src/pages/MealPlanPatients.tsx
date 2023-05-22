@@ -77,15 +77,15 @@ const MealPlanPatients = () => {
             <tbody>
               {users.map((patient, index) => (
                 <tr key={index}>
-                  <td>{patient.name}</td>
-                  <td>{patient.surname}</td>
-                  <td>{dayjs(patient.birthDate).format("MMM D, YYYY")}</td>
-                  <td>{patient.gender}</td>
+                  <td>{patient?.name}</td>
+                  <td>{patient?.surname}</td>
+                  <td>{dayjs(patient?.birthDate).format("MMM D, YYYY")}</td>
+                  <td>{patient?.gender}</td>
                   <td></td>
                   <td></td>
                   <td>
                     <button
-                      className={utils.blackButton}
+                      className={utils.greenButton}
                       onClick={() => openMealPlanHandler(patient.email)}
                     >
                       Meal plan
