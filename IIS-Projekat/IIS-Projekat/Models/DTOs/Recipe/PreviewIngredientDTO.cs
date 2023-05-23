@@ -3,6 +3,6 @@
     public class PreviewIngredientDTO
     {
         public string Name { get; set; }
-        public int Amount { get; set; }
+        public float Amount { get; set; }
     }
 }
