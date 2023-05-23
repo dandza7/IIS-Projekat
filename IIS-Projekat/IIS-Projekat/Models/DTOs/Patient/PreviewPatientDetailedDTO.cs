@@ -10,6 +10,7 @@
         public string Gender { get; set; }
         public int Weight { get; set; }
         public int Height { get; set; }
+        public string Anamnesis { get; set; }
         public List<string> Allergies { get; set; } = new List<string>();
         public List<string> Diagnoses { get; set; } = new List<string>();
         public string TrainingGoal { get; set; }
