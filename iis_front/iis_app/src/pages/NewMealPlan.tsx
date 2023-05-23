@@ -99,6 +99,7 @@ const NewMealPlan = () => {
 
   useEffect(() => {
     const patientId = localStorage.getItem("patientId");
+    console.log(patientId);
     fetch("http://localhost:5041/api/patients/" + patientId, {
       method: "GET",
       headers: {
@@ -109,9 +110,40 @@ const NewMealPlan = () => {
       .then((response) => response.json())
       .then((actualData) => {
         setPatient(actualData);
+        fetchNutritionPlan();
       });
   }, []);
 
+  const fetchNutritionPlan = () => {
+    const patientId = localStorage.getItem("patientId");
+    fetch("http://localhost:5041/api/nutritions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({
+        userId: patientId,
+        date: dayjs(value).format("YYYY-MM-D"),
+      }),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        console.log(actualData);
+        setBreakfast(actualData.breakfasts);
+        setLunch(actualData.lunches);
+        setDinner(actualData.dinners);
+        setSnacks(actualData.snacks);
+        let plan = [];
+        let plan1 = plan.concat(
+          actualData.breakfasts,
+          actualData.lunches,
+          actualData.dinners,
+          actualData.snacks
+        );
+        setWholePlan(plan1);
+      });
+  };
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -163,21 +195,21 @@ const NewMealPlan = () => {
       zinc: 0,
     };
     wholePlan.map((food) => {
-      totalT.protein += food.nutrientTable.protein * food.amount;
-      totalT.carbs += food.nutrientTable.carbohydrates * food.amount;
-      totalT.fat += food.nutrientTable.fat * food.amount;
-      totalT.energy += food.calories * food.amount;
-      totalT.fiber += food.nutrientTable.fiber * food.amount;
-      totalT.sugar += food.nutrientTable.sugar * food.amount;
-      totalT.vitaminA += food.nutrientTable.vitaminA * food.amount;
-      totalT.vitaminB1 += food.nutrientTable.vitaminB1 * food.amount;
-      totalT.vitaminB2 += food.nutrientTable.vitaminB2 * food.amount;
-      totalT.vitaminB3 += food.nutrientTable.vitaminB3 * food.amount;
-      totalT.vitaminC += food.nutrientTable.vitaminC * food.amount;
-      totalT.vitaminD += food.nutrientTable.vitaminD * food.amount;
-      totalT.vitaminE += food.nutrientTable.vitaminE * food.amount;
-      totalT.calcium += food.nutrientTable.calcium * food.amount;
-      totalT.iron += food.nutrientTable.iron * food.amount;
+      totalT.protein += food?.nutrientTable?.protein * food.amount;
+      totalT.carbs += food?.nutrientTable?.carbohydrates * food.amount;
+      totalT.fat += food?.nutrientTable?.fat * food.amount;
+      totalT.energy += food?.calories * food.amount;
+      totalT.fiber += food?.nutrientTable?.fiber * food.amount;
+      totalT.sugar += food?.nutrientTable?.sugar * food.amount;
+      totalT.vitaminA += food?.nutrientTable?.vitaminA * food.amount;
+      totalT.vitaminB1 += food?.nutrientTable?.vitaminB1 * food.amount;
+      totalT.vitaminB2 += food?.nutrientTable?.vitaminB2 * food.amount;
+      totalT.vitaminB3 += food?.nutrientTable?.vitaminB3 * food.amount;
+      totalT.vitaminC += food?.nutrientTable?.vitaminC * food.amount;
+      totalT.vitaminD += food?.nutrientTable?.vitaminD * food.amount;
+      totalT.vitaminE += food?.nutrientTable.vitaminE * food.amount;
+      totalT.calcium += food?.nutrientTable.calcium * food.amount;
+      totalT.iron += food?.nutrientTable.iron * food.amount;
       totalT.magnesium += food.nutrientTable.magnesium * food.amount;
       totalT.potassium += food.nutrientTable.potassium * food.amount;
       totalT.sodium += food.nutrientTable.sodium * food.amount;
@@ -210,8 +242,10 @@ const NewMealPlan = () => {
   const addFoodHandler = () => {
     event?.preventDefault();
     console.log(breakFast);
-    const si = selectedIngredient;
-    si.amount = selectedFoodAmountRef?.current?.value;
+    const si = {};
+    si.portionSize = selectedFoodAmountRef?.current?.value;
+    si.recipe.name = selectedIngredient.name;
+    si.recipe.calories = selectedIngredient.calories;
     if (mealName == "Breakfast") {
       var updatedList = [...breakFast];
       updatedList = [...breakFast, si];
@@ -261,22 +295,37 @@ const NewMealPlan = () => {
 
   const addRecipeHandler = () => {
     event?.preventDefault();
-    const selectedFood: { foodId: number; amount: number }[] = [];
-    const enteredName = nameRef.current.value;
+    const selectedBreakfast: { recipeId: number; portionSize: number }[] = [];
+    const selectedLunch: { recipeId: number; portionSize: number }[] = [];
+    const selectedDinner: { recipeId: number; portionSize: number }[] = [];
+    const selectedSnack: { recipeId: number; portionSize: number }[] = [];
     breakFast.forEach((food) => {
-      selectedFood.push({ foodId: food.id, amount: food.amount });
+      selectedBreakfast.push({ recipeId: food.id, portionSize: food.amount });
     });
-    console.log(selectedFood);
+    lunch.forEach((food) => {
+      selectedLunch.push({ recipeId: food.id, portionSize: food.amount });
+    });
+    dinner.forEach((food) => {
+      selectedDinner.push({ recipeId: food.id, portionSize: food.amount });
+    });
+    snacks.forEach((food) => {
+      selectedSnack.push({ recipeId: food.id, portionSize: food.amount });
+    });
+    console.log(selectedBreakfast);
 
-    fetch("http://localhost:5041/api/recipes/new", {
+    fetch("http://localhost:5041/api/nutritions/update", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        name: enteredName,
-        ingredients: selectedFood,
+        userId: localStorage.getItem("patientId"),
+        date: dayjs(value).format("YYYY-MM-D"),
+        breakfasts: selectedBreakfast,
+        lunches: selectedLunch,
+        dinners: selectedDinner,
+        snacks: selectedSnack,
       }),
     })
       .then((response) => response.json())
@@ -434,7 +483,12 @@ const NewMealPlan = () => {
                       }}
                     />
                   </LocalizationProvider>
-                  <button className={utils.blackButton}>Save</button>
+                  <button
+                    className={utils.blackButton}
+                    onClick={addRecipeHandler}
+                  >
+                    Save
+                  </button>
                 </div>
                 <div className={classes.chartsContainer}>
                   <span className={classes.smallTitle}>Nutrients </span>

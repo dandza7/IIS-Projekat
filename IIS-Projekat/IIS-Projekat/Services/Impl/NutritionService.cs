@@ -58,7 +58,7 @@ namespace IIS_Projekat.Services.Impl
 
         public ResponseNutritionPlanDTO GetOne(NutritionPlanKeyDTO nutritionPlanKeyDTO)
         {
-            var nutritionPlan = _unitOfWork.NutritionPlanRepository.GetAll(np => np.User)
+            var nutritionPlan = _unitOfWork.NutritionPlanRepository.GetAll(np => np.User, np => np.Meals)
                                                                    .Where(np => np.UserId == nutritionPlanKeyDTO.UserId && np.Date == nutritionPlanKeyDTO.Date).FirstOrDefault();
             if (nutritionPlan == null)
             {
