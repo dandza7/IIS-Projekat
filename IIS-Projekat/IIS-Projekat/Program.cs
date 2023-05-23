@@ -81,7 +81,10 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAllergyService, AllergyService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
+builder.Services.AddScoped<IFoodOrderingService, FoodOrderingService>();
+builder.Services.AddScoped<IFoodPriceService, FoodPriceService>();
 builder.Services.AddScoped<IFoodService, FoodService>();
+builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
 builder.Services.AddScoped<IMuscleGroupService, MuscleGroupService>();
 builder.Services.AddScoped<INutritionService, NutritionService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
@@ -90,9 +93,8 @@ builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<ITrainingPlanRequestService, TrainingPlanRequestService>();
 builder.Services.AddScoped<ITrainingPlanService, TrainingPlanService>();
 builder.Services.AddScoped<ITrainingSessionService, TrainingSessionService>();
-builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITherapyService, TherapyService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // Enabled CORS
 

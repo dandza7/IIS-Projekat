@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata;
-using IIS_Projekat.Models;
+﻿using IIS_Projekat.Models;
 using IIS_Projekat.SupportClasses.PasswordHasher;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +28,9 @@ namespace IIS_Projekat.Data
         public DbSet<NutritionPlan> NutritionPlans { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Therapy> Therapies { get; set; }
+        public DbSet<FoodPrice> FoodPrices { get; set; }
+        public DbSet<FoodOrder> FoodOrders { get; set; }
+        public DbSet<FoodSupplyReport> FoodSupplyReports { get; set; }
 
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -568,6 +570,23 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Therapy>().HasKey(t => t.Id);
             modelBuilder.Entity<Therapy>().Property(t => t.ReportMessage).IsRequired();
             modelBuilder.Entity<Therapy>().HasMany(t => t.RecommendedExercises).WithMany(e => e.Therapies);
+
+            modelBuilder.Entity<FoodPrice>().HasQueryFilter(fp => !fp.IsDeleted);
+            modelBuilder.Entity<FoodPrice>().HasKey(fp => fp.Id);
+            modelBuilder.Entity<FoodPrice>().Property(fp => fp.Price).IsRequired();
+            modelBuilder.Entity<FoodPrice>().Property(fp => fp.Supplier).IsRequired();
+            modelBuilder.Entity<FoodPrice>().HasOne(fp => fp.Food).WithMany().HasForeignKey(fp => fp.FoodId).IsRequired();
+
+            modelBuilder.Entity<FoodSupplyReport>().HasQueryFilter(fsr => !fsr.IsDeleted);
+            modelBuilder.Entity<FoodSupplyReport>().HasKey(fsr => fsr.Id);
+            modelBuilder.Entity<FoodSupplyReport>().Property(fsr => fsr.DeliveryDate).IsRequired();
+            modelBuilder.Entity<FoodSupplyReport>().Property(fsr => fsr.IsConfirmed).IsRequired();
+            modelBuilder.Entity<FoodSupplyReport>().HasMany(fsr => fsr.FoodOrders).WithMany();
+
+            modelBuilder.Entity<FoodOrder>().HasQueryFilter(fo => !fo.IsDeleted);
+            modelBuilder.Entity<FoodOrder>().HasKey(fo => fo.Id);
+            modelBuilder.Entity<FoodOrder>().Property(fo => fo.Amount).IsRequired();
+            modelBuilder.Entity<FoodOrder>().HasOne(fo => fo.FoodPrice).WithMany().HasForeignKey(fo => fo.FoodPriceId).IsRequired();
         }
     }
 }
