@@ -90,6 +90,7 @@ builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<ITrainingPlanRequestService, TrainingPlanRequestService>();
 builder.Services.AddScoped<ITrainingPlanService, TrainingPlanService>();
 builder.Services.AddScoped<ITrainingSessionService, TrainingSessionService>();
+builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 // Enabled CORS
