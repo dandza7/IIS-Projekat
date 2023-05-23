@@ -2,14 +2,16 @@
 
 namespace IIS_Projekat.Models
 {
-    public class Report : IEntity
+    public class Therapy : IEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public string Message { get; set; } = string.Empty;
-        public Appointment Appointment { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public string ReportMessage { get; set; }
+        public ICollection<Exercise> RecommendedExercises { get; set; } = new List<Exercise>();
+        public MedicalRecord MedicalRecord { get; set; }
+        public long MedicalRecordId { get; set; }
     }
 }
