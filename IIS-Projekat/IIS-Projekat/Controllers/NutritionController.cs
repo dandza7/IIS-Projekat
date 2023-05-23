@@ -27,5 +27,18 @@ namespace IIS_Projekat.Controllers
         {
             return Ok(_nutritionService.GetOne(nutritionPlanKeyDTO));
         }
+
+        /// <summary>
+        /// [Nutritionist] Updates nutrition plan
+        /// </summary>
+        /// <response code="200">Returns nutrition plan with sent keys</response>
+        /// <response code="404">If nutrition plan was not found</response>
+        [HttpPost("update", Name = "UpdateNutritionPlan")]
+        [Authorize(Roles = Roles.Nutritionist)]
+        public ActionResult UpdateNutritionPlan([FromBody] NewNutritionPlanDTO newNutritionPlanDTO)
+        {
+            _nutritionService.Update(newNutritionPlanDTO);
+            return Ok();
+        }
     }
 }

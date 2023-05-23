@@ -4,6 +4,7 @@ using IIS_Projekat.Models.DTOs.NutritionPlan;
 using IIS_Projekat.Models.DTOs.Recipe;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
+
 namespace IIS_Projekat.Services.Impl
 {
     public class NutritionService : INutritionService
@@ -24,11 +25,40 @@ namespace IIS_Projekat.Services.Impl
             {
                 throw new NotFoundException("Nutrition plan for sent user and date does not exist!");
             }
+            var meals = _unitOfWork.MealRepository.GetAll().Where(m => m.NutritionPlan.Id == nutritionPlan.Id);
+            foreach (var meal in meals)
+            {
+                nutritionPlan.Meals.Remove(meal);
+            }
+            AddMeals(newNutritionPlanDTO.Breakfasts, "BREAKFAST", nutritionPlan);
+            AddMeals(newNutritionPlanDTO.Lunches, "LUNCH", nutritionPlan);
+            AddMeals(newNutritionPlanDTO.Dinners, "DINNER", nutritionPlan);
+            AddMeals(newNutritionPlanDTO.Snacks, "SNACK", nutritionPlan);
+            _unitOfWork.SaveChanges();
+        }
+
+        private void AddMeals(List<NewMealDTO> newMeals, string type, NutritionPlan nutritionPlan)
+        {
+            foreach (var meal in newMeals)
+            {
+                var recipe = _unitOfWork.RecipeRepository.GetById(meal.RecipeId);
+                if (recipe == null)
+                {
+                    throw new NotFoundException($"Recipe with sent id {meal.RecipeId} does not exist!");
+                }
+                _unitOfWork.MealRepository.Create(new Meal
+                {
+                    Type = type,
+                    PortionSize = meal.PortionSize,
+                    Recipe = recipe,
+                    NutritionPlan = nutritionPlan
+                });
+            }
         }
 
         public ResponseNutritionPlanDTO GetOne(NutritionPlanKeyDTO nutritionPlanKeyDTO)
         {
-            var nutritionPlan = _unitOfWork.NutritionPlanRepository.GetAll(np => np.Meals, np => np.User)
+            var nutritionPlan = _unitOfWork.NutritionPlanRepository.GetAll(np => np.User)
                                                                    .Where(np => np.UserId == nutritionPlanKeyDTO.UserId && np.Date == nutritionPlanKeyDTO.Date).FirstOrDefault();
             if (nutritionPlan == null)
             {
