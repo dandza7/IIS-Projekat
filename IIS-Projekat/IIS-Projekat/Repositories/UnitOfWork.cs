@@ -222,6 +222,8 @@ namespace IIS_Projekat.Repositories
             {
                 _therapyRepository ??= new GenericRepository<Therapy>(_dbContext);
                 return _therapyRepository;
+            }
+        }
 
         public IGenericRepository<Meal> MealRepository
         {
