@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
+using IIS_Projekat.Models.DTOs.Exercise;
 using IIS_Projekat.Models.DTOs.MedicalRecord;
+using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.Training.Request;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 
@@ -34,6 +37,33 @@ namespace IIS_Projekat.Services.Impl
             medicalRecord = _unitOfWork.MedicalRecordRepository.Create(medicalRecord);
             _unitOfWork.SaveChanges();
             return medicalRecord.Id;
+        }
+
+        public void DeleteExercise(long id)
+        {
+            var medicalRecord = _unitOfWork.MedicalRecordRepository.GetById(id);
+            if(medicalRecord == null)
+            {
+                throw new NotFoundException($"Medical record with ID: {id} does not exist in the database.");
+            }
+            _unitOfWork.MedicalRecordRepository.Delete(medicalRecord);
+            _unitOfWork.SaveChanges();
+        }
+
+        public PaginationWrapper<PreviewMedicalRecord> GetAll(PaginationQuery? paginationQuery)
+        {
+            var paginationResult = _unitOfWork.MedicalRecordRepository.Filter(paginationQuery, mr => mr.Patient, mr => mr.Patient.Profile);
+            return new PaginationWrapper<PreviewMedicalRecord>(_mapper.Map<List<PreviewMedicalRecord>>(paginationResult.Items), paginationResult.TotalCount);
+        }
+
+        public PreviewMedicalRecord GetById(long id)
+        {
+            var medicalRecord = _unitOfWork.MedicalRecordRepository.GetById(id, mr => mr.Patient, mr => mr.Patient.Profile);
+            if (medicalRecord == null)
+            {
+                throw new NotFoundException($"Medical record with ID: {id} does not exist in the database.");
+            }
+            return _mapper.Map<PreviewMedicalRecord>(medicalRecord);
         }
     }
 }
