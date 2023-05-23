@@ -6,6 +6,7 @@ namespace IIS_Projekat.Services
     public interface IRecipeService
     {
         PaginationWrapper<PreviewRecipeDTO> GetAll(PaginationQuery paginationQuery);
+        PaginationWrapper<PreviewRecipeDetailedDTO> GetAllDetailed(PaginationQuery paginationQuery);
         long Create(NewRecipeDTO newRecipeDTO);
         PreviewRecipeDetailedDTO GetDetailed(long id);
     }

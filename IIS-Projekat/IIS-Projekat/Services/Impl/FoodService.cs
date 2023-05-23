@@ -144,7 +144,7 @@ namespace IIS_Projekat.Services.Impl
             CreateNutrientShare("Zinc", newFood, nutrientTableDTO.Zinc);
         }
 
-        private void CreateNutrientShare(string nutrientName, Food newFood, int share)
+        private void CreateNutrientShare(string nutrientName, Food newFood, float share)
         {
             _unitOfWork.NutrientShareRepository.Create(
                     new NutrientShare

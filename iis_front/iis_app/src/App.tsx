@@ -42,6 +42,12 @@ import { Patients } from "./pages/Patients";
 import NewTrainingPlan from "./pages/NewTrainingPlan";
 import NewRecipe from "./pages/NewRecipe";
 import Recipe from "./pages/Recipe";
+import TrainingPlans from "./pages/TrainingPlans";
+import { TrainingPlan } from "./pages/TrainingPlan";
+import MyExercisePlan from "./pages/MyExercisePlan";
+import NewMealPlan from "./pages/NewMealPlan";
+import MealPlanPatients from "./pages/MealPlanPatients";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -70,7 +76,15 @@ const router = createBrowserRouter(
           <Route path="/new-recipe" element={<NewRecipe></NewRecipe>}></Route>
           <Route path="/recipes/:name" element={<Recipe></Recipe>}></Route>
           <Route path="/food/:name" element={<Food></Food>}></Route>
+          <Route
+            path="/meal-plan"
+            element={<NewMealPlan></NewMealPlan>}
+          ></Route>
           <Route path="/patients" element={<Patients></Patients>}></Route>
+          <Route
+            path="/meal-plans"
+            element={<MealPlanPatients></MealPlanPatients>}
+          ></Route>
           <Route
             path="/new-training-plan"
             element={<NewTrainingPlan></NewTrainingPlan>}
@@ -89,8 +103,20 @@ const router = createBrowserRouter(
             element={<TrainingPlanRequest></TrainingPlanRequest>}
           ></Route>
           <Route
+            path="/my-training-plan"
+            element={<MyExercisePlan></MyExercisePlan>}
+          ></Route>
+          <Route
             path="/training-plan-requests"
             element={<TrainingPlanRequests></TrainingPlanRequests>}
+          ></Route>
+          <Route
+            path="/training-plans"
+            element={<TrainingPlans></TrainingPlans>}
+          ></Route>
+          <Route
+            path="/training-plans/:id"
+            element={<TrainingPlan></TrainingPlan>}
           ></Route>
           <Route element={<AdminRoutes />}>
             <Route

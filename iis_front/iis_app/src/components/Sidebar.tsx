@@ -44,20 +44,6 @@ export const Sidebar = () => {
       <ul className={classes.list}>
         <li className={classes.listItem}>
           <NavLink
-            to="/home"
-            style={({ isActive }) => ({
-              color: isActive ? "#45FF93" : "#fff",
-            })}
-          >
-            <div className={classes.navLink}>
-              <HomeIcon></HomeIcon>
-              {toggleMenu && <span className={classes.text}>Home</span>}
-            </div>
-          </NavLink>
-        </li>
-
-        <li className={classes.listItem}>
-          <NavLink
             to="/profile"
             style={({ isActive }) => ({
               color: isActive ? "#45FF93" : "#fff",
@@ -86,6 +72,23 @@ export const Sidebar = () => {
             </NavLink>
           </li>
         )}
+        {authCtx.role == "CUSTOMER" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/my-training-plan"
+              style={({ isActive }) => ({
+                color: isActive ? "#45FF93" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <AccountBoxIcon></AccountBoxIcon>
+                {toggleMenu && (
+                  <span className={classes.text}>Training plan request</span>
+                )}
+              </div>
+            </NavLink>
+          </li>
+        )}
         {authCtx.role == "TRAINER" && (
           <li className={classes.listItem}>
             <NavLink
@@ -98,6 +101,23 @@ export const Sidebar = () => {
                 <DashboardIcon></DashboardIcon>
                 {toggleMenu && (
                   <span className={classes.text}>Training Plan Requests</span>
+                )}
+              </div>
+            </NavLink>
+          </li>
+        )}
+        {authCtx.role == "TRAINER" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/training-plans"
+              style={({ isActive }) => ({
+                color: isActive ? "#45FF93" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <DashboardIcon></DashboardIcon>
+                {toggleMenu && (
+                  <span className={classes.text}>Training Plans</span>
                 )}
               </div>
             </NavLink>
@@ -132,6 +152,22 @@ export const Sidebar = () => {
               <div className={classes.navLink}>
                 <RestaurantIcon></RestaurantIcon>
                 {toggleMenu && <span className={classes.text}>Food</span>}
+              </div>
+            </NavLink>
+          </li>
+        )}
+
+        {authCtx.role == "NUTRITIONIST" && (
+          <li className={classes.listItem}>
+            <NavLink
+              to="/meal-plans"
+              style={({ isActive }) => ({
+                color: isActive ? "#45FF93" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <GroupIcon></GroupIcon>
+                {toggleMenu && <span className={classes.text}>Patients</span>}
               </div>
             </NavLink>
           </li>

@@ -45,6 +45,48 @@
   overflow: hidden;
 }
 
+.styledTableDark thead tr {
+  background-color: rgb(47, 96, 76);
+  color: #ffffff;
+  text-align: left;
+}
+
+.styledTableDark th,
+.styledTableDark td {
+  padding: 1rem 2rem;
+}
+.styledTableDark th {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.styledTableDark tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styledTableDark tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styledTableDark tbody tr:nth-of-type(odd) {
+  background-color: #ffffff;
+}
+
+.styledTableDark tbody tr:last-of-type {
+  border-bottom: 1px solid var(--darkGreen);
+}
+
+.styledTableDark {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
 .buttonContainerCenter {
   display: flex;
   align-items: center;

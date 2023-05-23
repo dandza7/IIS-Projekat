@@ -55,6 +55,17 @@ namespace IIS_Projekat.Services.Impl
             return new PaginationWrapper<PreviewRecipeDTO>(_mapper.Map<List<PreviewRecipeDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
 
+        public PaginationWrapper<PreviewRecipeDetailedDTO> GetAllDetailed(PaginationQuery paginationQuery)
+        {
+            var paginationResult = _unitOfWork.RecipeRepository.Filter(paginationQuery);
+            var detailedList = new List<PreviewRecipeDetailedDTO>();
+            foreach (var recipe in paginationResult.Items)
+            {
+                detailedList.Add(GetDetailed(recipe.Id));
+            }
+            return new PaginationWrapper<PreviewRecipeDetailedDTO>(detailedList, paginationResult.TotalCount);
+        }
+
         public PreviewRecipeDetailedDTO GetDetailed(long id)
         {
             var recipe = _unitOfWork.RecipeRepository.GetById(id, r => r.FoodShares);
@@ -74,7 +85,7 @@ namespace IIS_Projekat.Services.Impl
         {
             var foodShare = _unitOfWork.FoodShareRepository.GetById(foodShareId, fs => fs.Food);
             var food = _unitOfWork.FoodRepository.GetById(foodShare.Food.Id, f => f.NutrientShares);
-            recipe.Calories += foodShare.Share * food.Calories / 100;
+            recipe.Calories += foodShare.Share * food.Calories;
             recipe.Ingredients.Add(
                 new PreviewIngredientDTO
                 {
@@ -92,58 +103,58 @@ namespace IIS_Projekat.Services.Impl
                 switch (nutrientShare.Nutrient.Name)
                 {
                     case "Protein":
-                        recipe.NutrientTable.Protein += share.Share;
+                        recipe.NutrientTable.Protein += share.Share * foodShare.Share;
                         break;
                     case "Fat":
-                        recipe.NutrientTable.Fat += share.Share;
+                        recipe.NutrientTable.Fat += share.Share * foodShare.Share;
                         break;
                     case "Carbohydrates":
-                        recipe.NutrientTable.Carbohydrates += share.Share;
+                        recipe.NutrientTable.Carbohydrates += share.Share * foodShare.Share;
                         break;
                     case "Fiber":
-                        recipe.NutrientTable.Fiber += share.Share;
+                        recipe.NutrientTable.Fiber += share.Share * foodShare.Share;
                         break;
                     case "Sugar":
-                        recipe.NutrientTable.Sugar += share.Share;
+                        recipe.NutrientTable.Sugar += share.Share * foodShare.Share;
                         break;
                     case "Vitamin A":
-                        recipe.NutrientTable.VitaminA += share.Share;
+                        recipe.NutrientTable.VitaminA += share.Share * foodShare.Share;
                         break;
                     case "Vitamin B1":
-                        recipe.NutrientTable.VitaminB1 += share.Share;
+                        recipe.NutrientTable.VitaminB1 += share.Share * foodShare.Share;
                         break;
                     case "Vitamin B2":
-                        recipe.NutrientTable.VitaminB2 += share.Share;
+                        recipe.NutrientTable.VitaminB2 += share.Share * foodShare.Share;
                         break;
                     case "Vitamin B3":
-                        recipe.NutrientTable.VitaminB3 += share.Share;
+                        recipe.NutrientTable.VitaminB3 += share.Share * foodShare.Share;
                         break;
                     case "Vitamin C":
-                        recipe.NutrientTable.VitaminC += share.Share;
+                        recipe.NutrientTable.VitaminC += share.Share * foodShare.Share;
                         break;
                     case "Vitamin D":
-                        recipe.NutrientTable.VitaminD += share.Share;
+                        recipe.NutrientTable.VitaminD += share.Share * foodShare.Share;
                         break;
                     case "Vitamin E":
-                        recipe.NutrientTable.VitaminE += share.Share;
+                        recipe.NutrientTable.VitaminE += share.Share * foodShare.Share;
                         break;
                     case "Calcium":
-                        recipe.NutrientTable.Calcium += share.Share;
+                        recipe.NutrientTable.Calcium += share.Share * foodShare.Share;
                         break;
                     case "Iron":
-                        recipe.NutrientTable.Iron += share.Share;
+                        recipe.NutrientTable.Iron += share.Share * foodShare.Share;
                         break;
                     case "Magnesium":
-                        recipe.NutrientTable.Magnesium += share.Share;
+                        recipe.NutrientTable.Magnesium += share.Share * foodShare.Share;
                         break;
                     case "Potassium":
-                        recipe.NutrientTable.Potassium += share.Share;
+                        recipe.NutrientTable.Potassium += share.Share * foodShare.Share;
                         break;
                     case "Sodium":
-                        recipe.NutrientTable.Sodium += share.Share;
+                        recipe.NutrientTable.Sodium += share.Share * foodShare.Share;
                         break;
                     case "Zinc":
-                        recipe.NutrientTable.Zinc += share.Share;
+                        recipe.NutrientTable.Zinc += share.Share * foodShare.Share;
                         break;
                 }
             }
