@@ -20,11 +20,13 @@ namespace IIS_Projekat.Repositories
         IGenericRepository<MedicalRecord> MedicalRecordRepository { get; }
         IGenericRepository<Appointment> AppointmentRepository { get; }
         IGenericRepository<Report> ReportRepository { get; }
-        IGenericRepository<TrainingPlan> TrainingPlanRepository { get;  }
+        IGenericRepository<TrainingPlan> TrainingPlanRepository { get; }
         IGenericRepository<TrainingSession> TrainingSessionRepository { get; }
         IGenericRepository<ExerciseTrainingSession> ExerciseTrainingSessionRepository { get; }
         IGenericRepository<InjuryMedicalRecord> InjuryMedicalRecordRepository { get; }
         IGenericRepository<UsersProfile> ProfileRepository { get; }
+        IGenericRepository<Meal> MealRepository { get; }
+        IGenericRepository<NutritionPlan> NutritionPlanRepository { get; }
         void SaveChanges();
     }
 }

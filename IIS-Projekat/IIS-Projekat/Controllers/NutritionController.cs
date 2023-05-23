@@ -1,4 +1,7 @@
-﻿using IIS_Projekat.Services;
+﻿using IIS_Projekat.Models.DTOs.NutritionPlan;
+using IIS_Projekat.Services;
+using IIS_Projekat.SupportClasses.Roles;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IIS_Projekat.Controllers
@@ -11,6 +14,18 @@ namespace IIS_Projekat.Controllers
         public NutritionController(INutritionService nutritionService)
         {
             _nutritionService = nutritionService;
+        }
+
+        /// <summary>
+        /// [Nutritionist] Gets nutrition plan for sent user and date
+        /// </summary>
+        /// <response code="200">Returns nutrition plan with sent keys</response>
+        /// <response code="404">If user with sent id does not exists in database</response>
+        [HttpPost(Name = "GetNutritionPlan")]
+        [Authorize(Roles = Roles.Nutritionist)]
+        public ActionResult<ResponseNutritionPlanDTO> GetNutritionPlan([FromBody] NutritionPlanKeyDTO nutritionPlanKeyDTO)
+        {
+            return Ok(_nutritionService.GetOne(nutritionPlanKeyDTO));
         }
     }
 }

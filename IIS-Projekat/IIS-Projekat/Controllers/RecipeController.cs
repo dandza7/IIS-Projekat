@@ -60,7 +60,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="200">Returns all recipes detailed</response>
         [HttpPost("detailed", Name = "GetAllRecipesDetailed")]
         [Authorize(Roles = $"{Roles.Nutritionist}, {Roles.Customer}")]
-        public ActionResult<PaginationWrapper<PreviewRecipeDTO>> GetAllRecipesDetailed([FromBody] PaginationQuery paginationQuery)
+        public ActionResult<PaginationWrapper<PreviewRecipeDetailedDTO>> GetAllRecipesDetailed([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_recipeService.GetAllDetailed(paginationQuery));
         }
