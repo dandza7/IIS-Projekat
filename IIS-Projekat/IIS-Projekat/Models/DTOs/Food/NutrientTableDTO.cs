@@ -2,23 +2,23 @@
 {
     public class NutrientTableDTO
     {
-        public int Protein { get; set; } = 0;
-        public int Fat { get; set; } = 0;
-        public int Carbohydrates { get; set; } = 0;
-        public int Fiber { get; set; } = 0;
-        public int Sugar { get; set; } = 0;
-        public int VitaminA { get; set; } = 0;
-        public int VitaminB1 { get; set; } = 0;
-        public int VitaminB2 { get; set; } = 0;
-        public int VitaminB3 { get; set; } = 0;
-        public int VitaminC { get; set; } = 0;
-        public int VitaminD { get; set; } = 0;
-        public int VitaminE { get; set; } = 0;
-        public int Calcium { get; set; } = 0;
-        public int Iron { get; set; } = 0;
-        public int Magnesium { get; set; } = 0;
-        public int Potassium { get; set; } = 0;
-        public int Sodium { get; set; } = 0;
-        public int Zinc { get; set; } = 0;
+        public float Protein { get; set; } = 0;
+        public float Fat { get; set; } = 0;
+        public float Carbohydrates { get; set; } = 0;
+        public float Fiber { get; set; } = 0;
+        public float Sugar { get; set; } = 0;
+        public float VitaminA { get; set; } = 0;
+        public float VitaminB1 { get; set; } = 0;
+        public float VitaminB2 { get; set; } = 0;
+        public float VitaminB3 { get; set; } = 0;
+        public float VitaminC { get; set; } = 0;
+        public float VitaminD { get; set; } = 0;
+        public float VitaminE { get; set; } = 0;
+        public float Calcium { get; set; } = 0;
+        public float Iron { get; set; } = 0;
+        public float Magnesium { get; set; } = 0;
+        public float Potassium { get; set; } = 0;
+        public float Sodium { get; set; } = 0;
+        public float Zinc { get; set; } = 0;
     }
 }
