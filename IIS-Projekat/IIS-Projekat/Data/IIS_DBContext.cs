@@ -26,6 +26,8 @@ namespace IIS_Projekat.Data
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Report> Reports { get; set; }
+        public DbSet<NutritionPlan> NutritionPlans { get; set; }
+        public DbSet<Meal> Meals { get; set; }
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -551,6 +553,18 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Report>().HasKey(r => r.Id);
             modelBuilder.Entity<Report>().Property(r => r.Message).IsRequired();
             modelBuilder.Entity<Report>().HasOne(r => r.Appointment).WithOne(a => a.Report).HasForeignKey<Appointment>(a => a.ReportId);
+
+            modelBuilder.Entity<NutritionPlan>().HasQueryFilter(np => !np.IsDeleted);
+            modelBuilder.Entity<NutritionPlan>().HasKey(np => np.Id);
+            modelBuilder.Entity<NutritionPlan>().Property(np => np.Date).IsRequired();
+            modelBuilder.Entity<NutritionPlan>().HasOne(np => np.User).WithMany().HasForeignKey(np => np.UserId).IsRequired();
+
+            modelBuilder.Entity<Meal>().HasQueryFilter(m => !m.IsDeleted);
+            modelBuilder.Entity<Meal>().HasKey(m => m.Id);
+            modelBuilder.Entity<Meal>().Property(m => m.PortionSize).IsRequired();
+            modelBuilder.Entity<Meal>().Property(m => m.Type).IsRequired();
+            modelBuilder.Entity<Meal>().HasOne(m => m.Recipe).WithMany().HasForeignKey(m => m.RecipeId).IsRequired();
+            modelBuilder.Entity<Meal>().HasOne(m => m.NutritionPlan).WithMany(np => np.Meals).IsRequired();
         }
     }
 }
