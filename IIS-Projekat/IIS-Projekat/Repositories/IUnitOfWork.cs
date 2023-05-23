@@ -19,7 +19,7 @@ namespace IIS_Projekat.Repositories
         IGenericRepository<Injury> InjuryRepository { get; }
         IGenericRepository<MedicalRecord> MedicalRecordRepository { get; }
         IGenericRepository<Appointment> AppointmentRepository { get; }
-        IGenericRepository<TrainingPlan> TrainingPlanRepository { get;  }
+        IGenericRepository<TrainingPlan> TrainingPlanRepository { get; }
         IGenericRepository<TrainingSession> TrainingSessionRepository { get; }
         IGenericRepository<ExerciseTrainingSession> ExerciseTrainingSessionRepository { get; }
         IGenericRepository<InjuryMedicalRecord> InjuryMedicalRecordRepository { get; }
@@ -27,6 +27,9 @@ namespace IIS_Projekat.Repositories
         IGenericRepository<Therapy> TherapyRepository { get; }
         IGenericRepository<Meal> MealRepository { get; }
         IGenericRepository<NutritionPlan> NutritionPlanRepository { get; }
+        IGenericRepository<FoodOrder> FoodOrderRepository { get; }
+        IGenericRepository<FoodPrice> FoodPriceRepository { get; }
+        IGenericRepository<FoodSupplyReport> FoodSupplyReportRepository { get; }
         void SaveChanges();
     }
 }
