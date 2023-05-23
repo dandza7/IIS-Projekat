@@ -31,13 +31,13 @@ namespace IIS_Projekat.Controllers
         /// <response code="400">If muscle group is not valid</response>
         [HttpPost("create", Name = "ExerciseCreation")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<long> CreateExercise([FromBody] Models.DTOs.Exercise.NewExerciseDTO newExerciseDTO)
+        public ActionResult<long> CreateExercise([FromBody] Models.DTOs.Exercise.NewExerciseDTO newExerciseDTO, string email)
         {
-            return Ok(_exerciseService.CreateExercise(newExerciseDTO));
+            return Ok(_exerciseService.CreateExercise(newExerciseDTO, email));
         }
 
         /// <summary>
-        /// [Trainer] Gets all exercises (with pagination, sorting and filtering optional)
+        /// [Trainer, Physiotherapist] Gets all exercises (with pagination, sorting and filtering optional)
         /// </summary>
         /// <remarks>
         /// Pagination constraints (Everything is case insenstive):
@@ -48,10 +48,28 @@ namespace IIS_Projekat.Controllers
         /// </remarks>
         /// <response code="200">Returns all exercises</response>
         [HttpPost(Name = "GetAllExercises")]
-        [Authorize(Roles = Roles.Trainer)]
+        [Authorize(Roles = $"{Roles.Trainer}, {Roles.Physiotherapist}")]
         public ActionResult<IEnumerable<Models.DTOs.Exercise.PreviewExerciseDTO>> GetAllExercises([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_exerciseService.GetAll(paginationQuery));
+        }
+
+        /// <summary>
+        /// [Physiotherapist] Gets rehabilitation exercises (with pagination, sorting and filtering optional)
+        /// </summary>
+        /// <remarks>
+        /// Pagination constraints (Everything is case insenstive):
+        /// <br/>  > Page and PageSize must be greater than 0 (0 if you want all items at once)
+        /// <br/>  > Orders:
+        /// <br/>  >>> OrderField must be one of the following: ID, Name
+        /// <br/>  >>> Ordering must be either ASC or DESC
+        /// </remarks>
+        /// <response code="200">Returns all rehabilitation exercises</response>
+        [HttpPost("rehabilitaional", Name = "GetAllRehabilitationalExercises")]
+        [Authorize(Roles = Roles.Physiotherapist)]
+        public ActionResult<IEnumerable<Models.DTOs.Exercise.PreviewExerciseDTO>> GetAllRehabilitationExercises([FromBody] PaginationQuery paginationQuery)
+        {
+            return Ok(_exerciseService.GetRehabilitationExercises(paginationQuery));
         }
 
         /// <summary>
@@ -73,13 +91,13 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
-        /// [Trainer] Deletes Exercise
+        /// [Trainer, Physiotherapist] Deletes Exercise
         /// </summary>
         /// <response code="200">If exercise is successfully deleted</response>
         /// <response code="400">If exercise is already deleted</response>
         /// <response code="404">If exercise does not exist in the database</response>
         [HttpDelete("delete/{id}", Name = "DeleteExercise")]
-        [Authorize(Roles = Roles.Trainer)]
+        [Authorize(Roles = $"{Roles.Trainer}, {Roles.Physiotherapist}")]
         public ActionResult DeleteExercise(long id)
         {
             _exerciseService.DeleteExercise(id);

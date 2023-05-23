@@ -92,6 +92,7 @@ builder.Services.AddScoped<ITrainingPlanService, TrainingPlanService>();
 builder.Services.AddScoped<ITrainingSessionService, TrainingSessionService>();
 builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITherapyService, TherapyService>();
 
 // Enabled CORS
 
