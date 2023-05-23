@@ -239,7 +239,7 @@ const NewRecipe = () => {
     <div className={classes.newRecipe}>
       <div className={utils.title}>New recipe</div>
       <div>
-        <form className={utils.form}>
+        <div className={utils.form}>
           <div className={classes.nutrientsContainer}>
             <div className={classes.container}>
               <div className={classes.nameContainer}>
@@ -560,7 +560,7 @@ const NewRecipe = () => {
               </div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
       <Modal
         open={open}

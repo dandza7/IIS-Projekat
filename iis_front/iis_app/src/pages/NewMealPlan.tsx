@@ -208,6 +208,7 @@ const NewMealPlan = () => {
   }, [wholePlan]);
 
   const addFoodHandler = () => {
+    event?.preventDefault();
     console.log(breakFast);
     const si = selectedIngredient;
     si.amount = selectedFoodAmountRef?.current?.value;
@@ -239,12 +240,12 @@ const NewMealPlan = () => {
   };
 
   const removeFoodHandler = (foodName: string, meal: string) => {
-    setWholePlan((current) => current.filter((food) => food.name !== foodName));
+    let breakFast1 = breakFast.filter((food) => food.name !== foodName);
+    let wholePlan1 = wholePlan.filter((food) => food.name !== foodName);
+    setWholePlan(wholePlan1);
     switch (meal) {
       case "breakfast":
-        setBreakfast((current) =>
-          current.filter((food) => food.name !== foodName)
-        );
+        setBreakfast(breakFast1);
       case "lunch":
         setLunch((current) => current.filter((food) => food.name !== foodName));
       case "dinner":
@@ -328,22 +329,7 @@ const NewMealPlan = () => {
       },
     ],
   };
-  const selectedFoodData = {
-    labels: [],
-    datasets: [
-      {
-        data: [
-          selectedIngredient?.nutrientTable?.carbohydrates *
-            selectedFoodAmountRef?.current?.value,
-          selectedIngredient?.nutrientTable?.protein *
-            selectedFoodAmountRef?.current?.value,
-          selectedIngredient?.nutrientTable?.fat *
-            selectedFoodAmountRef?.current?.value,
-        ],
-        backgroundColor: ["#42f5ce", "#12725d", "#2ac9aa"],
-      },
-    ],
-  };
+
   const macrosData = {
     labels: ["Carbs", "Protein", "Fat"],
     datasets: [
@@ -365,18 +351,12 @@ const NewMealPlan = () => {
   const options = {
     plugins: { legend: { position: "right" } },
   };
-  const optionsSmall = {
-    plugins: { legend: { position: "right" } },
-    layout: {
-      padding: 0,
-    },
-  };
 
   return (
     <div className={classes.newRecipe}>
       <div className={utils.title}>Meal plan</div>
       <div>
-        <form className={utils.form}>
+        <div className={utils.form}>
           <div className={classes.nutrientsContainer2}>
             <div className={classes.container}>
               <div className={classes.dataContainer}>
@@ -483,7 +463,7 @@ const NewMealPlan = () => {
                     <span className={classes.smallTitle}>Calorie intake: </span>
                     <span
                       className={
-                        total.energy <= bmr
+                        total?.energy <= bmr
                           ? classes.smallTitle
                           : classes.smallTitleRed
                       }
@@ -516,7 +496,7 @@ const NewMealPlan = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {breakFast.map((food, index) => (
+                    {breakFast?.map((food, index) => (
                       <tr key={index}>
                         <td>{food?.name}</td>
                         <td>{food?.amount}</td>
@@ -694,13 +674,13 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Energy</td>
                           <td>
-                            <span>{total.energy}</span>
+                            <span>{total?.energy}</span>
                           </td>
                           <td>
                             <span>kcal</span>
                           </td>
                           <td>
-                            <span>{optimal.energy}</span>
+                            <span>{optimal?.energy}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -719,37 +699,37 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Total</td>
                           <td>
-                            <span>{total.carbs}</span>
+                            <span>{total?.carbs}</span>
                           </td>
                           <td>
                             <span>g</span>
                           </td>
                           <td>
-                            <span>{optimal.carbs}</span>
+                            <span>{optimal?.carbs}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Fiber</td>
                           <td>
-                            <span>{total.fiber}</span>
+                            <span>{total?.fiber}</span>
                           </td>
                           <td>
                             <span>g</span>
                           </td>
                           <td>
-                            <span>{optimal.fiber}</span>
+                            <span>{optimal?.fiber}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Sugars</td>
                           <td>
-                            <span>{total.sugar}</span>
+                            <span>{total?.sugar}</span>
                           </td>
                           <td>
                             <span>g</span>
                           </td>
                           <td>
-                            <span>{optimal.sugar}</span>
+                            <span>{optimal?.sugar}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -768,13 +748,13 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Total Protein</td>
                           <td>
-                            <span>{total.protein}</span>
+                            <span>{total?.protein}</span>
                           </td>
                           <td>
                             <span>g</span>
                           </td>
                           <td>
-                            <span>{optimal.protein}</span>
+                            <span>{optimal?.protein}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -793,13 +773,13 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Total Fat</td>
                           <td>
-                            <span>{total.fat}</span>
+                            <span>{total?.fat}</span>
                           </td>
                           <td>
                             <span>g</span>
                           </td>
                           <td>
-                            <span>{optimal.fat}</span>
+                            <span>{optimal?.fat}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -820,85 +800,85 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Vitamin A</td>
                           <td>
-                            <span>{total.vitaminA}</span>
+                            <span>{total?.vitaminA}</span>
                           </td>
                           <td>
                             <span>mcg</span>
                           </td>
                           <td>
-                            <span>{optimal.vitaminA}</span>
+                            <span>{optimal?.vitaminA}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Vitamin B1</td>
                           <td>
-                            <span>{total.vitaminB1}</span>
+                            <span>{total?.vitaminB1}</span>
                           </td>
                           <td>
                             <span>mg</span>
                           </td>
                           <td>
-                            <span>{optimal.vitaminB1}</span>
+                            <span>{optimal?.vitaminB1}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Vitamin B2</td>
                           <td>
-                            <span>{total.vitaminB2}</span>
+                            <span>{total?.vitaminB2}</span>
                           </td>
                           <td>
                             <span>mg</span>
                           </td>
                           <td>
-                            <span>{optimal.vitaminB2}</span>
+                            <span>{optimal?.vitaminB2}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Vitamin B3</td>
                           <td>
-                            <span>{total.vitaminB3}</span>
+                            <span>{total?.vitaminB3}</span>
                           </td>
                           <td>
                             <span>mg</span>
                           </td>
                           <td>
-                            <span>{optimal.vitaminB3}</span>
+                            <span>{optimal?.vitaminB3}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Vitamin C</td>
                           <td>
-                            <span>{total.vitaminC}</span>
+                            <span>{total?.vitaminC}</span>
                           </td>
                           <td>
                             <span>mg</span>
                           </td>
                           <td>
-                            <span>{optimal.vitaminC}</span>
+                            <span>{optimal?.vitaminC}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Vitamin D</td>
                           <td>
-                            <span>{total.vitaminD}</span>
+                            <span>{total?.vitaminD}</span>
                           </td>
                           <td>
                             <span>IU</span>
                           </td>
                           <td>
-                            <span>{optimal.vitaminD}</span>
+                            <span>{optimal?.vitaminD}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Vitamin E</td>
                           <td>
-                            <span>{total.vitaminE}</span>
+                            <span>{total?.vitaminE}</span>
                           </td>
                           <td>
                             <span>mg</span>
                           </td>
                           <td>
-                            <span>{optimal.vitaminE}</span>
+                            <span>{optimal?.vitaminE}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -917,73 +897,73 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Calcium</td>
                           <td>
-                            <span>{total.calcium}</span>
+                            <span>{total?.calcium}</span>
                           </td>
                           <td>
                             <span>mg</span>
                           </td>
                           <td>
-                            <span>{optimal.calcium}</span>
+                            <span>{optimal?.calcium}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Iron</td>
                           <td>
-                            <span>{total.iron}</span>
+                            <span>{total?.iron}</span>
                           </td>
                           <td>
                             <span>mg</span>
                           </td>
                           <td>
-                            <span>{optimal.iron}</span>
+                            <span>{optimal?.iron}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Magnesium</td>
                           <td>
-                            <span>{total.magnesium}</span>
+                            <span>{total?.magnesium}</span>
                           </td>
                           <td>
                             <span>mg</span>
                           </td>
                           <td>
-                            <span>{optimal.magnesium}</span>
+                            <span>{optimal?.magnesium}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Potassium</td>
                           <td>
-                            <span>{total.potassium}</span>
+                            <span>{total?.potassium}</span>
                           </td>
                           <td>
                             <span>mg</span>
                           </td>
                           <td>
-                            <span>{optimal.potassium}</span>
+                            <span>{optimal?.potassium}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Sodium</td>
                           <td>
-                            <span>{total.sodium}</span>
+                            <span>{total?.sodium}</span>
                           </td>
                           <td>
                             <span>mg</span>
                           </td>
                           <td>
-                            <span>{optimal.sodium}</span>
+                            <span>{optimal?.sodium}</span>
                           </td>
                         </tr>
                         <tr>
                           <td>Zinc</td>
                           <td>
-                            <span>{total.zinc}</span>
+                            <span>{total?.zinc}</span>
                           </td>
                           <td>
                             <span>mg</span>
                           </td>
                           <td>
-                            <span>{optimal.zinc}</span>
+                            <span>{optimal?.zinc}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -993,7 +973,7 @@ const NewMealPlan = () => {
               </div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
       <Modal
         open={open}
@@ -1029,8 +1009,8 @@ const NewMealPlan = () => {
                       <tbody>
                         {allFood.map((food, index) => (
                           <tr key={index}>
-                            <td>{food.name}</td>
-                            <td>{food.calories}</td>
+                            <td>{food?.name}</td>
+                            <td>{food?.calories}</td>
                             <td>
                               <button
                                 className={classes.blackButton}
@@ -1066,20 +1046,21 @@ const NewMealPlan = () => {
                               <span>Carbohydrates: </span>
                               <span>
                                 {selectedIngredient?.nutrientTable
-                                  .carbohydrates * amount}
+                                  ?.carbohydrates * amount}
                               </span>
                             </div>
                             <div>
                               <span>Protein: </span>
                               <span>
-                                {selectedIngredient?.nutrientTable.protein *
+                                {selectedIngredient?.nutrientTable?.protein *
                                   amount}
                               </span>
                             </div>
                             <div>
                               <span>Fat: </span>
                               <span>
-                                {selectedIngredient?.nutrientTable.fat * amount}
+                                {selectedIngredient?.nutrientTable?.fat *
+                                  amount}
                               </span>
                             </div>
                           </div>
