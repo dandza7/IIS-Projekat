@@ -16,7 +16,7 @@ const MealPlanPatients = () => {
 
   useEffect(() => {
     console.log(authCtx.token);
-    fetch("http://localhost:5041/api/profiles", {
+    fetch("http://localhost:5041/api/patients", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -52,8 +52,8 @@ const MealPlanPatients = () => {
       });
   }, []);
 
-  const openMealPlanHandler = (email: string) => {
-    localStorage.setItem("patientEmail", email);
+  const openMealPlanHandler = (id: number) => {
+    localStorage.setItem("patientId", id);
     navigate("/meal-plan");
   };
 
@@ -86,7 +86,7 @@ const MealPlanPatients = () => {
                   <td>
                     <button
                       className={utils.greenButton}
-                      onClick={() => openMealPlanHandler(patient.email)}
+                      onClick={() => openMealPlanHandler(patient.id)}
                     >
                       Meal plan
                     </button>

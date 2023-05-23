@@ -8,6 +8,9 @@ import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+ChartJs.register(ArcElement, Tooltip, Legend);
 
 const NewRecipe = () => {
   type nutrition = {
@@ -70,6 +73,24 @@ const NewRecipe = () => {
     sodium: 0,
     zinc: 0,
   });
+  const carbsData = {
+    labels: ["Fiber", "Sugar"],
+    datasets: [
+      {
+        data: [total.fiber, total.sugar],
+        backgroundColor: ["#42f5ce", "#12725d"],
+      },
+    ],
+  };
+  const macrosData = {
+    labels: ["Carbs", "Protein", "Fat"],
+    datasets: [
+      {
+        data: [total.carbs, total.protein, total.fat],
+        backgroundColor: ["#42f5ce", "#12725d", "#2ac9aa"],
+      },
+    ],
+  };
 
   const style = {
     position: "absolute" as "absolute",
@@ -211,11 +232,14 @@ const NewRecipe = () => {
       });
   }, []);
 
+  const options = {
+    plugins: { legend: { position: "right" } },
+  };
   return (
     <div className={classes.newRecipe}>
       <div className={utils.title}>New recipe</div>
       <div>
-        <form className={utils.form}>
+        <div className={utils.form}>
           <div className={classes.nutrientsContainer}>
             <div className={classes.container}>
               <div className={classes.nameContainer}>
@@ -234,6 +258,19 @@ const NewRecipe = () => {
                   Add recipe
                 </button>
               </div>
+              {total.energy != 0 && (
+                <div className={classes.chartsContainer}>
+                  <span className={classes.smallTitle}>Nutrients </span>
+                  <div className={classes.chartsContainer_}>
+                    <div className={classes.chartContainer}>
+                      <Doughnut data={macrosData} options={options}></Doughnut>
+                    </div>
+                    <div className={classes.chartContainer}>
+                      <Doughnut data={carbsData} options={options}></Doughnut>
+                    </div>
+                  </div>
+                </div>
+              )}
               <span className={classes.smallTitle}>Ingredients</span>
               <table className={classes.styledTableFoods}>
                 <thead>
@@ -285,7 +322,7 @@ const NewRecipe = () => {
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Energy(kcal)</td>
+                        <td>Energy</td>
                         <td>
                           <span>{total.energy}</span>
                         </td>
@@ -394,7 +431,7 @@ const NewRecipe = () => {
                           <span>{total.vitaminA}</span>
                         </td>
                         <td>
-                          <span>IU</span>
+                          <span>mcg</span>
                         </td>
                       </tr>
                       <tr>
@@ -523,7 +560,7 @@ const NewRecipe = () => {
               </div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
       <Modal
         open={open}

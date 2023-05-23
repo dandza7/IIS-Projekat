@@ -23,7 +23,7 @@ export const Patients = () => {
 
   useEffect(() => {
     console.log(authCtx.token);
-    fetch("http://localhost:5041/api/profiles", {
+    fetch("http://localhost:5041/api/patients", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

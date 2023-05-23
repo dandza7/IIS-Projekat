@@ -32,7 +32,7 @@ namespace IIS_Projekat.Services.Impl
             }
             var patientDetailed = _mapper.Map<PreviewPatientDetailedDTO>(patient);
             var plan = _unitOfWork.TrainingPlanRepository.GetAll().Where(tp => tp.Client.Id == id).FirstOrDefault();
-            patientDetailed.SessionsPerWeek = plan == null ? 0 : plan.TrainingSessions.Count();
+            patientDetailed.SessionsPerWeek = plan == null ? 0 : plan.SessionsPerWeek;
             patientDetailed.TrainingGoal = plan == null ? "No plan" : plan.TrainingGoal;
             return patientDetailed;
         }

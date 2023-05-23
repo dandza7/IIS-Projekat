@@ -364,7 +364,7 @@ const NewFood = () => {
                       ></input>
                     </td>
                     <td>
-                      <span>IU</span>
+                      <span>mcg</span>
                     </td>
                   </tr>
                   <tr>

@@ -43,7 +43,7 @@
   width: 100vw;
 }
 .styledTableNutrients thead tr {
-  background-color: rgb(47, 96, 76);
+  background-color: var(--darkGreen);
   color: #ffffff;
   text-align: left;
 }
@@ -85,7 +85,7 @@
 }
 
 .styledTableFoods thead tr {
-  background-color: rgb(47, 96, 76);
+  background-color: var(--darkGreen);
   color: #ffffff;
   text-align: left;
 }
@@ -135,7 +135,7 @@
 }
 
 .styledTable thead tr {
-  background-color: rgb(47, 96, 76);
+  background-color: var(--darkGreen);
   color: #ffffff;
   text-align: left;
 }
@@ -212,8 +212,8 @@
 }
 
 .food {
-  background-color: rgb(83, 186, 150);
-  border: 1px solid rgb(83, 186, 150);
+  background-color: var(--lightGreen);
+  border: 1px solid var(--lightGreen);
   color: white;
   border-radius: 1rem;
   padding: 0.5rem 2rem;

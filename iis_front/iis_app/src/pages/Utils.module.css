@@ -4,7 +4,7 @@
 }
 
 .styledTable thead tr {
-  background-color: rgb(71, 195, 145);
+  background-color: var(--lightGreen);
   color: #ffffff;
   text-align: left;
 }
@@ -46,7 +46,7 @@
 }
 
 .styledTableDark thead tr {
-  background-color: rgb(47, 96, 76);
+  background-color: var(--darkGreen);
   color: #ffffff;
   text-align: left;
 }
@@ -183,14 +183,14 @@
 }
 
 .modalTitle {
-  background-color: rgb(71, 195, 145);
+  background-color: var(--lightGreen);
   border-radius: 10px 10px 0px 0px;
   margin: -4px;
   color: white;
   padding: 1rem;
 }
 .modalTitleDark {
-  background-color: rgb(47, 96, 76);
+  background-color: var(--darkGreen);
   border-radius: 10px 10px 0px 0px;
   border: none;
   margin: -4px;
@@ -226,4 +226,10 @@
 .buttonContainer {
   display: flex;
   gap: 0.5rem;
+}
+.spanFlex {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
 }
