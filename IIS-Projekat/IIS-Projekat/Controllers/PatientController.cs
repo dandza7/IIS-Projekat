@@ -42,6 +42,11 @@ namespace IIS_Projekat.Controllers
             return Ok(_patientService.GetAll(paginationQuery));
         }
 
+        /// <summary>
+        /// [Doctors] Previews patients detailed profile
+        /// </summary>
+        /// <response code="200">Returns profile of patient with sent id</response>
+        /// <response code="404">If user with sent id does not exists in database</response>
         [HttpGet("{id}", Name = "GetPatientDetailed")]
         [Authorize(Roles = Roles.Doctors)]
         public ActionResult<PreviewPatientDetailedDTO> GetPatientDetailed(long id)
