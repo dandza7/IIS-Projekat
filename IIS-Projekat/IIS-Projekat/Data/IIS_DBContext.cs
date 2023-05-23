@@ -1,4 +1,5 @@
-﻿using IIS_Projekat.Models;
+﻿using System.Reflection.Metadata;
+using IIS_Projekat.Models;
 using IIS_Projekat.SupportClasses.PasswordHasher;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.EntityFrameworkCore;
@@ -25,9 +26,10 @@ namespace IIS_Projekat.Data
         public DbSet<Injury> Injuries { get; set; }
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<Report> Reports { get; set; }
         public DbSet<NutritionPlan> NutritionPlans { get; set; }
         public DbSet<Meal> Meals { get; set; }
+        public DbSet<Therapy> Therapies { get; set; }
+
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -536,6 +538,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Therapy).IsRequired(false);
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Allergies).WithMany(a => a.MedicalRecords);
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Diagnoses).WithMany(d => d.MedicalRecords);
+            modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Therapies).WithOne(t => t.MedicalRecord).HasForeignKey(t => t.MedicalRecordId).IsRequired();
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.MedicalRecords).WithOne(imr => imr.MedicalRecord).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<InjuryMedicalRecord>().HasQueryFilter(e => !e.IsDeleted);
@@ -549,11 +552,6 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Appointment>().HasOne(a => a.Patient).WithMany().OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Appointment>().HasOne(a => a.Doctor).WithMany().OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Report>().HasQueryFilter(r => !r.IsDeleted);
-            modelBuilder.Entity<Report>().HasKey(r => r.Id);
-            modelBuilder.Entity<Report>().Property(r => r.Message).IsRequired();
-            modelBuilder.Entity<Report>().HasOne(r => r.Appointment).WithOne(a => a.Report).HasForeignKey<Appointment>(a => a.ReportId);
-
             modelBuilder.Entity<NutritionPlan>().HasQueryFilter(np => !np.IsDeleted);
             modelBuilder.Entity<NutritionPlan>().HasKey(np => np.Id);
             modelBuilder.Entity<NutritionPlan>().Property(np => np.Date).IsRequired();
@@ -565,6 +563,11 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Meal>().Property(m => m.Type).IsRequired();
             modelBuilder.Entity<Meal>().HasOne(m => m.Recipe).WithMany().HasForeignKey(m => m.RecipeId).IsRequired();
             modelBuilder.Entity<Meal>().HasOne(m => m.NutritionPlan).WithMany(np => np.Meals).IsRequired();
+
+            modelBuilder.Entity<Therapy>().HasQueryFilter(t => !t.IsDeleted);
+            modelBuilder.Entity<Therapy>().HasKey(t => t.Id);
+            modelBuilder.Entity<Therapy>().Property(t => t.ReportMessage).IsRequired();
+            modelBuilder.Entity<Therapy>().HasMany(t => t.RecommendedExercises).WithMany(e => e.Therapies);
         }
     }
 }

@@ -41,17 +41,13 @@ namespace IIS_Projekat.Services.Impl
             }
             newAppointment.Patient = patient;
             newAppointment.Doctor = doctor;
-            newAppointment.Report = new Report
-            {
-                Message = appointment.ReportMessage
-            };
             _unitOfWork.SaveChanges();
             return newAppointment.Id;
         }
 
         public PaginationWrapper<PreviewAppointmentDTO> GetAll(PaginationQuery paginationQuery)
         {
-            var paginationResult = _unitOfWork.AppointmentRepository.Filter(paginationQuery, a => a.Doctor, a => a.Doctor.Profile, a => a.Patient, a => a.Patient.Profile, a => a.Report);
+            var paginationResult = _unitOfWork.AppointmentRepository.Filter(paginationQuery, a => a.Doctor, a => a.Doctor.Profile, a => a.Patient, a => a.Patient.Profile);
             var result = new PaginationWrapper<PreviewAppointmentDTO>(_mapper.Map<List<PreviewAppointmentDTO>>(paginationResult.Items), paginationResult.TotalCount);
             return result;
         }
