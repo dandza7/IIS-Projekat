@@ -20,7 +20,7 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
-        /// [Trainer] Gets all msucle groups (with pagination, sorting and filtering optional)
+        /// [Trainer, Physiotherapist] Gets all msucle groups (with pagination, sorting and filtering optional)
         /// </summary>
         /// <remarks>
         /// Pagination constraints (Everything is case insenstive):
@@ -31,7 +31,7 @@ namespace IIS_Projekat.Controllers
         /// </remarks>
         /// <response code="200">Returns all muscle groups</response>
         [HttpPost(Name = "GetAllMuscleGroups")]
-        [Authorize(Roles = Roles.Trainer)]
+        [Authorize(Roles = $"{Roles.Trainer}, {Roles.Physiotherapist}")]
         public ActionResult<IEnumerable<MuscleGroupDTO>> GetAllMuscleGroups ([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_muscleGroupService.GetAll(paginationQuery));

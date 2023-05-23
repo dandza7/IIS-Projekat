@@ -7,6 +7,7 @@ using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.User;
 using Microsoft.EntityFrameworkCore;
+using IIS_Projekat.SupportClasses.Roles;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -21,15 +22,17 @@ namespace IIS_Projekat.Services.Impl
             _mapper = mapper;   
         }
 
-        public long CreateExercise(NewExerciseDTO newExerciseDTO)
+        public long CreateExercise(NewExerciseDTO newExerciseDTO, string email)
         {
             Exercise newExercise = new Exercise();
             if(_unitOfWork.ExerciseRepository.GetAll().Where(e => e.Name == newExerciseDTO.Name).FirstOrDefault() != null)
             {
                 throw new ArgumentException("Exercise with given name already exists in the database!");
             }
+            var user = _unitOfWork.UserRepository.GetAll().Where(u => u.Email == email).FirstOrDefault();
+
             newExercise.Name = newExerciseDTO.Name;
-            newExercise.IsHypertrophic = (newExerciseDTO.IsHypertrophic) ? true : false;
+            newExercise.IsHypertrophic = (user.Role == Roles.Trainer) ? true : false;
             AddPrimaryMuscleGroup(newExercise, newExerciseDTO.PrimaryMuscleGroup);
             AddSecondaryMuscleGroups(newExercise, newExerciseDTO.SecondaryMuscleGroups);
             newExercise = _unitOfWork.ExerciseRepository.Create(newExercise);
@@ -67,6 +70,24 @@ namespace IIS_Projekat.Services.Impl
         public PaginationWrapper<PreviewExerciseDTO> GetAll(PaginationQuery? paginationQuery)
         {
 
+            var paginationResult = _unitOfWork.ExerciseRepository.Filter(paginationQuery);
+            return new PaginationWrapper<PreviewExerciseDTO>(_mapper.Map<List<PreviewExerciseDTO>>(paginationResult.Items), paginationResult.TotalCount);
+        }
+
+        public PaginationWrapper<PreviewExerciseDTO> GetRehabilitationExercises(PaginationQuery? paginationQuery)
+        {
+            paginationQuery.Filters.Add(new Filter
+            {
+                Property = "IsHypertrophic", 
+                FilterValues = new List<Filter.FilterValue> 
+                { 
+                    new Filter.FilterValue
+                    {
+                        Value = "false",
+                        Operation = FilterOperation.NumberEquals
+                    }
+                }
+            });
             var paginationResult = _unitOfWork.ExerciseRepository.Filter(paginationQuery);
             return new PaginationWrapper<PreviewExerciseDTO>(_mapper.Map<List<PreviewExerciseDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
@@ -142,5 +163,7 @@ namespace IIS_Projekat.Services.Impl
                 .ForEach(emg => { exercises.Add(emg.Exercise); });
             return exercises;
         }
+
+        
     }
 }
