@@ -47,7 +47,7 @@ import { TrainingPlan } from "./pages/TrainingPlan";
 import MyExercisePlan from "./pages/MyExercisePlan";
 import NewMealPlan from "./pages/NewMealPlan";
 import MealPlanPatients from "./pages/MealPlanPatients";
-
+import Appointment from "./pages/Appointment";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -93,6 +93,11 @@ const router = createBrowserRouter(
             path="/appointments"
             element={<Appointments></Appointments>}
           ></Route>
+          <Route
+            path="/appointments/:id"
+            element={<Appointment></Appointment>}
+          ></Route>
+          <Route path="/exercises" element={<Exercises></Exercises>}></Route>
           <Route
             path="/spa-appointments"
             element={<SpaAppointments></SpaAppointments>}
