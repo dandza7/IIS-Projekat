@@ -4,6 +4,7 @@ namespace IIS_Projekat.Models.DTOs.Recipe
 {
     public class PreviewRecipeDetailedDTO
     {
+        public long Id { get; set; }
         public string Name { get; set; }
         public float Calories { get; set; }
         public List<PreviewIngredientDTO> Ingredients { get; set; } = new List<PreviewIngredientDTO>();
