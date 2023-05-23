@@ -43,7 +43,7 @@
   width: 100vw;
 }
 .styledTableNutrients thead tr {
-  background-color: rgb(47, 96, 76);
+  background-color: var(--darkGreen);
   color: #ffffff;
   text-align: left;
 }
@@ -85,7 +85,7 @@
 }
 
 .styledTableFoods thead tr {
-  background-color: rgb(47, 96, 76);
+  background-color: var(--darkGreen);
   color: #ffffff;
   text-align: left;
 }
@@ -135,7 +135,7 @@
 }
 
 .styledTable thead tr {
-  background-color: rgb(47, 96, 76);
+  background-color: var(--darkGreen);
   color: #ffffff;
   text-align: left;
 }
@@ -200,20 +200,20 @@
   font-size: 1.3rem;
 }
 .selectedIngredient {
+  width: 80%;
   display: flex;
   margin-top: 1rem;
-  gap: 20rem;
+  gap: 5rem;
   justify-content: space-between;
   border: 1px solid rgb(189, 179, 179);
-  margin: 1rem;
   border-radius: 1rem;
   padding: 1rem;
   font-size: 1rem;
 }
 
 .food {
-  background-color: rgb(83, 186, 150);
-  border: 1px solid rgb(83, 186, 150);
+  background-color: var(--lightGreen);
+  border: 1px solid var(--lightGreen);
   color: white;
   border-radius: 1rem;
   padding: 0.5rem 2rem;
@@ -230,7 +230,7 @@
   height: 1.5rem;
   border-radius: 0.5rem;
   border: 1px solid rgb(170, 169, 169);
-  width: 100px;
+  width: 20px;
   padding-left: 10px;
   background-color: rgb(239, 239, 239);
 }
@@ -266,6 +266,45 @@
 .dataContainer {
   display: flex;
   flex-direction: column;
-  width: 200px;
   gap: 1rem;
+}
+.chartsContainer {
+  width: 100%;
+}
+
+.chartsContainer_ {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-around;
+}
+.chartsContainerSide {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: space-around;
+}
+
+.infoContainer {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+.spanFlex {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem;
+  text-align: center;
+}
+.calorieIntakeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.smallTitleRed {
+  font-size: 1.5rem;
+  color: rgb(247, 16, 16);
+}
+.smallChartContainer {
+  width: 25%;
+  height: 25%;
+  padding: 0;
 }

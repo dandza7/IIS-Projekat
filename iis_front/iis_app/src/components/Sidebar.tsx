@@ -160,6 +160,21 @@ export const Sidebar = () => {
         {authCtx.role == "NUTRITIONIST" && (
           <li className={classes.listItem}>
             <NavLink
+              to="/recipes"
+              style={({ isActive }) => ({
+                color: isActive ? "#45FF93" : "#fff",
+              })}
+            >
+              <div className={classes.navLink}>
+                <MenuBookIcon></MenuBookIcon>
+                {toggleMenu && <span className={classes.text}>Recipes</span>}
+              </div>
+            </NavLink>
+          </li>
+        )}
+        {authCtx.role == "NUTRITIONIST" && (
+          <li className={classes.listItem}>
+            <NavLink
               to="/meal-plans"
               style={({ isActive }) => ({
                 color: isActive ? "#45FF93" : "#fff",
@@ -184,22 +199,6 @@ export const Sidebar = () => {
               <div className={classes.navLink}>
                 <GroupIcon></GroupIcon>
                 {toggleMenu && <span className={classes.text}>Patients</span>}
-              </div>
-            </NavLink>
-          </li>
-        )}
-
-        {authCtx.role == "NUTRITIONIST" && (
-          <li className={classes.listItem}>
-            <NavLink
-              to="/recipes"
-              style={({ isActive }) => ({
-                color: isActive ? "#45FF93" : "#fff",
-              })}
-            >
-              <div className={classes.navLink}>
-                <MenuBookIcon></MenuBookIcon>
-                {toggleMenu && <span className={classes.text}>Recipes</span>}
               </div>
             </NavLink>
           </li>

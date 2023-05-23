@@ -30,6 +30,10 @@ const Appointments = () => {
       });
   }, []);
 
+  const startAppointmentHandler = (id: number) => {
+    navigate("/appointments/" + id);
+  };
+
   return (
     <div className={classes.appointments}>
       <p className={utils.title}>Appointments</p>
@@ -63,7 +67,14 @@ const Appointments = () => {
                   </td>
                   <td>Regular</td>
                   <td>
-                    <button className={utils.greenButton}>Start</button>
+                    <button
+                      className={utils.greenButton}
+                      onClick={() =>
+                        startAppointmentHandler(appointment.patient.id)
+                      }
+                    >
+                      Start
+                    </button>
                   </td>
                 </tr>
               ))}
