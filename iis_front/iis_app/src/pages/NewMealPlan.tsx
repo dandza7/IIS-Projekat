@@ -12,21 +12,52 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
+import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+ChartJs.register(ArcElement, Tooltip, Legend);
+
+function age(dateString: Date) {
+  var today = new Date();
+  var birthDate = new Date(dayjs(dateString).format("MMM D, YYYY"));
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+type nutrition = {
+  protein: number;
+  carbs: number;
+  fat: number;
+  energy: number;
+  fiber: number;
+  sugar: number;
+  vitaminA: number;
+  vitaminB1: number;
+  vitaminB2: number;
+  vitaminB3: number;
+  vitaminC: number;
+  vitaminD: number;
+  vitaminE: number;
+  calcium: number;
+  iron: number;
+  magnesium: number;
+  potassium: number;
+  sodium: number;
+  zinc: number;
+};
 
 const NewMealPlan = () => {
   const navigate = useNavigate();
-
-  type patientT = {
-    name: string;
-  };
-
   const [foodList, setfoodList] = useState<any[]>([]);
   const authCtx = useContext(AuthContext);
   const [allFood, setAllFood] = useState<any[]>([]);
   const [open, setOpen] = React.useState(false);
-  const selectedFoodAmountRef = useRef();
+  const selectedFoodAmountRef = useRef(null);
   const [mealName, setMealName] = useState("");
-  const [patient, setPatient] = useState<patientT>();
+  const [patient, setPatient] = useState();
   const nameRef = useRef();
   const handleOpen = (name: string) => {
     setOpen(true);
@@ -39,7 +70,9 @@ const NewMealPlan = () => {
   const [lunch, setLunch] = useState<any[]>([]);
   const [dinner, setDinner] = useState<any[]>([]);
   const [snacks, setSnacks] = useState<any[]>([]);
+  const [wholePlan, setWholePlan] = useState<any[]>([]);
   const [amount, setAmount] = useState(0);
+
   const [selectedIngredient, setSelectedIngredient] = useState(null);
   const [value, setValue] = React.useState<Dayjs | null>(dayjs(Date.now()));
   const [total, setTotal] = useState({
@@ -64,6 +97,21 @@ const NewMealPlan = () => {
     zinc: 0,
   });
 
+  useEffect(() => {
+    const patientId = localStorage.getItem("patientId");
+    fetch("http://localhost:5041/api/patients/" + patientId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        setPatient(actualData);
+      });
+  }, []);
+
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -76,7 +124,91 @@ const NewMealPlan = () => {
     borderRadius: 3,
   };
 
+  const fetchRecipes = () => {
+    fetch("http://localhost:5041/api/recipes/detailed", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({}),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        setAllFood(actualData.items);
+      });
+  };
+
+  useEffect(() => {
+    console.log(wholePlan);
+    const totalT: nutrition = {
+      protein: 0,
+      carbs: 0,
+      fat: 0,
+      energy: 0,
+      fiber: 0,
+      sugar: 0,
+      vitaminA: 0,
+      vitaminB1: 0,
+      vitaminB2: 0,
+      vitaminB3: 0,
+      vitaminC: 0,
+      vitaminD: 0,
+      vitaminE: 0,
+      calcium: 0,
+      iron: 0,
+      magnesium: 0,
+      potassium: 0,
+      sodium: 0,
+      zinc: 0,
+    };
+    wholePlan.map((food) => {
+      totalT.protein += food.nutrientTable.protein * food.amount;
+      totalT.carbs += food.nutrientTable.carbohydrates * food.amount;
+      totalT.fat += food.nutrientTable.fat * food.amount;
+      totalT.energy += food.calories * food.amount;
+      totalT.fiber += food.nutrientTable.fiber * food.amount;
+      totalT.sugar += food.nutrientTable.sugar * food.amount;
+      totalT.vitaminA += food.nutrientTable.vitaminA * food.amount;
+      totalT.vitaminB1 += food.nutrientTable.vitaminB1 * food.amount;
+      totalT.vitaminB2 += food.nutrientTable.vitaminB2 * food.amount;
+      totalT.vitaminB3 += food.nutrientTable.vitaminB3 * food.amount;
+      totalT.vitaminC += food.nutrientTable.vitaminC * food.amount;
+      totalT.vitaminD += food.nutrientTable.vitaminD * food.amount;
+      totalT.vitaminE += food.nutrientTable.vitaminE * food.amount;
+      totalT.calcium += food.nutrientTable.calcium * food.amount;
+      totalT.iron += food.nutrientTable.iron * food.amount;
+      totalT.magnesium += food.nutrientTable.magnesium * food.amount;
+      totalT.potassium += food.nutrientTable.potassium * food.amount;
+      totalT.sodium += food.nutrientTable.sodium * food.amount;
+      totalT.zinc += food.nutrientTable.zinc * food.amount;
+    });
+
+    setTotal({
+      protein: totalT.protein,
+      carbs: totalT.carbs,
+      fat: totalT.fat,
+      sugar: totalT.sugar,
+      fiber: totalT.fiber,
+      energy: totalT.energy,
+      vitaminA: totalT.vitaminA,
+      vitaminB1: totalT.vitaminB1,
+      vitaminB2: totalT.vitaminB2,
+      vitaminB3: totalT.vitaminB3,
+      vitaminC: totalT.vitaminC,
+      vitaminD: totalT.vitaminD,
+      vitaminE: totalT.vitaminE,
+      calcium: totalT.calcium,
+      magnesium: totalT.magnesium,
+      iron: totalT.iron,
+      potassium: totalT.potassium,
+      sodium: totalT.sodium,
+      zinc: totalT.zinc,
+    });
+  }, [wholePlan]);
+
   const addFoodHandler = () => {
+    console.log(breakFast);
     const si = selectedIngredient;
     si.amount = selectedFoodAmountRef?.current?.value;
     if (mealName == "Breakfast") {
@@ -96,6 +228,9 @@ const NewMealPlan = () => {
       updatedList = [...snacks, si];
       setSnacks(updatedList);
     }
+    var updatedList = [...wholePlan];
+    updatedList = [...wholePlan, si];
+    setWholePlan(updatedList);
     handleClose();
   };
 
@@ -103,16 +238,23 @@ const NewMealPlan = () => {
     setAmount(event?.target.value);
   };
 
-  const removeFoodHandler = (foodId: number, meal: string) => {
+  const removeFoodHandler = (foodName: string, meal: string) => {
+    setWholePlan((current) => current.filter((food) => food.name !== foodName));
     switch (meal) {
       case "breakfast":
-        setBreakfast((current) => current.filter((food) => food.id !== foodId));
+        setBreakfast((current) =>
+          current.filter((food) => food.name !== foodName)
+        );
       case "lunch":
-        setLunch((current) => current.filter((food) => food.id !== foodId));
+        setLunch((current) => current.filter((food) => food.name !== foodName));
       case "dinner":
-        setDinner((current) => current.filter((food) => food.id !== foodId));
+        setDinner((current) =>
+          current.filter((food) => food.name !== foodName)
+        );
       case "snack":
-        setSnacks((current) => current.filter((food) => food.id !== foodId));
+        setSnacks((current) =>
+          current.filter((food) => food.name !== foodName)
+        );
     }
   };
 
@@ -142,90 +284,136 @@ const NewMealPlan = () => {
       });
   };
 
-  useEffect(() => {
-    console.log(authCtx.token);
-    fetch("http://localhost:5041/api/profiles", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + authCtx.token,
+  let bmr =
+    patient?.gender == "Male"
+      ? Math.round(
+          88.4 +
+            13.4 * patient?.weight +
+            4.8 * patient?.height -
+            5.68 * age(patient?.birthDate)
+        )
+      : Math.round(
+          447.6 +
+            9.25 * patient?.weight +
+            3.1 * patient?.height -
+            4.33 * age(patient?.birthDate)
+        );
+  const optimal = {
+    protein: Math.round((bmr * 0.24) / 4),
+    carbs: Math.round((bmr * 0.52) / 4),
+    fat: Math.round((bmr * 0.24) / 9),
+    energy: bmr,
+    fiber: 25,
+    sugar: 33,
+    vitaminA: 700,
+    vitaminB1: 1.4,
+    vitaminB2: 1.6,
+    vitaminB3: 18,
+    vitaminC: 75,
+    vitaminD: 600,
+    vitaminE: 10,
+    calcium: 1000,
+    iron: 15,
+    magnesium: 350,
+    potassium: 3500,
+    sodium: 2400,
+    zinc: 15,
+  };
+  const macrosDataPH = {
+    labels: ["Carbs", "Protein", "Fat"],
+    datasets: [
+      {
+        data: [1, 1, 1],
+        backgroundColor: ["#42f5ce", "#12725d", "#2ac9aa"],
       },
-      body: JSON.stringify({
-        pageSize: 0,
-        page: 0,
-        order: [
-          {
-            orderField: "ID",
-            ordering: "ASC",
-          },
+    ],
+  };
+  const selectedFoodData = {
+    labels: [],
+    datasets: [
+      {
+        data: [
+          selectedIngredient?.nutrientTable?.carbohydrates *
+            selectedFoodAmountRef?.current?.value,
+          selectedIngredient?.nutrientTable?.protein *
+            selectedFoodAmountRef?.current?.value,
+          selectedIngredient?.nutrientTable?.fat *
+            selectedFoodAmountRef?.current?.value,
         ],
-        filters: [
-          {
-            property: "Email",
-            connecting: 0,
-            filterValues: [
-              {
-                value: localStorage.getItem("patientEmail"),
-                operation: 1,
-              },
-            ],
-          },
-        ],
-      }),
-    })
-      .then((response) => response.json())
-      .then((actualData) => {
-        console.log(actualData.items);
-        setPatient(actualData.items[0]);
-      });
-
-    fetch("http://localhost:5041/api/recipes/detailed", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + authCtx.token,
+        backgroundColor: ["#42f5ce", "#12725d", "#2ac9aa"],
       },
-      body: JSON.stringify({}),
-    })
-      .then((response) => response.json())
-      .then((actualData) => {
-        console.log(actualData.items);
-        setAllFood(actualData.items);
-      });
-  }, []);
+    ],
+  };
+  const macrosData = {
+    labels: ["Carbs", "Protein", "Fat"],
+    datasets: [
+      {
+        data: [total.carbs, total.protein, total.fat],
+        backgroundColor: ["#42f5ce", "#12725d", "#2ac9aa"],
+      },
+    ],
+  };
+  const bmrData = {
+    labels: ["Consumed", "Remaining"],
+    datasets: [
+      {
+        data: [total.energy, bmr - total.energy],
+        backgroundColor: ["#42f5ce", "#12725d"],
+      },
+    ],
+  };
+  const options = {
+    plugins: { legend: { position: "right" } },
+  };
+  const optionsSmall = {
+    plugins: { legend: { position: "right" } },
+    layout: {
+      padding: 0,
+    },
+  };
 
   return (
     <div className={classes.newRecipe}>
       <div className={utils.title}>Meal plan</div>
       <div>
         <form className={utils.form}>
-          <div className={classes.nutrientsContainer}>
+          <div className={classes.nutrientsContainer2}>
             <div className={classes.container}>
               <div className={classes.dataContainer}>
-                <div className={utils.spanFlex}>
-                  <label>Name: </label>
-                  <span>{patient?.name}</span>
-                </div>
-                <div className={utils.spanFlex}>
-                  <label>Surname: </label>
-                  <span>{patient?.surname}</span>
-                </div>
-                <div className={utils.spanFlex}>
-                  <label>Gender: </label>
-                  <span>{patient?.gender}</span>
-                </div>
-                <div className={utils.spanFlex}>
-                  <label>Date of birth: </label>
-                  <span>{dayjs(patient?.birthDate).format("MMM D, YYYY")}</span>
-                </div>
+                <div className={classes.infoContainer}>
+                  <div className={classes.spanFlex}>
+                    <label>Name: </label>
+                    <span>
+                      {patient?.name} {patient?.surname}
+                    </span>
+                  </div>
+                  <div className={classes.spanFlex}>
+                    <label>Gender: </label>
+                    <span>{patient?.gender}</span>
+                  </div>
+                  <div className={classes.spanFlex}>
+                    <label>Date of birth: </label>
+                    <span>{age(patient?.birthDate)}</span>
+                  </div>
+                  <div className={classes.spanFlex}>
+                    <label>Height: </label>
+                    <span>{patient?.height} cm</span>
+                  </div>
+                  <div className={classes.spanFlex}>
+                    <label>Weight: </label>
+                    <span>{patient?.weight} kg</span>
+                  </div>
 
-                <div className={utils.spanFlex}>
-                  <label>Weight: </label>
-                  <span>50</span>
-                </div>
-                <div className={utils.spanFlex}>
-                  <label>Height: </label>
-                  <span>170</span>
+                  <div className={classes.spanFlex}>
+                    <label>Activity: </label>
+                    <span>
+                      {patient?.sessionsPerWeek > 5
+                        ? "Very active"
+                        : patient?.sessionsPerWeek < 2
+                        ? "Not active"
+                        : "Active"}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -242,11 +430,70 @@ const NewMealPlan = () => {
                         setLunch([]);
                         setDinner([]);
                         setSnacks([]);
+                        setTotal({
+                          protein: 1,
+                          carbs: 1,
+                          fat: 1,
+                          energy: 0,
+                          fiber: 0,
+                          sugar: 0,
+                          vitaminA: 0,
+                          vitaminB1: 0,
+                          vitaminB2: 0,
+                          vitaminB3: 0,
+                          vitaminC: 0,
+                          vitaminD: 0,
+                          vitaminE: 0,
+                          calcium: 0,
+                          iron: 0,
+                          magnesium: 0,
+                          potassium: 0,
+                          sodium: 0,
+                          zinc: 0,
+                        });
                       }}
                     />
                   </LocalizationProvider>
                   <button className={utils.blackButton}>Save</button>
                 </div>
+                <div className={classes.chartsContainer}>
+                  <span className={classes.smallTitle}>Nutrients </span>
+                  <div className={classes.chartsContainer_}>
+                    {wholePlan.length > 0 && (
+                      <div className={classes.chartContainer}>
+                        <Doughnut
+                          data={macrosData}
+                          options={options}
+                        ></Doughnut>
+                      </div>
+                    )}
+                    {wholePlan.length == 0 && (
+                      <div className={classes.chartContainer}>
+                        <Doughnut
+                          data={macrosDataPH}
+                          options={options}
+                        ></Doughnut>
+                      </div>
+                    )}
+                    <div className={classes.chartContainer}>
+                      <Doughnut data={bmrData} options={options}></Doughnut>
+                    </div>
+                  </div>
+                  <div className={classes.calorieIntakeContainer}>
+                    <span className={classes.smallTitle}>Calorie intake: </span>
+                    <span
+                      className={
+                        total.energy <= bmr
+                          ? classes.smallTitle
+                          : classes.smallTitleRed
+                      }
+                    >
+                      {total.energy}
+                    </span>
+                    <span className={classes.smallTitle}>/ {bmr}</span>
+                  </div>
+                </div>
+
                 <span className={classes.smallTitle}>Breakfast</span>
                 <table className={classes.styledTableFoods}>
                   <thead>
@@ -260,7 +507,10 @@ const NewMealPlan = () => {
                       <th>
                         <AddIcon
                           fontSize="small"
-                          onClick={() => handleOpen("Breakfast")}
+                          onClick={() => {
+                            handleOpen("Breakfast");
+                            fetchRecipes();
+                          }}
                         ></AddIcon>
                       </th>
                     </tr>
@@ -280,7 +530,7 @@ const NewMealPlan = () => {
                           <button
                             className={classes.deleteButton}
                             onClick={() =>
-                              removeFoodHandler(food?.id, "breakfast")
+                              removeFoodHandler(food?.name, "breakfast")
                             }
                           >
                             X
@@ -303,7 +553,10 @@ const NewMealPlan = () => {
                       <th>
                         <AddIcon
                           fontSize="small"
-                          onClick={() => handleOpen("Lunch")}
+                          onClick={() => {
+                            handleOpen("Lunch");
+                            fetchRecipes();
+                          }}
                         ></AddIcon>
                       </th>
                     </tr>
@@ -322,7 +575,9 @@ const NewMealPlan = () => {
                         <td>
                           <button
                             className={classes.deleteButton}
-                            onClick={() => removeFoodHandler(food?.id, "lunch")}
+                            onClick={() =>
+                              removeFoodHandler(food?.name, "lunch")
+                            }
                           >
                             X
                           </button>
@@ -344,7 +599,10 @@ const NewMealPlan = () => {
                       <th>
                         <AddIcon
                           fontSize="small"
-                          onClick={() => handleOpen("Dinner")}
+                          onClick={() => {
+                            handleOpen("Dinner");
+                            fetchRecipes();
+                          }}
                         ></AddIcon>
                       </th>
                     </tr>
@@ -364,7 +622,7 @@ const NewMealPlan = () => {
                           <button
                             className={classes.deleteButton}
                             onClick={() =>
-                              removeFoodHandler(food?.id, "dinner")
+                              removeFoodHandler(food?.name, "dinner")
                             }
                           >
                             X
@@ -387,7 +645,10 @@ const NewMealPlan = () => {
                       <th>
                         <AddIcon
                           fontSize="small"
-                          onClick={() => handleOpen("Snack")}
+                          onClick={() => {
+                            handleOpen("Snack");
+                            fetchRecipes();
+                          }}
                         ></AddIcon>
                       </th>
                     </tr>
@@ -406,7 +667,9 @@ const NewMealPlan = () => {
                         <td>
                           <button
                             className={classes.deleteButton}
-                            onClick={() => removeFoodHandler(food?.id, "snack")}
+                            onClick={() =>
+                              removeFoodHandler(food?.name, "snack")
+                            }
                           >
                             X
                           </button>
@@ -424,16 +687,20 @@ const NewMealPlan = () => {
                           <th>Name</th>
                           <th>Amount</th>
                           <th>Unit</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td>Energy(kcal)</td>
+                          <td>Energy</td>
                           <td>
                             <span>{total.energy}</span>
                           </td>
                           <td>
                             <span>kcal</span>
+                          </td>
+                          <td>
+                            <span>{optimal.energy}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -445,6 +712,7 @@ const NewMealPlan = () => {
                           <th>Name</th>
                           <th>Amount</th>
                           <th>Unit</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -456,6 +724,9 @@ const NewMealPlan = () => {
                           <td>
                             <span>g</span>
                           </td>
+                          <td>
+                            <span>{optimal.carbs}</span>
+                          </td>
                         </tr>
                         <tr>
                           <td>Fiber</td>
@@ -465,6 +736,9 @@ const NewMealPlan = () => {
                           <td>
                             <span>g</span>
                           </td>
+                          <td>
+                            <span>{optimal.fiber}</span>
+                          </td>
                         </tr>
                         <tr>
                           <td>Sugars</td>
@@ -473,6 +747,9 @@ const NewMealPlan = () => {
                           </td>
                           <td>
                             <span>g</span>
+                          </td>
+                          <td>
+                            <span>{optimal.sugar}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -484,6 +761,7 @@ const NewMealPlan = () => {
                           <th>Name</th>
                           <th>Amount</th>
                           <th>Unit</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -495,6 +773,9 @@ const NewMealPlan = () => {
                           <td>
                             <span>g</span>
                           </td>
+                          <td>
+                            <span>{optimal.protein}</span>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -505,6 +786,7 @@ const NewMealPlan = () => {
                           <th>Name</th>
                           <th>Amount</th>
                           <th>Unit</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -515,6 +797,9 @@ const NewMealPlan = () => {
                           </td>
                           <td>
                             <span>g</span>
+                          </td>
+                          <td>
+                            <span>{optimal.fat}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -528,6 +813,7 @@ const NewMealPlan = () => {
                           <th>Name</th>
                           <th>Amount</th>
                           <th>Unit</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -537,7 +823,10 @@ const NewMealPlan = () => {
                             <span>{total.vitaminA}</span>
                           </td>
                           <td>
-                            <span>IU</span>
+                            <span>mcg</span>
+                          </td>
+                          <td>
+                            <span>{optimal.vitaminA}</span>
                           </td>
                         </tr>
                         <tr>
@@ -548,6 +837,9 @@ const NewMealPlan = () => {
                           <td>
                             <span>mg</span>
                           </td>
+                          <td>
+                            <span>{optimal.vitaminB1}</span>
+                          </td>
                         </tr>
                         <tr>
                           <td>Vitamin B2</td>
@@ -556,6 +848,9 @@ const NewMealPlan = () => {
                           </td>
                           <td>
                             <span>mg</span>
+                          </td>
+                          <td>
+                            <span>{optimal.vitaminB2}</span>
                           </td>
                         </tr>
                         <tr>
@@ -566,6 +861,9 @@ const NewMealPlan = () => {
                           <td>
                             <span>mg</span>
                           </td>
+                          <td>
+                            <span>{optimal.vitaminB3}</span>
+                          </td>
                         </tr>
                         <tr>
                           <td>Vitamin C</td>
@@ -574,6 +872,9 @@ const NewMealPlan = () => {
                           </td>
                           <td>
                             <span>mg</span>
+                          </td>
+                          <td>
+                            <span>{optimal.vitaminC}</span>
                           </td>
                         </tr>
                         <tr>
@@ -584,6 +885,9 @@ const NewMealPlan = () => {
                           <td>
                             <span>IU</span>
                           </td>
+                          <td>
+                            <span>{optimal.vitaminD}</span>
+                          </td>
                         </tr>
                         <tr>
                           <td>Vitamin E</td>
@@ -592,6 +896,9 @@ const NewMealPlan = () => {
                           </td>
                           <td>
                             <span>mg</span>
+                          </td>
+                          <td>
+                            <span>{optimal.vitaminE}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -603,6 +910,7 @@ const NewMealPlan = () => {
                           <th>Name</th>
                           <th>Amount</th>
                           <th>Unit</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -614,6 +922,9 @@ const NewMealPlan = () => {
                           <td>
                             <span>mg</span>
                           </td>
+                          <td>
+                            <span>{optimal.calcium}</span>
+                          </td>
                         </tr>
                         <tr>
                           <td>Iron</td>
@@ -622,6 +933,9 @@ const NewMealPlan = () => {
                           </td>
                           <td>
                             <span>mg</span>
+                          </td>
+                          <td>
+                            <span>{optimal.iron}</span>
                           </td>
                         </tr>
                         <tr>
@@ -632,6 +946,9 @@ const NewMealPlan = () => {
                           <td>
                             <span>mg</span>
                           </td>
+                          <td>
+                            <span>{optimal.magnesium}</span>
+                          </td>
                         </tr>
                         <tr>
                           <td>Potassium</td>
@@ -640,6 +957,9 @@ const NewMealPlan = () => {
                           </td>
                           <td>
                             <span>mg</span>
+                          </td>
+                          <td>
+                            <span>{optimal.potassium}</span>
                           </td>
                         </tr>
                         <tr>
@@ -650,6 +970,9 @@ const NewMealPlan = () => {
                           <td>
                             <span>mg</span>
                           </td>
+                          <td>
+                            <span>{optimal.sodium}</span>
+                          </td>
                         </tr>
                         <tr>
                           <td>Zinc</td>
@@ -658,6 +981,9 @@ const NewMealPlan = () => {
                           </td>
                           <td>
                             <span>mg</span>
+                          </td>
+                          <td>
+                            <span>{optimal.zinc}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -724,15 +1050,48 @@ const NewMealPlan = () => {
                     {selectedIngredient && (
                       <div className={classes.selectedIngredientContainer}>
                         <span>{selectedIngredient?.name}</span>
-
-                        <div className={classes.amountContainer}>
-                          <span>Amount :</span>
-                          <input
-                            ref={selectedFoodAmountRef}
-                            value={amount}
-                            onChange={handleAmountChange}
-                            className={classes.amountInput}
-                          ></input>
+                        <div className={classes.selectedIngredient}>
+                          <div
+                            className={
+                              classes.selectedIngredientNutrientsContainer
+                            }
+                          >
+                            <div>
+                              <span>Calories: </span>
+                              <span>
+                                {selectedIngredient?.calories * amount}
+                              </span>
+                            </div>
+                            <div>
+                              <span>Carbohydrates: </span>
+                              <span>
+                                {selectedIngredient?.nutrientTable
+                                  .carbohydrates * amount}
+                              </span>
+                            </div>
+                            <div>
+                              <span>Protein: </span>
+                              <span>
+                                {selectedIngredient?.nutrientTable.protein *
+                                  amount}
+                              </span>
+                            </div>
+                            <div>
+                              <span>Fat: </span>
+                              <span>
+                                {selectedIngredient?.nutrientTable.fat * amount}
+                              </span>
+                            </div>
+                          </div>
+                          <div className={classes.amountContainer}>
+                            <span>Portion size :</span>
+                            <input
+                              ref={selectedFoodAmountRef}
+                              value={amount}
+                              onChange={handleAmountChange}
+                              className={classes.amountInput}
+                            ></input>
+                          </div>
                         </div>
                       </div>
                     )}

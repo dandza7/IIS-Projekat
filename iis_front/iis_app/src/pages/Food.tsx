@@ -197,7 +197,7 @@ const Food = () => {
                       <span>{food?.nutrientTable?.vitaminA}</span>
                     </td>
                     <td>
-                      <span>IU</span>
+                      <span>mcg</span>
                     </td>
                   </tr>
                   <tr>

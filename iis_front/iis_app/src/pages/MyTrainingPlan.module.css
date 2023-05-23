@@ -19,7 +19,7 @@
 }
 
 .styledTableFoods thead tr {
-  background-color: rgb(47, 96, 76);
+  background-color: var(--darkGreen);
   color: #ffffff;
   text-align: left;
 }

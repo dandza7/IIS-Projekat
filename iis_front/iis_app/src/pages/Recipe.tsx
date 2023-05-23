@@ -5,11 +5,38 @@ import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
 import { useParams } from "react-router-dom";
 import utils from "./Utils.module.css";
+import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut, Pie } from "react-chartjs-2";
+ChartJs.register(ArcElement, Tooltip, Legend);
 
 const Recipe = () => {
   const authCtx = useContext(AuthContext);
   const [recipe, setRecipe] = useState({});
-
+  const macrosData = {
+    labels: ["Carbs", "Protein", "Fat"],
+    datasets: [
+      {
+        data: [
+          recipe?.nutrientTable?.carbohydrates,
+          recipe?.nutrientTable?.protein,
+          recipe?.nutrientTable?.fat,
+        ],
+        backgroundColor: ["#42f5ce", "#12725d", "#2ac9aa"],
+      },
+    ],
+  };
+  const carbsData = {
+    labels: ["Fiber", "Sugar"],
+    datasets: [
+      {
+        data: [recipe?.nutrientTable?.fiber, recipe?.nutrientTable?.sugar],
+        backgroundColor: ["#42f5ce", "#12725d"],
+      },
+    ],
+  };
+  const options = {
+    plugins: { legend: { position: "right" } },
+  };
   useEffect(() => {
     const recipeId = localStorage.getItem("recipeId");
     fetch("http://localhost:5041/api/recipes/" + recipeId, {
@@ -33,6 +60,17 @@ const Recipe = () => {
         <form className={utils.form}>
           <div className={classes.nutrientsContainer}>
             <div className={classes.container}>
+              <div className={classes.chartsContainer}>
+                <span className={classes.smallTitle}>Nutrients </span>
+                <div className={classes.chartsContainer_}>
+                  <div className={classes.chartContainer}>
+                    <Doughnut data={macrosData} options={options}></Doughnut>
+                  </div>
+                  <div className={classes.chartContainer}>
+                    <Doughnut data={carbsData} options={options}></Doughnut>
+                  </div>
+                </div>
+              </div>
               <span className={classes.smallTitle}>Ingredients</span>
               <table className={utils.styledTableDark}>
                 <thead>
@@ -172,7 +210,7 @@ const Recipe = () => {
                           <span>{recipe?.nutrientTable?.vitaminA}</span>
                         </td>
                         <td>
-                          <span>IU</span>
+                          <span>mcg</span>
                         </td>
                       </tr>
                       <tr>
