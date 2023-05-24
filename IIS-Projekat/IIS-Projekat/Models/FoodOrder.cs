@@ -6,7 +6,7 @@ namespace IIS_Projekat.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public long Amount { get; set; }
+        public float Amount { get; set; }
         public long FoodPriceId { get; set; }
         public FoodPrice FoodPrice { get; set; }
         public DateTime CreatedDate { get; set; }
