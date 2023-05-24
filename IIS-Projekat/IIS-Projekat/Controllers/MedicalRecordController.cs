@@ -1,5 +1,6 @@
 ﻿using IIS_Projekat.Models.DTOs.MedicalRecord;
 using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.Patient;
 using IIS_Projekat.Models.DTOs.Training.Plan;
 using IIS_Projekat.Services;
 using IIS_Projekat.Services.Impl;
@@ -57,6 +58,18 @@ namespace IIS_Projekat.Controllers
         public ActionResult<PreviewMedicalRecordDTO> GetById(long id)
         {
             return Ok(_medicalRecordService.GetById(id));
+        }
+
+        /// <summary>
+        /// [Doctor] Get Medical Record By Patient Id 
+        /// </summary>
+        /// <response code="200">If patient was found</response>
+        /// <response code="404">If patient was not found</response>
+        [HttpGet("patient/{patientId}", Name = "GetMedicalRecordForPatient")]
+        [Authorize(Roles = Roles.Doctors)]
+        public ActionResult<PreviewPatientDetailedDTO> GetByPatientId(long patientId)
+        {
+            return Ok(_medicalRecordService.GetByPatientId(patientId));
         }
     }
 }

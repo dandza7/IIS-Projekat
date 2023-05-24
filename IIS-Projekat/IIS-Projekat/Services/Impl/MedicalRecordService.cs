@@ -3,6 +3,7 @@ using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Exercise;
 using IIS_Projekat.Models.DTOs.MedicalRecord;
 using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.Patient;
 using IIS_Projekat.Models.DTOs.Training.Request;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
@@ -64,6 +65,20 @@ namespace IIS_Projekat.Services.Impl
                 throw new NotFoundException($"Medical record with ID: {id} does not exist in the database.");
             }
             return _mapper.Map<PreviewMedicalRecordDTO>(medicalRecord);
+        }
+
+        public PreviewPatientDetailedDTO GetByPatientId(long patientId)
+        {
+            var patient = _unitOfWork.UserRepository.GetById(patientId,
+                p => p.Profile,
+                p => p.MedicalRecord,
+                p => p.MedicalRecord.Allergies,
+                p => p.MedicalRecord.Diagnoses);
+            if(patient == null)
+            {
+                throw new NotFoundException($"Patient with ID: {patientId} does not exist in the database.");
+            }
+            return _mapper.Map<PreviewPatientDetailedDTO>(patient);
         }
     }
 }

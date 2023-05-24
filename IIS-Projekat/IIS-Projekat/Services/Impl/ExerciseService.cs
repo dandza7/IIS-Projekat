@@ -69,9 +69,26 @@ namespace IIS_Projekat.Services.Impl
 
         public PaginationWrapper<PreviewExerciseDTO> GetAll(PaginationQuery? paginationQuery)
         {
+            var exercises = _unitOfWork.ExerciseRepository.GetAll().ToList();
 
-            var paginationResult = _unitOfWork.ExerciseRepository.Filter(paginationQuery);
-            return new PaginationWrapper<PreviewExerciseDTO>(_mapper.Map<List<PreviewExerciseDTO>>(paginationResult.Items), paginationResult.TotalCount);
+            ICollection<PreviewExerciseDTO> exerciseDTOs = new List<PreviewExerciseDTO>();
+            foreach(var exercise in exercises)
+            {
+                var exerciseDTO = _mapper.Map<PreviewExerciseDTO>(exercise);
+                var primaryMuscle = _unitOfWork.ExerciseMuscleGroupRepository
+                    .GetAll(emg => emg.Exercise)
+                    .Where(emg => emg.Exercise == exercise && emg.IsPrimaryMuscleGroup)
+                    .Include(emg => emg.MuscleGroup).FirstOrDefault();
+                if(primaryMuscle == null)
+                {
+                    exerciseDTO.PrimaryMuscleGroup = "Primary muscle group not set up.";
+                } else
+                {
+                    exerciseDTO.PrimaryMuscleGroup = primaryMuscle.MuscleGroup.Name;
+                }
+                exerciseDTOs.Add(exerciseDTO);
+            }
+            return new PaginationWrapper<PreviewExerciseDTO>(exerciseDTOs.ToList(), exerciseDTOs.Count);
         }
 
         public PaginationWrapper<PreviewExerciseDTO> GetRehabilitationExercises(PaginationQuery? paginationQuery)
