@@ -11,7 +11,6 @@ const TrainingPlanRequests = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(authCtx.token);
     fetch("http://localhost:5041/api/training-plan-request", {
       method: "POST",
       headers: {
@@ -24,7 +23,6 @@ const TrainingPlanRequests = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData.items);
         setUsers(actualData.items);
       });
   }, []);

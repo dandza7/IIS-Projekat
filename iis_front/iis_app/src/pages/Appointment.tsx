@@ -34,6 +34,7 @@ const Appointment = () => {
   const [selectedSingleMG, setSelectedSingleMG] = useState(null);
   const [severity, setSeverity] = useState("");
   const selectedSeverityRef = useRef();
+  const textAreaRef = useRef();
   const handleSeverityChange = () => {
     setSeverity(event?.target.value);
   };
@@ -266,7 +267,7 @@ const Appointment = () => {
           {toggleReport && (
             <div className={classes.report}>
               <label className={classes.smallTitle}>Appointment Report: </label>
-              <textarea></textarea>
+              <textarea ref={textAreaRef}></textarea>
               <div className={utils.buttonContainerCenter}>
                 <button className={utils.blackButton}>End appointment</button>
               </div>
