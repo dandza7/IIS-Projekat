@@ -27,6 +27,16 @@ function age(dateString: Date) {
   return age;
 }
 
+type patient = {
+  name: string;
+  surname: string;
+  birthDate: Date;
+  gender: string;
+  weight: number;
+  height: number;
+  sessionsPerWeek: number;
+};
+
 type nutrition = {
   protein: number;
   carbs: number;
@@ -48,24 +58,37 @@ type nutrition = {
   sodium: number;
   zinc: number;
 };
-
+type recipe = {
+  id: number;
+  name: string;
+  amount: number;
+  calories: number;
+  nutrientTable: nutrition[];
+};
+type recipeBE = {
+  portionSize: number;
+  recipe: {
+    id: number;
+    name: string;
+    calories: number;
+    nutrientTable: nutrition[];
+    ingredients: { name: string; amount: number }[];
+  };
+};
 const NewMealPlan = () => {
-  const navigate = useNavigate();
-  const [foodList, setfoodList] = useState<any[]>([]);
   const authCtx = useContext(AuthContext);
   const [allFood, setAllFood] = useState<any[]>([]);
   const [open, setOpen] = React.useState(false);
   const selectedFoodAmountRef = useRef(null);
   const [mealName, setMealName] = useState("");
-  const [patient, setPatient] = useState();
-  const nameRef = useRef();
+  const [patient, setPatient] = useState<patient | null>(null);
   const handleOpen = (name: string) => {
     setOpen(true);
     setSelectedIngredient(null);
     setMealName(name);
   };
   const handleClose = () => setOpen(false);
-  const [selectedFood, setSelectedFood] = useState<any[]>([]);
+
   const [breakFast, setBreakfast] = useState<any[]>([]);
   const [lunch, setLunch] = useState<any[]>([]);
   const [dinner, setDinner] = useState<any[]>([]);
@@ -73,7 +96,9 @@ const NewMealPlan = () => {
   const [wholePlan, setWholePlan] = useState<any[]>([]);
   const [amount, setAmount] = useState(0);
 
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
+  const [selectedIngredient, setSelectedIngredient] = useState<recipe | null>(
+    null
+  );
   const [value, setValue] = React.useState<Dayjs | null>(dayjs(Date.now()));
   const [total, setTotal] = useState({
     protein: 0,
@@ -110,7 +135,6 @@ const NewMealPlan = () => {
       .then((response) => response.json())
       .then((actualData) => {
         setPatient(actualData);
-        fetchNutritionPlan();
       });
   }, []);
 
@@ -134,7 +158,7 @@ const NewMealPlan = () => {
         setLunch(actualData.lunches);
         setDinner(actualData.dinners);
         setSnacks(actualData.snacks);
-        let plan = [];
+        let plan: recipe[] = [];
         let plan1 = plan.concat(
           actualData.breakfasts,
           actualData.lunches,
@@ -155,6 +179,10 @@ const NewMealPlan = () => {
     p: 0.5,
     borderRadius: 3,
   };
+
+  useEffect(() => {
+    fetchNutritionPlan();
+  }, [value]);
 
   const fetchRecipes = () => {
     fetch("http://localhost:5041/api/recipes/detailed", {
@@ -194,26 +222,39 @@ const NewMealPlan = () => {
       sodium: 0,
       zinc: 0,
     };
-    wholePlan.map((food) => {
-      totalT.protein += food?.nutrientTable?.protein * food.amount;
-      totalT.carbs += food?.nutrientTable?.carbohydrates * food.amount;
-      totalT.fat += food?.nutrientTable?.fat * food.amount;
-      totalT.energy += food?.calories * food.amount;
-      totalT.fiber += food?.nutrientTable?.fiber * food.amount;
-      totalT.sugar += food?.nutrientTable?.sugar * food.amount;
-      totalT.vitaminA += food?.nutrientTable?.vitaminA * food.amount;
-      totalT.vitaminB1 += food?.nutrientTable?.vitaminB1 * food.amount;
-      totalT.vitaminB2 += food?.nutrientTable?.vitaminB2 * food.amount;
-      totalT.vitaminB3 += food?.nutrientTable?.vitaminB3 * food.amount;
-      totalT.vitaminC += food?.nutrientTable?.vitaminC * food.amount;
-      totalT.vitaminD += food?.nutrientTable?.vitaminD * food.amount;
-      totalT.vitaminE += food?.nutrientTable.vitaminE * food.amount;
-      totalT.calcium += food?.nutrientTable.calcium * food.amount;
-      totalT.iron += food?.nutrientTable.iron * food.amount;
-      totalT.magnesium += food.nutrientTable.magnesium * food.amount;
-      totalT.potassium += food.nutrientTable.potassium * food.amount;
-      totalT.sodium += food.nutrientTable.sodium * food.amount;
-      totalT.zinc += food.nutrientTable.zinc * food.amount;
+    wholePlan.map((recipe) => {
+      totalT.protein +=
+        recipe?.recipe?.nutrientTable?.protein * recipe.portionSize;
+      totalT.carbs +=
+        recipe?.recipe?.nutrientTable?.carbohydrates * recipe.portionSize;
+      totalT.fat += recipe?.recipe?.nutrientTable?.fat * recipe.portionSize;
+      totalT.energy += recipe?.recipe?.calories * recipe.portionSize;
+      totalT.fiber += recipe?.recipe?.nutrientTable?.fiber * recipe.portionSize;
+      totalT.sugar += recipe?.recipe?.nutrientTable?.sugar * recipe.portionSize;
+      totalT.vitaminA +=
+        recipe?.recipe?.nutrientTable?.vitaminA * recipe.portionSize;
+      totalT.vitaminB1 +=
+        recipe?.recipe?.nutrientTable?.vitaminB1 * recipe.portionSize;
+      totalT.vitaminB2 +=
+        recipe?.recipe?.nutrientTable?.vitaminB2 * recipe.portionSize;
+      totalT.vitaminB3 +=
+        recipe?.recipe?.nutrientTable?.vitaminB3 * recipe.portionSize;
+      totalT.vitaminC +=
+        recipe?.recipe?.nutrientTable?.vitaminC * recipe.portionSize;
+      totalT.vitaminD +=
+        recipe?.recipe?.nutrientTable?.vitaminD * recipe.portionSize;
+      totalT.vitaminE +=
+        recipe?.recipe?.nutrientTable?.vitaminE * recipe.portionSize;
+      totalT.calcium +=
+        recipe?.recipe?.nutrientTable?.calcium * recipe.portionSize;
+      totalT.iron += recipe?.recipe?.nutrientTable?.iron * recipe.portionSize;
+      totalT.magnesium +=
+        recipe?.recipe.nutrientTable?.magnesium * recipe.portionSize;
+      totalT.potassium +=
+        recipe?.recipe.nutrientTable?.potassium * recipe.portionSize;
+      totalT.sodium +=
+        recipe?.recipe.nutrientTable?.sodium * recipe.portionSize;
+      totalT.zinc += recipe?.recipe.nutrientTable?.zinc * recipe.portionSize;
     });
 
     setTotal({
@@ -242,10 +283,24 @@ const NewMealPlan = () => {
   const addFoodHandler = () => {
     event?.preventDefault();
     console.log(breakFast);
-    const si = {};
+    const si: recipeBE = {
+      portionSize: 0,
+      recipe: {
+        id: 0,
+        name: "",
+        calories: 0,
+        ingredients: [],
+        nutrientTable: [],
+      },
+    };
     si.portionSize = selectedFoodAmountRef?.current?.value;
-    si.recipe.name = selectedIngredient.name;
-    si.recipe.calories = selectedIngredient.calories;
+    si.recipe.id = selectedIngredient ? selectedIngredient?.id : -1;
+    si.recipe.name = selectedIngredient ? selectedIngredient?.name : "";
+    si.recipe.calories = selectedIngredient ? selectedIngredient?.calories : -1;
+    si.recipe.ingredients = [];
+    si.recipe.nutrientTable = selectedIngredient
+      ? selectedIngredient?.nutrientTable
+      : [];
     if (mealName == "Breakfast") {
       var updatedList = [...breakFast];
       updatedList = [...breakFast, si];
@@ -273,22 +328,28 @@ const NewMealPlan = () => {
     setAmount(event?.target.value);
   };
 
-  const removeFoodHandler = (foodName: string, meal: string) => {
-    let breakFast1 = breakFast.filter((food) => food.name !== foodName);
-    let wholePlan1 = wholePlan.filter((food) => food.name !== foodName);
+  const removeFoodHandler = (recipeName: string, meal: string) => {
+    let breakFast1 = breakFast.filter(
+      (recipe) => recipe.recipe.name !== recipeName
+    );
+    let wholePlan1 = wholePlan.filter(
+      (recipe) => recipe.recipe.name !== recipeName
+    );
     setWholePlan(wholePlan1);
     switch (meal) {
       case "breakfast":
         setBreakfast(breakFast1);
       case "lunch":
-        setLunch((current) => current.filter((food) => food.name !== foodName));
+        setLunch((current) =>
+          current.filter((recipe) => recipe.recipe.name !== recipeName)
+        );
       case "dinner":
         setDinner((current) =>
-          current.filter((food) => food.name !== foodName)
+          current.filter((recipe) => recipe.recipe.name !== recipeName)
         );
       case "snack":
         setSnacks((current) =>
-          current.filter((food) => food.name !== foodName)
+          current.filter((recipe) => recipe.recipe.name !== recipeName)
         );
     }
   };
@@ -299,17 +360,29 @@ const NewMealPlan = () => {
     const selectedLunch: { recipeId: number; portionSize: number }[] = [];
     const selectedDinner: { recipeId: number; portionSize: number }[] = [];
     const selectedSnack: { recipeId: number; portionSize: number }[] = [];
-    breakFast.forEach((food) => {
-      selectedBreakfast.push({ recipeId: food.id, portionSize: food.amount });
+    breakFast.forEach((recipe) => {
+      selectedBreakfast.push({
+        recipeId: recipe.recipe.id,
+        portionSize: recipe.portionSize,
+      });
     });
-    lunch.forEach((food) => {
-      selectedLunch.push({ recipeId: food.id, portionSize: food.amount });
+    lunch.forEach((recipe) => {
+      selectedLunch.push({
+        recipeId: recipe.recipe.id,
+        portionSize: recipe.portionSize,
+      });
     });
-    dinner.forEach((food) => {
-      selectedDinner.push({ recipeId: food.id, portionSize: food.amount });
+    dinner.forEach((recipe) => {
+      selectedDinner.push({
+        recipeId: recipe.recipe.id,
+        portionSize: recipe.portionSize,
+      });
     });
-    snacks.forEach((food) => {
-      selectedSnack.push({ recipeId: food.id, portionSize: food.amount });
+    snacks.forEach((recipe) => {
+      selectedSnack.push({
+        recipeId: recipe.recipe.id,
+        portionSize: recipe.portionSize,
+      });
     });
     console.log(selectedBreakfast);
 
@@ -330,7 +403,7 @@ const NewMealPlan = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        alert("Recipe has been successfully added!");
+        alert("Plan has been successfully updated!");
       });
   };
 
@@ -434,7 +507,7 @@ const NewMealPlan = () => {
                   </div>
 
                   <div className={classes.spanFlex}>
-                    <label>Activity: </label>
+                    <label>Activity level: </label>
                     <span>
                       {patient?.sessionsPerWeek > 5
                         ? "Very active"
@@ -451,7 +524,6 @@ const NewMealPlan = () => {
                 <div className={classes.nutrientsContainer}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
-                      renderInput={(props) => <TextField {...props} />}
                       value={value}
                       onChange={(newValue) => {
                         setValue(newValue);
@@ -550,21 +622,33 @@ const NewMealPlan = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {breakFast?.map((food, index) => (
+                    {breakFast?.map((recipe, index) => (
                       <tr key={index}>
-                        <td>{food?.name}</td>
-                        <td>{food?.amount}</td>
-                        <td>{food?.calories * food?.amount}</td>
-                        <td>{food?.nutrientTable?.protein * food?.amount}</td>
+                        <td>{recipe?.recipe?.name}</td>
+                        <td>{recipe?.portionSize}</td>
                         <td>
-                          {food?.nutrientTable?.carbohydrates * food?.amount}
+                          {recipe?.recipe?.calories * recipe?.portionSize}
                         </td>
-                        <td>{food?.nutrientTable?.fat * food?.amount}</td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.protein *
+                            recipe?.portionSize}
+                        </td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.carbohydrates *
+                            recipe?.portionSize}
+                        </td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.fat *
+                            recipe?.portionSize}
+                        </td>
                         <td>
                           <button
                             className={classes.deleteButton}
                             onClick={() =>
-                              removeFoodHandler(food?.name, "breakfast")
+                              removeFoodHandler(
+                                recipe?.recipe?.name,
+                                "breakfast"
+                              )
                             }
                           >
                             X
@@ -596,21 +680,30 @@ const NewMealPlan = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {lunch.map((food, index) => (
+                    {lunch.map((recipe, index) => (
                       <tr key={index}>
-                        <td>{food?.name}</td>
-                        <td>{food?.amount}</td>
-                        <td>{food?.calories * food?.amount}</td>
-                        <td>{food?.nutrientTable?.protein * food?.amount}</td>
+                        <td>{recipe?.recipe?.name}</td>
+                        <td>{recipe?.portionSize}</td>
                         <td>
-                          {food?.nutrientTable?.carbohydrates * food?.amount}
+                          {recipe?.recipe?.calories * recipe?.portionSize}
                         </td>
-                        <td>{food?.nutrientTable?.fat * food?.amount}</td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.protein *
+                            recipe?.portionSize}
+                        </td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.carbohydrates *
+                            recipe?.portionSize}
+                        </td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.fat *
+                            recipe?.portionSize}
+                        </td>
                         <td>
                           <button
                             className={classes.deleteButton}
                             onClick={() =>
-                              removeFoodHandler(food?.name, "lunch")
+                              removeFoodHandler(recipe?.recipe?.name, "lunch")
                             }
                           >
                             X
@@ -642,21 +735,30 @@ const NewMealPlan = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {dinner.map((food, index) => (
+                    {dinner.map((recipe, index) => (
                       <tr key={index}>
-                        <td>{food?.name}</td>
-                        <td>{food?.amount}</td>
-                        <td>{food?.calories * food?.amount}</td>
-                        <td>{food?.nutrientTable?.protein * food?.amount}</td>
+                        <td>{recipe?.recipe?.name}</td>
+                        <td>{recipe?.portionSize}</td>
                         <td>
-                          {food?.nutrientTable?.carbohydrates * food?.amount}
+                          {recipe?.recipe?.calories * recipe?.portionSize}
                         </td>
-                        <td>{food?.nutrientTable?.fat * food?.amount}</td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.protein *
+                            recipe?.portionSize}
+                        </td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.carbohydrates *
+                            recipe?.portionSize}
+                        </td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.fat *
+                            recipe?.portionSize}
+                        </td>
                         <td>
                           <button
                             className={classes.deleteButton}
                             onClick={() =>
-                              removeFoodHandler(food?.name, "dinner")
+                              removeFoodHandler(recipe?.recipe?.name, "dinner")
                             }
                           >
                             X
@@ -688,21 +790,30 @@ const NewMealPlan = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {snacks.map((food, index) => (
+                    {snacks.map((recipe, index) => (
                       <tr key={index}>
-                        <td>{food?.name}</td>
-                        <td>{food?.amount}</td>
-                        <td>{food?.calories * food?.amount}</td>
-                        <td>{food?.nutrientTable?.protein * food?.amount}</td>
+                        <td>{recipe?.recipe?.name}</td>
+                        <td>{recipe?.portionSize}</td>
                         <td>
-                          {food?.nutrientTable?.carbohydrates * food?.amount}
+                          {recipe?.recipe?.calories * recipe?.portionSize}
                         </td>
-                        <td>{food?.nutrientTable?.fat * food?.amount}</td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.protein *
+                            recipe?.portionSize}
+                        </td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.carbohydrates *
+                            recipe?.portionSize}
+                        </td>
+                        <td>
+                          {recipe?.recipe?.nutrientTable?.fat *
+                            recipe?.portionSize}
+                        </td>
                         <td>
                           <button
                             className={classes.deleteButton}
                             onClick={() =>
-                              removeFoodHandler(food?.name, "snack")
+                              removeFoodHandler(recipe?.recipe?.name, "snack")
                             }
                           >
                             X

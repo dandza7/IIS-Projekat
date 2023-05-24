@@ -18,7 +18,7 @@ import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
-  const [toggleMenu, setToggleMenu] = useState(false);
+  const [toggleMenu, setToggleMenu] = useState(true);
 
   const logoutHandler = () => {
     authCtx.logout();
