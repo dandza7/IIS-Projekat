@@ -10,6 +10,7 @@ namespace IIS_Projekat.Services
         public long Create(MedicalRecordDTO newMedicalRecord);
         public PaginationWrapper<PreviewMedicalRecordDTO> GetAll(PaginationQuery? paginationQuery);
         public PreviewMedicalRecordDTO GetById(long id);
+        public PreviewPatientDetailedDTO GetByPatientId(long patientId);
         public void DeleteExercise(long id);
     }
 }
