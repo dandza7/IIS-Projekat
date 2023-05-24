@@ -13,8 +13,11 @@ import dayjs, { Dayjs } from "dayjs";
 const AdminDashboard = () => {
   const authCtx = useContext(AuthContext);
   const [openExercises, setOpenExercises] = React.useState(false);
+  const [openOrder, setOpenOrder] = React.useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedPlans, setSelectedPlans] = useState<number[]>([]);
+  const [orders, setOrders] = useState<any>({});
+
   const fetchPlanDetails = (id: number) => {
     fetch("http://localhost:5041/api/nutritions/" + id, {
       method: "GET",
@@ -25,8 +28,24 @@ const AdminDashboard = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData);
         setSelectedPlan(actualData);
+      });
+  };
+
+  const fetchOrders = () => {
+    console.log(selectedPlans);
+    fetch("http://localhost:5041/api/food-ordering/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({ nutritionPlansIds: selectedPlans }),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        console.log(actualData);
+        setOrders(actualData);
       });
   };
 
@@ -34,30 +53,34 @@ const AdminDashboard = () => {
     setOpenExercises(true);
     fetchPlanDetails(id);
   };
+
+  const handleViewOrder = () => {
+    setOpenOrder(true);
+    fetchOrders();
+  };
+
   const handleCloseExercises = () => {
     setOpenExercises(false);
   };
-
+  const handleCloseOrder = () => {
+    setOpenOrder(false);
+  };
   const [mealPlans, setMealPlans] = useState<any>([]);
 
   const handleManageMealPlans = (id: number) => {
-    console.log(id);
     const plans = selectedPlans;
     var newPlans = [];
     if (!plans.includes(id)) {
-      console.log("nema");
       newPlans = plans;
       plans.push(id);
       newPlans = plans;
     } else {
       newPlans = plans.filter((plan) => plan !== id);
     }
-    console.log(newPlans);
     setSelectedPlans(newPlans);
   };
 
   useEffect(() => {
-    console.log(authCtx.token);
     fetch("http://localhost:5041/api/nutritions", {
       method: "GET",
       headers: {
@@ -67,7 +90,6 @@ const AdminDashboard = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData);
         setMealPlans(actualData);
       });
   }, []);
@@ -83,12 +105,25 @@ const AdminDashboard = () => {
     p: 0.5,
     borderRadius: 3,
   };
+  const styleOrder = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 1100,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 0.5,
+    borderRadius: 3,
+  };
 
   return (
     <div>
       <p className={utils.title}>Food Procurement</p>
       <div className={utils.buttonContainerRight}>
-        <button className={utils.blackButton}>Calculate</button>
+        <button className={utils.blackButton} onClick={handleViewOrder}>
+          Calculate
+        </button>
       </div>
       <table className={utils.styledTable}>
         <thead>
@@ -143,7 +178,6 @@ const AdminDashboard = () => {
 
               <div className={utils.modalContainer}>
                 <div className={classes.dalContainer}>
-                  <div></div>
                   <div className={classes.tableContainer}>
                     <table className={classes.styledTable}>
                       <thead>
@@ -173,6 +207,61 @@ const AdminDashboard = () => {
                     Close
                   </button>
                   <button className={utils.greenButton}>Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Box>
+      </Modal>
+      <Modal
+        open={openOrder}
+        onClose={handleCloseOrder}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleOrder}>
+          <div className={utils.modal}>
+            <div className={classes.form}>
+              <div className={utils.modalTitleDark}>
+                <h2>Order details</h2>
+              </div>
+
+              <div className={utils.modalContainer}>
+                <div className={classes.dalContainer}>
+                  <div className={classes.tableContainer}>
+                    <table className={classes.styledTable}>
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Amount</th>
+                          <th>Supplier</th>
+                          <th>Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {orders?.foodOrders?.map((ingredient, index) => (
+                          <tr key={index}>
+                            <td>{ingredient.foodName}</td>
+                            <td>{ingredient.amount}</td>
+                            <td>{ingredient.supplier}</td>
+                            <td>{ingredient.price}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <div className={classes.orderContainer}>
+                      <div className={utils.span}>
+                        <span>Delivery date:</span>
+                        <span>
+                          {dayjs(orders?.deliveryDate).format("DD-MM-YYYY")}
+                        </span>
+                      </div>
+                      <div className={utils.span}>
+                        <span>Total price:</span>
+                        <span>{orders?.totalPrice}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
