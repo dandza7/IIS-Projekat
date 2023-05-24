@@ -22,10 +22,10 @@ namespace IIS_Projekat.Controllers
         /// </summary>
         /// <response code="200">If food is succesfully created, returns its ID</response>
         /// <response code="400">If category is not valid or food already exists!</response>
-        /// <response code="404">If allergy with sent ID is not found!</response>
+        /// <response code="404">If food with sent ID is not found!</response>
         [HttpPost("new", Name = "CreateFood")]
         [Authorize(Roles = Roles.Nutritionist)]
-        public ActionResult<long> CreateAllergy([FromBody] NewFoodDTO newFoodDTO)
+        public ActionResult<long> CreateFood([FromBody] NewFoodDTO newFoodDTO)
         {
             return Ok(_foodService.Create(newFoodDTO));
         }
