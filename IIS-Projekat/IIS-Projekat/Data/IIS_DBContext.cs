@@ -581,7 +581,6 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<FoodSupplyReport>().HasQueryFilter(fsr => !fsr.IsDeleted);
             modelBuilder.Entity<FoodSupplyReport>().HasKey(fsr => fsr.Id);
             modelBuilder.Entity<FoodSupplyReport>().Property(fsr => fsr.DeliveryDate).IsRequired();
-            modelBuilder.Entity<FoodSupplyReport>().Property(fsr => fsr.IsConfirmed).IsRequired();
             modelBuilder.Entity<FoodSupplyReport>().HasMany(fsr => fsr.FoodOrders).WithMany();
 
             modelBuilder.Entity<FoodOrder>().HasQueryFilter(fo => !fo.IsDeleted);
