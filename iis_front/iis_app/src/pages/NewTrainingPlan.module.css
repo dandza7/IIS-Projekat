@@ -3,6 +3,7 @@
   justify-content: space-between;
   color: var(--darkGrey);
   padding-bottom: 0.5rem;
+  align-items: center;
 }
 .categories {
   display: flex;

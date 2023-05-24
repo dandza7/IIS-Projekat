@@ -62,18 +62,16 @@
 }
 
 .styledTable tbody tr:last-of-type {
-  border-bottom: 1px solid var(--darkGreen);
 }
 
 .styledTable {
-  border: 1px solid #ccc;
   border-collapse: collapse;
   margin: 0;
   padding: 0;
   width: 100%;
   table-layout: fixed;
   border-radius: 1rem;
-  height: 300px;
+  height: 350px;
   overflow-y: scroll;
   display: block;
 }
@@ -105,7 +103,6 @@
 }
 
 .styledTableNutrients tbody tr:last-of-type {
-  border-bottom: 1px solid var(--darkGreen);
 }
 
 .styledTableNutrients {
@@ -184,4 +181,9 @@
   width: 100px;
   padding-left: 10px;
   background-color: rgb(239, 239, 239);
+}
+
+.checkBox {
+  width: 1.2rem;
+  height: 1.2rem;
 }

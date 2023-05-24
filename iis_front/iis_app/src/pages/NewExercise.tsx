@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./NewExercise.module.css";
 import { useState, useRef, useEffect, useContext } from "react";
 import AuthContext from "../store/auth-context";
+import utils from "./Utils.module.css";
 const NewExercise = () => {
   const authCtx = useContext(AuthContext);
   const [muscleGroups, setMuscleGroups] = useState<any[]>([]);
@@ -64,42 +65,49 @@ const NewExercise = () => {
 
   return (
     <div className={classes.nexExercise}>
-      <div className={classes.nexExerciseTitle}>Add new exercise</div>
-      <form className={classes.nexExerciseForm} onSubmit={handleSubmit}>
-        <div>
-          <label>Name of exercise: </label>
-          <input type="text" ref={nameRef}></input>
-        </div>
-        <div>
-          <label>Select primary target Muscle: </label>
-          <div className={classes.selectGrid}>
-            <select ref={primarytargetRef}>
-              {muscleGroups.map((group, index) => {
-                return <option key={index}>{group.name}</option>;
-              })}
-            </select>
-          </div>
-        </div>
-        <div>
-          {muscleGroups.map((group, index) => {
-            return (
-              <div key={index}>
-                {" "}
-                <input
-                  type="checkbox"
-                  name={group.name}
-                  value={group.name}
-                  onChange={handleCheck}
-                ></input>
-                <label>{group.name}</label>
+      <div className={utils.title}>New exercise</div>
+      <div className={classes.container}>
+        <div className={classes.nutrientsContainer}>
+          <form className={classes.nexExerciseForm} onSubmit={handleSubmit}>
+            <div>
+              <label>Name of exercise: </label>
+              <input type="text" ref={nameRef} className={utils.input}></input>
+            </div>
+            <div>
+              <label>Select primary target muscle: </label>
+              <div className={classes.selectGrid}>
+                <select ref={primarytargetRef} className={classes.select}>
+                  {muscleGroups.map((group, index) => {
+                    return <option key={index}>{group.name}</option>;
+                  })}
+                </select>
               </div>
-            );
-          })}
+            </div>
+            <span>Secondary muscle groups: </span>
+            <div className={classes.grid}>
+              {muscleGroups.map((group, index) => {
+                return (
+                  <div key={index} className={classes.secondaryMG}>
+                    {" "}
+                    <input
+                      type="checkbox"
+                      name={group.name}
+                      value={group.name}
+                      onChange={handleCheck}
+                    ></input>
+                    <label>{group.name}</label>
+                  </div>
+                );
+              })}
+            </div>
+            <div className={utils.buttonContainerRight}>
+              <button type="submit" className={utils.greenButton}>
+                Add Exercise
+              </button>
+            </div>
+          </form>
         </div>
-        <button type="submit" className={classes.addButton}>
-          Add Exercise
-        </button>
-      </form>
+      </div>
     </div>
   );
 };

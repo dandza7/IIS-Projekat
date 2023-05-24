@@ -82,7 +82,8 @@ const Exercises = () => {
               <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>asd</th>
+                <th>Primary muscle group </th>
+                <th>Type </th>
               </tr>
             </thead>
             <tbody>
@@ -90,7 +91,8 @@ const Exercises = () => {
                 <tr key={exercise.id}>
                   <td>{exercise.id}</td>
                   <td>{exercise.name}</td>
-                  <td>as</td>
+                  <td>{exercise.primaryMuscleGroup}</td>
+                  <td>{exercise.type}</td>
                 </tr>
               ))}
             </tbody>
