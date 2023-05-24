@@ -40,5 +40,27 @@ namespace IIS_Projekat.Controllers
             _nutritionService.Update(newNutritionPlanDTO);
             return Ok();
         }
+
+        /// <summary>
+        /// [Admin] Gets all nutrition plans without details
+        /// </summary>
+        /// <response code="200">Returns nutrition plans</response>
+        [HttpGet(Name = "GetNutritionPlans")]
+        [Authorize(Roles = Roles.Admin)]
+        public ActionResult<IEnumerable<PreviewNutritionPlanDTO>> GetNutritionPlans()
+        {
+            return Ok(_nutritionService.GetNutritionPlans());
+        }
+
+        /// <summary>
+        /// [Admin] Gets all nutrition plans without details
+        /// </summary>
+        /// <response code="200">Returns nutrition plans</response>
+        [HttpGet("{id}", Name = "GetNutritionPlanWithIngredients")]
+        [Authorize(Roles = Roles.Admin)]
+        public ActionResult<PreviewNutritionPlanContentDTO> GetNutritionPlanWithIngredients(long id)
+        {
+            return Ok(_nutritionService.GetNutritionPlanWithIngredients(id));
+        }
     }
 }

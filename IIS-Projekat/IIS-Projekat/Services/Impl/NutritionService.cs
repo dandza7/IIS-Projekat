@@ -4,6 +4,7 @@ using IIS_Projekat.Models.DTOs.NutritionPlan;
 using IIS_Projekat.Models.DTOs.Recipe;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -98,6 +99,52 @@ namespace IIS_Projekat.Services.Impl
             }
             return response;
         }
+
+        public IEnumerable<PreviewNutritionPlanDTO> GetNutritionPlans()
+        {
+            return _mapper.Map<List<PreviewNutritionPlanDTO>>(_unitOfWork.NutritionPlanRepository.GetAll(np => np.User).Where(np => np.Date > DateTime.UtcNow).ToList());
+        }
+
+        public PreviewNutritionPlanContentDTO GetNutritionPlanWithIngredients(long id)
+        {
+            var plan = _unitOfWork.NutritionPlanRepository.GetAll(np => np.User).Where(np => np.Id == id)
+                                                                                .Include(np => np.Meals)
+                                                                                .ThenInclude(m => m.Recipe)
+                                                                                .ThenInclude(r => r.FoodShares)
+                                                                                .ThenInclude(fs => fs.Food).FirstOrDefault();
+            if (plan == null)
+            {
+                throw new NotFoundException($"Nutrition plan with id {id} does not exist!");
+            }
+            var response = new PreviewNutritionPlanContentDTO
+            {
+                Details = _mapper.Map<PreviewNutritionPlanDTO>(plan)
+            };
+            foreach (var meal in plan.Meals)
+            {
+                foreach (var foodShare in meal.Recipe.FoodShares)
+                {
+                    if (!response.Ingredients.Where(i => i.Name == foodShare.Food.Name).Any())
+                    {
+                        response.Ingredients.Add(
+                            new PreviewIngredientDTO
+                            {
+                                Name = foodShare.Food.Name
+                            }
+                        );
+                    }
+                    foreach (var ingredient in response.Ingredients)
+                    {
+                        if (ingredient.Name == foodShare.Food.Name)
+                        {
+                            ingredient.Amount += foodShare.Share * meal.PortionSize;
+                        }
+                    }
+                }
+            }
+            return response;
+        }
+
         private PreviewRecipeDetailedDTO GetDetailed(long id)
         {
             var recipe = _unitOfWork.RecipeRepository.GetById(id, r => r.FoodShares);

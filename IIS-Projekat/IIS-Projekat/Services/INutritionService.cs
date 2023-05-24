@@ -6,5 +6,7 @@ namespace IIS_Projekat.Services
     {
         ResponseNutritionPlanDTO GetOne(NutritionPlanKeyDTO nutritionPlanKeyDTO);
         void Update(NewNutritionPlanDTO newNutritionPlanDTO);
+        IEnumerable<PreviewNutritionPlanDTO> GetNutritionPlans();
+        PreviewNutritionPlanContentDTO GetNutritionPlanWithIngredients(long id);
     }
 }

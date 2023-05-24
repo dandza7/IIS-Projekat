@@ -9,6 +9,7 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
         public FoodPricesProfile()
         {
             CreateMap<FoodPrice, PreviewFoodPriceDTO>()
+                .ForMember(fp => fp.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(fp => fp.Price, opt => opt.MapFrom(src => src.Price))
                 .ForMember(fp => fp.Supplier, opt => opt.MapFrom(src => src.Supplier));
             CreateMap<Food, PreviewFoodPricesDTO>()
