@@ -5,6 +5,9 @@ import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
 import { useParams } from "react-router-dom";
 import utils from "./Utils.module.css";
+import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut, Pie } from "react-chartjs-2";
+ChartJs.register(ArcElement, Tooltip, Legend);
 
 const Food = () => {
   const authCtx = useContext(AuthContext);
@@ -12,7 +15,31 @@ const Food = () => {
 
   let params = useParams();
   const foodName = params.name;
-
+  const macrosData = {
+    labels: ["Carbs", "Protein", "Fat"],
+    datasets: [
+      {
+        data: [
+          food?.nutrientTable?.carbohydrates,
+          food?.nutrientTable?.protein,
+          food?.nutrientTable?.fat,
+        ],
+        backgroundColor: ["#42f5ce", "#12725d", "#2ac9aa"],
+      },
+    ],
+  };
+  const carbsData = {
+    labels: ["Fiber", "Sugar"],
+    datasets: [
+      {
+        data: [food?.nutrientTable?.fiber, food?.nutrientTable?.sugar],
+        backgroundColor: ["#42f5ce", "#12725d"],
+      },
+    ],
+  };
+  const options = {
+    plugins: { legend: { position: "right" } },
+  };
   useEffect(() => {
     console.log(foodName);
     fetch("http://localhost:5041/api/food", {
@@ -63,6 +90,13 @@ const Food = () => {
                 <span className={classes.smallTitle}>{food.category}</span>
               </div>
               <span className={classes.smallTitle}>General</span>
+              <div className={classes.chartsContainer}>
+                <div className={classes.chartsContainer_}>
+                  <div className={classes.chartContainer}>
+                    <Doughnut data={macrosData} options={options}></Doughnut>
+                  </div>
+                </div>
+              </div>
               <table className={classes.styledTableNutrients}>
                 <thead>
                   <tr>
@@ -162,21 +196,6 @@ const Food = () => {
                       <span>g</span>
                     </td>
                   </tr>
-                </tbody>
-              </table>
-              <span className={classes.smallTitle}>Allergens</span>
-              <table className={classes.styledTableNutrients}>
-                <thead>
-                  <tr>
-                    <th>Allergen</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {food?.allergies?.map((allergy: any, index: number) => (
-                    <tr key={index}>
-                      <td>{allergy}</td>
-                    </tr>
-                  ))}
                 </tbody>
               </table>
             </div>
@@ -320,6 +339,21 @@ const Food = () => {
                       <span>mg</span>
                     </td>
                   </tr>
+                </tbody>
+              </table>
+              <span className={classes.smallTitle}>Allergens</span>
+              <table className={classes.styledTableNutrients}>
+                <thead>
+                  <tr>
+                    <th>Allergen</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {food?.allergies?.map((allergy: any, index: number) => (
+                    <tr key={index}>
+                      <td>{allergy}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
