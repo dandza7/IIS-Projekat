@@ -9,6 +9,7 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
         public TherapyProfile()
         {
             CreateMap<TherapyDTO, Therapy>();
+            CreateMap<Therapy, PreviewTherapyDTO>();
         }
     }
 }

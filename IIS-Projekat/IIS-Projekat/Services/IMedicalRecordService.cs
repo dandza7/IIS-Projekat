@@ -8,8 +8,8 @@ namespace IIS_Projekat.Services
     public interface IMedicalRecordService
     {
         public long Create(MedicalRecordDTO newMedicalRecord);
-        public PaginationWrapper<PreviewMedicalRecord> GetAll(PaginationQuery? paginationQuery);
-        public PreviewMedicalRecord GetById(long id);
+        public PaginationWrapper<PreviewMedicalRecordDTO> GetAll(PaginationQuery? paginationQuery);
+        public PreviewMedicalRecordDTO GetById(long id);
         public void DeleteExercise(long id);
     }
 }

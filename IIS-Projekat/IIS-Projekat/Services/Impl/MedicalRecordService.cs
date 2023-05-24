@@ -50,20 +50,20 @@ namespace IIS_Projekat.Services.Impl
             _unitOfWork.SaveChanges();
         }
 
-        public PaginationWrapper<PreviewMedicalRecord> GetAll(PaginationQuery? paginationQuery)
+        public PaginationWrapper<PreviewMedicalRecordDTO> GetAll(PaginationQuery? paginationQuery)
         {
             var paginationResult = _unitOfWork.MedicalRecordRepository.Filter(paginationQuery, mr => mr.Patient, mr => mr.Patient.Profile);
-            return new PaginationWrapper<PreviewMedicalRecord>(_mapper.Map<List<PreviewMedicalRecord>>(paginationResult.Items), paginationResult.TotalCount);
+            return new PaginationWrapper<PreviewMedicalRecordDTO>(_mapper.Map<List<PreviewMedicalRecordDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
 
-        public PreviewMedicalRecord GetById(long id)
+        public PreviewMedicalRecordDTO GetById(long id)
         {
             var medicalRecord = _unitOfWork.MedicalRecordRepository.GetById(id, mr => mr.Patient, mr => mr.Patient.Profile);
             if (medicalRecord == null)
             {
                 throw new NotFoundException($"Medical record with ID: {id} does not exist in the database.");
             }
-            return _mapper.Map<PreviewMedicalRecord>(medicalRecord);
+            return _mapper.Map<PreviewMedicalRecordDTO>(medicalRecord);
         }
     }
 }

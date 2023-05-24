@@ -13,6 +13,5 @@ namespace IIS_Projekat.Models
         public bool IsHypertrophic { get; set; }
         public ICollection<ExerciseTrainingSession> ExercisesTS { get; set; } = new List<ExerciseTrainingSession>();
         public ICollection<ExerciseMuscleGroup> ExercisesMG { get; set; } = new List<ExerciseMuscleGroup>();
-        public ICollection<Therapy> Therapies { get; set; } = new List<Therapy>();
     }
 }

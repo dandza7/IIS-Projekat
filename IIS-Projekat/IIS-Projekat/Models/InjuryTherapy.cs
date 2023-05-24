@@ -2,7 +2,7 @@
 
 namespace IIS_Projekat.Models
 {
-    public class InjuryMedicalRecord : IEntity
+    public class InjuryTherapy : IEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
@@ -10,7 +10,7 @@ namespace IIS_Projekat.Models
         public DateTime ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
         public Injury Injury { get; set; }
-        public MedicalRecord MedicalRecord {get; set; }
+        public Therapy Therapy {get; set; }
         public string InjurySeverity { get; set; } = string.Empty;
     }
 }
