@@ -61,7 +61,7 @@ const Appointment = () => {
     borderRadius: 3,
   };
   useEffect(() => {
-    fetch("http://localhost:5041/api/patients/" + patientId, {
+    fetch("http://localhost:5041/api/medical-record/" + 1, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -180,7 +180,12 @@ const Appointment = () => {
           </div>
         </div>
         <div className={classes.container}>
-          {toggleMR && <div className={classes.report}>{patient?.name}</div>}
+          {toggleMR && (
+            <div className={classes.report}>
+              <div>{patient?.name}</div>
+              <div>{patient?.name}</div>
+            </div>
+          )}
           {toggleTherapy && (
             <div className={classes.report}>
               <span className={classes.smallTitle}>Injured muscle groups</span>
