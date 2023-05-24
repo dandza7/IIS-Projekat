@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.FoodSupplying;
+using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 using Microsoft.EntityFrameworkCore;
@@ -76,6 +77,20 @@ namespace IIS_Projekat.Services.Impl
             _unitOfWork.SaveChanges();
             return CreateReport(report.Id);
         }
+
+        public PaginationWrapper<FoodSupplyingReportDTO> GetAll(int page)
+        {
+            var allReportsIds = _unitOfWork.FoodSupplyReportRepository.GetAll().Select(fsr => fsr.Id);
+            var count = allReportsIds.Count();
+            var reportsIds = allReportsIds.Skip((page - 1) * 10).Take(10).ToList();
+            var responseList = new List<FoodSupplyingReportDTO>();
+            foreach (var id in reportsIds)
+            {
+                responseList.Add(CreateReport(id));
+            }
+            return new PaginationWrapper<FoodSupplyingReportDTO>(responseList, count);
+        }
+
         private FoodSupplyingReportDTO CreateReport(long id)
         {
             var report = _unitOfWork.FoodSupplyReportRepository.GetAll().Where(fsr => fsr.Id == id)

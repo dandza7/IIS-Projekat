@@ -1,4 +1,5 @@
 ﻿using IIS_Projekat.Models.DTOs.FoodSupplying;
+using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Services;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +28,17 @@ namespace IIS_Projekat.Controllers
         public ActionResult<FoodSupplyingReportDTO> CreateOrder([FromBody] NewFoodOrderDTO newFoodOrderDTO)
         {
             return Ok(_foodOrderingService.CreateOrder(newFoodOrderDTO));
+        }
+
+        /// <summary>
+        /// [Admin] Gets all ordering reports
+        /// </summary>
+        /// <response code="200">Returns ordering reports paginated</response>
+        [HttpGet("{page}", Name = "GetAllReports")]
+        [Authorize(Roles = Roles.Admin)]
+        public ActionResult<PaginationWrapper<FoodSupplyingReportDTO>> GetAllReports(int page = 1)
+        {
+            return Ok(_foodOrderingService.GetAll(page));
         }
     }
 }

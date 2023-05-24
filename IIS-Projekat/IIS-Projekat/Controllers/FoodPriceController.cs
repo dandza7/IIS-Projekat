@@ -23,7 +23,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="200">Returns all food prices</response>
         [HttpGet("{page}", Name = "GetAllFoodPrices")]
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult<PaginationWrapper<PreviewFoodPricesDTO>> GetAllFoodPrices(int page)
+        public ActionResult<PaginationWrapper<PreviewFoodPricesDTO>> GetAllFoodPrices(int page = 1)
         {
             return Ok(_foodPriceService.GetAll(page));
         }
