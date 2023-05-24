@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.NutritionPlan;
+using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.Recipe;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
@@ -100,9 +101,12 @@ namespace IIS_Projekat.Services.Impl
             return response;
         }
 
-        public IEnumerable<PreviewNutritionPlanDTO> GetNutritionPlans()
+        public PaginationWrapper<PreviewNutritionPlanDTO> GetUnorderedNutritionPlans(int page)
         {
-            return _mapper.Map<List<PreviewNutritionPlanDTO>>(_unitOfWork.NutritionPlanRepository.GetAll(np => np.User).Where(np => np.Date > DateTime.UtcNow && !np.IsOrdered).ToList());
+            var plans = _unitOfWork.NutritionPlanRepository.GetAll(np => np.User).Where(np => np.Date > DateTime.UtcNow && !np.IsOrdered);
+            var count = plans.Count();
+            plans = plans.Skip((page - 1) * 10).Take(10);
+            return new PaginationWrapper<PreviewNutritionPlanDTO>(_mapper.Map<List<PreviewNutritionPlanDTO>>(plans.ToList()), count);
         }
 
         public PreviewNutritionPlanContentDTO GetNutritionPlanWithIngredients(long id)

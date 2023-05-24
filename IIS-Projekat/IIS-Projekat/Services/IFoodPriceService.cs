@@ -1,10 +1,11 @@
 ﻿using IIS_Projekat.Models.DTOs.FoodPrice;
+using IIS_Projekat.Models.DTOs.Pagination;
 
 namespace IIS_Projekat.Services
 {
     public interface IFoodPriceService
     {
-        IEnumerable<PreviewFoodPricesDTO> GetAll();
+        PaginationWrapper<PreviewFoodPricesDTO> GetAll(int page);
         long CreateOrUpdate(NewFoodPriceDTO newFoodPriceDTO);
         void Delete(long id);
     }

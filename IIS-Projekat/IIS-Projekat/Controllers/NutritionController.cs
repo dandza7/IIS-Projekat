@@ -1,4 +1,5 @@
 ﻿using IIS_Projekat.Models.DTOs.NutritionPlan;
+using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Services;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.AspNetCore.Authorization;
@@ -45,18 +46,18 @@ namespace IIS_Projekat.Controllers
         /// [Admin] Gets all nutrition plans that are not ordered
         /// </summary>
         /// <response code="200">Returns nutrition plans</response>
-        [HttpGet(Name = "GetUnorderedNutritionPlans")]
+        [HttpGet("{page}", Name = "GetUnorderedNutritionPlans")]
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult<IEnumerable<PreviewNutritionPlanDTO>> GetUnorderedNutritionPlans()
+        public ActionResult<PaginationWrapper<PreviewNutritionPlanDTO>> GetUnorderedNutritionPlans(int page = 1)
         {
-            return Ok(_nutritionService.GetNutritionPlans());
+            return Ok(_nutritionService.GetUnorderedNutritionPlans(page));
         }
 
         /// <summary>
         /// [Admin] Gets all nutrition plans without details
         /// </summary>
         /// <response code="200">Returns nutrition plans</response>
-        [HttpGet("{id}", Name = "GetNutritionPlanWithIngredients")]
+        [HttpGet("detailed/{id}", Name = "GetNutritionPlanWithIngredients")]
         [Authorize(Roles = Roles.Admin)]
         public ActionResult<PreviewNutritionPlanContentDTO> GetNutritionPlanWithIngredients(long id)
         {
