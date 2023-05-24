@@ -22,7 +22,7 @@ namespace IIS_Projekat.Repositories
         IGenericRepository<TrainingPlan> TrainingPlanRepository { get; }
         IGenericRepository<TrainingSession> TrainingSessionRepository { get; }
         IGenericRepository<ExerciseTrainingSession> ExerciseTrainingSessionRepository { get; }
-        IGenericRepository<InjuryMedicalRecord> InjuryMedicalRecordRepository { get; }
+        IGenericRepository<InjuryTherapy> InjuryTherapyRepository { get; }
         IGenericRepository<UsersProfile> ProfileRepository { get; }
         IGenericRepository<Therapy> TherapyRepository { get; }
         IGenericRepository<Meal> MealRepository { get; }

@@ -530,7 +530,7 @@ namespace IIS_Projekat.Data
 
             modelBuilder.Entity<Injury>().HasQueryFilter(i => !i.IsDeleted);
             modelBuilder.Entity<Injury>().HasKey(i => i.Id);
-            modelBuilder.Entity<Injury>().HasMany(i => i.Injuries).WithOne(imr => imr.Injury).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<Injury>().HasMany(i => i.Injuries).WithOne(it => it.Injury).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<MedicalRecord>().HasQueryFilter(mr => !mr.IsDeleted);
             modelBuilder.Entity<MedicalRecord>().HasKey(mr => mr.Id);
@@ -541,11 +541,10 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Allergies).WithMany(a => a.MedicalRecords);
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Diagnoses).WithMany(d => d.MedicalRecords);
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Therapies).WithOne(t => t.MedicalRecord).HasForeignKey(t => t.MedicalRecordId).IsRequired();
-            modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.MedicalRecords).WithOne(imr => imr.MedicalRecord).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
-            modelBuilder.Entity<InjuryMedicalRecord>().HasQueryFilter(e => !e.IsDeleted);
-            modelBuilder.Entity<InjuryMedicalRecord>().HasKey(e => e.Id);
-            modelBuilder.Entity<InjuryMedicalRecord>().Property(e => e.InjurySeverity).IsRequired();
+            modelBuilder.Entity<InjuryTherapy>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<InjuryTherapy>().HasKey(e => e.Id);
+            modelBuilder.Entity<InjuryTherapy>().Property(e => e.InjurySeverity).IsRequired();
 
             modelBuilder.Entity<Appointment>().HasQueryFilter(a => !a.IsDeleted);
             modelBuilder.Entity<Appointment>().HasKey(a => a.Id);
@@ -569,7 +568,8 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Therapy>().HasQueryFilter(t => !t.IsDeleted);
             modelBuilder.Entity<Therapy>().HasKey(t => t.Id);
             modelBuilder.Entity<Therapy>().Property(t => t.ReportMessage).IsRequired();
-            modelBuilder.Entity<Therapy>().HasMany(t => t.RecommendedExercises).WithMany(e => e.Therapies);
+            modelBuilder.Entity<Therapy>().HasMany(t => t.RecommendedExercises).WithMany();
+            modelBuilder.Entity<Therapy>().HasMany(t => t.Therapies).WithOne(it => it.Therapy).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<FoodPrice>().HasQueryFilter(fp => !fp.IsDeleted);
             modelBuilder.Entity<FoodPrice>().HasKey(fp => fp.Id);

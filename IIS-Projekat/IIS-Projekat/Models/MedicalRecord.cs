@@ -8,7 +8,6 @@ namespace IIS_Projekat.Models
         public long Id { get; set; }
         public long PatientId { get; set; }
         public User Patient { get; set; }
-        public ICollection<InjuryMedicalRecord> MedicalRecords { get; set; } = new List<InjuryMedicalRecord>();
         public ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();
         public ICollection<Diagnosis> Diagnoses { get; set; } = new List<Diagnosis>();
         public ICollection<Therapy> Therapies { get; set; } = new List<Therapy>();

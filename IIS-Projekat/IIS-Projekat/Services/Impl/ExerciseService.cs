@@ -50,7 +50,7 @@ namespace IIS_Projekat.Services.Impl
             HashSet<MuscleGroup> lowSeverityInjuries = new HashSet<MuscleGroup>();
             HashSet<MuscleGroup> highSeverityInjuries = new HashSet<MuscleGroup>();
 
-            ICollection<InjuryMedicalRecord> clientInjuries = _unitOfWork.InjuryMedicalRecordRepository.GetAll(imr => imr.Injury).Where(imr => imr.MedicalRecord == medicalRecord).ToList();
+            ICollection<InjuryTherapy> clientInjuries = _unitOfWork.InjuryTherapyRepository.GetAll(it => it.Injury, it => it.Therapy, it => it.Therapy.MedicalRecord).Where(it => it.Therapy.MedicalRecord == medicalRecord).ToList();
             
             clientInjuries.ToList().ForEach(injuryMR => {
                 var injury = _unitOfWork.InjuryRepository.GetById(injuryMR.Injury.Id, i => i.Muscle);

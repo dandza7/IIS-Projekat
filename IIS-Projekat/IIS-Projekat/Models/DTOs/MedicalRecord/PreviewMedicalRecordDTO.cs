@@ -1,6 +1,6 @@
 ﻿namespace IIS_Projekat.Models.DTOs.MedicalRecord
 {
-    public class PreviewMedicalRecord
+    public class PreviewMedicalRecordDTO
     {
         public string PatientName { get; set; }
         public string Anamnesis { get; set; }

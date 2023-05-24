@@ -42,7 +42,7 @@ namespace IIS_Projekat.Controllers
         /// </remarks>
         [HttpPost(Name = "GetAllMedicalRecords")]
         [Authorize(Roles = Roles.Doctors)]
-        public ActionResult<IEnumerable<PreviewMedicalRecord>> GetAll([FromBody] PaginationQuery paginationQuery)
+        public ActionResult<IEnumerable<PreviewMedicalRecordDTO>> GetAll([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_medicalRecordService.GetAll(paginationQuery));
         }
@@ -54,7 +54,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="404">If medical record was not found</response>
         [HttpGet("{id}", Name = "GetMedicalRecord")]
         [Authorize(Roles = Roles.Doctors)]
-        public ActionResult<PreviewMedicalRecord> GetById(long id)
+        public ActionResult<PreviewMedicalRecordDTO> GetById(long id)
         {
             return Ok(_medicalRecordService.GetById(id));
         }
