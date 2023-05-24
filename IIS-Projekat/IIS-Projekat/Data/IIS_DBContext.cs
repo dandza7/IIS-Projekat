@@ -556,6 +556,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<NutritionPlan>().HasQueryFilter(np => !np.IsDeleted);
             modelBuilder.Entity<NutritionPlan>().HasKey(np => np.Id);
             modelBuilder.Entity<NutritionPlan>().Property(np => np.Date).IsRequired();
+            modelBuilder.Entity<NutritionPlan>().Property(np => np.IsOrdered).IsRequired();
             modelBuilder.Entity<NutritionPlan>().HasOne(np => np.User).WithMany().HasForeignKey(np => np.UserId).IsRequired();
 
             modelBuilder.Entity<Meal>().HasQueryFilter(m => !m.IsDeleted);
