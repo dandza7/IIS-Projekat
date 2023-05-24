@@ -9,12 +9,17 @@ import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import dayjs from "dayjs";
+
+type injuredMuscle = { injuredMuscle: string; severity: string };
 
 const Appointment = () => {
   let params = useParams();
   const patientId = params.id;
   const [patient, setPatient] = useState({});
   const authCtx = useContext(AuthContext);
+  const [height, setHeight] = useState(null);
+  const [weight, setWeight] = useState(null);
   const navigate = useNavigate();
   const [toggleMR, setToggleMR] = useState(true);
   const [toggleTherapy, setToggleTherapy] = useState(false);
@@ -62,7 +67,7 @@ const Appointment = () => {
     borderRadius: 3,
   };
   useEffect(() => {
-    fetch("http://localhost:5041/api/medical-record/" + 1, {
+    fetch("http://localhost:5041/api/medical-record/patient/" + patientId, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +81,7 @@ const Appointment = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:5041/api/exercise", {
+    fetch("http://localhost:5041/api/exercise/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -131,7 +136,8 @@ const Appointment = () => {
   };
 
   const addMGHandler = () => {
-    const mg = selectedSingleMG;
+    var mg: injuredMuscle = { injuredMuscle: "", severity: "" };
+    mg.injuredMuscle = selectedSingleMG?.name;
     mg.severity = selectedSeverityRef.current.value;
     var updatedList = [...selectedMG];
     updatedList = [...selectedMG, mg];
@@ -152,7 +158,7 @@ const Appointment = () => {
 
   const addExerciseHandler = (exercise: any) => {
     var updatedList = [...selectedExercises];
-    updatedList = [...selectedExercises, exercise];
+    updatedList = [...selectedExercises, exercise.name];
     setselectedExercises(updatedList);
   };
 
@@ -165,30 +171,154 @@ const Appointment = () => {
   const saveExerciseHandler = () => {
     setExercises(selectedExercises);
   };
+
+  const changeWeightHandler = () => {
+    setWeight(event?.target.value);
+  };
+  const changeHeightHandler = () => {
+    setHeight(event?.target.value);
+  };
+
+  const endAppointmentHandler = () => {
+    console.log(exerecises);
+    console.log(selectedMG);
+    console.log(textAreaRef.current.value);
+    console.log(patientId);
+    fetch("http://localhost:5041/api/therapy/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({
+        patientId: patientId,
+        reportMessage: textAreaRef.current.value,
+        injuries: selectedMG,
+        rehabilitationExercises: exerecises,
+      }),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        navigate("/appointments");
+      });
+  };
+
   return (
     <div className={classes.appointment}>
       <p className={utils.title}>Appointment</p>
       <div>
         <div className={classes.menu}>
-          <div className={classes.menuItem} onClick={toggleMRHandler}>
+          <div
+            className={toggleMR ? classes.menuItemSelected : classes.menuItem}
+            onClick={toggleMRHandler}
+          >
             Medical Record
           </div>
-          <div className={classes.menuItem} onClick={toggleTherapyHandler}>
+          <div
+            className={
+              toggleTherapy ? classes.menuItemSelected : classes.menuItem
+            }
+            onClick={toggleTherapyHandler}
+          >
             Therapy
           </div>
-          <div className={classes.menuItem} onClick={toggleReportHandler}>
+          <div
+            className={
+              toggleReport ? classes.menuItemSelected : classes.menuItem
+            }
+            onClick={toggleReportHandler}
+          >
             Report
           </div>
         </div>
         <div className={classes.container}>
           {toggleMR && (
-            <div className={classes.report}>
-              <div>{patient?.name}</div>
-              <div>{patient?.name}</div>
+            <div className={classes.medicalRecord}>
+              <div className={classes.dataContainer}>
+                <div className={utils.span}>
+                  <label>Name:</label>
+                  <span>{patient?.name}</span>
+                </div>
+                <div className={utils.span}>
+                  <label>Surname:</label>
+                  <span>{patient?.surname}</span>
+                </div>
+                <div className={utils.span}>
+                  <label>Birthdate:</label>
+                  <span>{dayjs(patient?.birthDate).format("DD.MM.YYYY ")}</span>
+                </div>
+              </div>
+              <div className={classes.dataContainer}>
+                <div className={utils.span}>
+                  <label>Gender:</label>
+                  <span>{patient?.gender}</span>
+                </div>
+                <div className={utils.span}>
+                  <label>Height:</label>
+                  <input
+                    value={patient?.height}
+                    onChange={changeWeightHandler}
+                    className={classes.weightInput}
+                  ></input>
+                </div>
+                <div className={utils.span}>
+                  <label>Weight:</label>
+                  <input
+                    value={patient?.weight}
+                    onChange={changeHeightHandler}
+                    className={classes.weightInput}
+                  ></input>
+                </div>
+              </div>
+              <div>
+                <label>Anamnesis:</label>
+                <input className={classes.anamnesisInput}></input>
+              </div>
+
+              <div className={classes.dalContainer}>
+                <div className={classes.diagnosesContainer}>
+                  <span className={classes.smallTitle}>Diagnoses</span>
+                  <table className={classes.styledTableNutrients}>
+                    <thead>
+                      <tr>
+                        <th>Diagnosis</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {patient?.diagnoses?.map(
+                        (allergy: any, index: number) => (
+                          <tr key={index}>
+                            <td>{allergy}</td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                <div className={classes.diagnosesContainer}>
+                  <span className={classes.smallTitle}>Allergies</span>
+                  <table className={classes.styledTableNutrients}>
+                    <thead>
+                      <tr>
+                        <th>Allergen</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {patient?.allergies?.map(
+                        (allergy: any, index: number) => (
+                          <tr key={index}>
+                            <td>{allergy}</td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           )}
           {toggleTherapy && (
-            <div className={classes.report}>
+            <div className={classes.therapy}>
               <span className={classes.smallTitle}>Injured muscle groups</span>
               <table className={classes.styledTableNutrients}>
                 <thead>
@@ -210,7 +340,7 @@ const Appointment = () => {
                 <tbody>
                   {selectedMG.map((mg: any, index) => (
                     <tr key={index}>
-                      <td>{mg.name}</td>
+                      <td>{mg.injuredMuscle}</td>
                       <td>{mg.severity}</td>
                       <td></td>
                       <td></td>
@@ -251,7 +381,7 @@ const Appointment = () => {
                 <tbody>
                   {exerecises.map((exercise: any, index) => (
                     <tr key={index}>
-                      <td>{exercise.name}</td>
+                      <td>{exercise}</td>
                       <td></td>
                       <td></td>
                       <td></td>
@@ -267,9 +397,17 @@ const Appointment = () => {
           {toggleReport && (
             <div className={classes.report}>
               <label className={classes.smallTitle}>Appointment Report: </label>
-              <textarea ref={textAreaRef}></textarea>
+              <textarea
+                ref={textAreaRef}
+                className={classes.textArea}
+              ></textarea>
               <div className={utils.buttonContainerCenter}>
-                <button className={utils.blackButton}>End appointment</button>
+                <button
+                  className={utils.blackButton}
+                  onClick={endAppointmentHandler}
+                >
+                  End appointment
+                </button>
               </div>
             </div>
           )}
@@ -289,7 +427,7 @@ const Appointment = () => {
               </div>
 
               <div className={utils.modalContainer}>
-                <div className={classes.dalContainer}>
+                <div className={classes.mg}>
                   <div>
                     <input
                       type="text"
@@ -370,7 +508,7 @@ const Appointment = () => {
               </div>
 
               <div className={utils.modalContainer}>
-                <div className={classes.dalContainer}>
+                <div className={classes.ex}>
                   <div>
                     <input
                       type="text"
@@ -410,7 +548,7 @@ const Appointment = () => {
                           className={classes.exercise}
                           onClick={() => removeExerciseHandler(exercise)}
                         >
-                          {exercise.name}
+                          {exercise}
                         </button>
                       ))}
                     </div>
