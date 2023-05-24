@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.FoodPrice;
+using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 
@@ -47,15 +48,17 @@ namespace IIS_Projekat.Services.Impl
             }
         }
 
-        public IEnumerable<PreviewFoodPricesDTO> GetAll()
+        public PaginationWrapper<PreviewFoodPricesDTO> GetAll(int page)
         {
-            var foodPrices = _mapper.Map<List<PreviewFoodPricesDTO>>(_unitOfWork.FoodRepository.GetAll());
-            foreach (var food in foodPrices)
+            var food = _unitOfWork.FoodRepository.GetAll();
+            var count = food.Count();
+            var foodPrices = _mapper.Map<List<PreviewFoodPricesDTO>>(food.Skip((page - 1) * 10).Take(10));
+            foreach (var f in foodPrices)
             {
-                var prices = _unitOfWork.FoodPriceRepository.GetAll().Where(fp => fp.FoodId == food.FoodId).ToList();
-                food.FoodPrices = _mapper.Map<List<PreviewFoodPriceDTO>>(prices);
+                var prices = _unitOfWork.FoodPriceRepository.GetAll().Where(fp => fp.FoodId == f.FoodId).ToList();
+                f.FoodPrices = _mapper.Map<List<PreviewFoodPriceDTO>>(prices);
             }
-            return foodPrices;
+            return new PaginationWrapper<PreviewFoodPricesDTO>(foodPrices, count);
         }
         public void Delete(long id)
         {
