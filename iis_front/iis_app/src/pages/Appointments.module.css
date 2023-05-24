@@ -6,7 +6,7 @@
   display: flex;
   gap: 1rem;
   background-color: var(--darkGreen);
-  color: white;
+
   justify-content: space-around;
   margin: auto;
   padding: 1rem;
@@ -14,6 +14,13 @@
 }
 .menuItem {
   cursor: pointer;
+  width: 140px;
+  color: white;
+}
+.menuItemSelected {
+  cursor: pointer;
+  width: 140px;
+  color: rgb(20, 239, 181);
 }
 .container {
   display: flex;
@@ -23,12 +30,15 @@
   padding: 1rem 3rem 1rem 3rem;
   border-radius: 0rem 0rem 1rem 1rem;
   margin-bottom: 1rem;
+  border: 1px solid grey;
 }
 
 .report {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  align-items: center;
+  justify-content: space-around;
 }
 .smallTitle {
   font-size: 1.5rem;
@@ -186,4 +196,58 @@
 .checkBox {
   width: 1.2rem;
   height: 1.2rem;
+}
+.textArea {
+  width: 500px;
+  height: 300px;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(170, 169, 169);
+  padding-left: 10px;
+  background-color: rgb(239, 239, 239);
+  margin-bottom: 1.5rem;
+}
+
+.medicalRecord {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.dataContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.weightInput {
+  height: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(170, 169, 169);
+  margin-left: 0.5rem;
+  width: 50px;
+  padding-left: 10px;
+  background-color: rgb(239, 239, 239);
+}
+.anamnesisInput {
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(170, 169, 169);
+  width: 100%;
+  padding-left: 10px;
+  background-color: rgb(239, 239, 239);
+  margin-bottom: 1.5rem;
+}
+
+.dalContainer {
+  display: flex;
+  gap: 5rem;
+}
+.diagnosesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.therapy {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
