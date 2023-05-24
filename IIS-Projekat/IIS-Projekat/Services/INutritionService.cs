@@ -1,4 +1,5 @@
 ﻿using IIS_Projekat.Models.DTOs.NutritionPlan;
+using IIS_Projekat.Models.DTOs.Pagination;
 
 namespace IIS_Projekat.Services
 {
@@ -6,7 +7,7 @@ namespace IIS_Projekat.Services
     {
         ResponseNutritionPlanDTO GetOne(NutritionPlanKeyDTO nutritionPlanKeyDTO);
         void Update(NewNutritionPlanDTO newNutritionPlanDTO);
-        IEnumerable<PreviewNutritionPlanDTO> GetNutritionPlans();
+        PaginationWrapper<PreviewNutritionPlanDTO> GetUnorderedNutritionPlans(int page);
         PreviewNutritionPlanContentDTO GetNutritionPlanWithIngredients(long id);
     }
 }

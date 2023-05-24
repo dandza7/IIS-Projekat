@@ -88,6 +88,7 @@ namespace IIS_Projekat.Services.Impl
             }
             var response = new FoodSupplyingReportDTO
             {
+                ReportId = report.Id,
                 DeliveryDate = report.DeliveryDate,
                 TotalPrice = 0
             };
