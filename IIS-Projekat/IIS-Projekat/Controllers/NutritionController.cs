@@ -42,12 +42,12 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
-        /// [Admin] Gets all nutrition plans without details
+        /// [Admin] Gets all nutrition plans that are not ordered
         /// </summary>
         /// <response code="200">Returns nutrition plans</response>
-        [HttpGet(Name = "GetNutritionPlans")]
+        [HttpGet(Name = "GetUnorderedNutritionPlans")]
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult<IEnumerable<PreviewNutritionPlanDTO>> GetNutritionPlans()
+        public ActionResult<IEnumerable<PreviewNutritionPlanDTO>> GetUnorderedNutritionPlans()
         {
             return Ok(_nutritionService.GetNutritionPlans());
         }

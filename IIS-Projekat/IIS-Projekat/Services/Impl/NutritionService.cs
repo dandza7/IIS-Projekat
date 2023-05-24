@@ -102,7 +102,7 @@ namespace IIS_Projekat.Services.Impl
 
         public IEnumerable<PreviewNutritionPlanDTO> GetNutritionPlans()
         {
-            return _mapper.Map<List<PreviewNutritionPlanDTO>>(_unitOfWork.NutritionPlanRepository.GetAll(np => np.User).Where(np => np.Date > DateTime.UtcNow).ToList());
+            return _mapper.Map<List<PreviewNutritionPlanDTO>>(_unitOfWork.NutritionPlanRepository.GetAll(np => np.User).Where(np => np.Date > DateTime.UtcNow && !np.IsOrdered).ToList());
         }
 
         public PreviewNutritionPlanContentDTO GetNutritionPlanWithIngredients(long id)

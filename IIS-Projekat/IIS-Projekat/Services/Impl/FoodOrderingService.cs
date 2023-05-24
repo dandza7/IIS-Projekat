@@ -65,6 +65,8 @@ namespace IIS_Projekat.Services.Impl
                         }
                     }
                 }
+                plan.IsOrdered = true;
+                _unitOfWork.NutritionPlanRepository.Update(plan);
             }
             foreach (var order in orders)
             {
