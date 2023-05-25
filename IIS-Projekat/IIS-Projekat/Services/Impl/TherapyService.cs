@@ -24,19 +24,20 @@ namespace IIS_Projekat.Services.Impl
 
         public long Create(TherapyDTO newTherapy)
         {
-            var patient = _unitOfWork.UserRepository.GetById(newTherapy.PatientId, p => p.MedicalRecord);
-            if(patient == null)
+            var appointment = _unitOfWork.AppointmentRepository.GetById(newTherapy.AppointmentId, a => a.Patient, a => a.Patient.MedicalRecord);
+            if(appointment == null)
             {
-                throw new NotFoundException($"Patient with ID: {newTherapy.PatientId} does not exist.");
+                throw new NotFoundException($"Appointment with ID: {newTherapy.AppointmentId} does not exist.");
             }
             var therapy = _mapper.Map<Therapy>(newTherapy);
-            therapy.MedicalRecord = patient.MedicalRecord;
-            therapy.MedicalRecordId = patient.MedicalRecord.Id;
+            therapy.MedicalRecord = appointment.Patient.MedicalRecord;
+            therapy.MedicalRecordId = appointment.Patient.MedicalRecord.Id;
 
             DiagnoseInjuries(therapy, newTherapy);
             RecommendExercises(therapy, newTherapy.rehabilitationExercises);
 
             therapy = _unitOfWork.TherapyRepository.Create(therapy);
+            _unitOfWork.AppointmentRepository.Delete(appointment);
             _unitOfWork.SaveChanges();
             return therapy.Id;
         }
@@ -85,7 +86,7 @@ namespace IIS_Projekat.Services.Impl
                 {
                     throw new NotFoundException($"Muscle group with name: {newInjury.InjuredMuscle} was not found.");
                 }
-                var patient = _unitOfWork.UserRepository.GetById(therapyDTO.PatientId, p => p.MedicalRecord);
+                var patient = _unitOfWork.AppointmentRepository.GetById(therapyDTO.AppointmentId, a => a.Patient).Patient;
                 var injury = _unitOfWork.InjuryRepository.GetAll().Where(i => i.Muscle == injuredMuscle).FirstOrDefault();
                 if (injury == null) injury = CreateInjuryBase(injuredMuscle);
                 var injuryInTherapy = new InjuryTherapy();
