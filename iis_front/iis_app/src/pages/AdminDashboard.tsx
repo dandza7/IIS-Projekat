@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState, useRef, useContext } from "react";
-import classes from "./Appointments.module.css";
+import classes from "./Orders.module.css";
 import AddIcon from "@mui/icons-material/Add";
 import utils from "./Utils.module.css";
 import Box from "@mui/material/Box";
@@ -19,7 +19,7 @@ const AdminDashboard = () => {
   const [orders, setOrders] = useState<any>({});
 
   const fetchPlanDetails = (id: number) => {
-    fetch("http://localhost:5041/api/nutritions/" + id, {
+    fetch("http://localhost:5041/api/nutritions/detailed/" + id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5041/api/nutritions", {
+    fetch("http://localhost:5041/api/nutritions/1", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +90,7 @@ const AdminDashboard = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        setMealPlans(actualData);
+        setMealPlans(actualData.items);
       });
   }, []);
 
@@ -172,7 +172,7 @@ const AdminDashboard = () => {
         <Box sx={styleEX}>
           <div className={utils.modal}>
             <div className={classes.form}>
-              <div className={utils.modalTitleDark}>
+              <div className={utils.modalTitle}>
                 <h2>Meal plan</h2>
               </div>
 
@@ -201,12 +201,11 @@ const AdminDashboard = () => {
                 <br></br>
                 <div className={utils.buttonContainerRight}>
                   <button
-                    className={utils.lightGreyButton}
+                    className={classes.lightGreyButton}
                     onClick={handleCloseExercises}
                   >
                     Close
                   </button>
-                  <button className={utils.greenButton}>Save</button>
                 </div>
               </div>
             </div>
@@ -222,7 +221,7 @@ const AdminDashboard = () => {
         <Box sx={styleOrder}>
           <div className={utils.modal}>
             <div className={classes.form}>
-              <div className={utils.modalTitleDark}>
+              <div className={utils.modalTitle}>
                 <h2>Order details</h2>
               </div>
 

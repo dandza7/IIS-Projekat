@@ -589,12 +589,12 @@ const NewMealPlan = () => {
                     <span className={classes.smallTitle}>Calorie intake: </span>
                     <span
                       className={
-                        total?.energy <= bmr
-                          ? classes.smallTitle
-                          : classes.smallTitleRed
+                        total?.energy - 50 >= bmr
+                          ? classes.smallTitleRed
+                          : classes.smallTitle
                       }
                     >
-                      {total.energy}
+                      {total.energy.toFixed(2)}
                     </span>
                     <span className={classes.smallTitle}>/ {bmr}</span>
                   </div>
@@ -627,19 +627,27 @@ const NewMealPlan = () => {
                         <td>{recipe?.recipe?.name}</td>
                         <td>{recipe?.portionSize}</td>
                         <td>
-                          {recipe?.recipe?.calories * recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.calories * recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.protein *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.protein *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.carbohydrates *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.carbohydrates *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.fat *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.fat *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
                           <button
@@ -685,19 +693,27 @@ const NewMealPlan = () => {
                         <td>{recipe?.recipe?.name}</td>
                         <td>{recipe?.portionSize}</td>
                         <td>
-                          {recipe?.recipe?.calories * recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.calories * recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.protein *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.protein *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.carbohydrates *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.carbohydrates *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.fat *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.fat *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
                           <button
@@ -740,19 +756,27 @@ const NewMealPlan = () => {
                         <td>{recipe?.recipe?.name}</td>
                         <td>{recipe?.portionSize}</td>
                         <td>
-                          {recipe?.recipe?.calories * recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.calories * recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.protein *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.protein *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.carbohydrates *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.carbohydrates *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.fat *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.fat *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
                           <button
@@ -795,19 +819,27 @@ const NewMealPlan = () => {
                         <td>{recipe?.recipe?.name}</td>
                         <td>{recipe?.portionSize}</td>
                         <td>
-                          {recipe?.recipe?.calories * recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.calories * recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.protein *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.protein *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.carbohydrates *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.carbohydrates *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
-                          {recipe?.recipe?.nutrientTable?.fat *
-                            recipe?.portionSize}
+                          {(
+                            recipe?.recipe?.nutrientTable?.fat *
+                            recipe?.portionSize
+                          ).toFixed(2)}
                         </td>
                         <td>
                           <button
@@ -839,7 +871,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Energy</td>
                           <td>
-                            <span>{total?.energy}</span>
+                            <span
+                              className={
+                                total?.energy < optimal.energy
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.energy).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>kcal</span>
@@ -864,7 +904,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Total</td>
                           <td>
-                            <span>{total?.carbs}</span>
+                            <span
+                              className={
+                                total?.carbs < optimal.carbs
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.carbs).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>g</span>
@@ -876,7 +924,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Fiber</td>
                           <td>
-                            <span>{total?.fiber}</span>
+                            <span
+                              className={
+                                total?.fiber < optimal.fiber
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.fiber).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>g</span>
@@ -888,7 +944,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Sugars</td>
                           <td>
-                            <span>{total?.sugar}</span>
+                            <span
+                              className={
+                                total?.sugar < optimal.sugar
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.sugar).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>g</span>
@@ -913,7 +977,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Total Protein</td>
                           <td>
-                            <span>{total?.protein}</span>
+                            <span
+                              className={
+                                total?.protein < optimal.protein
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.protein).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>g</span>
@@ -938,7 +1010,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Total Fat</td>
                           <td>
-                            <span>{total?.fat}</span>
+                            <span
+                              className={
+                                total?.fat < optimal.fat
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.fat).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>g</span>
@@ -965,7 +1045,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Vitamin A</td>
                           <td>
-                            <span>{total?.vitaminA}</span>
+                            <span
+                              className={
+                                total?.vitaminA < optimal.vitaminA
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.vitaminA).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mcg</span>
@@ -977,7 +1065,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Vitamin B1</td>
                           <td>
-                            <span>{total?.vitaminB1}</span>
+                            <span
+                              className={
+                                total?.vitaminB1 < optimal.vitaminB1
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.vitaminB1).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mg</span>
@@ -989,7 +1085,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Vitamin B2</td>
                           <td>
-                            <span>{total?.vitaminB2}</span>
+                            <span
+                              className={
+                                total?.vitaminB2 < optimal.vitaminB2
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.vitaminB2).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mg</span>
@@ -1001,7 +1105,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Vitamin B3</td>
                           <td>
-                            <span>{total?.vitaminB3}</span>
+                            <span
+                              className={
+                                total?.vitaminB3 < optimal.vitaminB3
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.vitaminB3).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mg</span>
@@ -1013,7 +1125,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Vitamin C</td>
                           <td>
-                            <span>{total?.vitaminC}</span>
+                            <span
+                              className={
+                                total?.vitaminC < optimal.vitaminC
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.vitaminC).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mg</span>
@@ -1025,7 +1145,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Vitamin D</td>
                           <td>
-                            <span>{total?.vitaminD}</span>
+                            <span
+                              className={
+                                total?.vitaminD < optimal.vitaminD
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.vitaminD).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>IU</span>
@@ -1037,7 +1165,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Vitamin E</td>
                           <td>
-                            <span>{total?.vitaminE}</span>
+                            <span
+                              className={
+                                total?.vitaminE < optimal.vitaminE
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.vitaminE).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mg</span>
@@ -1062,7 +1198,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Calcium</td>
                           <td>
-                            <span>{total?.calcium}</span>
+                            <span
+                              className={
+                                total?.calcium < optimal.calcium
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.calcium).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mg</span>
@@ -1074,7 +1218,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Iron</td>
                           <td>
-                            <span>{total?.iron}</span>
+                            <span
+                              className={
+                                total?.iron < optimal.iron
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.iron).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mg</span>
@@ -1086,7 +1238,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Magnesium</td>
                           <td>
-                            <span>{total?.magnesium}</span>
+                            <span
+                              className={
+                                total?.magnesium < optimal.magnesium
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.magnesium).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mg</span>
@@ -1098,7 +1258,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Potassium</td>
                           <td>
-                            <span>{total?.potassium}</span>
+                            <span
+                              className={
+                                total?.potassium < optimal.potassium
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.potassium).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mg</span>
@@ -1110,7 +1278,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Sodium</td>
                           <td>
-                            <span>{total?.sodium}</span>
+                            <span
+                              className={
+                                total?.sodium < optimal.sodium
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.sodium).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mg</span>
@@ -1122,7 +1298,15 @@ const NewMealPlan = () => {
                         <tr>
                           <td>Zinc</td>
                           <td>
-                            <span>{total?.zinc}</span>
+                            <span
+                              className={
+                                total?.zinc < optimal.zinc
+                                  ? classes.optimal
+                                  : classes.optimalGreen
+                              }
+                            >
+                              {(total?.zinc).toFixed(2)}
+                            </span>
                           </td>
                           <td>
                             <span>mg</span>
@@ -1204,28 +1388,36 @@ const NewMealPlan = () => {
                             <div>
                               <span>Calories: </span>
                               <span>
-                                {selectedIngredient?.calories * amount}
+                                {(
+                                  selectedIngredient?.calories * amount
+                                ).toFixed(2)}
                               </span>
                             </div>
                             <div>
                               <span>Carbohydrates: </span>
                               <span>
-                                {selectedIngredient?.nutrientTable
-                                  ?.carbohydrates * amount}
+                                {(
+                                  selectedIngredient?.nutrientTable
+                                    ?.carbohydrates * amount
+                                ).toFixed(2)}
                               </span>
                             </div>
                             <div>
                               <span>Protein: </span>
                               <span>
-                                {selectedIngredient?.nutrientTable?.protein *
-                                  amount}
+                                {(
+                                  selectedIngredient?.nutrientTable?.protein *
+                                  amount
+                                ).toFixed(2)}
                               </span>
                             </div>
                             <div>
                               <span>Fat: </span>
                               <span>
-                                {selectedIngredient?.nutrientTable?.fat *
-                                  amount}
+                                {(
+                                  selectedIngredient?.nutrientTable?.fat *
+                                  amount
+                                ).toFixed(2)}
                               </span>
                             </div>
                           </div>

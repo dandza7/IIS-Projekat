@@ -119,27 +119,27 @@ const NewFood = () => {
         body: JSON.stringify({
           name: foodName,
           category: category,
-          calories: energy,
+          calories: energy / 100,
           allergyIds: alg,
           nutrientTable: {
-            protein: protein,
-            fat: fat,
-            carbohydrates: carbs,
-            fiber: fiber,
-            sugar: sugar,
-            vitaminA: vitaminA,
-            vitaminB1: vitaminB1,
-            vitaminB2: vitaminB2,
-            vitaminB3: vitaminB3,
-            vitaminC: vitaminC,
-            vitaminD: vitaminD,
-            vitaminE: vitaminE,
-            calcium: calcium,
-            iron: iron,
-            magnesium: magnesium,
-            potassium: potassium,
-            sodium: sodium,
-            zinc: zink,
+            protein: protein / 100,
+            fat: fat / 100,
+            carbohydrates: carbs / 100,
+            fiber: fiber / 100,
+            sugar: sugar / 100,
+            vitaminA: vitaminA / 100,
+            vitaminB1: vitaminB1 / 100,
+            vitaminB2: vitaminB2 / 100,
+            vitaminB3: vitaminB3 / 100,
+            vitaminC: vitaminC / 100,
+            vitaminD: vitaminD / 100,
+            vitaminE: vitaminE / 100,
+            calcium: calcium / 100,
+            iron: iron / 100,
+            magnesium: magnesium / 100,
+            potassium: potassium / 100,
+            sodium: sodium / 100,
+            zinc: zink / 100,
           },
         }),
       })
@@ -190,8 +190,9 @@ const NewFood = () => {
                   <option>Oil</option>
                   <option>Fruit</option>
                   <option>Vegetables</option>
-                  <option>Water</option>
+                  <option>Drink</option>
                   <option>Eggs</option>
+                  <option>Nuts</option>
                 </select>
               </div>
               <span className={classes.smallTitle}>General</span>

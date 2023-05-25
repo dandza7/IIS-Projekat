@@ -45,7 +45,7 @@
   color: var(--darkGrey);
 }
 .styledTable thead tr {
-  background-color: var(--darkGreen);
+  background-color: var(--lightGreen);
   color: #ffffff;
   text-align: left;
 }
@@ -86,7 +86,7 @@
   display: block;
 }
 .styledTableNutrients thead tr {
-  background-color: var(--darkGreen);
+  background-color: var(--lightGreen);
   color: #ffffff;
   text-align: left;
 }

@@ -291,12 +291,20 @@ const NewRecipe = () => {
                     <tr key={index}>
                       <td>{food?.name}</td>
                       <td>{food?.amount}</td>
-                      <td>{food?.calories * food?.amount}</td>
-                      <td>{food?.nutrientTable?.protein * food?.amount}</td>
+                      <td>{(food?.calories * food?.amount).toFixed(2)}</td>
                       <td>
-                        {food?.nutrientTable?.carbohydrates * food?.amount}
+                        {(food?.nutrientTable?.protein * food?.amount).toFixed(
+                          2
+                        )}
                       </td>
-                      <td>{food?.nutrientTable?.fat * food?.amount}</td>
+                      <td>
+                        {(
+                          food?.nutrientTable?.carbohydrates * food?.amount
+                        ).toFixed(2)}
+                      </td>
+                      <td>
+                        {(food?.nutrientTable?.fat * food?.amount).toFixed(2)}
+                      </td>
                       <td>
                         <button
                           className={classes.deleteButton}
@@ -324,7 +332,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Energy</td>
                         <td>
-                          <span>{total.energy}</span>
+                          <span>{total.energy.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>kcal</span>
@@ -345,7 +353,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Total</td>
                         <td>
-                          <span>{total.carbs}</span>
+                          <span>{total.carbs.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>g</span>
@@ -354,7 +362,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Fiber</td>
                         <td>
-                          <span>{total.fiber}</span>
+                          <span>{total.fiber.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>g</span>
@@ -363,7 +371,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Sugars</td>
                         <td>
-                          <span>{total.sugar}</span>
+                          <span>{total.sugar.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>g</span>
@@ -384,7 +392,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Total Protein</td>
                         <td>
-                          <span>{total.protein}</span>
+                          <span>{total.protein.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>g</span>
@@ -405,7 +413,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Total Fat</td>
                         <td>
-                          <span>{total.fat}</span>
+                          <span>{total.fat.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>g</span>
@@ -428,7 +436,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Vitamin A</td>
                         <td>
-                          <span>{total.vitaminA}</span>
+                          <span>{total.vitaminA.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mcg</span>
@@ -437,7 +445,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Vitamin B1</td>
                         <td>
-                          <span>{total.vitaminB1}</span>
+                          <span>{total.vitaminB1.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mg</span>
@@ -446,7 +454,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Vitamin B2</td>
                         <td>
-                          <span>{total.vitaminB2}</span>
+                          <span>{total.vitaminB2.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mg</span>
@@ -455,7 +463,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Vitamin B3</td>
                         <td>
-                          <span>{total.vitaminB3}</span>
+                          <span>{total.vitaminB3.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mg</span>
@@ -464,7 +472,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Vitamin C</td>
                         <td>
-                          <span>{total.vitaminC}</span>
+                          <span>{total.vitaminC.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mg</span>
@@ -473,7 +481,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Vitamin D</td>
                         <td>
-                          <span>{total.vitaminD}</span>
+                          <span>{total.vitaminD.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>IU</span>
@@ -482,7 +490,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Vitamin E</td>
                         <td>
-                          <span>{total.vitaminE}</span>
+                          <span>{total.vitaminE.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mg</span>
@@ -503,7 +511,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Calcium</td>
                         <td>
-                          <span>{total.calcium}</span>
+                          <span>{total.calcium.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mg</span>
@@ -512,7 +520,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Iron</td>
                         <td>
-                          <span>{total.iron}</span>
+                          <span>{total.iron.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mg</span>
@@ -521,7 +529,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Magnesium</td>
                         <td>
-                          <span>{total.magnesium}</span>
+                          <span>{total.magnesium.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mg</span>
@@ -530,7 +538,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Potassium</td>
                         <td>
-                          <span>{total.potassium}</span>
+                          <span>{total.potassium.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mg</span>
@@ -539,7 +547,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Sodium</td>
                         <td>
-                          <span>{total.sodium}</span>
+                          <span>{total.sodium.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mg</span>
@@ -548,7 +556,7 @@ const NewRecipe = () => {
                       <tr>
                         <td>Zinc</td>
                         <td>
-                          <span>{total.zinc}</span>
+                          <span>{total.zinc.toFixed(2)}</span>
                         </td>
                         <td>
                           <span>mg</span>
@@ -597,7 +605,7 @@ const NewRecipe = () => {
                         {allFood.map((food, index) => (
                           <tr key={index}>
                             <td>{food.name}</td>
-                            <td>{food.calories}</td>
+                            <td>{food.calories * 100}</td>
                             <td>
                               <button
                                 className={classes.blackButton}
@@ -626,27 +634,35 @@ const NewRecipe = () => {
                             <div>
                               <span>Calories: </span>
                               <span>
-                                {selectedIngredient?.calories * amount}
+                                {(
+                                  selectedIngredient?.calories * amount
+                                ).toFixed(2)}
                               </span>
                             </div>
                             <div>
                               <span>Carbohydrates: </span>
                               <span>
-                                {selectedIngredient?.nutrientTable
-                                  .carbohydrates * amount}
+                                {(
+                                  selectedIngredient?.nutrientTable
+                                    ?.carbohydrates * 100
+                                ).toFixed(2)}
                               </span>
                             </div>
                             <div>
                               <span>Protein: </span>
                               <span>
-                                {selectedIngredient?.nutrientTable.protein *
-                                  amount}
+                                {(
+                                  selectedIngredient?.nutrientTable?.protein *
+                                  100
+                                ).toFixed(2)}
                               </span>
                             </div>
                             <div>
                               <span>Fat: </span>
                               <span>
-                                {selectedIngredient?.nutrientTable.fat * amount}
+                                {(
+                                  selectedIngredient?.nutrientTable?.fat * 100
+                                ).toFixed(2)}
                               </span>
                             </div>
                           </div>
