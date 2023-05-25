@@ -73,7 +73,7 @@ const Food = () => {
           {foodList.map((user, index) => (
             <tr key={index}>
               <td>{user.name}</td>
-              <td>{user.calories}</td>
+              <td>{user.calories * 100}</td>
               <td></td>
               <td></td>
               <td></td>

@@ -90,13 +90,15 @@ const Food = () => {
                 <span className={classes.smallTitle}>{food.category}</span>
               </div>
               <span className={classes.smallTitle}>General</span>
-              <div className={classes.chartsContainer}>
-                <div className={classes.chartsContainer_}>
-                  <div className={classes.chartContainer}>
-                    <Doughnut data={macrosData} options={options}></Doughnut>
+              {food.name !== "Water" && (
+                <div className={classes.chartsContainer}>
+                  <div className={classes.chartsContainer_}>
+                    <div className={classes.chartContainer}>
+                      <Doughnut data={macrosData} options={options}></Doughnut>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
               <table className={classes.styledTableNutrients}>
                 <thead>
                   <tr>
@@ -109,7 +111,7 @@ const Food = () => {
                   <tr>
                     <td>Energy(kcal)</td>
                     <td>
-                      <span>{food.calories}</span>
+                      <span>{(food.calories * 100).toFixed(2)}</span>
                     </td>
                     <td>
                       <span>kcal</span>
@@ -130,7 +132,9 @@ const Food = () => {
                   <tr>
                     <td>Total</td>
                     <td>
-                      <span>{food?.nutrientTable?.carbohydrates}</span>
+                      <span>
+                        {(food?.nutrientTable?.carbohydrates * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>g</span>
@@ -139,7 +143,9 @@ const Food = () => {
                   <tr>
                     <td>Fiber</td>
                     <td>
-                      <span>{food?.nutrientTable?.fiber}</span>
+                      <span>
+                        {(food?.nutrientTable?.fiber * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>g</span>
@@ -148,7 +154,9 @@ const Food = () => {
                   <tr>
                     <td>Sugars</td>
                     <td>
-                      <span>{food?.nutrientTable?.sugar}</span>
+                      <span>
+                        {(food?.nutrientTable?.sugar * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>g</span>
@@ -169,7 +177,9 @@ const Food = () => {
                   <tr>
                     <td>Total Protein</td>
                     <td>
-                      <span>{food?.nutrientTable?.protein}</span>
+                      <span>
+                        {(food?.nutrientTable?.protein * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>g</span>
@@ -190,7 +200,7 @@ const Food = () => {
                   <tr>
                     <td>Total Fat</td>
                     <td>
-                      <span>{food?.nutrientTable?.fat}</span>
+                      <span>{(food?.nutrientTable?.fat * 100).toFixed(2)}</span>
                     </td>
                     <td>
                       <span>g</span>
@@ -213,7 +223,9 @@ const Food = () => {
                   <tr>
                     <td>Vitamin A</td>
                     <td>
-                      <span>{food?.nutrientTable?.vitaminA}</span>
+                      <span>
+                        {(food?.nutrientTable?.vitaminA * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mcg</span>
@@ -222,7 +234,9 @@ const Food = () => {
                   <tr>
                     <td>Vitamin B1</td>
                     <td>
-                      <span>{food?.nutrientTable?.vitaminB1}</span>
+                      <span>
+                        {(food?.nutrientTable?.vitaminB1 * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mg</span>
@@ -231,7 +245,9 @@ const Food = () => {
                   <tr>
                     <td>Vitamin B2</td>
                     <td>
-                      <span>{food?.nutrientTable?.vitaminB2}</span>
+                      <span>
+                        {(food?.nutrientTable?.vitaminB2 * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mg</span>
@@ -240,7 +256,9 @@ const Food = () => {
                   <tr>
                     <td>Vitamin B3</td>
                     <td>
-                      <span>{food?.nutrientTable?.vitaminB3}</span>
+                      <span>
+                        {(food?.nutrientTable?.vitaminB3 * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mg</span>
@@ -249,7 +267,9 @@ const Food = () => {
                   <tr>
                     <td>Vitamin C</td>
                     <td>
-                      <span>{food?.nutrientTable?.vitaminC}</span>
+                      <span>
+                        {(food?.nutrientTable?.vitaminC * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mg</span>
@@ -258,7 +278,9 @@ const Food = () => {
                   <tr>
                     <td>Vitamin D</td>
                     <td>
-                      <span>{food?.nutrientTable?.vitaminD}</span>
+                      <span>
+                        {(food?.nutrientTable?.vitaminD * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>IU</span>
@@ -267,7 +289,9 @@ const Food = () => {
                   <tr>
                     <td>Vitamin E</td>
                     <td>
-                      <span>{food?.nutrientTable?.vitaminE}</span>
+                      <span>
+                        {(food?.nutrientTable?.vitaminE * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mg</span>
@@ -288,7 +312,9 @@ const Food = () => {
                   <tr>
                     <td>Calcium</td>
                     <td>
-                      <span>{food?.nutrientTable?.calcium}</span>
+                      <span>
+                        {(food?.nutrientTable?.calcium * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mg</span>
@@ -297,7 +323,9 @@ const Food = () => {
                   <tr>
                     <td>Iron</td>
                     <td>
-                      <span>{food?.nutrientTable?.iron}</span>
+                      <span>
+                        {(food?.nutrientTable?.iron * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mg</span>
@@ -306,7 +334,9 @@ const Food = () => {
                   <tr>
                     <td>Magnesium</td>
                     <td>
-                      <span>{food?.nutrientTable?.magnesium}</span>
+                      <span>
+                        {(food?.nutrientTable?.magnesium * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mg</span>
@@ -315,7 +345,9 @@ const Food = () => {
                   <tr>
                     <td>Potassium</td>
                     <td>
-                      <span>{food?.nutrientTable?.potassium}</span>
+                      <span>
+                        {(food?.nutrientTable?.potassium * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mg</span>
@@ -324,7 +356,9 @@ const Food = () => {
                   <tr>
                     <td>Sodium</td>
                     <td>
-                      <span>{food?.nutrientTable?.sodium}</span>
+                      <span>
+                        {(food?.nutrientTable?.sodium * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mg</span>
@@ -333,7 +367,9 @@ const Food = () => {
                   <tr>
                     <td>Zink</td>
                     <td>
-                      <span>{food?.nutrientTable?.zinc}</span>
+                      <span>
+                        {(food?.nutrientTable?.zinc * 100).toFixed(2)}
+                      </span>
                     </td>
                     <td>
                       <span>mg</span>
