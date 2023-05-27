@@ -93,7 +93,9 @@ export const TrainingPlan = () => {
                     <div key={index}>
                       <div>
                         <div className={classes.filters}>
-                          <span>{session.name}</span>
+                          <span className={classes.smallTitle}>
+                            {session.name}
+                          </span>
                           <button
                             className={utils.greenButton}
                             onClick={() => updateSessionHandler(session.name)}

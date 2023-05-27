@@ -15,7 +15,7 @@ type injuredMuscle = { injuredMuscle: string; severity: string };
 
 const Appointment = () => {
   let params = useParams();
-  const patientId = params.id;
+  const appointmentId = params.id;
   const [patient, setPatient] = useState({});
   const authCtx = useContext(AuthContext);
   const [height, setHeight] = useState(null);
@@ -66,6 +66,8 @@ const Appointment = () => {
     p: 0.5,
     borderRadius: 3,
   };
+
+  const patientId = localStorage.getItem("patientId");
   useEffect(() => {
     fetch("http://localhost:5041/api/medical-record/patient/" + patientId, {
       method: "GET",
@@ -180,10 +182,7 @@ const Appointment = () => {
   };
 
   const endAppointmentHandler = () => {
-    console.log(exerecises);
-    console.log(selectedMG);
-    console.log(textAreaRef.current.value);
-    console.log(patientId);
+    console.log(appointmentId);
     fetch("http://localhost:5041/api/therapy/create", {
       method: "POST",
       headers: {
@@ -191,7 +190,7 @@ const Appointment = () => {
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        patientId: patientId,
+        appointmentId: appointmentId,
         reportMessage: textAreaRef.current.value,
         injuries: selectedMG,
         rehabilitationExercises: exerecises,

@@ -30,7 +30,8 @@ const Appointments = () => {
       });
   }, []);
 
-  const startAppointmentHandler = (id: number) => {
+  const startAppointmentHandler = (id: number, patientId: number) => {
+    localStorage.setItem("patientId", patientId);
     navigate("/appointments/" + id);
   };
 
@@ -70,7 +71,10 @@ const Appointments = () => {
                     <button
                       className={utils.greenButton}
                       onClick={() =>
-                        startAppointmentHandler(appointment.patient.id)
+                        startAppointmentHandler(
+                          appointment.id,
+                          appointment.patient.id
+                        )
                       }
                     >
                       Start
