@@ -31,7 +31,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="400">If muscle group is not valid</response>
         [HttpPost("create", Name = "ExerciseCreation")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<long> CreateExercise([FromBody] Models.DTOs.Exercise.NewExerciseDTO newExerciseDTO, string email)
+        public ActionResult<long> CreateExercise([FromBody] NewExerciseDTO newExerciseDTO, string email)
         {
             return Ok(_exerciseService.CreateExercise(newExerciseDTO, email));
         }
@@ -65,7 +65,7 @@ namespace IIS_Projekat.Controllers
         /// <br/>  >>> Ordering must be either ASC or DESC
         /// </remarks>
         /// <response code="200">Returns all rehabilitation exercises</response>
-        [HttpPost("rehabilitaional", Name = "GetAllRehabilitationalExercises")]
+        [HttpPost("rehabilitaional", Name = "GetAllRehabilitationExercises")]
         [Authorize(Roles = Roles.Physiotherapist)]
         public ActionResult<IEnumerable<Models.DTOs.Exercise.PreviewExerciseDTO>> GetAllRehabilitationExercises([FromBody] PaginationQuery paginationQuery)
         {
@@ -79,15 +79,20 @@ namespace IIS_Projekat.Controllers
         /// Suitable exercises are found based on clients injuries:
         /// <br/> >If injury severity is low then hypertrophic exercises with primary muscle group injured will be filtered out
         /// <br/> >If injury severity is high then hypertrophic exercises with primary or secondary muscle group injured will be filtered out
-        /// <br/> >If injury severity is not high then rehabilitational exercises with primary muscle group not injured will be filtered out
+        /// <br/> >Rehabilitation exercises are the ones recommended by the physiotherapist
+        /// <br/>Filter:
+        /// <br/> >Exercise nature is either "Hypertrophic", "Rehabilitation" (or any if neither is specified)
+        /// <br/> >If you give a primary muscle group then only suitable hypertrophic exercises with given primary muscle group will be retrieved
+        /// <br/> >If you give a secondary muscle group then only suitable hypertrophic exercises which target the given muscle secondarily will be retrieved
+        /// <br/>If you want all the suitable exercises do not specify the filter fields.
         /// </remarks>
         /// <response code="200">If suitable exercises were returned successfully</response>
         /// <response code="404">If client does not have a medical record</response>
         [HttpPost("suitableForClient/{clientId}", Name = "GetSuitableExercisesForClient")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<IEnumerable<Models.DTOs.Exercise.PreviewExerciseDTO>> GetSuitableExercisesForClient(long clientId)
+        public ActionResult<IEnumerable<Models.DTOs.Exercise.PreviewExerciseDTO>> GetSuitableExercisesForClient(long clientId, ExerciseFilterDTO exerciseFilterDTO)
         {
-            return Ok(_exerciseService.GetSuitableExercisesForClient(clientId));
+            return Ok(_exerciseService.GetSuitableExercisesForClient(clientId, exerciseFilterDTO));
         }
 
         /// <summary>

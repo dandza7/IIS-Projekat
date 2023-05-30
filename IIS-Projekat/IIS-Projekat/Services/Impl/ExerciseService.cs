@@ -8,6 +8,7 @@ using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.User;
 using Microsoft.EntityFrameworkCore;
 using IIS_Projekat.SupportClasses.Roles;
+using System.Linq;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -40,55 +41,30 @@ namespace IIS_Projekat.Services.Impl
             return newExercise.Id;
         }
 
-        public PaginationWrapper<PreviewExerciseDTO> GetSuitableExercisesForClient(long clientId)
+        public PaginationWrapper<PreviewExerciseDTO> GetSuitableExercisesForClient(long clientId, ExerciseFilterDTO exerciseFilterDTO)
         {
             var medicalRecord = _unitOfWork.MedicalRecordRepository.GetAll().Where(mr => mr.PatientId == clientId).FirstOrDefault();
             if(medicalRecord == null)
             {
                 throw new NotFoundException($"Client with ID: {clientId} does not have a medical record.");
             }
-            HashSet<MuscleGroup> lowSeverityInjuries = new HashSet<MuscleGroup>();
-            HashSet<MuscleGroup> highSeverityInjuries = new HashSet<MuscleGroup>();
+            HashSet<MuscleGroup> lowSeverityInjuries = DiagnoseInjuriesWithGivenSeverity("Low", medicalRecord);
+            HashSet<MuscleGroup> highSeverityInjuries = DiagnoseInjuriesWithGivenSeverity("High", medicalRecord);
+            ICollection<Exercise> suitableExercises = _unitOfWork.ExerciseRepository
+                .GetAll().Include(e => e.ExercisesMG).ThenInclude(mg => mg.MuscleGroup).ToHashSet();
 
-            ICollection<InjuryTherapy> clientInjuries = _unitOfWork.InjuryTherapyRepository.GetAll(it => it.Injury, it => it.Therapy, it => it.Therapy.MedicalRecord).Where(it => it.Therapy.MedicalRecord == medicalRecord).ToList();
-            
-            clientInjuries.ToList().ForEach(injuryMR => {
-                var injury = _unitOfWork.InjuryRepository.GetById(injuryMR.Injury.Id, i => i.Muscle);
-                if (injuryMR.InjurySeverity == "Low") lowSeverityInjuries.Add(injury.Muscle);
-                else highSeverityInjuries.Add(injury.Muscle);
-            });
-
-            ICollection<Exercise> primarilyInjured = GetHypertrophyExercisesWithPrimaryMuscleGroups(lowSeverityInjuries);
-            ICollection<Exercise> secondarilyInjured = GetHypertrophyExercisesWithMuscleGroups(highSeverityInjuries);
-            ICollection<Exercise> unnecessaryRehabilitationalExercises = GetUnnecessaryRehabilitationalExercises(highSeverityInjuries);
-            ICollection<Exercise> suitableExercises = _unitOfWork.ExerciseRepository.GetAll(e => e.ExercisesMG)
-                .ToHashSet().Except(primarilyInjured).Except(secondarilyInjured).Except(unnecessaryRehabilitationalExercises).ToList();
+            ApplyExerciseFilters(suitableExercises, exerciseFilterDTO);
+            RemoveExercisesWithInjuredPrimaryMuscleGroups(suitableExercises, lowSeverityInjuries);
+            RemoveExercisesWithInjuredMuscleGroups(suitableExercises, highSeverityInjuries);
+            RemoveUnnecessaryRehabilitationExercises(suitableExercises, medicalRecord);
 
             return new PaginationWrapper<PreviewExerciseDTO>(_mapper.Map<List<PreviewExerciseDTO>>(suitableExercises), suitableExercises.Count);
         }
 
         public PaginationWrapper<PreviewExerciseDTO> GetAll(PaginationQuery? paginationQuery)
         {
-            var exercises = _unitOfWork.ExerciseRepository.GetAll().ToList();
-
-            ICollection<PreviewExerciseDTO> exerciseDTOs = new List<PreviewExerciseDTO>();
-            foreach(var exercise in exercises)
-            {
-                var exerciseDTO = _mapper.Map<PreviewExerciseDTO>(exercise);
-                var primaryMuscle = _unitOfWork.ExerciseMuscleGroupRepository
-                    .GetAll(emg => emg.Exercise)
-                    .Where(emg => emg.Exercise == exercise && emg.IsPrimaryMuscleGroup)
-                    .Include(emg => emg.MuscleGroup).FirstOrDefault();
-                if(primaryMuscle == null)
-                {
-                    exerciseDTO.PrimaryMuscleGroup = "Primary muscle group not set up.";
-                } else
-                {
-                    exerciseDTO.PrimaryMuscleGroup = primaryMuscle.MuscleGroup.Name;
-                }
-                exerciseDTOs.Add(exerciseDTO);
-            }
-            return new PaginationWrapper<PreviewExerciseDTO>(exerciseDTOs.ToList(), exerciseDTOs.Count);
+            var exercises = _unitOfWork.ExerciseRepository.GetAll().Include(e => e.ExercisesMG).ThenInclude(mg => mg.MuscleGroup).ToList();
+            return new PaginationWrapper<PreviewExerciseDTO>(_mapper.Map<List<PreviewExerciseDTO>>(exercises), exercises.Count);
         }
 
         public PaginationWrapper<PreviewExerciseDTO> GetRehabilitationExercises(PaginationQuery? paginationQuery)
@@ -126,6 +102,18 @@ namespace IIS_Projekat.Services.Impl
             _unitOfWork.SaveChanges();
         }
 
+        private HashSet<MuscleGroup> DiagnoseInjuriesWithGivenSeverity(string severity, MedicalRecord medicalRecord)
+        {
+            ICollection<InjuryTherapy> clientInjuries = _unitOfWork.InjuryTherapyRepository.GetAll(it => it.Injury).Include(it => it.Therapy).ThenInclude(t => t.MedicalRecord).Where(it => it.Therapy.MedicalRecord == medicalRecord).ToList();
+            HashSet<MuscleGroup> injuredMuscleGroups = new HashSet<MuscleGroup>();
+
+            foreach(var injuredMuscle in clientInjuries) { 
+                var injury = _unitOfWork.InjuryRepository.GetById(injuredMuscle.Injury.Id, i => i.Muscle);
+                if (injuredMuscle.InjurySeverity == severity) injuredMuscleGroups.Add(injury.Muscle);
+            }
+
+            return injuredMuscleGroups;
+        }
         private void AddPrimaryMuscleGroup(Exercise exercise, string muscleGroup)
         {
             var primaryMuscleGroup = _unitOfWork.MuscleGroupRepository.GetAll().Where(mg => mg.Name == muscleGroup).FirstOrDefault();
@@ -157,30 +145,100 @@ namespace IIS_Projekat.Services.Impl
             });
         }
 
-        private ICollection<Exercise> GetHypertrophyExercisesWithPrimaryMuscleGroups(HashSet<MuscleGroup> injuredMuscleGroups)
+        private void RemoveExercisesWithInjuredPrimaryMuscleGroups(ICollection<Exercise> exercises, HashSet<MuscleGroup> injuredMuscleGroups)
         {
-            ICollection<Exercise> exercises = new List<Exercise>();
-            _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise).Where(emg => injuredMuscleGroups.Contains(emg.MuscleGroup) && emg.IsPrimaryMuscleGroup == true && emg.Exercise.IsHypertrophic == true).ToList()
-                .ForEach(emg => { exercises.Add(emg.Exercise); });
-            return exercises;
+            _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise).Where(emg => injuredMuscleGroups
+                .Contains(emg.MuscleGroup) && emg.IsPrimaryMuscleGroup == true && emg.Exercise.IsHypertrophic == true).ToList()
+                .ForEach(emg => exercises.Remove(emg.Exercise));
         }
 
-        private ICollection<Exercise> GetHypertrophyExercisesWithMuscleGroups(HashSet<MuscleGroup> injuredMuscleGroups)
+        private void RemoveExercisesWithInjuredMuscleGroups(ICollection<Exercise> exercises, HashSet<MuscleGroup> injuredMuscleGroups)
         {
-            ICollection<Exercise> exercises = new List<Exercise>();
-            _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise).Where(emg => injuredMuscleGroups.Contains(emg.MuscleGroup) && emg.Exercise.IsHypertrophic == true).ToList()
-                .ForEach(emg => { exercises.Add(emg.Exercise); });
-            return exercises;
+            _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise).Where(emg => injuredMuscleGroups
+                .Contains(emg.MuscleGroup) && emg.Exercise.IsHypertrophic == true).ToList()
+                .ForEach(emg => exercises.Remove(emg.Exercise));
         }
 
-        private ICollection<Exercise> GetUnnecessaryRehabilitationalExercises(HashSet<MuscleGroup> injuredMuscleGroups)
+        private void RemoveUnnecessaryRehabilitationExercises(ICollection<Exercise> exercises, MedicalRecord medicalRecord)
         {
-            ICollection<Exercise> exercises = new List<Exercise>();
-            _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise).Where(emg => injuredMuscleGroups.Contains(emg.MuscleGroup) == false && emg.Exercise.IsHypertrophic == false).ToList()
-                .ForEach(emg => { exercises.Add(emg.Exercise); });
-            return exercises;
+            _unitOfWork.TherapyRepository.GetAll(t => t.MedicalRecord, t => t.RecommendedExercises, t => t.RecommendedExercises)
+                .Where(t => t.MedicalRecord == medicalRecord).ToList().ForEach(t =>
+                {
+                    foreach(var exercise in t.RecommendedExercises)
+                    {
+                        exercises.Remove(exercise);
+                    }
+                });
         }
 
-        
+        private void FilterOutRehablitationExercises(ICollection<Exercise> exercises)
+        {
+            _unitOfWork.ExerciseRepository.GetAll().Where(e => e.IsHypertrophic == false).ToList()
+                .ForEach(e =>
+                {
+                    exercises.Remove(e);
+                });
+        }
+
+        private void FilterOutHypertrophyExercises(ICollection<Exercise> exercises)
+        {
+            _unitOfWork.ExerciseRepository.GetAll().Where(e => e.IsHypertrophic == true).ToList()
+                .ForEach(e =>
+                {
+                    exercises.Remove(e);
+                });
+        }
+
+        private void GetOnlyExercisesWithGivenPrimaryGroup(ICollection<Exercise> exercises, string primaryMuscleGroup)
+        {
+            var muscle = _unitOfWork.MuscleGroupRepository.GetAll().Where(mg => mg.Name == primaryMuscleGroup).FirstOrDefault();
+            if(muscle == null)
+            {
+                throw new NotFoundException($"Muscle group with the name: {primaryMuscleGroup} does not exist!");
+            }
+            _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise, emg => emg.MuscleGroup)
+                .Where(emg => emg.MuscleGroup != muscle && emg.IsPrimaryMuscleGroup == true).ToList()
+                .ForEach(emg => exercises.Remove(emg.Exercise));
+        }
+
+        private void GetOnlyExercisesWithGivenSecondaryGroup(ICollection<Exercise> exercises, string secondaryMuscleGroup)
+        {
+            var muscle = _unitOfWork.MuscleGroupRepository.GetAll().Where(mg => mg.Name == secondaryMuscleGroup).FirstOrDefault();
+            if (muscle == null)
+            {
+                throw new NotFoundException($"Muscle group with the name: {secondaryMuscleGroup} does not exist!");
+            }
+            List<Exercise> exercisesWhichWorkMuscleSecondarily = new List<Exercise>();
+            _unitOfWork.ExerciseMuscleGroupRepository.GetAll(emg => emg.Exercise, emg => emg.MuscleGroup)
+                .Where(emg => emg.MuscleGroup == muscle && emg.IsPrimaryMuscleGroup == false && emg.Exercise.IsHypertrophic == true)
+                .ToList().ForEach(emg => { exercisesWhichWorkMuscleSecondarily.Add(emg.Exercise); });
+            
+            foreach(var exercise in exercises)
+            {
+                if (!exercisesWhichWorkMuscleSecondarily.Contains(exercise)) exercises.Remove(exercise);
+            }
+        }
+
+        private void ApplyExerciseFilters(ICollection<Exercise> exercises, ExerciseFilterDTO exerciseFilterDTO)
+        {
+            if(exerciseFilterDTO.ExerciseNature == "Rehabilitation")
+            {
+                FilterOutHypertrophyExercises(exercises);
+                return;
+            }
+
+            if(exerciseFilterDTO.ExerciseNature == "Hypertrophic")
+            {
+                FilterOutRehablitationExercises(exercises);
+            }
+
+            if(_unitOfWork.MuscleGroupRepository.GetAll().Where(mg => mg.Name == exerciseFilterDTO.PrimaryMuscleGroup).FirstOrDefault() != null)
+            {
+                GetOnlyExercisesWithGivenPrimaryGroup(exercises, exerciseFilterDTO.PrimaryMuscleGroup);
+            }else if (_unitOfWork.MuscleGroupRepository.GetAll().Where(mg => mg.Name == exerciseFilterDTO.SecondarymuscleGroup).FirstOrDefault() != null)
+            {
+                GetOnlyExercisesWithGivenSecondaryGroup(exercises, exerciseFilterDTO.SecondarymuscleGroup);
+            }
+        }
     }
 }
