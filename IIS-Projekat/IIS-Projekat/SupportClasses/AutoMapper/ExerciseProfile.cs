@@ -13,7 +13,7 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
             CreateMap<NewExerciseDTO, Exercise>();
             CreateMap<Exercise, PreviewExerciseDTO>()
                 .ForMember(e => e.Type, opt => opt.MapFrom(src => src.IsHypertrophic ? "Hypertrophic" : "Rehabilitation"))
-                .ForMember(e => e.PrimaryMuscleGroup, opt => opt.MapFrom(src => src.ExercisesMG.ToList().Where(emg => emg.IsPrimaryMuscleGroup == true).FirstOrDefault().MuscleGroup.Name));
+                .ForMember(e => e.PrimaryMuscleGroup, opt => opt.MapFrom(src => src.MuscleGroups.ToList().Where(emg => emg.IsPrimaryMuscleGroup == true).FirstOrDefault().MuscleGroup.Name));
         }
     }
 }

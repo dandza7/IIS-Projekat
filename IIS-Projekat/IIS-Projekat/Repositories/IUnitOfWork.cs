@@ -16,13 +16,12 @@ namespace IIS_Projekat.Repositories
         IGenericRepository<NutrientShare> NutrientShareRepository { get; }
         IGenericRepository<Recipe> RecipeRepository { get; }
         IGenericRepository<FoodShare> FoodShareRepository { get; }
-        IGenericRepository<Injury> InjuryRepository { get; }
         IGenericRepository<MedicalRecord> MedicalRecordRepository { get; }
         IGenericRepository<Appointment> AppointmentRepository { get; }
         IGenericRepository<TrainingPlan> TrainingPlanRepository { get; }
         IGenericRepository<TrainingSession> TrainingSessionRepository { get; }
         IGenericRepository<ExerciseTrainingSession> ExerciseTrainingSessionRepository { get; }
-        IGenericRepository<InjuryTherapy> InjuryTherapyRepository { get; }
+        IGenericRepository<InjuredMuscleTherapy> InjuredMuscleTherapyRepository { get; }
         IGenericRepository<UsersProfile> ProfileRepository { get; }
         IGenericRepository<Therapy> TherapyRepository { get; }
         IGenericRepository<Meal> MealRepository { get; }

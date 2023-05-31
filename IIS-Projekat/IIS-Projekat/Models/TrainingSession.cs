@@ -11,6 +11,6 @@ namespace IIS_Projekat.Models
         public bool IsDeleted { get; set; }
         public string Name { get; set; }
         public TrainingPlan TrainingPlan { get; set; }
-        public ICollection<ExerciseTrainingSession> TrainingSessions { get; set; } = new List<ExerciseTrainingSession>();
+        public ICollection<ExerciseTrainingSession> Exercises { get; set; } = new List<ExerciseTrainingSession>();
     }
 }
