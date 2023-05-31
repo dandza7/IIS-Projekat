@@ -48,10 +48,10 @@ namespace IIS_Projekat.Services.Impl
             {
                 throw new NotFoundException($"Therapy with ID: {id} does not exist in the database.");
             }
-            var injuriesDiagnosedInTherapy = _unitOfWork.InjuryTherapyRepository.GetAll(it => it.Injury).Where(it => it.Therapy == therapy).ToList();
+            var injuriesDiagnosedInTherapy = _unitOfWork.InjuredMuscleTherapyRepository.GetAll().Where(imt => imt.Therapy == therapy).ToList();
             foreach(var injuryInTherapy in injuriesDiagnosedInTherapy)
             {
-                _unitOfWork.InjuryTherapyRepository.Delete(injuryInTherapy);
+                _unitOfWork.InjuredMuscleTherapyRepository.Delete(injuryInTherapy);
             }
             _unitOfWork.TherapyRepository.Delete(therapy);
             _unitOfWork.SaveChanges();
@@ -87,15 +87,14 @@ namespace IIS_Projekat.Services.Impl
                     throw new NotFoundException($"Muscle group with name: {newInjury.InjuredMuscle} was not found.");
                 }
                 var patient = _unitOfWork.AppointmentRepository.GetById(therapyDTO.AppointmentId, a => a.Patient).Patient;
-                var injury = _unitOfWork.InjuryRepository.GetAll().Where(i => i.Muscle == injuredMuscle).FirstOrDefault();
-                if (injury == null) injury = CreateInjuryBase(injuredMuscle);
-                var injuryInTherapy = new InjuryTherapy();
-                injuryInTherapy.Therapy = therapy;
-                injuryInTherapy.Injury = injury;
-                injuryInTherapy.InjurySeverity = newInjury.Severity;
-                injuryInTherapy = _unitOfWork.InjuryTherapyRepository.Create(injuryInTherapy);
+                var injuredMusclesInTherapy = new InjuredMuscleTherapy();
+                injuredMusclesInTherapy.Therapy = therapy;
+                injuredMusclesInTherapy.InjuredMuscle = injuredMuscle;
+                injuredMusclesInTherapy.InjurySeverity = newInjury.Severity;
+                injuredMusclesInTherapy = _unitOfWork.InjuredMuscleTherapyRepository.Create(injuredMusclesInTherapy);
             }
         }
+
         private void RecommendExercises(Therapy therapy, ICollection<string> exercises)
         {
             foreach(string exerciseName in exercises)
@@ -107,13 +106,6 @@ namespace IIS_Projekat.Services.Impl
                 }
                 therapy.RecommendedExercises.Add(exercise);
             }
-        }
-        private Injury CreateInjuryBase(MuscleGroup injuredMuscle)
-        {
-            var injury = new Injury();
-            injury.Muscle = injuredMuscle;
-            injury = _unitOfWork.InjuryRepository.Create(injury);
-            return injury;
         }
     }
 }

@@ -51,7 +51,7 @@ namespace IIS_Projekat.Services.Impl
             HashSet<MuscleGroup> lowSeverityInjuries = DiagnoseInjuriesWithGivenSeverity("Low", medicalRecord);
             HashSet<MuscleGroup> highSeverityInjuries = DiagnoseInjuriesWithGivenSeverity("High", medicalRecord);
             ICollection<Exercise> suitableExercises = _unitOfWork.ExerciseRepository
-                .GetAll().Include(e => e.ExercisesMG).ThenInclude(mg => mg.MuscleGroup).ToHashSet();
+                .GetAll().Include(e => e.MuscleGroups).ThenInclude(mg => mg.MuscleGroup).ToHashSet();
 
             ApplyExerciseFilters(suitableExercises, exerciseFilterDTO);
             RemoveExercisesWithInjuredPrimaryMuscleGroups(suitableExercises, lowSeverityInjuries);
@@ -63,7 +63,7 @@ namespace IIS_Projekat.Services.Impl
 
         public PaginationWrapper<PreviewExerciseDTO> GetAll(PaginationQuery? paginationQuery)
         {
-            var exercises = _unitOfWork.ExerciseRepository.GetAll().Include(e => e.ExercisesMG).ThenInclude(mg => mg.MuscleGroup).ToList();
+            var exercises = _unitOfWork.ExerciseRepository.GetAll().Include(e => e.MuscleGroups).ThenInclude(mg => mg.MuscleGroup).ToList();
             return new PaginationWrapper<PreviewExerciseDTO>(_mapper.Map<List<PreviewExerciseDTO>>(exercises), exercises.Count);
         }
 
@@ -104,12 +104,12 @@ namespace IIS_Projekat.Services.Impl
 
         private HashSet<MuscleGroup> DiagnoseInjuriesWithGivenSeverity(string severity, MedicalRecord medicalRecord)
         {
-            ICollection<InjuryTherapy> clientInjuries = _unitOfWork.InjuryTherapyRepository.GetAll(it => it.Injury).Include(it => it.Therapy).ThenInclude(t => t.MedicalRecord).Where(it => it.Therapy.MedicalRecord == medicalRecord).ToList();
+            ICollection<InjuredMuscleTherapy> clientInjuries = _unitOfWork.InjuredMuscleTherapyRepository.GetAll(imt => imt.InjuredMuscle).Include(it => it.Therapy).ThenInclude(t => t.MedicalRecord).Where(it => it.Therapy.MedicalRecord == medicalRecord).ToList();
             HashSet<MuscleGroup> injuredMuscleGroups = new HashSet<MuscleGroup>();
 
-            foreach(var injuredMuscle in clientInjuries) { 
-                var injury = _unitOfWork.InjuryRepository.GetById(injuredMuscle.Injury.Id, i => i.Muscle);
-                if (injuredMuscle.InjurySeverity == severity) injuredMuscleGroups.Add(injury.Muscle);
+            foreach(var injury in clientInjuries) { 
+                var injuredMuscle = _unitOfWork.MuscleGroupRepository.GetById(injury.InjuredMuscle.Id);
+                if (injury.InjurySeverity == severity) injuredMuscleGroups.Add(injuredMuscle);
             }
 
             return injuredMuscleGroups;

@@ -11,7 +11,7 @@ namespace IIS_Projekat.Models
         public bool IsDeleted { get; set; }
         public string Name { get; set; }
         public bool IsHypertrophic { get; set; }
-        public ICollection<ExerciseTrainingSession> ExercisesTS { get; set; } = new List<ExerciseTrainingSession>();
-        public ICollection<ExerciseMuscleGroup> ExercisesMG { get; set; } = new List<ExerciseMuscleGroup>();
+        public ICollection<ExerciseTrainingSession> TrainingSessions { get; set; } = new List<ExerciseTrainingSession>();
+        public ICollection<ExerciseMuscleGroup> MuscleGroups { get; set; } = new List<ExerciseMuscleGroup>();
     }
 }

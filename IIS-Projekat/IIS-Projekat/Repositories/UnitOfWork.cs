@@ -18,13 +18,12 @@ namespace IIS_Projekat.Repositories
         private IGenericRepository<NutrientShare> _nutrientShareRepository;
         private IGenericRepository<Recipe> _recipeRepository;
         private IGenericRepository<FoodShare> _foodShareRepository;
-        private IGenericRepository<Injury> _injuryRepository;
         private IGenericRepository<MedicalRecord> _medicalRecordRepository;
         private IGenericRepository<Appointment> _appointmentRepository;
         private IGenericRepository<TrainingPlan> _trainingPlanRepository;
         private IGenericRepository<TrainingSession> _trainingSessionRepository;
         private IGenericRepository<ExerciseTrainingSession> _exerciseTrainingSessionRepository;
-        private IGenericRepository<InjuryTherapy> _injuryMedicalRecordRepository;
+        private IGenericRepository<InjuredMuscleTherapy> _injuryMedicalRecordRepository;
         private IGenericRepository<Therapy> _therapyRepository;
         private IGenericRepository<Meal> _mealRepository;
         private IGenericRepository<NutritionPlan> _nutritionPlanRepository;
@@ -156,15 +155,6 @@ namespace IIS_Projekat.Repositories
             }
         }
 
-        public IGenericRepository<Injury> InjuryRepository
-        {
-            get
-            {
-                _injuryRepository ??= new GenericRepository<Injury>(_dbContext);
-                return _injuryRepository;
-            }
-        }
-
         public IGenericRepository<MedicalRecord> MedicalRecordRepository
         {
             get
@@ -210,11 +200,11 @@ namespace IIS_Projekat.Repositories
             }
         }
 
-        public IGenericRepository<InjuryTherapy> InjuryTherapyRepository
+        public IGenericRepository<InjuredMuscleTherapy> InjuredMuscleTherapyRepository
         {
             get
             {
-                _injuryMedicalRecordRepository ??= new GenericRepository<InjuryTherapy>(_dbContext);
+                _injuryMedicalRecordRepository ??= new GenericRepository<InjuredMuscleTherapy>(_dbContext);
                 return _injuryMedicalRecordRepository;
             }
         }

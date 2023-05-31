@@ -22,7 +22,6 @@ namespace IIS_Projekat.Data
         public DbSet<NutrientShare> NutrientShares { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<FoodShare> FoodShares { get; set; }
-        public DbSet<Injury> Injuries { get; set; }
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<NutritionPlan> NutritionPlans { get; set; }
@@ -271,15 +270,15 @@ namespace IIS_Projekat.Data
                     });
             });
             #endregion
-            modelBuilder.Entity<MuscleGroup>().HasMany(mg => mg.MuscleGroups).WithOne(emg => emg.MuscleGroup).OnDelete(DeleteBehavior.Cascade).IsRequired();
-            modelBuilder.Entity<MuscleGroup>().HasMany(mg => mg.Injuries).WithOne(i => i.Muscle).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<MuscleGroup>().HasMany(mg => mg.Exercises).WithOne(emg => emg.MuscleGroup).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<MuscleGroup>().HasMany(mg => mg.Therapies).WithOne(imt => imt.InjuredMuscle).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<Exercise>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<Exercise>().HasKey(e => e.Id);
             modelBuilder.Entity<Exercise>().Property(e => e.Name).IsRequired();
             modelBuilder.Entity<Exercise>().Property(e => e.IsHypertrophic).IsRequired();
-            modelBuilder.Entity<Exercise>().HasMany(e => e.ExercisesMG).WithOne(emg => emg.Exercise).OnDelete(DeleteBehavior.Cascade).IsRequired();
-            modelBuilder.Entity<Exercise>().HasMany(e => e.ExercisesTS).WithOne(ets => ets.Exercise).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<Exercise>().HasMany(e => e.MuscleGroups).WithOne(emg => emg.Exercise).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<Exercise>().HasMany(e => e.TrainingSessions).WithOne(ets => ets.Exercise).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<ExerciseMuscleGroup>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<ExerciseMuscleGroup>().HasKey(e => e.Id);
@@ -293,7 +292,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<TrainingSession>().HasQueryFilter(ts => !ts.IsDeleted);
             modelBuilder.Entity<TrainingSession>().HasKey(ts => ts.Id);
             modelBuilder.Entity<TrainingSession>().Property(ts => ts.Name).IsRequired();
-            modelBuilder.Entity<TrainingSession>().HasMany(ts => ts.TrainingSessions).WithOne(ets => ets.TrainingSession).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<TrainingSession>().HasMany(ts => ts.Exercises).WithOne(ets => ets.TrainingSession).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<TrainingPlan>().HasQueryFilter(tp => !tp.IsDeleted);
             modelBuilder.Entity<TrainingPlan>().HasKey(tp => tp.Id);
@@ -528,10 +527,6 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<FoodShare>().HasKey(fs => fs.Id);
             modelBuilder.Entity<FoodShare>().Property(fs => fs.Share).IsRequired();
 
-            modelBuilder.Entity<Injury>().HasQueryFilter(i => !i.IsDeleted);
-            modelBuilder.Entity<Injury>().HasKey(i => i.Id);
-            modelBuilder.Entity<Injury>().HasMany(i => i.Injuries).WithOne(it => it.Injury).OnDelete(DeleteBehavior.Cascade).IsRequired();
-
             modelBuilder.Entity<MedicalRecord>().HasQueryFilter(mr => !mr.IsDeleted);
             modelBuilder.Entity<MedicalRecord>().HasKey(mr => mr.Id);
             modelBuilder.Entity<MedicalRecord>().Property(mr => mr.Anamnesis).IsRequired(false);
@@ -542,9 +537,9 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Diagnoses).WithMany(d => d.MedicalRecords);
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Therapies).WithOne(t => t.MedicalRecord).HasForeignKey(t => t.MedicalRecordId).IsRequired();
 
-            modelBuilder.Entity<InjuryTherapy>().HasQueryFilter(e => !e.IsDeleted);
-            modelBuilder.Entity<InjuryTherapy>().HasKey(e => e.Id);
-            modelBuilder.Entity<InjuryTherapy>().Property(e => e.InjurySeverity).IsRequired();
+            modelBuilder.Entity<InjuredMuscleTherapy>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<InjuredMuscleTherapy>().HasKey(e => e.Id);
+            modelBuilder.Entity<InjuredMuscleTherapy>().Property(e => e.InjurySeverity).IsRequired();
 
             modelBuilder.Entity<Appointment>().HasQueryFilter(a => !a.IsDeleted);
             modelBuilder.Entity<Appointment>().HasKey(a => a.Id);
@@ -570,7 +565,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Therapy>().HasKey(t => t.Id);
             modelBuilder.Entity<Therapy>().Property(t => t.ReportMessage).IsRequired();
             modelBuilder.Entity<Therapy>().HasMany(t => t.RecommendedExercises).WithMany();
-            modelBuilder.Entity<Therapy>().HasMany(t => t.Therapies).WithOne(it => it.Therapy).OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<Therapy>().HasMany(t => t.InjuredMuscles).WithOne(imt => imt.Therapy).OnDelete(DeleteBehavior.Cascade).IsRequired();
 
             modelBuilder.Entity<FoodPrice>().HasQueryFilter(fp => !fp.IsDeleted);
             modelBuilder.Entity<FoodPrice>().HasKey(fp => fp.Id);
