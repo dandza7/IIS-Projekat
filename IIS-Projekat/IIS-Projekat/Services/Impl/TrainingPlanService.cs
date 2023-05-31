@@ -23,60 +23,11 @@ namespace IIS_Projekat.Services.Impl
 
         public long CreateTrainingPlan(TrainingPlanDTO trainingPlanDTO)
         {
-            var trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.GetById(trainingPlanDTO.TrainingPlanRequestId);
-            var trainingPlan = _mapper.Map<TrainingPlan>(trainingPlanDTO);
-            if (trainingPlanRequest == null)
-            {
-                throw new BadHttpRequestException($"Training plan was not requested!");
-            }
-
-            var client = _unitOfWork.UserRepository.GetAll().Where(c => c.Id == trainingPlanRequest.ClientId).FirstOrDefault();
-            if(client == null)
-            {
-                throw new NotFoundException($"Client with ID: {trainingPlanRequest.ClientId} does not exist!");
-            }
-            trainingPlan.Client = client;
-            trainingPlan.ClientId = client.Id;
-
-            _unitOfWork.TrainingPlanRequestRepository.Delete(trainingPlanRequest);
-            trainingPlan = _unitOfWork.TrainingPlanRepository.Create(trainingPlan);
-
-            if(trainingPlanDTO.TrainingSessions.ToList().Count != trainingPlanDTO.SessionsPerWeek)
-            {
-                throw new BadHttpRequestException("Number of sessions per week does not match the requested number!");
-            }
-            foreach(var trainingSessionDTO in trainingPlanDTO.TrainingSessions)
-            {
-                ICollection<TrainingSession> existingSessions = _unitOfWork.TrainingSessionRepository.GetAll().Where(ts => ts.TrainingPlan == trainingPlan).ToList();
-                foreach (var existingSession in existingSessions)
-                {
-                    if (existingSession.Name == trainingSessionDTO.Name)
-                    {
-                        throw new BadHttpRequestException("Training Session names in a single Training Plan must be unique.");
-                    }
-                }
-
-                var trainingSession = _mapper.Map<TrainingSession>(trainingSessionDTO);
-                trainingSession.TrainingPlan = trainingPlan;
-                trainingSession = _unitOfWork.TrainingSessionRepository.Create(trainingSession);
-
-                foreach (var exerciseDTO in trainingSessionDTO.Exercises)
-                {
-                    ExerciseTrainingSession exerciseForSession = _mapper.Map<ExerciseTrainingSession>(exerciseDTO);
-                    exerciseForSession.Exercise = _unitOfWork.ExerciseRepository.GetById(exerciseDTO.ExerciseId);
-                    if (exerciseForSession.Exercise == null)
-                    {
-                        throw new NotFoundException($"Exercise with ID: {exerciseDTO.ExerciseId} does not exist in the database");
-                    }
-                    exerciseForSession.TrainingSession = trainingSession;
-                    exerciseForSession = _unitOfWork.ExerciseTrainingSessionRepository.Create(exerciseForSession);
-                }
-            }
-
+            var trainingPlan = CreateTrainingPlanBase(trainingPlanDTO);
+            AddTrainingSessionsToPlan(trainingPlan, trainingPlanDTO);
             _unitOfWork.SaveChanges();
             return trainingPlan.Id;
         }
-
         public PaginationWrapper<PreviewTrainingPlanDTO> GetAll(PaginationQuery paginationQuery)
         {
             var trainingPlans = _unitOfWork.TrainingPlanRepository.GetAll(tp => tp.Client).ToList();
@@ -100,7 +51,6 @@ namespace IIS_Projekat.Services.Impl
 
             return new PaginationWrapper<PreviewTrainingPlanDTO>(trainingPlanDTOs.ToList(), trainingPlanDTOs.Count);
         }
-
         public PreviewDetailedTrainingPlanDTO GetDetailedTrainingPlanForTrainer(long id)
         {
             var trainingPlan = _unitOfWork.TrainingPlanRepository.GetById(id, tp => tp.Client);
@@ -141,7 +91,6 @@ namespace IIS_Projekat.Services.Impl
 
             return detailedTrainingPlan;
         }
-
         public PreviewTrainingPlanForClient GetTrainingPlanForClient(string email)
         {
             var client = _unitOfWork.UserRepository.GetAll().ToList().Where(c => c.Email == email).FirstOrDefault();
@@ -171,6 +120,64 @@ namespace IIS_Projekat.Services.Impl
             }
 
             return trainingPlanDTO;
+        }
+        private TrainingPlan CreateTrainingPlanBase(TrainingPlanDTO trainingPlanDTO)
+        {
+            var trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.GetById(trainingPlanDTO.TrainingPlanRequestId);
+            var trainingPlan = _mapper.Map<TrainingPlan>(trainingPlanDTO);
+            if (trainingPlanRequest == null)
+            {
+                throw new BadHttpRequestException($"Training plan was not requested!");
+            }
+
+            var client = _unitOfWork.UserRepository.GetAll().Where(c => c.Id == trainingPlanRequest.ClientId).FirstOrDefault();
+            if (client == null)
+            {
+                throw new NotFoundException($"Client with ID: {trainingPlanRequest.ClientId} does not exist!");
+            }
+            trainingPlan.Client = client;
+            trainingPlan.ClientId = client.Id;
+
+            trainingPlan = _unitOfWork.TrainingPlanRepository.Create(trainingPlan);
+            _unitOfWork.TrainingPlanRequestRepository.Delete(trainingPlanRequest);
+            return trainingPlan;
+        }
+        private void AddTrainingSessionsToPlan(TrainingPlan trainingPlan, TrainingPlanDTO trainingPlanDTO)
+        {
+            foreach (var trainingSessionDTO in trainingPlanDTO.TrainingSessions)
+            {
+                CheckIfTrainingSessionNameIsUnique(trainingPlan, trainingSessionDTO);
+                var trainingSession = _mapper.Map<TrainingSession>(trainingSessionDTO);
+                trainingSession.TrainingPlan = trainingPlan;
+                trainingSession = _unitOfWork.TrainingSessionRepository.Create(trainingSession);
+                AddExercisesToTrainingSession(trainingSession, trainingSessionDTO);
+            }
+        }
+        private void CheckIfTrainingSessionNameIsUnique(TrainingPlan trainingPlan, TrainingSessionWithPlanDTO trainingSessionDTO)
+        {
+            ICollection<TrainingSession> existingSessions = _unitOfWork.TrainingSessionRepository.GetAll().Where(ts => ts.TrainingPlan == trainingPlan).ToList();
+            foreach (var existingSession in existingSessions)
+            {
+                if (existingSession.Name == trainingSessionDTO.Name)
+                {
+                    throw new BadHttpRequestException("Training Session names in a single Training Plan must be unique.");
+                }
+            }
+        }
+        private void AddExercisesToTrainingSession(TrainingSession trainingSession, TrainingSessionWithPlanDTO trainingSessionDTO)
+        {
+            foreach (var exerciseDTO in trainingSessionDTO.Exercises)
+            {
+                ExerciseTrainingSession exerciseForSession = _mapper.Map<ExerciseTrainingSession>(exerciseDTO);
+                var exercise = _unitOfWork.ExerciseRepository.GetById(exerciseDTO.ExerciseId);
+                if (exercise == null)
+                {
+                    throw new NotFoundException($"Exercise with ID: {exerciseDTO.ExerciseId} does not exist in the database");
+                }
+                exerciseForSession.TrainingSession = trainingSession;
+                exerciseForSession.Exercise = exercise;
+                _unitOfWork.ExerciseTrainingSessionRepository.Create(exerciseForSession);
+            }
         }
     }
 }
