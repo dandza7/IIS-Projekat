@@ -26,6 +26,7 @@ namespace IIS_Projekat.Services.Impl
                 DeliveryDate = DateTime.Now.AddDays(new Random().Next(1, 4))
             });
             var orders = new List<FoodOrder>();
+            var plansIds = new List<long>();
             foreach (var id in newFoodOrderDTO.NutritionPlansIds)
             {
                 var plan = _unitOfWork.NutritionPlanRepository.GetAll(np => np.User).Where(np => np.Id == id)
@@ -66,7 +67,7 @@ namespace IIS_Projekat.Services.Impl
                         }
                     }
                 }
-                plan.IsOrdered = true;
+                plansIds.Add(plan.Id);
                 _unitOfWork.NutritionPlanRepository.Update(plan);
             }
             foreach (var order in orders)
@@ -75,7 +76,7 @@ namespace IIS_Projekat.Services.Impl
                 report.FoodOrders.Add(order);
             }
             _unitOfWork.SaveChanges();
-            return CreateReport(report.Id);
+            return CreateReport(report.Id, plansIds);
         }
 
         public PaginationWrapper<FoodSupplyingReportDTO> GetAll(int page)
@@ -91,7 +92,37 @@ namespace IIS_Projekat.Services.Impl
             return new PaginationWrapper<FoodSupplyingReportDTO>(responseList, count);
         }
 
-        private FoodSupplyingReportDTO CreateReport(long id)
+        public DateTime UpdateOrdersStatus(OrderConfirmationDTO orderConfirmationDTO)
+        {
+            var report = _unitOfWork.FoodSupplyReportRepository.GetById(orderConfirmationDTO.Id);
+            if (report == null)
+            {
+                throw new NotFoundException($"Order report with id {orderConfirmationDTO.Id} does not exist!");
+            }
+            if (orderConfirmationDTO.ToConfirm)
+            {
+                report.IsConfirmed = true;
+                foreach (var id in orderConfirmationDTO.PlansIds)
+                {
+                    var plan = _unitOfWork.NutritionPlanRepository.GetById(id);
+                    if (plan == null)
+                    {
+                        throw new NotFoundException($"Nutrition plan with id {id} does not exist!");
+                    }
+                    plan.IsOrdered = true;
+                }
+                _unitOfWork.SaveChanges();
+                return report.DeliveryDate;
+            }
+            else
+            {
+                _unitOfWork.FoodSupplyReportRepository.Delete(report);
+                _unitOfWork.SaveChanges();
+                return DateTime.Now;
+            }
+        }
+
+        private FoodSupplyingReportDTO CreateReport(long id, List<long> plansIds = null)
         {
             var report = _unitOfWork.FoodSupplyReportRepository.GetAll().Where(fsr => fsr.Id == id)
                                                                         .Include(fsr => fsr.FoodOrders)
@@ -105,7 +136,8 @@ namespace IIS_Projekat.Services.Impl
             {
                 ReportId = report.Id,
                 DeliveryDate = report.DeliveryDate,
-                TotalPrice = 0
+                TotalPrice = 0,
+                PlansIds = plansIds
             };
             foreach (var foodOrder in report.FoodOrders)
             {

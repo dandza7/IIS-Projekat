@@ -7,5 +7,6 @@ namespace IIS_Projekat.Services
     {
         FoodSupplyingReportDTO CreateOrder(NewFoodOrderDTO newFoodOrderDTO);
         PaginationWrapper<FoodSupplyingReportDTO> GetAll(int page);
+        DateTime UpdateOrdersStatus(OrderConfirmationDTO orderConfirmationDTO);
     }
 }

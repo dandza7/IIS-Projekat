@@ -11,5 +11,6 @@ namespace IIS_Projekat.Models
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public bool IsConfirmed { get; set; }
     }
 }
