@@ -31,6 +31,18 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
+        /// [Admin] Updates status of food order
+        /// </summary>
+        /// <response code="200">If food order is succesfully created, returns its ID</response>
+        /// <response code="404">If nutrition plan with sent ID is not found!</response>
+        [HttpPost("confirm", Name = "UpdateOrdersStatus")]
+        [Authorize(Roles = Roles.Admin)]
+        public ActionResult<DateTime> UpdateOrdersStatus([FromBody] OrderConfirmationDTO orderConfirmationDTO)
+        {
+            return Ok(_foodOrderingService.UpdateOrdersStatus(orderConfirmationDTO));
+        }
+
+        /// <summary>
         /// [Admin] Gets all ordering reports
         /// </summary>
         /// <response code="200">Returns ordering reports paginated</response>
