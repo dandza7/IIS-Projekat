@@ -36,10 +36,9 @@ const TrainingPlanRequests = () => {
 
   return (
     <div>
-      {" "}
       <div className={classes.trainingPlanRequest}>
         <p className={utils.title}>Training Plan Requests</p>
-        {users && (
+        {users.length > 0 && (
           <div className={utils.tableContainer}>
             <table className={utils.styledTable}>
               <thead>
@@ -70,6 +69,7 @@ const TrainingPlanRequests = () => {
             </table>
           </div>
         )}
+        <h3>No pending requests</h3>
       </div>
     </div>
   );

@@ -48,6 +48,7 @@ import MyExercisePlan from "./pages/MyExercisePlan";
 import NewMealPlan from "./pages/NewMealPlan";
 import MealPlanPatients from "./pages/MealPlanPatients";
 import Appointment from "./pages/Appointment";
+import { TrainingPlanOverview } from "./pages/TrainingPlanOverview";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -121,7 +122,7 @@ const router = createBrowserRouter(
           ></Route>
           <Route
             path="/training-plans/:id"
-            element={<TrainingPlan></TrainingPlan>}
+            element={<TrainingPlanOverview></TrainingPlanOverview>}
           ></Route>
           <Route element={<AdminRoutes />}>
             <Route
