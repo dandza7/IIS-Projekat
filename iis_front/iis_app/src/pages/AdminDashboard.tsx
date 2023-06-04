@@ -9,6 +9,8 @@ import Modal from "@mui/material/Modal";
 import { useActionData } from "react-router-dom";
 import AuthContext from "../store/auth-context";
 import dayjs, { Dayjs } from "dayjs";
+import JsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const AdminDashboard = () => {
   const authCtx = useContext(AuthContext);
@@ -94,6 +96,36 @@ const AdminDashboard = () => {
       });
   }, []);
 
+  const orderHandler = (toOrder: boolean) => {
+    fetch("http://localhost:5041/api/food-ordering/confirm", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({
+        id: orders.reportId,
+        plansIds: orders.plansIds,
+        toConfirm: toOrder,
+      }),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        console.log(actualData);
+        alert("Success!");
+      });
+  };
+
+  const generatePDF = () => {
+    const input = document.getElementById("report");
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new JsPDF();
+      pdf.addImage(imgData, "PNG", 0, 0, 210, 90);
+      pdf.save("download.pdf");
+    });
+  };
+
   const styleEX = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -110,7 +142,7 @@ const AdminDashboard = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 1100,
+    width: 1350,
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 0.5,
@@ -170,42 +202,46 @@ const AdminDashboard = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styleEX}>
-          <div className={utils.modal}>
-            <div className={classes.form}>
-              <div className={utils.modalTitle}>
-                <h2>Meal plan</h2>
-              </div>
-
-              <div className={utils.modalContainer}>
-                <div className={classes.dalContainer}>
-                  <div className={classes.tableContainer}>
-                    <table className={classes.styledTable}>
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {selectedPlan?.ingredients.map((ingredient, index) => (
-                          <tr key={index}>
-                            <td>{ingredient.name}</td>
-                            <td>{ingredient.amount}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    <div className={classes.exerciseContainer}></div>
-                  </div>
+          <div>
+            <div className={utils.modal}>
+              <div className={classes.form}>
+                <div className={utils.modalTitle}>
+                  <h2>Meal plan</h2>
                 </div>
-                <br></br>
-                <div className={utils.buttonContainerRight}>
-                  <button
-                    className={classes.lightGreyButton}
-                    onClick={handleCloseExercises}
-                  >
-                    Close
-                  </button>
+
+                <div className={utils.modalContainer}>
+                  <div className={classes.dalContainer}>
+                    <div className={classes.tableContainer}>
+                      <table className={classes.styledTable}>
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {selectedPlan?.ingredients.map(
+                            (ingredient, index) => (
+                              <tr key={index}>
+                                <td>{ingredient.name}</td>
+                                <td>{ingredient.amount}</td>
+                              </tr>
+                            )
+                          )}
+                        </tbody>
+                      </table>
+                      <div className={classes.exerciseContainer}></div>
+                    </div>
+                  </div>
+                  <br></br>
+                  <div className={utils.buttonContainerRight}>
+                    <button
+                      className={classes.lightGreyButton}
+                      onClick={handleCloseExercises}
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -219,45 +255,72 @@ const AdminDashboard = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styleOrder}>
-          <div className={utils.modal}>
-            <div className={classes.form}>
-              <div className={utils.modalTitle}>
-                <h2>Order details</h2>
-              </div>
+          <div>
+            <div className={utils.modal}>
+              <div className={classes.form}>
+                <div className={utils.modalTitle}>
+                  <h2>Order details</h2>
+                </div>
 
-              <div className={utils.modalContainer}>
-                <div className={classes.dalContainer}>
-                  <div className={classes.tableContainer}>
-                    <table className={classes.styledTable}>
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Amount</th>
-                          <th>Supplier</th>
-                          <th>Price</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {orders?.foodOrders?.map((ingredient, index) => (
-                          <tr key={index}>
-                            <td>{ingredient.foodName}</td>
-                            <td>{ingredient.amount}</td>
-                            <td>{ingredient.supplier}</td>
-                            <td>{ingredient.price}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    <div className={classes.orderContainer}>
-                      <div className={utils.span}>
-                        <span>Delivery date:</span>
-                        <span>
-                          {dayjs(orders?.deliveryDate).format("DD-MM-YYYY")}
-                        </span>
+                <div className={utils.modalContainer}>
+                  <div className={classes.dalContainer}>
+                    <div className={classes.tableContainer}>
+                      <div id="report">
+                        <table className={classes.styledTable}>
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Amount</th>
+                              <th>Supplier</th>
+                              <th>Price</th>
+                              <th>Total Price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {orders?.foodOrders?.map((ingredient, index) => (
+                              <tr key={index}>
+                                <td>{ingredient.foodName}</td>
+                                <td>{ingredient.amount}</td>
+                                <td>{ingredient.supplier}</td>
+                                <td>{ingredient.price}</td>
+                                <td>{ingredient.price * ingredient.amount}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                        <div className={classes.orderContainer}>
+                          <div className={utils.span}>
+                            <span>Delivery date:</span>
+                            <span>
+                              {dayjs(orders?.deliveryDate).format("DD-MM-YYYY")}
+                            </span>
+                          </div>
+                          <div className={utils.span}>
+                            <span>Total price:</span>
+                            <span>{orders?.totalPrice}</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className={utils.span}>
-                        <span>Total price:</span>
-                        <span>{orders?.totalPrice}</span>
+                      <div className={classes.buttonContainer}>
+                        <button
+                          className={utils.redButton}
+                          onClick={() => orderHandler(false)}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className={utils.greenButton}
+                          onClick={() => orderHandler(true)}
+                        >
+                          Order
+                        </button>
+                        <button
+                          onClick={generatePDF}
+                          type="button"
+                          className={utils.blackButton}
+                        >
+                          Export PDF
+                        </button>
                       </div>
                     </div>
                   </div>

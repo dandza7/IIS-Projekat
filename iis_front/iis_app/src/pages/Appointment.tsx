@@ -10,6 +10,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import dayjs from "dayjs";
+import JsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 type injuredMuscle = { injuredMuscle: string; severity: string };
 
@@ -183,6 +185,8 @@ const Appointment = () => {
 
   const endAppointmentHandler = () => {
     console.log(appointmentId);
+    generatePDF();
+
     fetch("http://localhost:5041/api/therapy/create", {
       method: "POST",
       headers: {
@@ -202,8 +206,23 @@ const Appointment = () => {
       });
   };
 
+  const generatePDF = () => {
+    setToggleMR(true);
+    setToggleReport(true);
+    setToggleTherapy(true);
+    const timer = setTimeout(() => {
+      const input = document.getElementById("report");
+      html2canvas(input).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new JsPDF();
+        pdf.addImage(imgData, "PNG", 20, 20, 100, 100);
+        pdf.save("download.pdf");
+      }, 1200);
+    });
+  };
+
   return (
-    <div className={classes.appointment}>
+    <div className={classes.appointment} id="report">
       <p className={utils.title}>Appointment</p>
       <div>
         <div className={classes.menu}>
