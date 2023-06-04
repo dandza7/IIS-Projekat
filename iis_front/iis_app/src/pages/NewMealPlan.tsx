@@ -148,7 +148,7 @@ const NewMealPlan = () => {
       },
       body: JSON.stringify({
         userId: patientId,
-        date: dayjs(value).format("YYYY-MM-D"),
+        date: dayjs(value).format("YYYY-MM-DD"),
       }),
     })
       .then((response) => response.json())

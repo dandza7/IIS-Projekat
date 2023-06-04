@@ -103,7 +103,7 @@ namespace IIS_Projekat.Services.Impl
 
         public PaginationWrapper<PreviewNutritionPlanDTO> GetUnorderedNutritionPlans(int page)
         {
-            var plans = _unitOfWork.NutritionPlanRepository.GetAll(np => np.User).Where(np => np.Date > DateTime.UtcNow && !np.IsOrdered);
+            var plans = _unitOfWork.NutritionPlanRepository.GetAll(np => np.User, np => np.Meals).Where(np => np.Date > DateTime.UtcNow && !np.IsOrdered && np.Meals.Any());
             var count = plans.Count();
             plans = plans.Skip((page - 1) * 10).Take(10);
             return new PaginationWrapper<PreviewNutritionPlanDTO>(_mapper.Map<List<PreviewNutritionPlanDTO>>(plans.ToList()), count);
