@@ -394,7 +394,7 @@ const NewMealPlan = () => {
       },
       body: JSON.stringify({
         userId: localStorage.getItem("patientId"),
-        date: dayjs(value).format("YYYY-MM-D"),
+        date: dayjs(value).format("YYYY-MM-DD"),
         breakfasts: selectedBreakfast,
         lunches: selectedLunch,
         dinners: selectedDinner,

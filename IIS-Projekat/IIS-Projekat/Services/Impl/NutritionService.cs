@@ -105,19 +105,19 @@ namespace IIS_Projekat.Services.Impl
         {
             var usersPlans = _unitOfWork.NutritionPlanRepository.GetAll(np => np.User, np => np.Meals).Where(np => np.User.Email == email);
             var response = new List<PreviewDailyNutritionPlanDTO>();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 7; i++)
             {
                 var date = DateTime.Today.Date.AddDays(i);
                 var plan = usersPlans.Where(np => np.Date.Date == date).FirstOrDefault();
-                if (plan == null)
-                {
-                    response.Add(new PreviewDailyNutritionPlanDTO());
-                    continue;
-                }
                 var dailyPlan = new PreviewDailyNutritionPlanDTO
                 {
                     Date = date
                 };
+                if (plan == null)
+                {
+                    response.Add(dailyPlan);
+                    continue;
+                }
                 foreach (var meal in plan.Meals)
                 {
                     switch (meal.Type)

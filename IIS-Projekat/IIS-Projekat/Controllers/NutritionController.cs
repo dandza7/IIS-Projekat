@@ -36,7 +36,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="200">Returns list of nutritions plans with sent keys</response>
         /// <response code="404">If user with sent id does not exists in database</response>
         [HttpGet("weekly", Name = "GetWeeklyNutritionPlan")]
-        [Authorize(Roles = Roles.Nutritionist)]
+        [Authorize(Roles = Roles.Customer)]
         public ActionResult<IEnumerable<PreviewDailyNutritionPlanDTO>> GetWeeklyNutritionPlan()
         {
             return Ok(_nutritionService.GetWeekly(User.GetEmail()));

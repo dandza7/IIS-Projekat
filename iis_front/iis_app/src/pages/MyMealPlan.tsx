@@ -5,76 +5,95 @@ import classes from "./Users.module.css";
 import utils from "./Utils.module.css";
 import { useNavigate } from "react-router-dom";
 import dayjs, { Dayjs } from "dayjs";
+import JsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const MyMealPlan = () => {
   const [users, setUsers] = useState<any[]>([]);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
+  const [wholePlan, setWholePlan] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5041/api/nutritions", {
-      method: "POST",
+    fetch("http://localhost:5041/api/nutritions/weekly", {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + authCtx.token,
       },
-      body: JSON.stringify({
-        userId: 5,
-        date: dayjs(new Date()).format("YYYY-MM-DD"),
-      }),
     })
       .then((response) => response.json())
       .then((actualData) => {
         console.log(actualData);
-        setBreakfast(actualData.breakfasts);
-        setLunch(actualData.lunches);
-        setDinner(actualData.dinners);
-        setSnacks(actualData.snacks);
-        let plan: recipe[] = [];
-        let plan1 = plan.concat(
-          actualData.breakfasts,
-          actualData.lunches,
-          actualData.dinners,
-          actualData.snacks
-        );
-        setWholePlan(plan1);
+        setWholePlan(actualData);
       });
   }, []);
 
+  const generatePDF = () => {
+    const input = document.getElementById("report");
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new JsPDF();
+      pdf.addImage(imgData, "PNG", 5, 5, 200, 80);
+      pdf.save("download.pdf");
+    });
+  };
+
   return (
-    <div className={classes.users}>
-      <p className={utils.title}>Users</p>
-      {users && (
+    <div>
+      <div className={classes.users} id="report">
+        <p className={utils.title}>Weekly meal plan</p>
         <div className={utils.userTableContainer}>
           <table className={utils.styledTable}>
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th></th>
+                <th>Date</th>
+                <th>Breakfast</th>
+                <th>Lunch</th>
+                <th>Dinner</th>
+                <th>Snack</th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.email}</td>
-                  <td>Breakfast1, Breakfast2, Breakfast3 </td>
+              {wholePlan.map((plan, index) => (
+                <tr key={index}>
+                  <td>{dayjs(plan.date).format("DD.MM.YYYY")}</td>
                   <td>
-                    <button
-                      className={utils.greenButton}
-                      onClick={() => handleViewUserProfile(user.id)}
-                    >
-                      View Profile
-                    </button>
+                    {plan.breakfasts.map((meal: any) => (
+                      <span>{meal.recipe.name + ", "}</span>
+                    ))}
+                  </td>
+                  <td>
+                    {plan.lunches.map((meal: any) => (
+                      <span>{meal.recipe.name + ", "}</span>
+                    ))}
+                  </td>
+                  <td>
+                    {plan.dinners.map((meal: any) => (
+                      <span>{meal.recipe.name + ", "} </span>
+                    ))}
+                  </td>
+                  <td>
+                    {plan.snacks.map((meal: any) => (
+                      <span>{meal.recipe.name + ", "}</span>
+                    ))}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      )}
+      </div>
+      <br></br>
+      <div className={utils.buttonContainerRight}>
+        <button
+          onClick={generatePDF}
+          type="button"
+          className={utils.blackButton}
+        >
+          Export PDF
+        </button>
+      </div>
     </div>
   );
 };
