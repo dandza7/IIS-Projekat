@@ -17,12 +17,14 @@ type injuredMuscle = { injuredMuscle: string; severity: string };
 
 const Appointment = () => {
   let params = useParams();
+  const appDate = Date.now();
   const appointmentId = params.id;
   const [patient, setPatient] = useState({});
   const authCtx = useContext(AuthContext);
   const [height, setHeight] = useState(null);
   const [weight, setWeight] = useState(null);
   const navigate = useNavigate();
+  const [toggleReportView, setToggleReportView] = useState(false);
   const [toggleMR, setToggleMR] = useState(true);
   const [toggleTherapy, setToggleTherapy] = useState(false);
   const [toggleReport, setToggleReport] = useState(false);
@@ -207,22 +209,21 @@ const Appointment = () => {
   };
 
   const generatePDF = () => {
-    setToggleMR(true);
-    setToggleReport(true);
-    setToggleTherapy(true);
+    setToggleReportView(true);
+    setToggleReport(false);
     const timer = setTimeout(() => {
       const input = document.getElementById("report");
       html2canvas(input).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new JsPDF();
-        pdf.addImage(imgData, "PNG", 20, 20, 100, 100);
+        pdf.addImage(imgData, "PNG", 0, 0, 210, 120);
         pdf.save("download.pdf");
       }, 1200);
     });
   };
 
   return (
-    <div className={classes.appointment} id="report">
+    <div className={classes.appointment}>
       <p className={utils.title}>Appointment</p>
       <div>
         <div className={classes.menu}>
@@ -249,7 +250,7 @@ const Appointment = () => {
             Report
           </div>
         </div>
-        <div className={classes.container}>
+        <div className={classes.container} id="report">
           {toggleMR && (
             <div className={classes.medicalRecord}>
               <div className={classes.dataContainer}>
@@ -287,10 +288,6 @@ const Appointment = () => {
                     className={classes.weightInput}
                   ></input>
                 </div>
-              </div>
-              <div>
-                <label>Anamnesis:</label>
-                <input className={classes.anamnesisInput}></input>
               </div>
 
               <div className={classes.dalContainer}>
@@ -426,6 +423,89 @@ const Appointment = () => {
                 >
                   End appointment
                 </button>
+              </div>
+            </div>
+          )}
+          {toggleReportView && (
+            <div className={classes.report}>
+              <h1>Appointment report</h1>
+              <span>Date : {dayjs(appDate).format("DD.MM.YYYY ")}</span>
+              <div className={classes.reportView}>
+                <div className={classes.dataContainer}>
+                  <div className={utils.span}>
+                    <label>Name:</label>
+                    <span>{patient?.name}</span>
+                  </div>
+                  <div className={utils.span}>
+                    <label>Surname:</label>
+                    <span>{patient?.surname}</span>
+                  </div>
+                  <div className={utils.span}>
+                    <label>Birthdate:</label>
+                    <span>
+                      {dayjs(patient?.birthDate).format("DD.MM.YYYY ")}
+                    </span>
+                  </div>
+                </div>
+                <div className={classes.dataContainer}>
+                  <div className={utils.span}>
+                    <label>Gender:</label>
+                    <span>{patient?.gender}</span>
+                  </div>
+                  <div className={utils.span}>
+                    <label>Height:</label>
+                    <span>{patient?.height} cm</span>
+                  </div>
+                  <div className={utils.span}>
+                    <label>Weight:</label>
+                    <span>{patient?.weight} kg</span>
+                  </div>
+                </div>
+                <h3>Diagnoses: Diabetes</h3>
+                <h2>Report </h2>
+                <div>{textAreaRef.current.value}</div>
+                <h2>Injured muscle groups</h2>
+                <table className={classes.exTable}>
+                  <thead>
+                    <tr>
+                      <th>Muscle group</th>
+                      <th>Severity</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedMG.map((mg: any, index) => (
+                      <tr key={index}>
+                        <td>{mg.injuredMuscle}</td>
+                        <td>{mg.severity}</td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <h2>Recommended exercises</h2>
+                <table className={classes.exTable}>
+                  <thead>
+                    <tr>
+                      <th>Excercise name</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {exerecises.map((exercise: any, index) => (
+                      <tr key={index}>
+                        <td>{exercise}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           )}
