@@ -42,6 +42,30 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
+        /// [Nutritionist] Gets all recipes (with pagination, sorting and filtering optional)
+        /// </summary>
+        /// <remarks>
+        /// Pagination constraints (Everything is case insenstive):
+        /// <br/>  > Page and PageSize must be greater than 0 (0 if you want all items at once)
+        /// <br/>  > Orders:
+        /// <br/>  >>> OrderField must be one of the following: ID, Name
+        /// <br/>  >>> Ordering must be either ASC or DESC
+        /// <br/>  > Filters:
+        /// <br/>  >>> Property must be one of the following: ID (number), Name (string)
+        /// <br/>  >>> Connectings: 0 - AND, 1 - OR (filters will be applied as intersection for AND and will be applied as union for OR)
+        /// <br/>  >>> FilterValues:
+        /// <br/>  >>>>> FilterValue has to be able to be converted to correct type
+        /// <br/>  >>>>> Operations: 0 - StringContains, 1 - StringEquals, 2 - NumberEquals, 3 - NumberLessThan, 4 - NumberGreaterThan
+        /// </remarks>
+        /// <response code="200">Returns all recipes</response>
+        [HttpPost("{id}", Name = "GetSuitableRecipes")]
+        [Authorize(Roles = $"{Roles.Nutritionist}")]
+        public ActionResult<PaginationWrapper<PreviewRecipeDTO>> GetSuitableRecipes([FromBody] PaginationQuery paginationQuery, long id)
+        {
+            return Ok(_recipeService.GetSuitableRecipes(paginationQuery, id));
+        }
+
+        /// <summary>
         /// [Nutritionist, Customer] Gets all recipes detailed (with pagination, sorting and filtering optional)
         /// </summary>
         /// <remarks>
