@@ -1,6 +1,7 @@
 ﻿using IIS_Projekat.Models.DTOs.NutritionPlan;
 using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Services;
+using IIS_Projekat.SupportClasses.Extensions;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,18 @@ namespace IIS_Projekat.Controllers
         public ActionResult<ResponseNutritionPlanDTO> GetNutritionPlan([FromBody] NutritionPlanKeyDTO nutritionPlanKeyDTO)
         {
             return Ok(_nutritionService.GetOne(nutritionPlanKeyDTO));
+        }
+
+        /// <summary>
+        /// [Nutritionist] Gets own nutrition plans for next 7 days
+        /// </summary>
+        /// <response code="200">Returns list of nutritions plans with sent keys</response>
+        /// <response code="404">If user with sent id does not exists in database</response>
+        [HttpGet("weekly", Name = "GetWeeklyNutritionPlan")]
+        [Authorize(Roles = Roles.Nutritionist)]
+        public ActionResult<IEnumerable<PreviewDailyNutritionPlanDTO>> GetWeeklyNutritionPlan()
+        {
+            return Ok(_nutritionService.GetWeekly(User.GetEmail()));
         }
 
         /// <summary>
