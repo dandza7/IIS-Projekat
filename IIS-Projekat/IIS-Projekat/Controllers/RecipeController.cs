@@ -42,6 +42,17 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
+        /// [Nutritionist] Gets all recipes (with pagination)
+        /// </summary>
+        /// <response code="200">Returns all suitable recipes</response>
+        [HttpPost("{id}/{page}", Name = "GetSuitableRecipes")]
+        [Authorize(Roles = $"{Roles.Nutritionist}")]
+        public ActionResult<PaginationWrapper<PreviewRecipeDTO>> GetSuitableRecipes(long id, int page)
+        {
+            return Ok(_recipeService.GetSuitableRecipes(id, page));
+        }
+
+        /// <summary>
         /// [Nutritionist, Customer] Gets all recipes detailed (with pagination, sorting and filtering optional)
         /// </summary>
         /// <remarks>

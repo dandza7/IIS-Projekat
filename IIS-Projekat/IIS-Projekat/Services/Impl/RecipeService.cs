@@ -4,6 +4,7 @@ using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.Recipe;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -53,6 +54,43 @@ namespace IIS_Projekat.Services.Impl
         {
             var paginationResult = _unitOfWork.RecipeRepository.Filter(paginationQuery);
             return new PaginationWrapper<PreviewRecipeDTO>(_mapper.Map<List<PreviewRecipeDTO>>(paginationResult.Items), paginationResult.TotalCount);
+        }
+
+        public PaginationWrapper<PreviewRecipeDTO> GetSuitableRecipes(long id, int page)
+        {
+            var user = _unitOfWork.UserRepository.GetAll().Where(u => u.Id == id).Include(u => u.MedicalRecord).Include(u => u.MedicalRecord.Allergies).FirstOrDefault();
+            if (user == null)
+            {
+                throw new NotFoundException($"User with id {id} does not exist!");
+            }
+            var allergies = user.MedicalRecord.Allergies;
+            var recipes = _unitOfWork.RecipeRepository.GetAll().Include(r => r.FoodShares).ThenInclude(fs => fs.Food).ThenInclude(f => f.Allergies).ToList();
+            var suitableRecipes = new List<Recipe>();
+            foreach (var recipe in recipes)
+            {
+                var isSutiable = true;
+                foreach (var share in recipe.FoodShares)
+                {
+                    foreach (var allergy in share.Food.Allergies)
+                    {
+                        if (allergies.Contains(allergy))
+                        {
+                            isSutiable = false;
+                            break;
+                        }
+                    }
+                    if (!isSutiable)
+                    {
+                        break;
+                    }
+                }
+                if (isSutiable)
+                {
+                    suitableRecipes.Add(recipe);
+                }
+            }
+            var count = suitableRecipes.Count();
+            return new PaginationWrapper<PreviewRecipeDTO>(_mapper.Map<List<PreviewRecipeDTO>>(suitableRecipes.Skip((page - 1) * 10).Take(10)), count);
         }
 
         public PaginationWrapper<PreviewRecipeDetailedDTO> GetAllDetailed(PaginationQuery paginationQuery)
