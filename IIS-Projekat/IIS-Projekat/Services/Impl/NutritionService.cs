@@ -101,6 +101,46 @@ namespace IIS_Projekat.Services.Impl
             return response;
         }
 
+        public IEnumerable<PreviewDailyNutritionPlanDTO> GetWeekly(string email)
+        {
+            var usersPlans = _unitOfWork.NutritionPlanRepository.GetAll(np => np.User, np => np.Meals).Where(np => np.User.Email == email);
+            var response = new List<PreviewDailyNutritionPlanDTO>();
+            for (int i = 0; i < 3; i++)
+            {
+                var date = DateTime.Today.Date.AddDays(i);
+                var plan = usersPlans.Where(np => np.Date.Date == date).FirstOrDefault();
+                if (plan == null)
+                {
+                    response.Add(new PreviewDailyNutritionPlanDTO());
+                    continue;
+                }
+                var dailyPlan = new PreviewDailyNutritionPlanDTO
+                {
+                    Date = date
+                };
+                foreach (var meal in plan.Meals)
+                {
+                    switch (meal.Type)
+                    {
+                        case "BREAKFAST":
+                            dailyPlan.Breakfasts.Add(new PreviewMealDTO { PortionSize = meal.PortionSize, Recipe = GetDetailed(meal.RecipeId) });
+                            break;
+                        case "LUNCH":
+                            dailyPlan.Lunches.Add(new PreviewMealDTO { PortionSize = meal.PortionSize, Recipe = GetDetailed(meal.RecipeId) });
+                            break;
+                        case "DINNER":
+                            dailyPlan.Dinners.Add(new PreviewMealDTO { PortionSize = meal.PortionSize, Recipe = GetDetailed(meal.RecipeId) });
+                            break;
+                        case "SNACK":
+                            dailyPlan.Snacks.Add(new PreviewMealDTO { PortionSize = meal.PortionSize, Recipe = GetDetailed(meal.RecipeId) });
+                            break;
+                    }
+                }
+                response.Add(dailyPlan);
+            }
+            return response;
+        }
+
         public PaginationWrapper<PreviewNutritionPlanDTO> GetUnorderedNutritionPlans(int page)
         {
             var plans = _unitOfWork.NutritionPlanRepository.GetAll(np => np.User, np => np.Meals).Where(np => np.Date > DateTime.UtcNow && !np.IsOrdered && np.Meals.Any());
