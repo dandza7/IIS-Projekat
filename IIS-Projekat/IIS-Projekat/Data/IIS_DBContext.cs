@@ -30,6 +30,7 @@ namespace IIS_Projekat.Data
         public DbSet<FoodPrice> FoodPrices { get; set; }
         public DbSet<FoodOrder> FoodOrders { get; set; }
         public DbSet<FoodSupplyReport> FoodSupplyReports { get; set; }
+        public DbSet<Measurement> Measurements { get; set; }
 
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -536,6 +537,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Allergies).WithMany(a => a.MedicalRecords);
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Diagnoses).WithMany(d => d.MedicalRecords);
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Therapies).WithOne(t => t.MedicalRecord).HasForeignKey(t => t.MedicalRecordId).IsRequired();
+            modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Measurements).WithOne().IsRequired();
 
             modelBuilder.Entity<InjuredMuscleTherapy>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<InjuredMuscleTherapy>().HasKey(e => e.Id);
@@ -583,6 +585,16 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<FoodOrder>().HasKey(fo => fo.Id);
             modelBuilder.Entity<FoodOrder>().Property(fo => fo.Amount).IsRequired();
             modelBuilder.Entity<FoodOrder>().HasOne(fo => fo.FoodPrice).WithMany().HasForeignKey(fo => fo.FoodPriceId).IsRequired();
+
+            modelBuilder.Entity<Measurement>().HasQueryFilter(m => !m.IsDeleted);
+            modelBuilder.Entity<Measurement>().HasKey(m => m.Id);
+            modelBuilder.Entity<Measurement>().Property(m => m.Weight).IsRequired();
+            modelBuilder.Entity<Measurement>().Property(m => m.Bicep).IsRequired();
+            modelBuilder.Entity<Measurement>().Property(m => m.Forearm).IsRequired();
+            modelBuilder.Entity<Measurement>().Property(m => m.Chest).IsRequired();
+            modelBuilder.Entity<Measurement>().Property(m => m.Waist).IsRequired();
+            modelBuilder.Entity<Measurement>().Property(m => m.Thigh).IsRequired();
+            modelBuilder.Entity<Measurement>().Property(m => m.Calf).IsRequired();
         }
     }
 }
