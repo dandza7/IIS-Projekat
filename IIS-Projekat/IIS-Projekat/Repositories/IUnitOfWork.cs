@@ -29,6 +29,7 @@ namespace IIS_Projekat.Repositories
         IGenericRepository<FoodOrder> FoodOrderRepository { get; }
         IGenericRepository<FoodPrice> FoodPriceRepository { get; }
         IGenericRepository<FoodSupplyReport> FoodSupplyReportRepository { get; }
+        IGenericRepository<Measurement> MeasurementRepository { get; }
         void SaveChanges();
     }
 }

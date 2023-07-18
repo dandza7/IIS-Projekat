@@ -11,6 +11,7 @@ namespace IIS_Projekat.Models
         public ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();
         public ICollection<Diagnosis> Diagnoses { get; set; } = new List<Diagnosis>();
         public ICollection<Therapy> Therapies { get; set; } = new List<Therapy>();
+        public ICollection<Measurement> Measurements { get; set; } = new List<Measurement>();
         public string Anamnesis { get; set; } = string.Empty;
         public float Height { get; set; } = 0;
         public float Weight { get; set; } = 0;
