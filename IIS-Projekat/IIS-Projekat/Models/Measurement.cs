@@ -16,5 +16,7 @@ namespace IIS_Projekat.Models
         public float Waist { get; set; }
         public float Thigh { get; set; }
         public float Calf { get; set; }
+        public long MedicalRecordId { get; set; }
+        public MedicalRecord MedicalRecord { get; set; }
     }
 }

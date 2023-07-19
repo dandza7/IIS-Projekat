@@ -2,6 +2,7 @@
 {
     public class PreviewMeasurementDTO
     {
+        public DateTime CreatedDate { get; set; }
         public float Weight { get; set; }
         public float Bicep { get; set; }
         public float Forearm { get; set; }
