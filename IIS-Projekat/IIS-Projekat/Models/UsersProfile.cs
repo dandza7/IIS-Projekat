@@ -18,5 +18,7 @@ namespace IIS_Projekat.Models
         public bool IsDeleted { get; set; }
         public long UserId { get; set; }
         public virtual User User { get; set; }
+        public bool IsEmailSubscribed { get; set; } = false;
+        public ICollection<Notification> Notifications {get; set; } = new List<Notification>();
     }
 }

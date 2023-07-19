@@ -64,6 +64,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<UsersProfile>().Property(up => up.BirthDate).IsRequired();
             modelBuilder.Entity<UsersProfile>().Property(up => up.Gender).IsRequired(false);
             modelBuilder.Entity<UsersProfile>().Property(up => up.Avatar).IsRequired(false);
+            modelBuilder.Entity<UsersProfile>().HasMany(up => up.Notifications).WithOne(n => n.Reciever);
 
             modelBuilder.Entity<MuscleGroup>().HasQueryFilter(mg => !mg.IsDeleted);
             modelBuilder.Entity<MuscleGroup>().HasKey(mg => mg.Id);
