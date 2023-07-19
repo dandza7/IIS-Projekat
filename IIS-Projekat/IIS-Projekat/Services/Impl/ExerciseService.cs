@@ -85,6 +85,34 @@ namespace IIS_Projekat.Services.Impl
             return new PaginationWrapper<PreviewExerciseDTO>(_mapper.Map<List<PreviewExerciseDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
 
+        public void FlagExercise(string email, FlagExerciseDTO flagDTO)
+        {
+            var client = _unitOfWork.UserRepository.GetAll(c => c.Profile).Where(c => c.Email == email).FirstOrDefault();
+            if (client == null)
+            {
+                throw new NotFoundException("Client with given Id does not exist!");
+            }
+            var trainingPlan = _unitOfWork.TrainingPlanRepository.GetAll().Where(tp => tp.ClientId == client.Id).FirstOrDefault();
+            if (trainingPlan == null)
+            {
+                throw new NotFoundException($"Training plan for {client.Profile.Name} {client.Profile.Surname} has not been found!");
+            }
+            var trainingSessions = _unitOfWork.TrainingSessionRepository.GetAll().Where(ts => ts.TrainingPlan == trainingPlan).ToList();
+            foreach (var session in trainingSessions)
+            {
+                var flaggedExercises = _unitOfWork.ExerciseTrainingSessionRepository
+                    .GetAll(ets => ets.Exercise, ets => ets.TrainingSession)
+                    .Where(ets => ets.TrainingSession == session && ets.Exercise.Name == flagDTO.ExerciseName).ToList();
+                foreach (var exercise in flaggedExercises)
+                {
+                    exercise.IsUnhappy = true;
+                    exercise.Note = flagDTO.Note;
+                    _unitOfWork.ExerciseTrainingSessionRepository.Update(exercise);
+                }
+            }
+            _unitOfWork.SaveChanges();
+        }
+
         public void DeleteExercise(long id)
         {
             Exercise exercise = _unitOfWork.ExerciseRepository.GetById(id);

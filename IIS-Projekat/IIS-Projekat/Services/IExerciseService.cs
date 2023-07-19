@@ -9,6 +9,7 @@ namespace IIS_Projekat.Services
         public PaginationWrapper<PreviewExerciseDTO> GetAll(PaginationQuery? paginationQuery);
         public PaginationWrapper<PreviewExerciseDTO> GetRehabilitationExercises(PaginationQuery? paginationQuery);
         public PaginationWrapper<PreviewExerciseDTO> GetSuitableExercisesForClient(long clientId, ExerciseFilterDTO exerciseFilterDTO);
+        public void FlagExercise(string email, FlagExerciseDTO flagDTO);
         public void DeleteExercise(long id);
     }
 }
