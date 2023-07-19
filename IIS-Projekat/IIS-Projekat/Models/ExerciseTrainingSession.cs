@@ -14,5 +14,6 @@ namespace IIS_Projekat.Models
         public string RepetitionRange { get; set; }
         public int NumberOfSets { get; set; }
         public bool IsUnhappy { get; set; } = false;
+        public string Note { get; set; } = "";
     }
 }

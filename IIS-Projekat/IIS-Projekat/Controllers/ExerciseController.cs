@@ -96,6 +96,20 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
+        /// [Customer] Flags that customer is unhappy with the exercise
+        /// </summary>
+        /// <response code="200">If new exercise was flagged successfully</response>
+        /// <response code="404">If client was not found</response>
+        /// <response code="404">If client's training plan was not found</response>
+        [HttpPost("flag", Name = "FlagExericse")]
+        [Authorize(Roles = Roles.Customer)]
+        public ActionResult FlagExercise([FromBody] FlagExerciseDTO flagExerciseDTO, string email)
+        {
+            _exerciseService.FlagExercise(email, flagExerciseDTO);
+            return Ok();
+        }
+
+        /// <summary>
         /// [Trainer, Physiotherapist] Deletes Exercise
         /// </summary>
         /// <response code="200">If exercise is successfully deleted</response>
