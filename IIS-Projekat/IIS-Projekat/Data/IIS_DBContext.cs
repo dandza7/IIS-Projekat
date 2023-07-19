@@ -537,7 +537,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Allergies).WithMany(a => a.MedicalRecords);
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Diagnoses).WithMany(d => d.MedicalRecords);
             modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Therapies).WithOne(t => t.MedicalRecord).HasForeignKey(t => t.MedicalRecordId).IsRequired();
-            modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Measurements).WithOne().IsRequired();
+            modelBuilder.Entity<MedicalRecord>().HasMany(mr => mr.Measurements).WithOne(m => m.MedicalRecord).HasForeignKey(m => m.MedicalRecordId).IsRequired();
 
             modelBuilder.Entity<InjuredMuscleTherapy>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<InjuredMuscleTherapy>().HasKey(e => e.Id);

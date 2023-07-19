@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Measurement;
-using IIS_Projekat.Models.DTOs.Training.Plan;
+using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 using IIS_Projekat.Repositories;
 
 namespace IIS_Projekat.Services.Impl
@@ -16,14 +17,54 @@ namespace IIS_Projekat.Services.Impl
             _mapper = mapper;
         }
 
-        public long CreateMeasurement(NewMeasurementDTO measurementDTO)
+        public long CreateMeasurement(NewMeasurementDTO measurementDTO, string email)
         {
-            throw new NotImplementedException();
+            var patient = _unitOfWork.UserRepository.GetAll().Where(p => p.Email == email).FirstOrDefault();
+            if (patient == null)
+            {
+                throw new NotFoundException($"Patient with given email does not exist!");
+            }
+            var medicalRecord = _unitOfWork.MedicalRecordRepository.GetAll().Where(mr => mr.PatientId == patient.Id).FirstOrDefault();
+            if (medicalRecord == null)
+            {
+                throw new NotFoundException("Patient does not have medical record!");
+            }
+            var measurement = _mapper.Map<Measurement>(measurementDTO);
+            measurement.MedicalRecord = medicalRecord;
+            measurement.MedicalRecordId = medicalRecord.Id;
+            measurement = _unitOfWork.MeasurementRepository.Create(measurement);
+            _unitOfWork.SaveChanges();
+            return measurement.Id;
         }
 
-        public long GetMeasurementForPatient(string email, string filter)
+        public ICollection<PreviewMeasurementDTO> GetMeasurementsForPatient(long id, string filter)
         {
-            throw new NotImplementedException();
+            var patient = _unitOfWork.UserRepository.GetById(id);
+            if (patient == null)
+            {
+                throw new NotFoundException("Paitnet with given email does not exist!");
+            }
+            var medicalRecord = _unitOfWork.MedicalRecordRepository.GetAll().Where(mr => mr.PatientId == patient.Id).FirstOrDefault();
+            if (medicalRecord == null)
+            {
+                throw new NotFoundException("Patient does not have medical record!");
+            }
+            ICollection<Measurement> measurements = new List<Measurement>();
+            switch (filter) {
+                case "Monthly":
+                    measurements = _unitOfWork.MeasurementRepository.GetAll().
+                        Where(m => m.MedicalRecordId == medicalRecord.Id && m.CreatedDate >=  DateTime.UtcNow.AddDays(-30)).ToList();
+                    break;
+                case "Yearly":
+                    measurements = _unitOfWork.MeasurementRepository.GetAll().
+                        Where(m => m.MedicalRecordId == medicalRecord.Id && m.CreatedDate >= DateTime.UtcNow.AddYears(-1)).ToList();
+                    break;
+                default:
+                    measurements = _unitOfWork.MeasurementRepository.GetAll().
+                        Where(m => m.MedicalRecordId == medicalRecord.Id).ToList();
+                    break;
+            }
+            return _mapper.Map<List<PreviewMeasurementDTO>>(measurements);
         }
     }
 }

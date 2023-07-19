@@ -4,7 +4,7 @@ namespace IIS_Projekat.Services
 {
     public interface IMeasurementService
     {
-        public long CreateMeasurement(NewMeasurementDTO newMeasurementDTO);
-        public long GetMeasurementForPatient(string email, string filter);
+        public long CreateMeasurement(NewMeasurementDTO newMeasurementDTO, string email);
+        public ICollection<PreviewMeasurementDTO> GetMeasurementsForPatient(long id, string filter);
     }
 }
