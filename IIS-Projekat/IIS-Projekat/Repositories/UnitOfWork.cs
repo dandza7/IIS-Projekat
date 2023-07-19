@@ -31,6 +31,7 @@ namespace IIS_Projekat.Repositories
         private IGenericRepository<FoodPrice> _foodPriceRepository;
         private IGenericRepository<FoodOrder> _foodOrderRepository;
         private IGenericRepository<Measurement> _measurementRepository;
+        private IGenericRepository<Notification> _notificationRepository;
 
         private DbContext _dbContext;
 
@@ -270,6 +271,15 @@ namespace IIS_Projekat.Repositories
             {
                 _measurementRepository ??= new GenericRepository<Measurement>(_dbContext);
                 return _measurementRepository;
+            }
+        }
+
+        public IGenericRepository<Notification> NotificationRepository
+        {
+            get
+            {
+                _notificationRepository ??= new GenericRepository<Notification>(_dbContext);
+                return _notificationRepository;
             }
         }
 

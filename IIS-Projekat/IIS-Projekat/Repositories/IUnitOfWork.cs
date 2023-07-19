@@ -30,6 +30,7 @@ namespace IIS_Projekat.Repositories
         IGenericRepository<FoodPrice> FoodPriceRepository { get; }
         IGenericRepository<FoodSupplyReport> FoodSupplyReportRepository { get; }
         IGenericRepository<Measurement> MeasurementRepository { get; }
+        IGenericRepository<Notification> NotificationRepository { get; }
         void SaveChanges();
     }
 }
