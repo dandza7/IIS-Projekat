@@ -9,6 +9,7 @@ using IIS_Projekat.Models.DTOs.User;
 using Microsoft.EntityFrameworkCore;
 using IIS_Projekat.SupportClasses.Roles;
 using System.Linq;
+using IIS_Projekat.Models.DTOs.Notification;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -16,11 +17,13 @@ namespace IIS_Projekat.Services.Impl
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly INotificationService _notificationService;
 
-        public ExerciseService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ExerciseService(IUnitOfWork unitOfWork, IMapper mapper, INotificationService notificationService)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;   
+            _mapper = mapper;
+            _notificationService = notificationService;
         }
 
         public long CreateExercise(NewExerciseDTO newExerciseDTO, string email)
@@ -110,6 +113,14 @@ namespace IIS_Projekat.Services.Impl
                     _unitOfWork.ExerciseTrainingSessionRepository.Update(exercise);
                 }
             }
+
+            var notificationDTO = new NewNotificationDTO
+            {
+                RecieverEmail = "trener@gmail.com",
+                Content = $"You have a training plan complaint from {client.Profile.Name} {client.Profile.Surname}!"
+            };
+
+            _notificationService.CreateNotification(notificationDTO);
             _unitOfWork.SaveChanges();
         }
 

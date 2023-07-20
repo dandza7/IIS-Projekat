@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
+using IIS_Projekat.Models.DTOs.Notification;
 using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.Training.Request;
 using IIS_Projekat.Repositories;
-using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
+using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;  
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -11,12 +12,15 @@ namespace IIS_Projekat.Services.Impl
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly INotificationService _notificationService;
 
-        public TrainingPlanRequestService(IUnitOfWork unitOfWork, IMapper mapper)
+        public TrainingPlanRequestService(IUnitOfWork unitOfWork, IMapper mapper, INotificationService notificationService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _notificationService = notificationService;
         }
+
         public PaginationWrapper<PreviewTrainingPlanRequestDTO> GetAll(PaginationQuery? paginationQuery)
         {
 
@@ -39,6 +43,19 @@ namespace IIS_Projekat.Services.Impl
             trainingPlanRequest.Client = client;
             trainingPlanRequest.ClientId = client.Id;
             trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.Create(trainingPlanRequest);
+
+            var clientProfile = _unitOfWork.ProfileRepository.GetAll().Where(cp => cp.User == client).FirstOrDefault();
+            if(clientProfile == null)
+            {
+                throw new NotFoundException($"Profile with given email does not exist!");
+            }
+            var notificationDTO = new NewNotificationDTO
+            {
+                RecieverEmail = "trener@gmail.com",
+                Content = $"You have a new training plan request from {clientProfile.Name} {clientProfile.Surname}!"
+            };
+            _notificationService.CreateNotification(notificationDTO);
+
             _unitOfWork.SaveChanges();
             return trainingPlanRequest.Id;
         }

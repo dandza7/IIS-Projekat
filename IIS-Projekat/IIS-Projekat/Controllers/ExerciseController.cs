@@ -101,11 +101,12 @@ namespace IIS_Projekat.Controllers
         /// <response code="200">If new exercise was flagged successfully</response>
         /// <response code="404">If client was not found</response>
         /// <response code="404">If client's training plan was not found</response>
+        /// <response code="404">If client profile was not found</response>
         [HttpPost("flag", Name = "FlagExericse")]
         [Authorize(Roles = Roles.Customer)]
-        public ActionResult FlagExercise([FromBody] FlagExerciseDTO flagExerciseDTO, string email)
+        public ActionResult FlagExercise([FromBody] FlagExerciseDTO flagExerciseDTO)
         {
-            _exerciseService.FlagExercise(email, flagExerciseDTO);
+            _exerciseService.FlagExercise(User.GetEmail(), flagExerciseDTO);
             return Ok();
         }
 
