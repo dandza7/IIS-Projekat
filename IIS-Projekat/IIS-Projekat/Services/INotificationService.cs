@@ -5,7 +5,8 @@ namespace IIS_Projekat.Services
 {
     public interface INotificationService
     {
+        public long CreateNotification(NewNotificationDTO newNotificationDTO);
         public PaginationWrapper<PreviewNotificationDTO> GetUsersNotifications(PaginationQuery paginationQuery, string email);
-        public void DeleteNotificaiton(long notificationId);
+        public void DeleteNotification(long notificationId);
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace IIS_Projekat.Models.DTOs.Notification
 {
-    public class PreviewNotificationDTO
+    public class NewNotificationDTO
     {
-        public DateTime CreatedDate { get; set; }
+        public string RecieverEmail { get; set; }
         public string Content { get; set; }
     }
 }
