@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Exercise;
+using IIS_Projekat.Models.DTOs.Notification;
 using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.Training;
 using IIS_Projekat.Models.DTOs.Training.Plan;
@@ -14,17 +15,31 @@ namespace IIS_Projekat.Services.Impl
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
-        public TrainingPlanService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly INotificationService _notificationService;
+        public TrainingPlanService(IUnitOfWork unitOfWork, IMapper mapper, INotificationService notificationService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _notificationService = notificationService;
         }
 
         public long CreateTrainingPlan(TrainingPlanDTO trainingPlanDTO)
         {
             var trainingPlan = CreateTrainingPlanBase(trainingPlanDTO);
             AddTrainingSessionsToPlan(trainingPlan, trainingPlanDTO);
+
+            var clientProfile = _unitOfWork.ProfileRepository.GetAll().Where(cp => cp.User == trainingPlan.Client).FirstOrDefault();
+            if (clientProfile == null)
+            {
+                throw new NotFoundException($"Profile with given email does not exist!");
+            }
+            var notificationDTO = new NewNotificationDTO
+            {
+                RecieverEmail = trainingPlan.Client.Email,
+                Content = $"Your training plan is complete!"
+            };
+
+            _notificationService.CreateNotification(notificationDTO);
             _unitOfWork.SaveChanges();
             return trainingPlan.Id;
         }

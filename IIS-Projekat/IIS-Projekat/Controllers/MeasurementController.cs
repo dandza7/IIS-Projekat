@@ -2,6 +2,7 @@
 using IIS_Projekat.Models.DTOs.Training.Plan;
 using IIS_Projekat.Services;
 using IIS_Projekat.Services.Impl;
+using IIS_Projekat.SupportClasses.Extensions;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,9 +28,9 @@ namespace IIS_Projekat.Controllers
         /// <response code="404">If patient's medical record was not found</response>
         [HttpPost("create", Name = "CreateMeasurement")]
         [Authorize(Roles = Roles.Customer)]
-        public ActionResult<long> CreateMeasurement([FromBody] NewMeasurementDTO measurementDTO, string email)
+        public ActionResult<long> CreateMeasurement([FromBody] NewMeasurementDTO measurementDTO)
         {
-            return Ok(_measurementService.CreateMeasurement(measurementDTO, email));
+            return Ok(_measurementService.CreateMeasurement(measurementDTO, User.GetEmail()));
         }
 
         /// <summary>

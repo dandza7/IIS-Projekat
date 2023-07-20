@@ -3,6 +3,7 @@ using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.Training.Plan;
 using IIS_Projekat.Services;
 using IIS_Projekat.Services.Impl;
+using IIS_Projekat.SupportClasses.Extensions;
 using IIS_Projekat.SupportClasses.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,9 +33,9 @@ namespace IIS_Projekat.Controllers
         /// <response code="404">If user's profile was not found</response>
         [HttpPost("notifications", Name = "GetUsersNotifications")]
         [Authorize(Roles = $"{Roles.Trainer}, {Roles.Doctors}, {Roles.Customer}")]
-        public ActionResult<PreviewNotificationDTO> GetUsersNotifications([FromBody] PaginationQuery paginationQuery, string email)
+        public ActionResult<PreviewNotificationDTO> GetUsersNotifications([FromBody] PaginationQuery paginationQuery)
         {
-            return Ok(_notificationService.GetUsersNotifications(paginationQuery, email));
+            return Ok(_notificationService.GetUsersNotifications(paginationQuery, User.GetEmail()));
         }
 
         /// <summary>
