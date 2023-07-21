@@ -82,5 +82,14 @@ namespace IIS_Projekat.Services.Impl
             trainingPlanRequestDTO.PatientInfo = patientInfo;
             return trainingPlanRequestDTO;
         }
+        public void DeleteTrainingPlanRequest(long id)
+        {
+            var trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.GetById(id);
+            if (trainingPlanRequest == null)
+            {
+                throw new NotFoundException($"Training plan request with ID: {id} does not exist!");
+            }
+            _unitOfWork.TrainingPlanRequestRepository.Delete(trainingPlanRequest);
+        }
     }
 }

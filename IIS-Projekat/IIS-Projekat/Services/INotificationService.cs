@@ -7,6 +7,7 @@ namespace IIS_Projekat.Services
     {
         public long CreateNotification(NewNotificationDTO newNotificationDTO);
         public PaginationWrapper<PreviewNotificationDTO> GetUsersNotifications(PaginationQuery paginationQuery, string email);
+        public long MarkNotificationAsRead(long notificationId);
         public int GetUnreadNotificationsCount(string email);
         public void DeleteNotification(long notificationId);
     }
