@@ -14,7 +14,7 @@ namespace IIS_Projekat.Models
         public ICollection<Measurement> Measurements { get; set; } = new List<Measurement>();
         public string Anamnesis { get; set; } = string.Empty;
         public float Height { get; set; } = 0;
-        public float Weight { get; set; } = 0;
+        public float Weight { get; set; }
         public string Therapy { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }

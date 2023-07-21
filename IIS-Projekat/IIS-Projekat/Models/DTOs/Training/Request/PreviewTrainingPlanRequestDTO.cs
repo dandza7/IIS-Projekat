@@ -6,5 +6,6 @@
         public string ClientFullName { get; set; }
         public int SessionsPerWeek { get; set; }
         public string TrainingGoal { get; set; }
+
     }
 }

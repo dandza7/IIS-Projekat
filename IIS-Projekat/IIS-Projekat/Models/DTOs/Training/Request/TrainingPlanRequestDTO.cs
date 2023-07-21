@@ -4,5 +4,6 @@
     {
         public int SessionsPerWeek { get; set; }
         public string TrainingGoal { get; set; }
+        public string TrainerEmail { get; set; }
     }
 }
