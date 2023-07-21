@@ -13,12 +13,14 @@ namespace IIS_Projekat.Services.Impl
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly INotificationService _notificationService;
+        private readonly IMedicalRecordService _medicalRecordService;
 
-        public TrainingPlanRequestService(IUnitOfWork unitOfWork, IMapper mapper, INotificationService notificationService)
+        public TrainingPlanRequestService(IUnitOfWork unitOfWork, IMapper mapper, INotificationService notificationService, IMedicalRecordService medicalRecordService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _notificationService = notificationService;
+            _medicalRecordService = medicalRecordService;
         }
 
         public PaginationWrapper<PreviewTrainingPlanRequestDTO> GetAll(PaginationQuery? paginationQuery)
@@ -40,6 +42,13 @@ namespace IIS_Projekat.Services.Impl
             {
                 throw new DuplicateItemException("User has already created a training plan request!");
             }
+            var trainer = _unitOfWork.UserRepository.GetAll().Where(u => u.Email == trainingPlanRequestDTO.TrainerEmail).FirstOrDefault();
+            if (trainer == null)
+            {
+                throw new NotFoundException($"Trainer with given email: {trainingPlanRequestDTO.TrainerEmail} does not exist!");
+            }
+            trainingPlanRequest.Trainer = trainer;
+            trainingPlanRequest.TrainerId = trainer.Id;
             trainingPlanRequest.Client = client;
             trainingPlanRequest.ClientId = client.Id;
             trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.Create(trainingPlanRequest);
@@ -59,7 +68,6 @@ namespace IIS_Projekat.Services.Impl
             _unitOfWork.SaveChanges();
             return trainingPlanRequest.Id;
         }
-
         public PreviewTrainingPlanRequestDTO GetById(long id)
         {
             var trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.GetById(id, tpr => tpr.Client);
@@ -70,6 +78,8 @@ namespace IIS_Projekat.Services.Impl
             var trainingPlanRequestDTO = _mapper.Map<PreviewTrainingPlanRequestDTO>(trainingPlanRequest);
             var client = _unitOfWork.UserRepository.GetById(trainingPlanRequest.ClientId, c => c.Profile);
             trainingPlanRequestDTO.ClientFullName = $"{client.Profile.Name} {client.Profile.Surname}";
+            var patientInfo = _medicalRecordService.GetByPatientId(client.Id);
+            trainingPlanRequestDTO.PatientInfo = patientInfo;
             return trainingPlanRequestDTO;
         }
     }

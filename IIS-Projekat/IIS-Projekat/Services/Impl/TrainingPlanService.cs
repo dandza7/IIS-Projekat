@@ -144,6 +144,13 @@ namespace IIS_Projekat.Services.Impl
             {
                 throw new BadHttpRequestException($"Training plan was not requested!");
             }
+            var trainer = _unitOfWork.UserRepository.GetById(trainingPlanRequest.TrainerId);
+            if (trainer == null)
+            {
+                throw new NotFoundException($"Trainer was not found in the database!");
+            }
+            trainingPlan.Trainer = trainer;
+            trainingPlan.TrainerId = trainer.Id;
 
             var client = _unitOfWork.UserRepository.GetAll().Where(c => c.Id == trainingPlanRequest.ClientId).FirstOrDefault();
             if (client == null)
