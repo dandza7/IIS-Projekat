@@ -104,7 +104,10 @@ namespace IIS_Projekat.Services.Impl
             }
             detailedDTO.Injuries = patientIjuries;
             detailedDTO.Measurements = _mapper.Map<List<PreviewMeasurementDTO>>(medicalRecord.Measurements);
-            detailedDTO.Weight = medicalRecord.Measurements.Last().Weight;
+            if (medicalRecord.Measurements.Count() > 0)
+            {
+                detailedDTO.Weight = medicalRecord.Measurements.Last().Weight;
+            }
             var trainingPlan = _unitOfWork.TrainingPlanRepository.GetAll().Where(tp => tp.ClientId == patientId).FirstOrDefault();
             detailedDTO.TrainingGoal = (trainingPlan == null) ? "No plan" : trainingPlan.TrainingGoal;
             detailedDTO.SessionsPerWeek = (trainingPlan == null) ? 0 : trainingPlan.SessionsPerWeek;
