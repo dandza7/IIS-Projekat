@@ -27,8 +27,8 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
                 .ForMember(up => up.Surname, opt => opt.MapFrom(src => src.Profile.Surname))
                 .ForMember(up => up.BirthDate, opt => opt.MapFrom(src => src.Profile.BirthDate))
                 .ForMember(up => up.Gender, opt => opt.MapFrom(src => src.Profile.Gender))
-                .ForMember(up => up.Weight, opt => opt.MapFrom(src => src.MedicalRecord.Weight))
                 .ForMember(up => up.Height, opt => opt.MapFrom(src => src.MedicalRecord.Height))
+                .ForMember(up => up.Weight, opt => opt.MapFrom(src => src.MedicalRecord.Weight))
                 .ForMember(up => up.Allergies, opt => opt.MapFrom(src => src.MedicalRecord.Allergies.Select(a => a.Name)))
                 .ForMember(up => up.Diagnoses, opt => opt.MapFrom(src => src.MedicalRecord.Diagnoses.Select(a => a.Name)))
                 .ForMember(up => up.Anamnesis, opt => opt.MapFrom(src => src.MedicalRecord.Anamnesis));

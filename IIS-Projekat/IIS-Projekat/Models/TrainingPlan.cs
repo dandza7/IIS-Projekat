@@ -14,5 +14,7 @@ namespace IIS_Projekat.Models
         public ICollection<TrainingSession> TrainingSessions { get; set; } = new List<TrainingSession>();
         public long ClientId { get; set; }
         public User Client { get; set; }
+        //public long TrainerId { get; set; }
+        //public User Trainer { get; set; }
     }
 }

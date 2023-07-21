@@ -14,5 +14,7 @@ namespace IIS_Projekat.Models
         public string TrainingGoal { get; set; }
         public long ClientId { get; set; }
         public User Client { get; set; }
+        //public long TrainerId { get; set; }
+        //public User Trainer { get; set; }
     }
 }
