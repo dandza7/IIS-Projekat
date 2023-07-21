@@ -4,5 +4,6 @@
     {
         public DateTime CreatedDate { get; set; }
         public string Content { get; set; }
+        public bool isRead { get; set; }
     }
 }
