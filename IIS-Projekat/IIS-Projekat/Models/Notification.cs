@@ -11,5 +11,6 @@ namespace IIS_Projekat.Models
         public bool IsDeleted { get; set; }
         public string Content { get; set; }
         public UsersProfile Reciever { get; set; }
+        public bool IsRead { get; set; } = false;
     }
 }

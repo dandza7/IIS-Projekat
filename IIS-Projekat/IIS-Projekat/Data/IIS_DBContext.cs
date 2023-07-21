@@ -31,6 +31,7 @@ namespace IIS_Projekat.Data
         public DbSet<FoodOrder> FoodOrders { get; set; }
         public DbSet<FoodSupplyReport> FoodSupplyReports { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -596,6 +597,9 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Measurement>().Property(m => m.Waist).IsRequired();
             modelBuilder.Entity<Measurement>().Property(m => m.Thigh).IsRequired();
             modelBuilder.Entity<Measurement>().Property(m => m.Calf).IsRequired();
+
+            modelBuilder.Entity<Notification>().HasQueryFilter(n => !n.IsDeleted);
+            modelBuilder.Entity<Notification>().HasKey(m => m.Id);
         }
     }
 }
