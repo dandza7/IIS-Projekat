@@ -1,6 +1,8 @@
 ﻿using IIS_Projekat.Models.DTOs.Notification;
 using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.Patient;
 using IIS_Projekat.Models.DTOs.Training.Plan;
+using IIS_Projekat.Models.DTOs.Training.Session;
 using IIS_Projekat.Services;
 using IIS_Projekat.Services.Impl;
 using IIS_Projekat.SupportClasses.Extensions;
@@ -36,6 +38,31 @@ namespace IIS_Projekat.Controllers
         public ActionResult<PreviewNotificationDTO> GetUsersNotifications([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_notificationService.GetUsersNotifications(paginationQuery, User.GetEmail()));
+        }
+
+        /// <summary>
+        /// [Doctors, Customer, Trainer] Marks notification as read
+        /// </summary>
+        /// <response code="200">If notification was updated successfully</response>
+        /// <response code="404">If notification was not found</response>
+        [HttpPut("update/{notificationId}", Name = "UpdateNotification")]
+        [Authorize(Roles = $"{Roles.Doctors}, {Roles.Trainer}, {Roles.Customer}")]
+        public ActionResult<long> MarkNotificationAsRead(long notificationId)
+        {
+            return Ok(_notificationService.MarkNotificationAsRead(notificationId));
+        }
+
+        /// <summary>
+        /// [Doctors, Customer, Trainer] Gets Count Of Users Unread Notifications
+        /// </summary>
+        /// <response code="200">If count was retrieved successfully</response>
+        /// <response code="404">If user was not found</response>
+        /// <response code="404">If user's profile was not found</response>
+        [HttpGet("notifications/unread-count", Name = "GetUnreadNotificationsCount")]
+        [Authorize(Roles = $"{Roles.Doctors}, {Roles.Customer}, {Roles.Trainer}")]
+        public ActionResult<int> GetUnreadNotificationsCount()
+        {
+            return Ok(_notificationService.GetUnreadNotificationsCount(User.GetEmail()));
         }
 
         /// <summary>

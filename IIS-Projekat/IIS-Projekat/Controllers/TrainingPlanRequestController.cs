@@ -73,5 +73,18 @@ namespace IIS_Projekat.Controllers
         {
             return Ok(_trainingPlanRequestService.GetById(id));
         }
+
+        /// <summary>
+        /// [Client] Deletes Training Plan Request
+        /// </summary>
+        /// <response code="200">If request is successfully deleted</response>
+        /// <response code="404">If request does not exist in the database</response>
+        [HttpDelete("delete/{id}", Name = "DeleteTrainingPlanRequest")]
+        [Authorize(Roles = Roles.Customer)]
+        public ActionResult DeleteExercise(long id)
+        {
+            _trainingPlanRequestService.DeleteTrainingPlanRequest(id);
+            return Ok();
+        }
     }
 }

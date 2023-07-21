@@ -50,9 +50,20 @@ namespace IIS_Projekat.Services.Impl
                 throw new NotFoundException($"User does not have a profile.");
             }
             var notifications = _unitOfWork.NotificationRepository.GetAll(n => n.Reciever).Where(n => n.Reciever == usersProfile).ToList();
-            notifications.ForEach(n => n.IsRead = true);
-            _unitOfWork.SaveChanges();
             return new PaginationWrapper<PreviewNotificationDTO>(_mapper.Map<List<PreviewNotificationDTO>>(notifications), notifications.Count);
+        }
+
+        public long MarkNotificationAsRead(long notificationId)
+        {
+            var notification = _unitOfWork.NotificationRepository.GetById(notificationId);
+            if (notification == null)
+            {
+                throw new NotFoundException("Notification with given ID does not exist.");
+            }
+            notification.IsRead = true;
+            notification.ModifiedDate = DateTime.Now;
+            _unitOfWork.SaveChanges();
+            return notification.Id;
         }
 
         public int GetUnreadNotificationsCount(string email)

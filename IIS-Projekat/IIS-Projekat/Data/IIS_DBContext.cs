@@ -302,15 +302,15 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<TrainingPlan>().Property(tp => tp.TrainingGoal).IsRequired();
             modelBuilder.Entity<TrainingPlan>().Property(tp => tp.SessionsPerWeek).IsRequired();
             modelBuilder.Entity<TrainingPlan>().HasMany(tp => tp.TrainingSessions).WithOne(ts => ts.TrainingPlan).OnDelete(DeleteBehavior.Cascade).IsRequired();
-            modelBuilder.Entity<TrainingPlan>().HasOne(tp => tp.Client).WithOne().HasForeignKey<TrainingPlan>(tp => tp.ClientId).IsRequired();
-            modelBuilder.Entity<TrainingPlan>().HasOne(tp => tp.Trainer).WithOne().HasForeignKey<TrainingPlan>(tp => tp.TrainerId).IsRequired().OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<TrainingPlan>().HasOne(tp => tp.Client).WithMany().HasForeignKey(tp => tp.ClientId).IsRequired();
+            modelBuilder.Entity<TrainingPlan>().HasOne(tp => tp.Trainer).WithMany().HasForeignKey(tp => tp.TrainerId).IsRequired().OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<TrainingPlanRequest>().HasQueryFilter(tpr => !tpr.IsDeleted);
             modelBuilder.Entity<TrainingPlanRequest>().HasKey(tpr => tpr.Id);
             modelBuilder.Entity<TrainingPlanRequest>().Property(tpr => tpr.SessionsPerWeek).IsRequired();
             modelBuilder.Entity<TrainingPlanRequest>().Property(tpr => tpr.TrainingGoal).IsRequired();
-            modelBuilder.Entity<TrainingPlanRequest>().HasOne(tpr => tpr.Client).WithOne().HasForeignKey<TrainingPlanRequest>(tp => tp.ClientId).IsRequired();
-            modelBuilder.Entity<TrainingPlanRequest>().HasOne(tp => tp.Trainer).WithOne().HasForeignKey<TrainingPlanRequest>(tp => tp.TrainerId).IsRequired().OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<TrainingPlanRequest>().HasOne(tpr => tpr.Client).WithMany().HasForeignKey(tp => tp.ClientId).IsRequired();
+            modelBuilder.Entity<TrainingPlanRequest>().HasOne(tp => tp.Trainer).WithMany().HasForeignKey(tp => tp.TrainerId).IsRequired().OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Diagnosis>().HasQueryFilter(d => !d.IsDeleted);
             modelBuilder.Entity<Diagnosis>().HasKey(d => d.Id);
