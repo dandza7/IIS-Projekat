@@ -95,7 +95,7 @@ namespace IIS_Projekat.Services.Impl
             {
                 throw new NotFoundException("Client with given Id does not exist!");
             }
-            var trainingPlan = _unitOfWork.TrainingPlanRepository.GetAll().Where(tp => tp.ClientId == client.Id).FirstOrDefault();
+            var trainingPlan = _unitOfWork.TrainingPlanRepository.GetAll(tp => tp.Trainer).Where(tp => tp.ClientId == client.Id).FirstOrDefault();
             if (trainingPlan == null)
             {
                 throw new NotFoundException($"Training plan for {client.Profile.Name} {client.Profile.Surname} has not been found!");
@@ -116,7 +116,7 @@ namespace IIS_Projekat.Services.Impl
 
             var notificationDTO = new NewNotificationDTO
             {
-                RecieverEmail = "trener@gmail.com",
+                RecieverEmail = trainingPlan.Trainer.Email,
                 Content = $"You have a training plan complaint from {client.Profile.Name} {client.Profile.Surname}!"
             };
 

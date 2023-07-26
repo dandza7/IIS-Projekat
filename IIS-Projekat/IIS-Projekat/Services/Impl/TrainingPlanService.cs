@@ -139,11 +139,11 @@ namespace IIS_Projekat.Services.Impl
         private TrainingPlan CreateTrainingPlanBase(TrainingPlanDTO trainingPlanDTO)
         {
             var trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.GetById(trainingPlanDTO.TrainingPlanRequestId);
-            var trainingPlan = _mapper.Map<TrainingPlan>(trainingPlanDTO);
             if (trainingPlanRequest == null)
             {
                 throw new BadHttpRequestException($"Training plan was not requested!");
             }
+            var trainingPlan = _mapper.Map<TrainingPlan>(trainingPlanDTO);
             var trainer = _unitOfWork.UserRepository.GetById(trainingPlanRequest.TrainerId);
             if (trainer == null)
             {
