@@ -123,6 +123,7 @@ namespace IIS_Projekat.Services.Impl
             user.Profile.Surname = updateOwnProfileDTO.Surname;
             user.Profile.BirthDate = updateOwnProfileDTO.BirthDate;
             user.Profile.Gender = updateOwnProfileDTO.Gender;
+            user.Profile.Biography = updateOwnProfileDTO.Biography;
             _unitOfWork.UserRepository.Update(user);
             _unitOfWork.SaveChanges();
         }
@@ -144,6 +145,7 @@ namespace IIS_Projekat.Services.Impl
             user.Profile.Surname = updateUsersProfileDTO.Surname;
             user.Profile.BirthDate = updateUsersProfileDTO.BirthDate;
             user.Profile.Gender = updateUsersProfileDTO.Gender;
+            user.Profile.Biography = updateUsersProfileDTO.Biography;
             _unitOfWork.UserRepository.Update(user);
             _unitOfWork.SaveChanges();
         }

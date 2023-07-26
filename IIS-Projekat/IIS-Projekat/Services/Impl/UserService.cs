@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.Training.Request;
 using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
@@ -29,6 +30,27 @@ namespace IIS_Projekat.Services.Impl
             var paginationResult = _unitOfWork.UserRepository.Filter(paginationQuery);
 
             return new PaginationWrapper<PreviewUserDTO>(_mapper.Map<List<PreviewUserDTO>>(paginationResult.Items), paginationResult.TotalCount);
+        }
+
+        public PaginationWrapper<PreviewTrainerDTO> GetAllTrainers(PaginationQuery? paginationQuery)
+        {
+
+            var trainers = _unitOfWork.UserRepository.GetAll(u => u.Profile).Where(u => u.Role == "Trainer").ToList();
+            ICollection<PreviewTrainerDTO> trainerDTOs = new List<PreviewTrainerDTO>();
+            foreach (var trainer in trainers)
+            {
+                string biography = (trainer.Profile.Biography == "") ? "Trainer does not have a biography" : trainer.Profile.Biography;
+                string fullName = (trainer.Profile.Name == null) ? "Trainer did not set up his profile." : trainer.Profile.Name;
+                PreviewTrainerDTO trainerDTO = new PreviewTrainerDTO
+                {
+                    FullName = fullName,
+                    Email = trainer.Email,
+                    Biography = biography,
+                    NumberOfClients = _unitOfWork.TrainingPlanRepository.GetAll().Where(tp => tp.Trainer == trainer).Count()
+                };
+                trainerDTOs.Add(trainerDTO);
+            }
+            return new PaginationWrapper<PreviewTrainerDTO>(trainerDTOs.ToList(), trainerDTOs.Count);
         }
 
         public long Register(NewUserDTO newUserDTO)
