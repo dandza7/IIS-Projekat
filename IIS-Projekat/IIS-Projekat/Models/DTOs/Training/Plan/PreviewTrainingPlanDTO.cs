@@ -2,7 +2,8 @@
 {
     public class PreviewTrainingPlanDTO
     {
-        public long Id { get; set; }
+        public long TrainingPlanId { get; set; }
+        public long ClientId { get; set; }
         public string ClientName { get; set; }
         public string TrainerName { get; set; }
         public string TrainingGoal { get; set; }

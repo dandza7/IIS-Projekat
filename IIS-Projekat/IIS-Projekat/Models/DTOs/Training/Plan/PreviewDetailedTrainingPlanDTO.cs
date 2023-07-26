@@ -4,7 +4,8 @@ namespace IIS_Projekat.Models.DTOs.Training.Plan
 {
     public class PreviewDetailedTrainingPlanDTO
     {
-        public long Id { get; set; }
+        public long TrainingPlanId { get; set; }
+        public long ClientId { get; set; }
         public string ClientName { get; set; }
         public string TrainingGoal { get; set; }
         public string SessionsPerWeek { get; set; }

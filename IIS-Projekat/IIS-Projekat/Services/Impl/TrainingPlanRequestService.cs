@@ -60,7 +60,7 @@ namespace IIS_Projekat.Services.Impl
             }
             var notificationDTO = new NewNotificationDTO
             {
-                RecieverEmail = "trener@gmail.com",
+                RecieverEmail = trainingPlanRequestDTO.TrainerEmail,
                 Content = $"You have a new training plan request from {clientProfile.Name} {clientProfile.Surname}!"
             };
             _notificationService.CreateNotification(notificationDTO);
