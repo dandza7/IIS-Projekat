@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IIS_Projekat.Models
 {
@@ -19,6 +20,8 @@ namespace IIS_Projekat.Models
         public long UserId { get; set; }
         public virtual User User { get; set; }
         public bool IsEmailSubscribed { get; set; } = false;
-        public ICollection<Notification> Notifications {get; set; } = new List<Notification>();
+        public ICollection<Notification> UsersNotifications { get; set; } = new List<Notification>();
+        [MaxLength(800)]
+        public string Biography { get; set; } = string.Empty;
     }
 }

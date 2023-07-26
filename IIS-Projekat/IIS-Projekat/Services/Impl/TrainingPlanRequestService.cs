@@ -23,13 +23,20 @@ namespace IIS_Projekat.Services.Impl
             _medicalRecordService = medicalRecordService;
         }
 
-        public PaginationWrapper<PreviewTrainingPlanRequestDTO> GetAll(PaginationQuery? paginationQuery)
+        public PaginationWrapper<PreviewTrainingPlanRequestDTO> GetAllForTrainer(PaginationQuery? paginationQuery, string email)
         {
-
-            var paginationResult = _unitOfWork.TrainingPlanRequestRepository.Filter(paginationQuery, tpr => tpr.Client, tpr => tpr.Client.Profile);
-
-            return new PaginationWrapper<PreviewTrainingPlanRequestDTO>(_mapper.Map<List<PreviewTrainingPlanRequestDTO>>(paginationResult.Items), paginationResult.TotalCount);
+            var trainer = _unitOfWork.UserRepository.GetAll().Where(u => u.Email == email).FirstOrDefault();
+            if (trainer == null)
+            {
+                throw new NotFoundException($"Trainer with given email does not exist!");
+            }
+            var trainingPlanRequests = _unitOfWork.TrainingPlanRequestRepository.GetAll(tpr => tpr.Client, tpr => tpr.Client.Profile)
+                .Where(tpr => tpr.Trainer == trainer).ToList();
+            var returnDTOs = _mapper.Map<List<PreviewTrainingPlanRequestDTO>>(trainingPlanRequests);
+            returnDTOs.ForEach(req => req.PatientInfo = _medicalRecordService.GetByPatientId(req.ClientId));
+            return new PaginationWrapper<PreviewTrainingPlanRequestDTO>(returnDTOs, returnDTOs.Count);
         }
+
         public long CreateTrainingPlanRequest(TrainingPlanRequestDTO trainingPlanRequestDTO, string email)
         {
             var trainingPlanRequest = _mapper.Map<TrainingPlanRequest>(trainingPlanRequestDTO);

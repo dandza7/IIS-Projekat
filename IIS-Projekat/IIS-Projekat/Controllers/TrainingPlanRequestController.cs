@@ -22,7 +22,7 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
-        /// [Trainer] Gets all the pending training plan requests (with pagination, sorting and filtering optional)
+        /// [Trainer] Gets all the pending training plan requests for trainer (with pagination, sorting and filtering optional)
         /// </summary>
         /// <remarks>
         /// Pagination constraints (Everything is case insenstive):
@@ -39,11 +39,11 @@ namespace IIS_Projekat.Controllers
         /// <br/>  >>>>> Operations: 0 - StringContains, 1 - StringEquals, 2 - NumberEquals, 3 - NumberLessThan, 4 - NumberGreaterThan
         /// </remarks>
         /// <response code="200">Returns all pending training plan requests</response>
-        [HttpPost(Name = "GetAll")]
+        [HttpPost("trainer", Name = "GetTrainingPlanRequestsForTrainer")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<IEnumerable<PreviewTrainingPlanRequestDTO>> GetAllTrainingPlanRequests([FromBody] PaginationQuery paginationQuery)
+        public ActionResult<IEnumerable<PreviewTrainingPlanRequestDTO>> GetATrainingPlanRequests([FromBody] PaginationQuery paginationQuery)
         {
-            return Ok(_trainingPlanRequestService.GetAll(paginationQuery));
+            return Ok(_trainingPlanRequestService.GetAllForTrainer(paginationQuery, User.GetEmail()));
         }
 
         /// <summary>
