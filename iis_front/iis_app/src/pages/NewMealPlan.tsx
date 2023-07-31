@@ -494,7 +494,7 @@ const NewMealPlan = () => {
                     <span>{patient?.gender}</span>
                   </div>
                   <div className={classes.spanFlex}>
-                    <label>Date of birth: </label>
+                    <label>Age: </label>
                     <span>{age(patient?.birthDate)}</span>
                   </div>
                   <div className={classes.spanFlex}>

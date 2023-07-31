@@ -7,9 +7,30 @@ import { useParams } from "react-router-dom";
 import utils from "./Utils.module.css";
 import JsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 
 const MyExercisePlan = () => {
   const authCtx = useContext(AuthContext);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [selectedExercise, setSelectedExercise] = useState(null);
+  const textAreaRef = useRef();
+  const navigate = useNavigate();
+  const [changed, setChanged] = React.useState(false);
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 0.5,
+    borderRadius: 3,
+  };
+
   type trainingSession = {
     name: string;
     exerciseInfo: [
@@ -17,6 +38,7 @@ const MyExercisePlan = () => {
         exerciseName: string;
         repetitionRange: string;
         numberOfSets: number;
+        isUnhappy: boolean;
       }
     ];
   };
@@ -34,16 +56,31 @@ const MyExercisePlan = () => {
             exerciseName: string;
             repetitionRange: string;
             numberOfSets: number;
+            isUnhappy: boolean;
           }
         ];
       }
     ];
   }>();
 
-  useEffect(() => {
-    console.log(authCtx.email);
+  const requestExerciseChangeHandler = () => {
+    fetch("http://localhost:5041/api/exercise/flag", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({
+        exerciseName: selectedExercise,
+        note: textAreaRef.current.value,
+      }),
+    }).then((response) => {
+      getPlan();
+      handleClose();
+    });
+  };
 
-    console.log(authCtx.token);
+  const getPlan = () => {
     fetch(
       "http://localhost:5041/api/training-plan/trainingPlanForClient?email=" +
         authCtx.email,
@@ -57,9 +94,12 @@ const MyExercisePlan = () => {
     )
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData);
         setPlan(actualData);
       });
+  };
+
+  useEffect(() => {
+    getPlan();
   }, []);
 
   const generatePDF = () => {
@@ -89,9 +129,9 @@ const MyExercisePlan = () => {
                 <span>{plan?.sessionsPerWeek}</span>
               </div>
               <div>
-                {plan?.trainingSessions.map(
+                {plan?.trainingSessions?.map(
                   (session: trainingSession, index) => (
-                    <div className={classes.tablesContainer}>
+                    <div className={classes.tablesContainer} key={index}>
                       <div className={utils.span}>
                         <span>Session name: </span>
                         <span>{session.name}</span>
@@ -102,14 +142,38 @@ const MyExercisePlan = () => {
                             <th>Name</th>
                             <th>Number of sets</th>
                             <th>Repetition range</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          {session.exerciseInfo.map((exercise, index) => (
-                            <tr key={index}>
+                          {session?.exerciseInfo?.map((exercise, index) => (
+                            <tr
+                              key={index}
+                              className={
+                                exercise?.isUnhappy
+                                  ? classes.unhappy
+                                  : classes.normal
+                              }
+                            >
                               <td>{exercise?.exerciseName}</td>
                               <td>{exercise?.numberOfSets}</td>
                               <td>{exercise?.repetitionRange}</td>
+                              <td>
+                                {" "}
+                                {!exercise?.isUnhappy && (
+                                  <button
+                                    className={classes.greenButton}
+                                    onClick={() => {
+                                      setSelectedExercise(
+                                        exercise?.exerciseName
+                                      );
+                                      handleOpen();
+                                    }}
+                                  >
+                                    Change
+                                  </button>
+                                )}
+                              </td>
                             </tr>
                           ))}
                         </tbody>
@@ -131,6 +195,50 @@ const MyExercisePlan = () => {
           Export PDF
         </button>
       </div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <div className={utils.modal}>
+            <div className={utils.modalTitle}>
+              <h2>Request exercise change</h2>
+            </div>
+            <div className={utils.modalContainer}>
+              <div className={classes.form}>
+                <span className={classes.span}>
+                  <label>Exercise name: </label>
+                  <p>{selectedExercise}</p>
+                </span>
+                <span className={classes.span}>
+                  <label>Note : </label>
+                  <textarea
+                    className={classes.note}
+                    ref={textAreaRef}
+                  ></textarea>
+                </span>
+                <br></br>
+                <div className={utils.buttonContainerRight}>
+                  <button
+                    className={utils.lightGreyButton}
+                    onClick={handleClose}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className={utils.greenButton}
+                    onClick={requestExerciseChangeHandler}
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 };

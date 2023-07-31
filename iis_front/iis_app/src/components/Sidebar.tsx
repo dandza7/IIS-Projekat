@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./Sidebar.module.css";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../store/auth-context";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -10,15 +10,22 @@ import PeopleIcon from "@mui/icons-material/People";
 import LogoutIcon from "@mui/icons-material/Logout";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuSharpIcon from "@mui/icons-material/MenuSharp";
+import Notifications from "@mui/icons-material/Notifications";
 import GroupIcon from "@mui/icons-material/Group";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+
 export const Sidebar = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   const [toggleMenu, setToggleMenu] = useState(true);
+
+  useEffect(() => {
+    authCtx.updateNotifications();
+  });
 
   const logoutHandler = () => {
     authCtx.logout();
@@ -39,8 +46,7 @@ export const Sidebar = () => {
           ></MenuSharpIcon>
         </button>
       </div>
-      {toggleMenu && <div className={classes.avatar}></div>}
-      {<div className={classes.avatarClosed}></div>}
+
       <ul className={classes.list}>
         <li className={classes.listItem}>
           <NavLink
@@ -64,7 +70,7 @@ export const Sidebar = () => {
               })}
             >
               <div className={classes.navLink}>
-                <AccountBoxIcon></AccountBoxIcon>
+                <RestaurantIcon></RestaurantIcon>
                 {toggleMenu && <span className={classes.text}>Meal plan</span>}
               </div>
             </NavLink>
@@ -79,7 +85,7 @@ export const Sidebar = () => {
               })}
             >
               <div className={classes.navLink}>
-                <AccountBoxIcon></AccountBoxIcon>
+                <FitnessCenterIcon></FitnessCenterIcon>
                 {toggleMenu && (
                   <span className={classes.text}>Training plan request</span>
                 )}
@@ -96,9 +102,9 @@ export const Sidebar = () => {
               })}
             >
               <div className={classes.navLink}>
-                <AccountBoxIcon></AccountBoxIcon>
+                <FitnessCenterIcon></FitnessCenterIcon>
                 {toggleMenu && (
-                  <span className={classes.text}>Training plan request</span>
+                  <span className={classes.text}>My training plan</span>
                 )}
               </div>
             </NavLink>
@@ -243,7 +249,7 @@ export const Sidebar = () => {
               })}
             >
               <div className={classes.navLink}>
-                <DashboardIcon></DashboardIcon>
+                <FitnessCenterIcon></FitnessCenterIcon>
                 {toggleMenu && <span>Exercises</span>}
               </div>
             </NavLink>
@@ -279,21 +285,33 @@ export const Sidebar = () => {
             </NavLink>
           </li>
         )}
-        {authCtx.role == "CUSTOMER" && (
-          <li className={classes.listItem}>
-            <NavLink
-              to=""
-              style={({ isActive }) => ({
-                color: isActive ? "#45FF93" : "#fff",
-              })}
-            >
-              <div className={classes.navLink}>
-                <DashboardIcon></DashboardIcon>
-                {toggleMenu && <span>Reservations</span>}
+
+        <li className={classes.listItem}>
+          <NavLink
+            to="/notifications"
+            style={({ isActive }) => ({
+              color: isActive ? "#45FF93" : "#fff",
+            })}
+          >
+            <div className={classes.navLink}>
+              <Notifications></Notifications>
+              {toggleMenu && (
+                <div className={classes.notifications}>
+                  <div className={classes.text}>Notifications</div>
+                </div>
+              )}
+              <div
+                className={
+                  toggleMenu
+                    ? classes.notificationCount
+                    : classes.notificationCountClosed
+                }
+              >
+                {authCtx.notificationCount}
               </div>
-            </NavLink>
-          </li>
-        )}
+            </div>
+          </NavLink>
+        </li>
       </ul>
       <button onClick={logoutHandler} className={classes.logoutButton}>
         <LogoutIcon fontSize="large"></LogoutIcon>

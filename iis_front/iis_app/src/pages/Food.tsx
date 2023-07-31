@@ -41,7 +41,6 @@ const Food = () => {
     plugins: { legend: { position: "right" } },
   };
   useEffect(() => {
-    console.log(foodName);
     fetch("http://localhost:5041/api/food", {
       method: "POST",
       headers: {
@@ -73,7 +72,6 @@ const Food = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData.items[0]);
         setFood(actualData.items[0]);
       });
   }, []);

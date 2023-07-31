@@ -11,7 +11,6 @@ const Exercises = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(authCtx.token);
     fetch("http://localhost:5041/api/exercise", {
       method: "POST",
       headers: {
@@ -24,7 +23,6 @@ const Exercises = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData.items);
         setExercises(actualData.items);
       });
   }, []);
@@ -46,13 +44,11 @@ const Exercises = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData.items);
         setExercises(actualData.items);
       });
   };
 
   const deleteExerciseHandler = (id: any) => {
-    console.log(id);
     fetch("http://localhost:5041/api/exercise/delete/" + id, {
       method: "DELETE",
       headers: {
@@ -80,7 +76,6 @@ const Exercises = () => {
           <table className={utils.styledTable}>
             <thead>
               <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Primary muscle group </th>
                 <th>Type </th>
@@ -89,7 +84,6 @@ const Exercises = () => {
             <tbody>
               {exercises.map((exercise) => (
                 <tr key={exercise.id}>
-                  <td>{exercise.id}</td>
                   <td>{exercise.name}</td>
                   <td>{exercise.primaryMuscleGroup}</td>
                   <td>{exercise.type}</td>

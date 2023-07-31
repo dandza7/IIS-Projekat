@@ -1,9 +1,17 @@
 .nexExercise {
+  width: 100%;
 }
 .nexExerciseForm {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 40%;
+  margin: auto;
+  border: 1px solid rgb(212, 207, 207);
+  border-radius: 1rem;
+  padding: 2rem;
+  padding-left: 6rem;
+  padding-right: 6rem;
 }
 .nexExerciseTitle {
   font-size: 64px;
@@ -34,12 +42,6 @@
   margin-bottom: 1rem;
 }
 
-.nutrientsContainer {
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-  color: var(--darkGrey);
-}
 .nameInput {
   width: 200px;
   padding: 0.1rem;
@@ -68,4 +70,5 @@
 }
 .secondaryMG {
   padding: 0.2rem;
+  display: block;
 }

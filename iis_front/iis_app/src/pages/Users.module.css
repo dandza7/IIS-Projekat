@@ -8,3 +8,10 @@
   font-size: 64px;
   margin-bottom: 2rem;
 }
+
+.read {
+}
+
+.notRead {
+  font-weight: 600;
+}

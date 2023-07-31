@@ -11,3 +11,40 @@
   font-weight: 600;
   align-items: center;
 }
+.pagination {
+  margin-top: 1rem;
+  background-color: white;
+  padding: 1rem;
+
+  border-radius: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pages {
+  display: flex;
+  gap: 1rem;
+}
+.goTo {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.page {
+  cursor: pointer;
+}
+.selectedPage {
+  font-weight: 800;
+  color: rgb(53, 212, 162);
+}
+
+.goButton {
+  height: 26px;
+  margin-left: -10px;
+  border: 1px solid rgb(197, 197, 197);
+  width: 35px;
+  cursor: pointer;
+  border-radius: 0rem 0.5rem 0.5rem 0rem;
+}

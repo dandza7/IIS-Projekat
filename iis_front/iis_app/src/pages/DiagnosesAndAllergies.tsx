@@ -190,10 +190,7 @@ const DiagnosesAndAllergies = () => {
                 </span>
                 <br></br>
                 <div className={utils.buttonContainerRight}>
-                  <button
-                    className={utils.lightGreyButton}
-                    onClick={handleClose}
-                  >
+                  <button className={utils.whiteButton} onClick={handleClose}>
                     Cancel
                   </button>
                   <button type="submit" className={utils.greenButton}>

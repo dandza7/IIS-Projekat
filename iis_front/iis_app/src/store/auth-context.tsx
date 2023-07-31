@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const AuthContext = React.createContext({
   token: "",
@@ -8,6 +8,8 @@ const AuthContext = React.createContext({
   isLoggedIn: false,
   login: (role: any, email: any, token: any) => {},
   logout: () => {},
+  notificationCount: null,
+  updateNotifications: () => {},
 });
 
 export const AuthContextProvider = (props: any) => {
@@ -16,6 +18,21 @@ export const AuthContextProvider = (props: any) => {
   const [role, setRole] = useState(localStorage.getItem("role"));
   const [email, setEmail] = useState(localStorage.getItem("email"));
   const userIsLoggedIn = token != null ? true : false;
+  const [notificationCount, setNotificationCount] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:5041/api/notification/notifications/unread-count", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        setNotificationCount(actualData);
+      });
+  }, [token]);
 
   const loginHandler = (role: string, email: string, token: string) => {
     setToken(token);
@@ -34,6 +51,20 @@ export const AuthContextProvider = (props: any) => {
     setToken(null);
   };
 
+  const updateNotificationsHandler = () => {
+    fetch("http://localhost:5041/api/notification/notifications/unread-count", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        setNotificationCount(actualData);
+      });
+  };
+
   const contextValue = {
     token: token,
     role: role,
@@ -41,6 +72,8 @@ export const AuthContextProvider = (props: any) => {
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    notificationCount: notificationCount,
+    updateNotifications: updateNotificationsHandler,
   };
 
   return (

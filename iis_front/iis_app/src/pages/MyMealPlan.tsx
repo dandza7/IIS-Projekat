@@ -24,7 +24,6 @@ const MyMealPlan = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData);
         setWholePlan(actualData);
       });
   }, []);

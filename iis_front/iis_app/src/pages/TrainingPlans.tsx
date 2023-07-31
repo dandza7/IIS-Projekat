@@ -23,19 +23,20 @@ const TrainingPlans = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
+        console.log(actualData.items);
         setUsers(actualData.items);
       });
   }, []);
 
   const respondHandler = (request: any) => {
-    navigate("/training-plans/" + request.id);
+    navigate("/training-plans/" + request.trainingPlanId);
   };
 
   return (
     <div>
       {" "}
       <div className={classes.trainingPlanRequest}>
-        <p className={utils.title}>Training Plan Requests</p>
+        <p className={utils.title}>Training Plans</p>
         {users && (
           <div className={utils.tableContainer}>
             <table className={utils.styledTable}>
@@ -48,8 +49,8 @@ const TrainingPlans = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((request) => (
-                  <tr key={request.id}>
+                {users.map((request, index) => (
+                  <tr key={index}>
                     <td>{request.clientName}</td>
                     <td>{request.sessionsPerWeek}</td>
                     <td>{request.trainingGoal}</td>

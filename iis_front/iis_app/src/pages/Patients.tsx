@@ -22,7 +22,6 @@ export const Patients = () => {
   const typeRef = useRef();
 
   useEffect(() => {
-    console.log(authCtx.token);
     fetch("http://localhost:5041/api/patients", {
       method: "POST",
       headers: {
@@ -54,7 +53,6 @@ export const Patients = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData.items);
         setUsers(actualData.items);
       });
   }, []);
@@ -91,8 +89,7 @@ export const Patients = () => {
     let ending1 = value?.add(1, "hour");
     let ending = dayjs(ending1).format("YYYY-MM-DDTHH:mm:ss.sss[Z]");
     event?.preventDefault();
-    console.log(selected);
-    console.log(value);
+
     fetch("http://localhost:5041/api/appointments/new", {
       method: "POST",
       headers: {

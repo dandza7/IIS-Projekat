@@ -11,7 +11,7 @@ const TrainingPlanRequests = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5041/api/training-plan-request", {
+    fetch("http://localhost:5041/api/training-plan-request/trainer", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,7 @@ const TrainingPlanRequests = () => {
     <div>
       <div className={classes.trainingPlanRequest}>
         <p className={utils.title}>Training Plan Requests</p>
-        {users.length > 0 && (
+        {users?.length !== 0 ? (
           <div className={utils.tableContainer}>
             <table className={utils.styledTable}>
               <thead>
@@ -50,7 +50,7 @@ const TrainingPlanRequests = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((request) => (
+                {users?.map((request) => (
                   <tr key={request.id}>
                     <td>{request.clientFullName}</td>
                     <td>{request.sessionsPerWeek}</td>
@@ -68,8 +68,9 @@ const TrainingPlanRequests = () => {
               </tbody>
             </table>
           </div>
+        ) : (
+          <h3>No pending requests</h3>
         )}
-        <h3>No pending requests</h3>
       </div>
     </div>
   );

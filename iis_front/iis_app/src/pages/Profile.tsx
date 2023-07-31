@@ -147,7 +147,7 @@ const Profile = () => {
                 </div>
                 <div className={classes.span}>
                   <span>Birthdate: </span>
-                  <span>{user.birthDate}</span>
+                  <span>{dayjs(user.birthDate).format("DD.MM.YYYY")}</span>
                 </div>
               </div>
             </div>

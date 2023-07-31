@@ -50,6 +50,7 @@ import MealPlanPatients from "./pages/MealPlanPatients";
 import Appointment from "./pages/Appointment";
 import { TrainingPlanOverview } from "./pages/TrainingPlanOverview";
 import MyMealPlan from "./pages/MyMealPlan";
+import Notifications from "./pages/Notifications";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -65,6 +66,10 @@ const router = createBrowserRouter(
         <Route element={<PrivateRoutes />}>
           <Route path="/home" element={<Home></Home>}></Route>
           <Route path="/profile" element={<MyProfile></MyProfile>}></Route>
+          <Route
+            path="/notifications"
+            element={<Notifications></Notifications>}
+          ></Route>
           <Route
             path="/new-exercise"
             element={<NewExercise></NewExercise>}
