@@ -26,7 +26,7 @@ const Notifications = () => {
     width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 0.5,
+    p: 0.4,
     borderRadius: 3,
   };
 
