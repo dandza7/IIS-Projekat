@@ -396,17 +396,21 @@ const NewTrainingPlan = () => {
                             }
                           ></div>
                           <div className={classes.amountContainer}>
-                            <span>Number of sets :</span>
-                            <input
-                              ref={selectedNumberOfSetsRef}
-                              className={classes.amountInput}
-                            ></input>
-                            <span>Repetition range :</span>
-                            <select ref={selectedExerciseRangeRef}>
-                              {ranges.map((range, index) => (
-                                <option id={index}>{range}</option>
-                              ))}
-                            </select>
+                            <div className={classes.nosContainer}>
+                              <span>Number of sets :</span>
+                              <input
+                                ref={selectedNumberOfSetsRef}
+                                className={classes.amountInput}
+                              ></input>
+                            </div>
+                            <div className={classes.repContainer}>
+                              <span>Repetition range :</span>
+                              <select ref={selectedExerciseRangeRef}>
+                                {ranges.map((range, index) => (
+                                  <option id={index}>{range}</option>
+                                ))}
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </div>
