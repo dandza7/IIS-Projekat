@@ -28,7 +28,7 @@
 
 .navListItem > a:hover {
   text-decoration: none;
-  color: var(--selectedGreen);
+  color: var(--lightGreen);
 }
 
 .loginButton {

@@ -89,13 +89,15 @@ const NewExercise = () => {
                 return (
                   <div key={index} className={classes.secondaryMG}>
                     {" "}
-                    <input
-                      type="checkbox"
-                      name={group.name}
-                      value={group.name}
-                      onChange={handleCheck}
-                    ></input>
-                    <label>{group.name}</label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name={group.name}
+                        value={group.name}
+                        onChange={handleCheck}
+                      ></input>
+                      {group.name}
+                    </label>
                   </div>
                 );
               })}

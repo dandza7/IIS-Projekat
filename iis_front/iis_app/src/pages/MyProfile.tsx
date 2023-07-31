@@ -49,6 +49,7 @@ const MyProfile = () => {
         gender: enteredGender,
         surname: enteredSurname,
         birthDate: "2023-04-12T21:01:31.611Z",
+        biography: "",
       }),
       headers: {
         "Content-Type": "application/json",
@@ -62,13 +63,11 @@ const MyProfile = () => {
         }
       })
       .then((data) => {
-        console.log(data);
         setSaved(true);
       });
   };
 
   useEffect(() => {
-    console.log(authCtx.token);
     fetch("http://localhost:5041/api/profiles", {
       method: "GET",
       headers: {
@@ -78,7 +77,6 @@ const MyProfile = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData);
         setUser(actualData);
       });
   }, [saved]);
@@ -113,14 +111,16 @@ const MyProfile = () => {
                 </div>
                 <div className={classes.span}>
                   <span>Birthdate: </span>
-                  <span>{user.birthDate}</span>
+                  <span>{dayjs(user.birthDate).format("DD.MM.YYYY")}</span>
                 </div>
               </div>
             </div>
-            <button className={utils.whiteButton} onClick={handleToggleEdit}>
-              <EditIcon></EditIcon>
-              Edit Profile
-            </button>
+            <div className={classes.buttonContainer}>
+              <button className={utils.whiteButton} onClick={handleToggleEdit}>
+                <EditIcon></EditIcon>
+                Edit Profile
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -128,49 +128,53 @@ const MyProfile = () => {
         <div className={classes.myProfile}>
           <div className={utils.title}>Edit Profile</div>
           <div className={classes.inputContainerVerticalEdit}>
-            <div className={classes.spanEdit}>
-              <span>Name: </span>
-              <input
-                ref={nameInputRef}
-                defaultValue={user.name}
-                className={classes.input}
-              ></input>
-            </div>
-            <div className={classes.spanEdit}>
-              <span>Surname: </span>
-              <input
-                ref={surnameInputRef}
-                defaultValue={user.surname}
-                className={classes.input}
-              ></input>
-            </div>
-            <div className={classes.spanEdit}>
-              <span>Gender: </span>
-              <select
-                defaultValue={user.gender}
-                ref={genderRef}
-                className={classes.select}
-              >
-                {genders.map((gender, index) => {
-                  return <option key={index}>{gender}</option>;
-                })}
-              </select>
-            </div>
-            <div className={classes.spanEdit}>
-              <span>Birthdate: </span>
-              <div className={classes.container}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    renderInput={(props) => <TextField {...props} />}
-                    value={value}
-                    onChange={(newValue) => {
-                      setValue(newValue);
-                    }}
-                  />
-                </LocalizationProvider>
+            <div className={classes.inputContainer}>
+              <div>
+                <div className={classes.spanEdit}>
+                  <span>Name: </span>
+                  <input
+                    ref={nameInputRef}
+                    defaultValue={user.name}
+                    className={classes.input}
+                  ></input>
+                </div>
+                <div className={classes.spanEdit}>
+                  <span>Surname: </span>
+                  <input
+                    ref={surnameInputRef}
+                    defaultValue={user.surname}
+                    className={classes.input}
+                  ></input>
+                </div>
+                <div className={classes.spanEdit}>
+                  <span>Gender: </span>
+                  <select
+                    defaultValue={user.gender}
+                    ref={genderRef}
+                    className={classes.select}
+                  >
+                    {genders.map((gender, index) => {
+                      return <option key={index}>{gender}</option>;
+                    })}
+                  </select>
+                </div>
+                <div className={classes.spanEdit}>
+                  <span>Birthdate: </span>
+                  <div className={classes.container}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        renderInput={(props) => <TextField {...props} />}
+                        value={value}
+                        onChange={(newValue) => {
+                          setValue(newValue);
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className={utils.buttonContainer}>
+            <div className={classes.buttonContainer}>
               <button className={utils.redButton} onClick={handleCloseEdit}>
                 Close
               </button>

@@ -12,7 +12,6 @@ const Recipes = () => {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    console.log(authCtx.token);
     fetch("http://localhost:5041/api/recipes", {
       method: "POST",
       headers: {
@@ -25,7 +24,6 @@ const Recipes = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData.items);
         setRecipes(actualData.items);
       });
   }, []);

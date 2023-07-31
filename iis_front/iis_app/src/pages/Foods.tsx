@@ -8,15 +8,21 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import utils from "./Utils.module.css";
+import Paginations from "../components/Paginations";
 
 const Food = () => {
   const navigate = useNavigate();
 
   const [foodList, setfoodList] = useState<any[]>([]);
   const authCtx = useContext(AuthContext);
+  const [totalCount, setTotalCount] = useState(null);
+  const [selectedPage, setSelectedPage] = useState(1);
+
+  const changePage = (page: number) => {
+    setSelectedPage(page);
+  };
 
   useEffect(() => {
-    console.log(authCtx.token);
     fetch("http://localhost:5041/api/food", {
       method: "POST",
       headers: {
@@ -24,15 +30,22 @@ const Food = () => {
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        paginationQuery: {},
+        pageSize: 5,
+        page: selectedPage,
+        order: [
+          {
+            orderField: "ID",
+            ordering: "ASC",
+          },
+        ],
       }),
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData.items);
         setfoodList(actualData.items);
+        setTotalCount(actualData.totalCount);
       });
-  }, []);
+  }, [selectedPage]);
 
   const selectFoodHandler = (name: any) => {
     navigate("/food/" + name);
@@ -89,6 +102,7 @@ const Food = () => {
           ))}
         </tbody>
       </table>
+      <Paginations change={changePage} totalCount={totalCount}></Paginations>
     </div>
   );
 };

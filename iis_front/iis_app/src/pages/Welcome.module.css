@@ -44,7 +44,7 @@
 }
 
 .bannerButton {
-  background-color: var(--acceptButtonGreen);
+  background-color: rgb(41, 170, 106);
   padding: 1.2rem 1.5rem;
   color: rgb(255, 255, 255);
   border: none;

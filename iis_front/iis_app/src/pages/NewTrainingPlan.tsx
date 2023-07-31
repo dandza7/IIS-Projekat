@@ -8,25 +8,39 @@ import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import Select from "react-select";
 
 const NewTrainingPlan = () => {
   const authCtx = useContext(AuthContext);
   const listRef = useRef([]);
   const [allExercises, setAllExercises] = useState<any[]>([]);
   const [open, setOpen] = React.useState(false);
-  const selectedNumberOfSetsRef = useRef();
-  const selectedExerciseRangeRef = useRef();
+  const primaryMuscleRef = useRef(null);
+  const secondaryMuscleRef = useRef(null);
+  const natureRef = useRef(null);
+  const selectedNumberOfSetsRef = useRef(null);
+  const selectedExerciseRangeRef = useRef(null);
   const [selecetedSession, setSelectedSession] = useState(1);
   const [exercises, setExercises] = useState<any[]>([]);
   const [selectedExercise, setSelectedExercise] = useState(null);
+  const [muscleGroups, setMuscleGroups] = useState<any[]>([]);
+  const [selectedPrimary, setSelectedPrimary] = useState(null);
+  const [selectedSecondary, setSelectedSecondary] = useState(null);
+  const [selectedNature, setSelectedNature] = useState(null);
+
   const [request, setRequest] = useState<{
     clientFullName: string;
     trainingGoal: string;
     sessionsPerWeek: number;
+    clientId: number;
   }>();
 
   const ranges = ["5-8", "8-12", "12-15", "15-20"];
-
+  const natures = [
+    { label: "Hypertropy", value: "Hypertropy" },
+    { label: "Rehabilitaion", value: "Rehabilitation" },
+    { label: "Both", value: "Both" },
+  ];
   const handleOpen = (i: number) => {
     setOpen(true);
     setSelectedExercise(null);
@@ -35,40 +49,40 @@ const NewTrainingPlan = () => {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    console.log(localStorage.getItem("requestId"));
-    fetch("http://localhost:5041/api/training-plan-request", {
+    fetch("http://localhost:5041/api/muscle-group", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        pageSize: 0,
-        page: 0,
-        order: [
-          {
-            orderField: "ID",
-            ordering: "ASC",
-          },
-        ],
-        filters: [
-          {
-            property: "Id",
-            connecting: 0,
-            filterValues: [
-              {
-                value: localStorage.getItem("requestId"),
-                operation: 2,
-              },
-            ],
-          },
-        ],
+        paginationQuery: {},
       }),
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData.items[0]);
-        setRequest(actualData.items[0]);
+        console.log(actualData.items);
+        const mGroups: any = [];
+        actualData.items.map((item: any) => {
+          mGroups.push({ label: item.name, value: item.name });
+        });
+        setMuscleGroups(mGroups);
+      });
+  }, []);
+
+  useEffect(() => {
+    const requestId = localStorage.getItem("requestId");
+    fetch("http://localhost:5041/api/training-plan-request/" + requestId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        console.log(actualData);
+        setRequest(actualData);
       });
   }, []);
 
@@ -151,22 +165,49 @@ const NewTrainingPlan = () => {
       });
   };
 
-  useEffect(() => {
-    console.log(authCtx.token);
-    fetch("http://localhost:5041/api/exercise", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + authCtx.token,
-      },
-      body: JSON.stringify({}),
-    })
-      .then((response) => response.json())
-      .then((actualData) => {
-        console.log(actualData.items);
-        setAllExercises(actualData.items);
-      });
-  }, []);
+  const fetchExercises = (isInital: boolean) => {
+    if (isInital) {
+      fetch(
+        "http://localhost:5041/api/exercise/suitableForClient/" +
+          request?.clientId,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + authCtx.token,
+          },
+          body: JSON.stringify({}),
+        }
+      )
+        .then((response) => response.json())
+        .then((actualData) => {
+          console.log(actualData.items);
+          setAllExercises(actualData.items);
+        });
+    } else {
+      fetch(
+        "http://localhost:5041/api/exercise/suitableForClient/" +
+          request?.clientId,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + authCtx.token,
+          },
+          body: JSON.stringify({
+            primaryMuscleGroup: selectedPrimary?.value,
+            secondarymuscleGroup: selectedSecondary?.value,
+            exerciseNature: selectedNature?.value,
+          }),
+        }
+      )
+        .then((response) => response.json())
+        .then((actualData) => {
+          console.log(actualData.items);
+          setAllExercises(actualData.items);
+        });
+    }
+  };
 
   const style = {
     position: "absolute" as "absolute",
@@ -226,7 +267,10 @@ const NewTrainingPlan = () => {
                           <th>
                             <AddIcon
                               fontSize="small"
-                              onClick={() => handleOpen(i + 1)}
+                              onClick={() => {
+                                handleOpen(i + 1);
+                                fetchExercises(true);
+                              }}
                             ></AddIcon>
                           </th>
                         </tr>
@@ -275,12 +319,45 @@ const NewTrainingPlan = () => {
 
               <div className={utils.modalContainer}>
                 <div className={classes.dalContainer}>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Search all exercises..."
-                      className={classes.allergySearchInput}
-                    ></input>
+                  <div className={classes.filtersContainer}>
+                    <div className={classes.filterContainer}>
+                      <label>Primary target muscle: </label>
+                      <Select
+                        name="name"
+                        isClearable
+                        options={muscleGroups}
+                        onChange={setSelectedPrimary}
+                        placeholder={"Primary muscle group"}
+                      />
+                    </div>
+                    <div className={classes.filterContainer}>
+                      <label>Secondary target muscle: </label>
+                      <Select
+                        name="names"
+                        isClearable
+                        options={muscleGroups}
+                        onChange={setSelectedSecondary}
+                        placeholder={"Secondary muscle group"}
+                      />
+                    </div>
+                    <div className={classes.filterContainer}>
+                      <label>Exercise nature: </label>
+                      <Select
+                        name="names"
+                        isClearable
+                        options={natures}
+                        onChange={setSelectedNature}
+                        placeholder={"Exercise nature"}
+                      />
+                    </div>
+                  </div>
+                  <div className={classes.buttonContainerCenter}>
+                    <button
+                      className={utils.greenButton}
+                      onClick={() => fetchExercises(false)}
+                    >
+                      Search
+                    </button>
                   </div>
                   <div className={classes.tableContainer}>
                     <table className={classes.styledTable}>
@@ -291,7 +368,7 @@ const NewTrainingPlan = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {allExercises.map((exercise, index) => (
+                        {allExercises?.map((exercise, index) => (
                           <tr key={index}>
                             <td>{exercise.name}</td>
                             <td>
@@ -319,17 +396,21 @@ const NewTrainingPlan = () => {
                             }
                           ></div>
                           <div className={classes.amountContainer}>
-                            <span>Number of sets :</span>
-                            <input
-                              ref={selectedNumberOfSetsRef}
-                              className={classes.amountInput}
-                            ></input>
-                            <span>Repetition range :</span>
-                            <select ref={selectedExerciseRangeRef}>
-                              {ranges.map((range, index) => (
-                                <option id={index}>{range}</option>
-                              ))}
-                            </select>
+                            <div className={classes.nosContainer}>
+                              <span>Number of sets :</span>
+                              <input
+                                ref={selectedNumberOfSetsRef}
+                                className={classes.amountInput}
+                              ></input>
+                            </div>
+                            <div className={classes.repContainer}>
+                              <span>Repetition range :</span>
+                              <select ref={selectedExerciseRangeRef}>
+                                {ranges.map((range, index) => (
+                                  <option id={index}>{range}</option>
+                                ))}
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </div>

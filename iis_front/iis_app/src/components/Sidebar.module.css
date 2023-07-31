@@ -82,3 +82,33 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.notifications {
+  display: flex;
+}
+.notificationCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255, 255, 255);
+  background-color: rgb(32, 182, 110);
+  padding: 0.1rem 0.3rem;
+  font-size: 10px;
+  border-radius: 50%;
+  position: absolute;
+  margin-left: 7.5rem;
+  margin-top: -1rem;
+}
+.notificationCountClosed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255, 255, 255);
+  background-color: rgb(32, 182, 110);
+  padding: 0.1rem 0.3rem;
+  font-size: 10px;
+  border-radius: 50%;
+  position: absolute;
+  margin-left: 2.3rem;
+  margin-top: -1.5rem;
+}

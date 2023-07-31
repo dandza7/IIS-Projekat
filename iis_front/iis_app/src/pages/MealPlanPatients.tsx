@@ -15,7 +15,6 @@ const MealPlanPatients = () => {
   const typeRef = useRef();
 
   useEffect(() => {
-    console.log(authCtx.token);
     fetch("http://localhost:5041/api/patients", {
       method: "POST",
       headers: {
@@ -47,7 +46,6 @@ const MealPlanPatients = () => {
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData.items);
         setUsers(actualData.items);
       });
   }, []);
