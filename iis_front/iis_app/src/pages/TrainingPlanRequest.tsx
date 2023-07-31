@@ -185,12 +185,11 @@ const TrainingPlanRequest = () => {
                     <div className={classes.smallTitle}>{trainer.fullName}</div>
                     <div>
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Quae expedita voluptates harum veniam a pariatur, eveniet
-                      perferendis numquam molestias id mollitia dolorum qui
-                      necessitatibus ratione distinctio. Iste, nesciunt vel!
-                      Impedit voluptate reprehenderit tempore libero earum
-                      accusamus, tempora voluptas eligendi quisquam modi est
-                      debitis perferendis, ratione, saepe et sequi?
+                      Molestiae vitae officiis id debitis, quam eligendi maiores
+                      nihil blanditiis harum corrupti soluta asperiores
+                      consequatur perferendis pariatur at dolorum officia
+                      dolorem ratione voluptatibus voluptas cumque delectus ad!
+                      Aliquid doloribus officia ut velit!
                     </div>
                   </div>
                 ))}
