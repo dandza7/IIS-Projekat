@@ -89,6 +89,7 @@
   width: 200px;
   height: 200px;
   background-color: rgb(239, 239, 239);
+  padding-left: 0.5rem;
 }
 .form {
   display: flex;
@@ -103,5 +104,6 @@
 }
 
 .unhappy {
-  color: red;
+  color: rgb(243, 30, 30);
+  font-weight: 600;
 }

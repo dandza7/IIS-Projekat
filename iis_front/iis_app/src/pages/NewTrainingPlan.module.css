@@ -285,7 +285,8 @@
 }
 
 .unhappy {
-  color: red;
+  color: rgb(243, 30, 30);
+  font-weight: 600;
 }
 
 .filtersContainer {
