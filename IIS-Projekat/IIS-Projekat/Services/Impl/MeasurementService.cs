@@ -3,6 +3,8 @@ using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Measurement;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 using IIS_Projekat.Repositories;
+using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.Training.Request;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -37,7 +39,7 @@ namespace IIS_Projekat.Services.Impl
             return measurement.Id;
         }
 
-        public ICollection<PreviewMeasurementDTO> GetMeasurementsForPatient(long id, string filter)
+        public PaginationWrapper<PreviewMeasurementDTO> GetMeasurementsForPatient(PaginationQuery? paginationQuery, long id, string filter)
         {
             var patient = _unitOfWork.UserRepository.GetById(id);
             if (patient == null)
@@ -64,7 +66,10 @@ namespace IIS_Projekat.Services.Impl
                         Where(m => m.MedicalRecordId == medicalRecord.Id).ToList();
                     break;
             }
-            return _mapper.Map<List<PreviewMeasurementDTO>>(measurements);
+            return new PaginationWrapper<PreviewMeasurementDTO>(
+                _mapper.Map<List<PreviewMeasurementDTO>>(measurements.Skip((paginationQuery.Page - 1) * paginationQuery.PageSize).Take(paginationQuery.PageSize)),
+                measurements.Count
+            );
         }
     }
 }
