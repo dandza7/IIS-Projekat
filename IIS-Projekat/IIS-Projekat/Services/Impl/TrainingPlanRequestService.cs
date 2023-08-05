@@ -40,7 +40,7 @@ namespace IIS_Projekat.Services.Impl
         public long CreateTrainingPlanRequest(TrainingPlanRequestDTO trainingPlanRequestDTO, string email)
         {
             var trainingPlanRequest = _mapper.Map<TrainingPlanRequest>(trainingPlanRequestDTO);
-            var client = _unitOfWork.UserRepository.GetAll().Where(c => c.Email == email).FirstOrDefault();
+            var client = _unitOfWork.UserRepository.GetAll(c => c.Profile).Where(c => c.Email == email).FirstOrDefault();
             if(client == null)
             {
                 throw new NotFoundException($"User with email: {email} does not exists!");
@@ -49,7 +49,7 @@ namespace IIS_Projekat.Services.Impl
             {
                 throw new DuplicateItemException("User has already created a training plan request!");
             }
-            var trainer = _unitOfWork.UserRepository.GetAll().Where(u => u.Email == trainingPlanRequestDTO.TrainerEmail).FirstOrDefault();
+            var trainer = _unitOfWork.UserRepository.GetAll(t => t.Profile).Where(u => u.Email == trainingPlanRequestDTO.TrainerEmail).FirstOrDefault();
             if (trainer == null)
             {
                 throw new NotFoundException($"Trainer with given email: {trainingPlanRequestDTO.TrainerEmail} does not exist!");
@@ -60,17 +60,7 @@ namespace IIS_Projekat.Services.Impl
             trainingPlanRequest.ClientId = client.Id;
             trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.Create(trainingPlanRequest);
 
-            var clientProfile = _unitOfWork.ProfileRepository.GetAll().Where(cp => cp.User == client).FirstOrDefault();
-            if(clientProfile == null)
-            {
-                throw new NotFoundException($"Profile with given email does not exist!");
-            }
-            var notificationDTO = new NewNotificationDTO
-            {
-                RecieverEmail = trainingPlanRequestDTO.TrainerEmail,
-                Content = $"You have a new training plan request from {clientProfile.Name} {clientProfile.Surname}!"
-            };
-            _notificationService.CreateNotification(notificationDTO);
+            HandleNotifications(client, trainer);
 
             _unitOfWork.SaveChanges();
             return trainingPlanRequest.Id;
@@ -97,6 +87,32 @@ namespace IIS_Projekat.Services.Impl
                 throw new NotFoundException($"Training plan request with ID: {id} does not exist!");
             }
             _unitOfWork.TrainingPlanRequestRepository.Delete(trainingPlanRequest);
+        }
+
+        private void HandleNotifications(User client, User trainer)
+        {
+            if (client.Profile == null)
+            {
+                throw new NotFoundException($"Profile with given email does not exist!");
+            }
+            var notificationDTO = new NewNotificationDTO
+            {
+                RecieverEmail = trainer.Email,
+                Content = $"You have a new training plan request from {client.Profile.Name} {client.Profile.Surname}!"
+            };
+            _notificationService.CreateNotification(notificationDTO);
+            if (trainer.Profile.IsEmailSubscribed)
+            {
+                var newEmail = new MailData
+                {
+                    To = trainer.Email,
+                    Subject = "New Training Plan Request",
+                    Body = $"Hello {trainer.Profile.Name},\n\n" +
+                    $"You have new training plan request from {client.Profile.Name} {client.Profile.Surname}." +
+                    $"\n\nRegards,\nIIS Wellness Center."
+                };
+                _notificationService.SendAsync(newEmail, default);
+            }
         }
     }
 }

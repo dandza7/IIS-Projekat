@@ -1,4 +1,5 @@
-﻿using IIS_Projekat.Models.DTOs.Notification;
+﻿using IIS_Projekat.Models;
+using IIS_Projekat.Models.DTOs.Notification;
 using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.Patient;
 using IIS_Projekat.Models.DTOs.Training.Plan;
@@ -64,6 +65,13 @@ namespace IIS_Projekat.Controllers
         {
             return Ok(_notificationService.GetUnreadNotificationsCount(User.GetEmail()));
         }
+
+        /*[HttpPost("send-email", Name = "SendEmail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SendMailAsync(MailData mailData)
+        {
+            return Ok(await _notificationService.SendAsync(mailData, new CancellationToken()));
+        }*/
 
         /// <summary>
         /// [Trainer, Doctors, Customer] Deletes Notification

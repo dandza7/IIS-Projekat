@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using IIS_Projekat.Configuration;
 using IIS_Projekat.Data;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.Services;
@@ -7,6 +8,7 @@ using IIS_Projekat.Services.Impl;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler;
 using IIS_Projekat.SupportClasses.JWToken;
 using IIS_Projekat.SupportClasses.Validators;
+using MailKit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -53,6 +55,8 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+// MailingService
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection(nameof(MailSettings)));
 
 //JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -111,7 +115,6 @@ builder.Services.AddCors(options =>
         //builder.SetIsOriginAllowed(origin => true);
     });
 });
-
 
 var app = builder.Build();
 
