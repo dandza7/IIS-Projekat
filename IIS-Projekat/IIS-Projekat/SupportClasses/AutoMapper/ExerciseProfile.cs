@@ -11,6 +11,7 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
         public ExerciseProfile()
         {
             CreateMap<NewExerciseDTO, Exercise>();
+            CreateMap<PreviewExerciseDTO, PreviewExerciseDTO>();
             CreateMap<Exercise, PreviewExerciseDTO>()
                 .ForMember(e => e.Type, opt => opt.MapFrom(src => src.IsHypertrophic ? "Hypertrophic" : "Rehabilitation"))
                 .ForMember(e => e.PrimaryMuscleGroup, opt => opt.MapFrom(src => src.MuscleGroups.ToList().Where(emg => emg.IsPrimaryMuscleGroup == true).FirstOrDefault().MuscleGroup.Name));

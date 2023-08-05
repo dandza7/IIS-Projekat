@@ -45,10 +45,10 @@ namespace IIS_Projekat.Services.Impl
         }
         public PaginationWrapper<PreviewTrainingPlanDTO> GetAll(PaginationQuery paginationQuery)
         {
-            var trainingPlans = _unitOfWork.TrainingPlanRepository.Filter(paginationQuery, tp => tp.Client);
+            var trainingPlans = _unitOfWork.TrainingPlanRepository.GetAll(tp => tp.Client).ToList();
             ICollection<PreviewTrainingPlanDTO> trainingPlanDTOs = new List<PreviewTrainingPlanDTO>();
 
-            foreach(var trainingPlan in trainingPlans.Items)
+            foreach(var trainingPlan in trainingPlans)
             {
                 PreviewTrainingPlanDTO currentPlan = _mapper.Map<PreviewTrainingPlanDTO>(trainingPlan);
                 var client = _unitOfWork.UserRepository.GetById(trainingPlan.ClientId, c => c.Profile);

@@ -31,8 +31,8 @@ namespace IIS_Projekat.Services.Impl
             {
                 throw new NotFoundException($"Trainer with given email does not exist!");
             }
-            var trainingPlanRequests = _unitOfWork.TrainingPlanRequestRepository.GetAll(tpr => tpr.Client, tpr => tpr.Client.Profile).Where(tpr => tpr.Trainer == trainer).ToList();
-
+            var trainingPlanRequests = _unitOfWork.TrainingPlanRequestRepository.GetAll(tpr => tpr.Client, tpr => tpr.Client.Profile)
+                .Where(tpr => tpr.Trainer == trainer).ToList();
             var returnDTOs = _mapper.Map<List<PreviewTrainingPlanRequestDTO>>(trainingPlanRequests);
             returnDTOs.ForEach(req => req.PatientInfo = _medicalRecordService.GetByPatientId(req.ClientId));
             
