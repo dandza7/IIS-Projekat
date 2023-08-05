@@ -8,6 +8,7 @@ using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 using IIS_Projekat.SupportClasses.JWToken;
 using IIS_Projekat.SupportClasses.PasswordHasher;
 using IIS_Projekat.SupportClasses.Roles;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -50,7 +51,10 @@ namespace IIS_Projekat.Services.Impl
                 };
                 trainerDTOs.Add(trainerDTO);
             }
-            return new PaginationWrapper<PreviewTrainerDTO>(trainerDTOs.ToList(), trainerDTOs.Count);
+            return new PaginationWrapper<PreviewTrainerDTO>(
+                _mapper.Map<List<PreviewTrainerDTO>>(trainerDTOs.Skip((paginationQuery.Page - 1) * paginationQuery.PageSize).Take(paginationQuery.PageSize)),
+                trainerDTOs.Count
+            );
         }
 
         public long Register(NewUserDTO newUserDTO)
