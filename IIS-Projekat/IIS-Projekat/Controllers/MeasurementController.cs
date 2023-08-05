@@ -1,4 +1,5 @@
 ﻿using IIS_Projekat.Models.DTOs.Measurement;
+using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.Training.Plan;
 using IIS_Projekat.Services;
 using IIS_Projekat.Services.Impl;
@@ -48,9 +49,9 @@ namespace IIS_Projekat.Controllers
         /// <response code="404">If patient's medical record was not found</response>
         [HttpPost("getMeasurements/{customerId}", Name = "GetCustomersMeasurements")]
         [Authorize(Roles = $"{Roles.Trainer}, {Roles.Doctors}, {Roles.Customer}")]
-        public ActionResult<ICollection<PreviewMeasurementDTO>> GetCustomersMeasurements(long customerId, [FromBody] string filter)
+        public ActionResult<ICollection<PreviewMeasurementDTO>> GetCustomersMeasurements([FromBody] PaginationQuery paginationQuery, long customerId, [FromBody] string filter)
         {
-            return Ok(_measurementService.GetMeasurementsForPatient(customerId, filter));
+            return Ok(_measurementService.GetMeasurementsForPatient(paginationQuery, customerId, filter));
         }
     }
 }

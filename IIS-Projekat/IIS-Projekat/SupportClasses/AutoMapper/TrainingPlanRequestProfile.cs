@@ -9,6 +9,7 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
         public TrainingPlanRequestProfile()
         {
             CreateMap<TrainingPlanRequestDTO, TrainingPlanRequest>();
+            CreateMap<TrainingPlanRequestDTO, TrainingPlanRequestDTO>();
             CreateMap<TrainingPlanRequest, PreviewTrainingPlanRequestDTO>()
                 .ForMember(tpr => tpr.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(tpr => tpr.ClientId, opt => opt.MapFrom(src => src.ClientId))

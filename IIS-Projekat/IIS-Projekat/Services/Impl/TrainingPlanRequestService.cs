@@ -4,7 +4,8 @@ using IIS_Projekat.Models.DTOs.Notification;
 using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.Training.Request;
 using IIS_Projekat.Repositories;
-using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;  
+using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -34,7 +35,12 @@ namespace IIS_Projekat.Services.Impl
 
             var returnDTOs = _mapper.Map<List<PreviewTrainingPlanRequestDTO>>(trainingPlanRequests);
             returnDTOs.ForEach(req => req.PatientInfo = _medicalRecordService.GetByPatientId(req.ClientId));
-            return new PaginationWrapper<PreviewTrainingPlanRequestDTO>(returnDTOs, returnDTOs.Count);
+            
+            return new PaginationWrapper<PreviewTrainingPlanRequestDTO>
+            (
+                _mapper.Map<List<PreviewTrainingPlanRequestDTO>>(returnDTOs.Skip((paginationQuery.Page - 1) * paginationQuery.PageSize).Take(paginationQuery.PageSize)),
+                returnDTOs.Count()
+            );
         }
 
         public long CreateTrainingPlanRequest(TrainingPlanRequestDTO trainingPlanRequestDTO, string email)
