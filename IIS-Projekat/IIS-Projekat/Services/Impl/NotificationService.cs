@@ -1,9 +1,16 @@
 ﻿using AutoMapper;
+using IIS_Projekat.Configuration;
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Notification;
 using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
+using Microsoft.Extensions.Options;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using Microsoft.Extensions.Options;
+using MimeKit;
+using System.Net.Mail;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -11,11 +18,12 @@ namespace IIS_Projekat.Services.Impl
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
-        public NotificationService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly MailSettings _settings;
+        public NotificationService(IUnitOfWork unitOfWork, IMapper mapper, IOptions<MailSettings> settings)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _settings = settings.Value;
         }
 
         public long CreateNotification(NewNotificationDTO newNotificationDTO)
@@ -64,6 +72,68 @@ namespace IIS_Projekat.Services.Impl
             notification.ModifiedDate = DateTime.Now;
             _unitOfWork.SaveChanges();
             return notification.Id;
+        }
+
+        public async Task<bool> SendAsync(MailData mailData, CancellationToken ct = default)
+        {
+            try
+            {
+                // Initialize a new instance of the MimeKit.MimeMessage class
+                var mail = new MimeMessage();
+
+                #region Sender / Receiver
+                // Sender
+                mail.From.Add(new MailboxAddress(_settings.DisplayName, mailData.From ?? _settings.From));
+                mail.Sender = new MailboxAddress(mailData.DisplayName ?? _settings.DisplayName, mailData.From ?? _settings.From);
+
+                // Receiver
+                if(mailData.To != null)
+                {
+                    mail.To.Add(MailboxAddress.Parse(mailData.To));
+                }
+                    
+
+                // Set Reply to if specified in mail data
+                if (!string.IsNullOrEmpty(mailData.ReplyTo))
+                    mail.ReplyTo.Add(new MailboxAddress(mailData.ReplyToName, mailData.ReplyTo));
+
+                #endregion
+
+                #region Content
+
+                // Add Content to Mime Message
+                var body = new BodyBuilder();
+                mail.Subject = mailData.Subject;
+                body.HtmlBody = mailData.Body;
+                mail.Body = body.ToMessageBody();
+
+                #endregion
+
+                #region Send Mail
+
+                using var smtp = new MailKit.Net.Smtp.SmtpClient();
+
+                if (_settings.UseSSL)
+                {
+                    await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.SslOnConnect, ct);
+                }
+                else if (_settings.UseStartTls)
+                {
+                    await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.StartTls, ct);
+                }
+                await smtp.AuthenticateAsync(_settings.UserName, _settings.Password, ct);
+                await smtp.SendAsync(mail, ct);
+                await smtp.DisconnectAsync(true, ct);
+
+                #endregion
+
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public int GetUnreadNotificationsCount(string email)
