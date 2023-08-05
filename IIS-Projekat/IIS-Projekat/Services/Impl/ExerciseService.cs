@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using IIS_Projekat.SupportClasses.Roles;
 using System.Linq;
 using IIS_Projekat.Models.DTOs.Notification;
+using IIS_Projekat.Models.DTOs.Measurement;
+using System.Diagnostics.Metrics;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -44,7 +46,7 @@ namespace IIS_Projekat.Services.Impl
             return newExercise.Id;
         }
 
-        public PaginationWrapper<PreviewExerciseDTO> GetSuitableExercisesForClient(long clientId, ExerciseFilterDTO exerciseFilterDTO)
+        public PaginationWrapper<PreviewExerciseDTO> GetSuitableExercisesForClient(PaginationQuery? paginationQuery, long clientId, ExerciseFilterDTO exerciseFilterDTO)
         {
             var medicalRecord = _unitOfWork.MedicalRecordRepository.GetAll().Where(mr => mr.PatientId == clientId).FirstOrDefault();
             if(medicalRecord == null)
@@ -60,8 +62,10 @@ namespace IIS_Projekat.Services.Impl
             RemoveExercisesWithInjuredPrimaryMuscleGroups(suitableExercises, lowSeverityInjuries);
             RemoveExercisesWithInjuredMuscleGroups(suitableExercises, highSeverityInjuries);
             RemoveUnnecessaryRehabilitationExercises(suitableExercises, medicalRecord);
-
-            return new PaginationWrapper<PreviewExerciseDTO>(_mapper.Map<List<PreviewExerciseDTO>>(suitableExercises), suitableExercises.Count);
+            return new PaginationWrapper<PreviewExerciseDTO>(
+                _mapper.Map<List<PreviewExerciseDTO>>(suitableExercises.Skip((paginationQuery.Page - 1) * paginationQuery.PageSize).Take(paginationQuery.PageSize)),
+                suitableExercises.Count
+            );
         }
 
         public PaginationWrapper<PreviewExerciseDTO> GetAll(PaginationQuery? paginationQuery)
