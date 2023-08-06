@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import Paginations from "../components/Paginations";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
@@ -17,6 +18,12 @@ const Notifications = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [totalCount, setTotalCount] = useState(null);
+  const [selectedPage, setSelectedPage] = useState(1);
+
+  const changePage = (page: number) => {
+    setSelectedPage(page);
+  };
 
   const style = {
     position: "absolute" as "absolute",
@@ -38,18 +45,26 @@ const Notifications = () => {
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        paginationQuery: {},
+        pageSize: 5,
+        page: selectedPage,
+        order: [
+          {
+            orderField: "ID",
+            ordering: "ASC",
+          },
+        ],
       }),
     })
       .then((response) => response.json())
       .then((actualData) => {
         setNotifications(actualData.items);
+        setTotalCount(actualData.totalCount);
       });
   };
 
   useEffect(() => {
     fetchNotifications();
-  }, []);
+  }, [selectedPage]);
 
   const viewNotification = (notification: any) => {
     setSelectedNotification(notification);
@@ -115,6 +130,10 @@ const Notifications = () => {
               ))}
             </tbody>
           </table>
+          <Paginations
+            change={changePage}
+            totalCount={totalCount}
+          ></Paginations>
         </div>
       )}
       <Modal

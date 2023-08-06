@@ -8,11 +8,18 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
 import utils from "./Utils.module.css";
+import Paginations from "../components/Paginations";
 
 const DiagnosesAndAllergies = () => {
   const [toggleAllergies, setToggleAllergies] = useState(false);
   const [allergies, setAllergies] = useState<any[]>([]);
   const authCtx = useContext(AuthContext);
+  const [totalCount, setTotalCount] = useState(null);
+  const [selectedPage, setSelectedPage] = useState(1);
+
+  const changePage = (page: number) => {
+    setSelectedPage(page);
+  };
 
   useEffect(() => {
     console.log(authCtx.token);
@@ -23,15 +30,22 @@ const DiagnosesAndAllergies = () => {
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        paginationQuery: {},
+        pageSize: 5,
+        page: selectedPage,
+        order: [
+          {
+            orderField: "ID",
+            ordering: "ASC",
+          },
+        ],
       }),
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData.items);
         setAllergies(actualData.items);
+        setTotalCount(actualData.totalCount);
       });
-  }, []);
+  }, [selectedPage]);
 
   const diagnosisList = [
     { code: 50, name: "Ulcerative Colitis" },
@@ -164,6 +178,10 @@ const DiagnosesAndAllergies = () => {
                 ))}
               </tbody>
             </table>
+            <Paginations
+              change={changePage}
+              totalCount={totalCount}
+            ></Paginations>
           </div>
         )}
       </div>

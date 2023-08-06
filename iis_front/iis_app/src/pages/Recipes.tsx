@@ -4,12 +4,19 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
 import AuthContext from "../store/auth-context";
 import utils from "./Utils.module.css";
+import Paginations from "../components/Paginations";
 
 const Recipes = () => {
   const navigate = useNavigate();
 
   const [recipes, setRecipes] = useState<any[]>([]);
   const authCtx = useContext(AuthContext);
+  const [totalCount, setTotalCount] = useState(null);
+  const [selectedPage, setSelectedPage] = useState(1);
+
+  const changePage = (page: number) => {
+    setSelectedPage(page);
+  };
 
   useEffect(() => {
     fetch("http://localhost:5041/api/recipes", {
@@ -19,14 +26,22 @@ const Recipes = () => {
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        paginationQuery: {},
+        pageSize: 5,
+        page: selectedPage,
+        order: [
+          {
+            orderField: "ID",
+            ordering: "ASC",
+          },
+        ],
       }),
     })
       .then((response) => response.json())
       .then((actualData) => {
         setRecipes(actualData.items);
+        setTotalCount(actualData.totalCount);
       });
-  }, []);
+  }, [selectedPage]);
 
   const viewRecipeDetailsHandler = (recipe: any) => {
     localStorage.setItem("recipeId", recipe.id);
@@ -82,6 +97,7 @@ const Recipes = () => {
           ))}
         </tbody>
       </table>
+      <Paginations change={changePage} totalCount={totalCount}></Paginations>
     </div>
   );
 };
