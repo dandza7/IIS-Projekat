@@ -39,7 +39,7 @@ namespace IIS_Projekat.Services.Impl
             return measurement.Id;
         }
 
-        public PaginationWrapper<PreviewMeasurementDTO> GetMeasurementsForPatient(PaginationQuery? paginationQuery, long id, string filter)
+        public PaginationWrapper<PreviewMeasurementDTO> GetMeasurementsForPatient(long id, MeasurementFilterQuery query)
         {
             var patient = _unitOfWork.UserRepository.GetById(id);
             if (patient == null)
@@ -52,7 +52,7 @@ namespace IIS_Projekat.Services.Impl
                 throw new NotFoundException("Patient does not have medical record!");
             }
             ICollection<Measurement> measurements = new List<Measurement>();
-            switch (filter) {
+            switch (query.Filter) {
                 case "Monthly":
                     measurements = _unitOfWork.MeasurementRepository.GetAll().
                         Where(m => m.MedicalRecordId == medicalRecord.Id && m.CreatedDate >=  DateTime.UtcNow.AddDays(-30)).ToList();
@@ -67,7 +67,7 @@ namespace IIS_Projekat.Services.Impl
                     break;
             }
             return new PaginationWrapper<PreviewMeasurementDTO>(
-                _mapper.Map<List<PreviewMeasurementDTO>>(measurements.Skip((paginationQuery.Page - 1) * paginationQuery.PageSize).Take(paginationQuery.PageSize)),
+                _mapper.Map<List<PreviewMeasurementDTO>>(measurements.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize)),
                 measurements.Count
             );
         }
