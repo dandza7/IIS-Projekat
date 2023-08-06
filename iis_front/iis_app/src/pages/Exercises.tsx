@@ -4,11 +4,18 @@ import AuthContext from "../store/auth-context";
 import utils from "./Utils.module.css";
 import classes from "./Exercises.module.css";
 import { useNavigate } from "react-router-dom";
+import Paginations from "../components/Paginations";
 
 const Exercises = () => {
   const [exercises, setExercises] = useState<any[]>([]);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
+  const [totalCount, setTotalCount] = useState(null);
+  const [selectedPage, setSelectedPage] = useState(1);
+
+  const changePage = (page: number) => {
+    setSelectedPage(page);
+  };
 
   useEffect(() => {
     fetch("http://localhost:5041/api/exercise", {
@@ -18,14 +25,22 @@ const Exercises = () => {
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        paginationQuery: {},
+        pageSize: 5,
+        page: selectedPage,
+        order: [
+          {
+            orderField: "ID",
+            ordering: "ASC",
+          },
+        ],
       }),
     })
       .then((response) => response.json())
       .then((actualData) => {
         setExercises(actualData.items);
+        setTotalCount(actualData.totalCount);
       });
-  }, []);
+  }, [selectedPage]);
 
   const handleButtonClick = () => {
     navigate("/new-exercise");
@@ -91,6 +106,10 @@ const Exercises = () => {
               ))}
             </tbody>
           </table>
+          <Paginations
+            change={changePage}
+            totalCount={totalCount}
+          ></Paginations>
         </div>
       )}
     </div>

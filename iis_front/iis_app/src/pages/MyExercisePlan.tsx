@@ -19,6 +19,7 @@ const MyExercisePlan = () => {
   const [selectedExercise, setSelectedExercise] = useState(null);
   const textAreaRef = useRef();
   const navigate = useNavigate();
+  const [message, setMessage] = React.useState(null);
   const [changed, setChanged] = React.useState(false);
   const style = {
     position: "absolute" as "absolute",
@@ -92,8 +93,15 @@ const MyExercisePlan = () => {
         },
       }
     )
-      .then((response) => response.json())
+      .then((res) =>        {if (res.ok) {
+        return res.json();
+      } else if (res.status == 404) {
+        throw new Error("error");
+      }})
       .then((actualData) => {
+        if(actualData.message !== null)
+        setPlan(actualData.message)
+        else
         setPlan(actualData);
       });
   };

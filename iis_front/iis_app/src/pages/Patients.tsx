@@ -13,6 +13,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import utils from "./Utils.module.css";
+import Paginations from "../components/Paginations";
 
 export const Patients = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -20,6 +21,12 @@ export const Patients = () => {
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const typeRef = useRef();
+  const [totalCount, setTotalCount] = useState(null);
+  const [selectedPage, setSelectedPage] = useState(1);
+
+  const changePage = (page: number) => {
+    setSelectedPage(page);
+  };
 
   useEffect(() => {
     fetch("http://localhost:5041/api/patients", {
@@ -29,8 +36,8 @@ export const Patients = () => {
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        pageSize: 0,
-        page: 0,
+        pageSize: 5,
+        page: selectedPage,
         order: [
           {
             orderField: "ID",
@@ -54,8 +61,9 @@ export const Patients = () => {
       .then((response) => response.json())
       .then((actualData) => {
         setUsers(actualData.items);
+        setTotalCount(actualData.totalCount);
       });
-  }, []);
+  }, [selectedPage]);
 
   const handleViewUserProfile = (id: number) => {
     console.log(id);
@@ -153,6 +161,10 @@ export const Patients = () => {
               ))}
             </tbody>
           </table>
+          <Paginations
+            change={changePage}
+            totalCount={totalCount}
+          ></Paginations>
         </div>
       )}
       <Modal

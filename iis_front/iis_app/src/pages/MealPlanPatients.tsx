@@ -4,7 +4,7 @@ import AuthContext from "../store/auth-context";
 import classes from "./Patients.module.css";
 import { useNavigate } from "react-router-dom";
 import dayjs, { Dayjs } from "dayjs";
-
+import Paginations from "../components/Paginations";
 import utils from "./Utils.module.css";
 
 const MealPlanPatients = () => {
@@ -13,6 +13,13 @@ const MealPlanPatients = () => {
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const typeRef = useRef();
+  const [totalCount, setTotalCount] = useState(null);
+  const [selectedPage, setSelectedPage] = useState(1);
+  const [name, setName] = useState(null);
+  const nameRef = useRef();
+  const changePage = (page: number) => {
+    setSelectedPage(page);
+  };
 
   useEffect(() => {
     fetch("http://localhost:5041/api/patients", {
@@ -22,8 +29,8 @@ const MealPlanPatients = () => {
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        pageSize: 0,
-        page: 0,
+        pageSize: 5,
+        page: selectedPage,
         order: [
           {
             orderField: "ID",
@@ -41,14 +48,75 @@ const MealPlanPatients = () => {
               },
             ],
           },
+          { 
+            property: "Profile.Name",
+            connecting: 0,
+            filterValues: [
+              {
+                value: nameRef.current.value,
+                operation: nameRef.current.value  ? 1 : 0,
+              },
+            ],
+          },
         ],
       }),
     })
       .then((response) => response.json())
       .then((actualData) => {
         setUsers(actualData.items);
+        setTotalCount(actualData.totalCount);
       });
-  }, []);
+  }, [selectedPage]);
+
+
+
+  const searchHandler = () =>{
+    fetch("http://localhost:5041/api/patients", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({
+        pageSize: 5,
+        page: selectedPage,
+        order: [
+          {
+            orderField: "ID",
+            ordering: "ASC",
+          },
+        ],
+        filters: [
+          {
+            property: "Role",
+            connecting: 0,
+            filterValues: [
+              {
+                value: "CUSTOMER",
+                operation: 1,
+              },
+            ],
+          },
+          {
+            property: "Profile.Name",
+            connecting: 0,
+            filterValues: [
+              {
+                value: nameRef.current.value,
+                operation: nameRef.current.value  ? 1 : 0,
+              },
+            ],
+          },
+        ],
+      }),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        setUsers(actualData.items);
+        setTotalCount(actualData.totalCount);
+      });
+  }
+
 
   const openMealPlanHandler = (id: number) => {
     localStorage.setItem("patientId", id);
@@ -60,6 +128,10 @@ const MealPlanPatients = () => {
       <p className={utils.title}>Patients</p>
       {users && (
         <div className={utils.tableContainer}>
+          <div className={classes.containerCenter}>
+          <input placeholder="Search for patients" className={classes.searchInput} ref={nameRef}></input>
+          <button className={classes.searchButton} onClick={searchHandler}>Search</button>
+          </div>
           <table className={utils.styledTable}>
             <thead>
               <tr>
@@ -93,6 +165,10 @@ const MealPlanPatients = () => {
               ))}
             </tbody>
           </table>
+          <Paginations
+            change={changePage}
+            totalCount={totalCount}
+          ></Paginations>
         </div>
       )}
     </div>
