@@ -90,9 +90,9 @@ namespace IIS_Projekat.Controllers
         /// <response code="404">If client does not have a medical record</response>
         [HttpPost("suitableForClient/{clientId}", Name = "GetSuitableExercisesForClient")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<IEnumerable<PreviewExerciseDTO>> GetSuitableExercisesForClient([FromBody]PaginationQuery paginationQuery, long clientId, ExerciseFilterDTO exerciseFilterDTO)
+        public ActionResult<IEnumerable<PreviewExerciseDTO>> GetSuitableExercisesForClient(long clientId, [FromBody] ExerciseFilterQuery exerciseFilterDTO)
         {
-            return Ok(_exerciseService.GetSuitableExercisesForClient(paginationQuery, clientId, exerciseFilterDTO));
+            return Ok(_exerciseService.GetSuitableExercisesForClient(clientId, exerciseFilterDTO));
         }
 
         /// <summary>

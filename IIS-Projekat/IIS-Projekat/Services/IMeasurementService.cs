@@ -6,6 +6,6 @@ namespace IIS_Projekat.Services
     public interface IMeasurementService
     {
         public long CreateMeasurement(NewMeasurementDTO newMeasurementDTO, string email);
-        public ICollection<PreviewMeasurementDTO> GetMeasurementsForPatient(PaginationQuery? paginationQuery, long id, string filter);
+        public PaginationWrapper<PreviewMeasurementDTO> GetMeasurementsForPatient(long id, MeasurementFilterQuery filter);
     }
 }

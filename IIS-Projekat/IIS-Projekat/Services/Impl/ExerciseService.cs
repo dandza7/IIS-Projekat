@@ -46,7 +46,7 @@ namespace IIS_Projekat.Services.Impl
             return newExercise.Id;
         }
 
-        public PaginationWrapper<PreviewExerciseDTO> GetSuitableExercisesForClient(PaginationQuery? paginationQuery, long clientId, ExerciseFilterDTO exerciseFilterDTO)
+        public PaginationWrapper<PreviewExerciseDTO> GetSuitableExercisesForClient(long clientId, ExerciseFilterQuery query)
         {
             var medicalRecord = _unitOfWork.MedicalRecordRepository.GetAll().Where(mr => mr.PatientId == clientId).FirstOrDefault();
             if(medicalRecord == null)
@@ -58,12 +58,12 @@ namespace IIS_Projekat.Services.Impl
             ICollection<Exercise> suitableExercises = _unitOfWork.ExerciseRepository
                 .GetAll().Include(e => e.MuscleGroups).ThenInclude(mg => mg.MuscleGroup).ToHashSet();
 
-            ApplyExerciseFilters(suitableExercises, exerciseFilterDTO);
+            ApplyExerciseFilters(suitableExercises, query);
             RemoveExercisesWithInjuredPrimaryMuscleGroups(suitableExercises, lowSeverityInjuries);
             RemoveExercisesWithInjuredMuscleGroups(suitableExercises, highSeverityInjuries);
             RemoveUnnecessaryRehabilitationExercises(suitableExercises, medicalRecord);
             return new PaginationWrapper<PreviewExerciseDTO>(
-                _mapper.Map<List<PreviewExerciseDTO>>(suitableExercises.Skip((paginationQuery.Page - 1) * paginationQuery.PageSize).Take(paginationQuery.PageSize)),
+                _mapper.Map<List<PreviewExerciseDTO>>(suitableExercises.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize)),
                 suitableExercises.Count
             );
         }
@@ -262,7 +262,7 @@ namespace IIS_Projekat.Services.Impl
             }
         }
 
-        private void ApplyExerciseFilters(ICollection<Exercise> exercises, ExerciseFilterDTO exerciseFilterDTO)
+        private void ApplyExerciseFilters(ICollection<Exercise> exercises, ExerciseFilterQuery exerciseFilterDTO)
         {
             if(exerciseFilterDTO.ExerciseNature == "Rehabilitation")
             {
