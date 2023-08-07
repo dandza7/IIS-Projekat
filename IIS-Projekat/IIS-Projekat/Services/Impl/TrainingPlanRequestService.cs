@@ -113,9 +113,9 @@ namespace IIS_Projekat.Services.Impl
                 {
                     To = trainer.Email,
                     Subject = "New Training Plan Request",
-                    Body = $"Hello {trainer.Profile.Name},\n\n" +
+                    Body = $"Hello {trainer.Profile.Name},<br/><br/>" +
                     $"You have new training plan request from {client.Profile.Name} {client.Profile.Surname}." +
-                    $"\n\nRegards,\nIIS Wellness Center."
+                    $"<br/><br/>Regards,<br/>IIS Wellness Center."
                 };
                 _notificationService.SendAsync(newEmail, default);
             }
