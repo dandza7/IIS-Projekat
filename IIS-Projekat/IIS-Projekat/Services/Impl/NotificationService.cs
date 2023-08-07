@@ -11,6 +11,7 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using System.Net.Mail;
+using IIS_Projekat.Models.DTOs.Training.Request;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -58,7 +59,11 @@ namespace IIS_Projekat.Services.Impl
                 throw new NotFoundException($"User does not have a profile.");
             }
             var notifications = _unitOfWork.NotificationRepository.GetAll(n => n.Reciever).Where(n => n.Reciever == usersProfile).ToList();
-            return new PaginationWrapper<PreviewNotificationDTO>(_mapper.Map<List<PreviewNotificationDTO>>(notifications), notifications.Count);
+            return new PaginationWrapper<PreviewNotificationDTO>
+            (
+                _mapper.Map<List<PreviewNotificationDTO>>(notifications.Skip((paginationQuery.Page - 1) * paginationQuery.PageSize).Take(paginationQuery.PageSize)),
+                notifications.Count()
+            );
         }
 
         public long MarkNotificationAsRead(long notificationId)
