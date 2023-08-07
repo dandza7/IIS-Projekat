@@ -27,22 +27,11 @@ namespace IIS_Projekat.Services.Impl
         {
             var trainingPlan = CreateTrainingPlanBase(trainingPlanDTO);
             AddTrainingSessionsToPlan(trainingPlan, trainingPlanDTO);
-
-            var clientProfile = _unitOfWork.ProfileRepository.GetAll().Where(cp => cp.User == trainingPlan.Client).FirstOrDefault();
-            if (clientProfile == null)
-            {
-                throw new NotFoundException($"Profile with given email does not exist!");
-            }
-            var notificationDTO = new NewNotificationDTO
-            {
-                RecieverEmail = trainingPlan.Client.Email,
-                Content = $"Your training plan is complete!"
-            };
-
-            _notificationService.CreateNotification(notificationDTO);
+            HandleNotifications(trainingPlan);
             _unitOfWork.SaveChanges();
             return trainingPlan.Id;
         }
+
         public PaginationWrapper<PreviewTrainingPlanDTO> GetAll(PaginationQuery paginationQuery)
         {
             var trainingPlans = _unitOfWork.TrainingPlanRepository.GetAll(tp => tp.Client).ToList();
@@ -135,6 +124,38 @@ namespace IIS_Projekat.Services.Impl
             }
 
             return trainingPlanDTO;
+        }
+
+        private void HandleNotifications(TrainingPlan trainingPlan)
+        {
+            var client = _unitOfWork.UserRepository.GetById(trainingPlan.Client.Id, c => c.Profile);
+            if (client == null)
+            {
+                throw new NotFoundException($"Client does not exist in the database!");
+            }
+            if (client.Profile == null)
+            {
+                throw new NotFoundException($"Profile with given email does not exist!");
+            }
+            var notificationDTO = new NewNotificationDTO
+            {
+                RecieverEmail = client.Email,
+                Content = $"Your training plan is complete!"
+            };
+
+            if (client.Profile.IsEmailSubscribed)
+            {
+                var newEmail = new MailData
+                {
+                    To = client.Email,
+                    Subject = "Your training plan is finished",
+                    Body = $"Hello {client.Profile.Name},<br/><br/>" +
+                    $"Your training plan has been finished, you can check it out in your training plans section." +
+                    $"<br/><br/>Regards,<br/>IIS Wellness Center."
+                };
+                _notificationService.SendAsync(newEmail, default);
+            }
+            _notificationService.CreateNotification(notificationDTO);
         }
         private TrainingPlan CreateTrainingPlanBase(TrainingPlanDTO trainingPlanDTO)
         {

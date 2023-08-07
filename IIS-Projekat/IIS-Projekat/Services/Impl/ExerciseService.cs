@@ -99,11 +99,13 @@ namespace IIS_Projekat.Services.Impl
             {
                 throw new NotFoundException("Client with given Id does not exist!");
             }
+
             var trainingPlan = _unitOfWork.TrainingPlanRepository.GetAll(tp => tp.Trainer).Where(tp => tp.ClientId == client.Id).FirstOrDefault();
             if (trainingPlan == null)
             {
                 throw new NotFoundException($"Training plan for {client.Profile.Name} {client.Profile.Surname} has not been found!");
             }
+
             var trainingSessions = _unitOfWork.TrainingSessionRepository.GetAll().Where(ts => ts.TrainingPlan == trainingPlan).ToList();
             foreach (var session in trainingSessions)
             {
@@ -118,13 +120,7 @@ namespace IIS_Projekat.Services.Impl
                 }
             }
 
-            var notificationDTO = new NewNotificationDTO
-            {
-                RecieverEmail = trainingPlan.Trainer.Email,
-                Content = $"You have a training plan complaint from {client.Profile.Name} {client.Profile.Surname}!"
-            };
-
-            _notificationService.CreateNotification(notificationDTO);
+            HandleNotifications(client, trainingPlan);
             _unitOfWork.SaveChanges();
         }
 
@@ -281,6 +277,34 @@ namespace IIS_Projekat.Services.Impl
             }else if (_unitOfWork.MuscleGroupRepository.GetAll().Where(mg => mg.Name == exerciseFilterDTO.SecondarymuscleGroup).FirstOrDefault() != null)
             {
                 GetOnlyExercisesWithGivenSecondaryGroup(exercises, exerciseFilterDTO.SecondarymuscleGroup);
+            }
+        }
+
+        private void HandleNotifications(User client, TrainingPlan trainingPlan)
+        {
+            var notificationDTO = new NewNotificationDTO
+            {
+                RecieverEmail = trainingPlan.Trainer.Email,
+                Content = $"You have a training plan complaint from {client.Profile.Name} {client.Profile.Surname}!"
+            };
+            _notificationService.CreateNotification(notificationDTO);
+
+            var trainer = _unitOfWork.UserRepository.GetById(trainingPlan.TrainerId, t => t.Profile);
+            if (trainer == null)
+            {
+                throw new NotFoundException("Trainer does not exist in the database.");
+            }
+            if (trainer.Profile.IsEmailSubscribed)
+            {
+                var newEmail = new MailData
+                {
+                    To = trainer.Email,
+                    Subject = "New Training Plan Request",
+                    Body = $"Hello {trainer.Profile.Name},<br/><br/>" +
+                    $"You have a training plan complaint from {client.Profile.Name} {client.Profile.Surname}." +
+                    $"<br/><br/>Regards,<br/>IIS Wellness Center."
+                };
+                _notificationService.SendAsync(newEmail, default);
             }
         }
     }
