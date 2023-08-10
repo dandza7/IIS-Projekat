@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Patient;
+using IIS_Projekat.Models.DTOs.Training.Request;
 using IIS_Projekat.Models.DTOs.User;
 using IIS_Projekat.Models.DTOs.UsersProfile;
 
@@ -11,6 +12,7 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
         public UserProfile()
         {
             CreateMap<User, PreviewUserDTO>();
+            CreateMap<PreviewTrainerDTO, PreviewTrainerDTO>();
             CreateMap<NewUserDTO, User>();
             CreateMap<User, PreviewUsersProfileDTO>()
                 .ForMember(up => up.Id, opt => opt.MapFrom(src => src.Id))

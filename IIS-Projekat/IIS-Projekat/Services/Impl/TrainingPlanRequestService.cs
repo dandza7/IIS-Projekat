@@ -35,12 +35,8 @@ namespace IIS_Projekat.Services.Impl
                 .Where(tpr => tpr.Trainer == trainer).ToList();
             var returnDTOs = _mapper.Map<List<PreviewTrainingPlanRequestDTO>>(trainingPlanRequests);
             returnDTOs.ForEach(req => req.PatientInfo = _medicalRecordService.GetByPatientId(req.ClientId));
-            
-            return new PaginationWrapper<PreviewTrainingPlanRequestDTO>
-            (
-                _mapper.Map<List<PreviewTrainingPlanRequestDTO>>(returnDTOs.Skip((paginationQuery.Page - 1) * paginationQuery.PageSize).Take(paginationQuery.PageSize)),
-                returnDTOs.Count()
-            );
+
+            return PaginationWrapper<PreviewTrainingPlanRequestDTO>.WrapItems(_mapper, paginationQuery, returnDTOs);
         }
 
         public long CreateTrainingPlanRequest(TrainingPlanRequestDTO trainingPlanRequestDTO, string email)
