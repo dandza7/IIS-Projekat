@@ -62,6 +62,9 @@ namespace IIS_Projekat.Services.Impl
             RemoveExercisesWithInjuredPrimaryMuscleGroups(suitableExercises, lowSeverityInjuries);
             RemoveExercisesWithInjuredMuscleGroups(suitableExercises, highSeverityInjuries);
             RemoveUnnecessaryRehabilitationExercises(suitableExercises, medicalRecord);
+
+            if (query.PageSize < 1) query.PageSize = suitableExercises.Count();
+            if (query.Page < 1) query.Page = 1;
             return new PaginationWrapper<PreviewExerciseDTO>(
                 _mapper.Map<List<PreviewExerciseDTO>>(suitableExercises.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize)),
                 suitableExercises.Count

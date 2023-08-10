@@ -43,7 +43,7 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
-        /// [Admin] Gets all trainers (with pagination, sorting and filtering optional)
+        /// [Customer] Gets all trainers (with pagination, sorting and filtering optional)
         /// </summary>
         /// <remarks>
         /// Pagination constraints (Everything is case insenstive):

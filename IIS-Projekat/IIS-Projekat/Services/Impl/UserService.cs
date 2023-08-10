@@ -51,10 +51,7 @@ namespace IIS_Projekat.Services.Impl
                 };
                 trainerDTOs.Add(trainerDTO);
             }
-            return new PaginationWrapper<PreviewTrainerDTO>(
-                _mapper.Map<List<PreviewTrainerDTO>>(trainerDTOs.Skip((paginationQuery.Page - 1) * paginationQuery.PageSize).Take(paginationQuery.PageSize)),
-                trainerDTOs.Count
-            );
+            return PaginationWrapper<PreviewTrainerDTO>.WrapItems(_mapper, paginationQuery, trainerDTOs.ToList());
         }
 
         public long Register(NewUserDTO newUserDTO)

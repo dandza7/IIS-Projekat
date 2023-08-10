@@ -66,6 +66,9 @@ namespace IIS_Projekat.Services.Impl
                         Where(m => m.MedicalRecordId == medicalRecord.Id).ToList();
                     break;
             }
+
+            if (query.Page < 1) query.Page = 1;
+            if (query.PageSize < 1) query.PageSize = measurements.Count;
             return new PaginationWrapper<PreviewMeasurementDTO>(
                 _mapper.Map<List<PreviewMeasurementDTO>>(measurements.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize)),
                 measurements.Count
