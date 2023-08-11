@@ -92,11 +92,11 @@ namespace IIS_Projekat.Services.Impl
                 mail.Sender = new MailboxAddress(mailData.DisplayName ?? _settings.DisplayName, mailData.From ?? _settings.From);
 
                 // Receiver
-                if(mailData.To != null)
+                if (mailData.To != null)
                 {
                     mail.To.Add(MailboxAddress.Parse(mailData.To));
                 }
-                    
+
 
                 // Set Reply to if specified in mail data
                 if (!string.IsNullOrEmpty(mailData.ReplyTo))

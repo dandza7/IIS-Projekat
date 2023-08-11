@@ -8,6 +8,7 @@ using IIS_Projekat.Models.DTOs.Training.Plan;
 using IIS_Projekat.Models.DTOs.Training.Session;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -26,8 +27,37 @@ namespace IIS_Projekat.Services.Impl
         public long CreateTrainingPlan(TrainingPlanDTO trainingPlanDTO)
         {
             var trainingPlan = CreateTrainingPlanBase(trainingPlanDTO);
-            AddTrainingSessionsToPlan(trainingPlan, trainingPlanDTO);
-            HandleNotifications(trainingPlan);
+            AddTrainingSessionsToPlan(trainingPlan, trainingPlanDTO.TrainingSessions);
+            HandleCreationNotifications(trainingPlan);
+            _unitOfWork.SaveChanges();
+            return trainingPlan.Id;
+        }
+
+        public long UpdateTrainingPlan(UpdateTrainingPlanDTO updateDTO)
+        {
+            var trainingPlan = _unitOfWork.TrainingPlanRepository
+                .GetAll().Where(tp => tp.Id == updateDTO.TrainingPlanId)
+                .Include(tp => tp.TrainingSessions).ThenInclude(ts => ts.ExercisesInSession)
+                .FirstOrDefault();
+            if (trainingPlan == null)
+            {
+                throw new NotFoundException($"Training plan with id: {updateDTO.TrainingPlanId} does not exist.");
+            }
+
+            foreach(var trainingSession in trainingPlan.TrainingSessions)
+            {
+                foreach(var exerciseInSession in trainingSession.ExercisesInSession)
+                {
+                    _unitOfWork.ExerciseTrainingSessionRepository.Delete(exerciseInSession);
+                }
+                _unitOfWork.TrainingSessionRepository.Delete(trainingSession);
+            }
+            _unitOfWork.SaveChanges();
+
+            trainingPlan = UpdateTrainingPlanBase(trainingPlan, updateDTO);
+            AddTrainingSessionsToPlan(trainingPlan, updateDTO.TrainingSessions);
+            HandleUpdateNotifications(trainingPlan);
+
             _unitOfWork.SaveChanges();
             return trainingPlan.Id;
         }
@@ -126,7 +156,7 @@ namespace IIS_Projekat.Services.Impl
             return trainingPlanDTO;
         }
 
-        private void HandleNotifications(TrainingPlan trainingPlan)
+        private void HandleCreationNotifications(TrainingPlan trainingPlan)
         {
             var client = _unitOfWork.UserRepository.GetById(trainingPlan.Client.Id, c => c.Profile);
             if (client == null)
@@ -157,6 +187,61 @@ namespace IIS_Projekat.Services.Impl
             }
             _notificationService.CreateNotification(notificationDTO);
         }
+
+        private void HandleUpdateNotifications(TrainingPlan trainingPlan)
+        {
+            var client = _unitOfWork.UserRepository.GetById(trainingPlan.Client.Id, c => c.Profile);
+            if (client == null)
+            {
+                throw new NotFoundException($"Client does not exist in the database!");
+            }
+            if (client.Profile == null)
+            {
+                throw new NotFoundException($"Profile with given email does not exist!");
+            }
+            var notificationDTO = new NewNotificationDTO
+            {
+                RecieverEmail = client.Email,
+                Content = $"Your training plan has been updated!"
+            };
+
+            if (client.Profile.IsEmailSubscribed)
+            {
+                var newEmail = new MailData
+                {
+                    To = client.Email,
+                    Subject = "Your training plan is finished",
+                    Body = $"Hello {client.Profile.Name},<br/><br/>" +
+                    $"Your training plan has been updated, you can check it out in your training plans section." +
+                    $"<br/><br/>Regards,<br/>IIS Wellness Center."
+                };
+                _notificationService.SendAsync(newEmail, default);
+            }
+            _notificationService.CreateNotification(notificationDTO);
+        }
+
+        private TrainingPlan UpdateTrainingPlanBase(TrainingPlan trainingPlan, UpdateTrainingPlanDTO updateDTO)
+        {
+            trainingPlan.TrainingGoal = updateDTO.TrainingGoal;
+            trainingPlan.SessionsPerWeek = updateDTO.SessionsPerWeek;
+            var trainer = _unitOfWork.UserRepository.GetById(updateDTO.TrainerId);
+            if (trainer == null)
+            {
+                throw new NotFoundException($"Trainer was not found in the database!");
+            }
+            trainingPlan.Trainer = trainer;
+            trainingPlan.TrainerId = trainer.Id;
+
+            var client = _unitOfWork.UserRepository.GetById(updateDTO.ClientId);
+            if (client == null)
+            {
+                throw new NotFoundException($"Client with ID: {updateDTO.ClientId} does not exist!");
+            }
+            trainingPlan.Client = client;
+            trainingPlan.ClientId = client.Id;
+            return _unitOfWork.TrainingPlanRepository.Update(trainingPlan);
+        }
+
         private TrainingPlan CreateTrainingPlanBase(TrainingPlanDTO trainingPlanDTO)
         {
             var trainingPlanRequest = _unitOfWork.TrainingPlanRequestRepository.GetById(trainingPlanDTO.TrainingPlanRequestId);
@@ -185,9 +270,9 @@ namespace IIS_Projekat.Services.Impl
             _unitOfWork.TrainingPlanRequestRepository.Delete(trainingPlanRequest);
             return trainingPlan;
         }
-        private void AddTrainingSessionsToPlan(TrainingPlan trainingPlan, TrainingPlanDTO trainingPlanDTO)
+        private void AddTrainingSessionsToPlan(TrainingPlan trainingPlan, ICollection<TrainingSessionWithPlanDTO> sessions)
         {
-            foreach (var trainingSessionDTO in trainingPlanDTO.TrainingSessions)
+            foreach (var trainingSessionDTO in sessions)
             {
                 CheckIfTrainingSessionNameIsUnique(trainingPlan, trainingSessionDTO);
                 var trainingSession = _mapper.Map<TrainingSession>(trainingSessionDTO);
@@ -196,6 +281,7 @@ namespace IIS_Projekat.Services.Impl
                 AddExercisesToTrainingSession(trainingSession, trainingSessionDTO);
             }
         }
+
         private void CheckIfTrainingSessionNameIsUnique(TrainingPlan trainingPlan, TrainingSessionWithPlanDTO trainingSessionDTO)
         {
             ICollection<TrainingSession> existingSessions = _unitOfWork.TrainingSessionRepository.GetAll().Where(ts => ts.TrainingPlan == trainingPlan).ToList();

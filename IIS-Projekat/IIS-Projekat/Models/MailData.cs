@@ -4,9 +4,9 @@
     {
         // Receiver
         public string To { get; set; }
-        public List<string> Bcc { get; }
+        /*public List<string> Bcc { get; }
 
-        public List<string> Cc { get; }
+        public List<string> Cc { get; }*/
 
         // Sender
         public string? From { get; }
@@ -21,23 +21,5 @@
         public string Subject { get; set; }
 
         public string? Body { get; set; }
-
-        /*public MailData(string to, string subject, string? body = null, string? from = null, string? displayName = null, string? replyTo = null, string? replyToName = null, List<string>? bcc = null, List<string>? cc = null)
-        {
-            // Receiver
-            To = to;
-            Bcc = bcc ?? new List<string>();
-            Cc = cc ?? new List<string>();
-
-            // Sender
-            From = from;
-            DisplayName = displayName;
-            ReplyTo = replyTo;
-            ReplyToName = replyToName;
-
-            // Content
-            Subject = subject;
-            Body = body;
-        }*/
     }
 }
