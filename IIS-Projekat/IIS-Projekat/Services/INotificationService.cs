@@ -11,7 +11,7 @@ namespace IIS_Projekat.Services
         public long MarkNotificationAsRead(long notificationId);
         public int GetUnreadNotificationsCount(string email);
         Task<bool> SendAsync(MailData mailData, CancellationToken ct);
-        public void DeleteNotification(long notificationId);
+        public void DeleteNotifications(ICollection<long> notificationIds);
     }
 }
 

@@ -78,11 +78,11 @@ namespace IIS_Projekat.Controllers
         /// </summary>
         /// <response code="200">If notification is successfully deleted</response>
         /// <response code="404">If notification does not exist in the database</response>
-        [HttpDelete("delete/{id}", Name = "DeleteNotification")]
+        [HttpPost("delete", Name = "DeleteNotifications")]
         [Authorize(Roles = $"{Roles.Trainer}, {Roles.Doctors}, {Roles.Customer}")]
-        public ActionResult DeleteExercise(long id)
+        public ActionResult DeleteExercise([FromBody] ICollection<long> ids)
         {
-            _notificationService.DeleteNotification(id);
+            _notificationService.DeleteNotifications(ids);
             return Ok();
         }
     }

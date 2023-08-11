@@ -162,14 +162,17 @@ namespace IIS_Projekat.Services.Impl
             return unreadCount;
         }
 
-        public void DeleteNotification(long notificationId)
+        public void DeleteNotifications(ICollection<long> notificationIds)
         {
-            var notification = _unitOfWork.NotificationRepository.GetById(notificationId);
-            if(notification == null)
+            foreach(var notificationId in notificationIds)
             {
-                throw new NotFoundException($"Notification does not exist.");
+                var notification = _unitOfWork.NotificationRepository.GetById(notificationId);
+                if (notification == null)
+                {
+                    throw new NotFoundException($"Notification does not exist.");
+                }
+                _unitOfWork.NotificationRepository.Delete(notification);
             }
-            _unitOfWork.NotificationRepository.Delete(notification);
             _unitOfWork.SaveChanges();
         }
     }
