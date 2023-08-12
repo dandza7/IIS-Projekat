@@ -65,42 +65,6 @@ namespace IIS_Projekat.Services.Impl
             return result;
         }
 
-        public PaginationWrapper<PreviewFoodDTO> GetSuitableFoods(long patientId, PaginationQuery paginationQuery)
-        {
-            var foods = _unitOfWork.FoodRepository.GetAll(f => f.Allergies).ToList();
-            var medicalRecord = _unitOfWork.MedicalRecordRepository
-                .GetAll(mr => mr.Diagnoses, mr => mr.Allergies).Where(mr => mr.PatientId == patientId).FirstOrDefault();
-            if (medicalRecord == null)
-            {
-                throw new NotFoundException($"Patient with id: {patientId} does not have a medical record.");
-            }
-            var suitableFoods = RemoveUnsuitableFoods(foods, medicalRecord);
-            var result = PaginationWrapper<PreviewFoodDTO>.WrapItems(_mapper, paginationQuery, suitableFoods);
-            foreach(var item in result.Items)
-            {
-                AddNutrientTable(item);
-            }
-            return result;
-        }
-
-        private List<PreviewFoodDTO> RemoveUnsuitableFoods(List<Food> foods, MedicalRecord medicalRecord)
-        {
-            foreach (var food in foods)
-            {
-                bool isAllergic = false, isInadvisable = false;
-                foreach (var allergy in medicalRecord.Allergies)
-                {
-                    if (food.Allergies.Contains(allergy)) isAllergic = true;
-                }
-                foreach (var diagnosis in medicalRecord.Diagnoses)
-                {
-                    if (food.Diagnoses.Contains(diagnosis)) isInadvisable = true;
-                }
-                if (isAllergic || isInadvisable) foods.Remove(food);
-            }
-            return _mapper.Map<List<PreviewFoodDTO>>(foods);
-        }
-
         private void AddNutrientTable(PreviewFoodDTO previewFoodDTO)
         {
             var nutrientShares = _unitOfWork.NutrientShareRepository.GetAll(ns => ns.Nutrient).Where(fs => fs.Food.Id == previewFoodDTO.Id).ToList();
