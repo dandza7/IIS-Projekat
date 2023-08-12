@@ -277,6 +277,13 @@ export const TrainingPlanOverview = () => {
                 <label>Sessions per week:</label>
                 <span>{plan?.sessionsPerWeek}</span>
               </div>
+              <button
+                onClick={() => {
+                  console.log(plan);
+                }}
+              >
+                PROBA
+              </button>
               <div>
                 {plan?.trainingSessions.map(
                   (session: trainingSession, index) => (

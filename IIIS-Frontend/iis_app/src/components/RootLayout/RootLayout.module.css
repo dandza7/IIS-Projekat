@@ -1,0 +1,21 @@
+.rootLayout {
+  min-height: 100vh;
+}
+
+.main {
+  background-color: var(--ligtGrey);
+  padding: 1rem;
+  padding-top: 5.2rem;
+  min-height: 100vh;
+}
+.outletContainer {
+  width: 65%;
+  min-width: 600px;
+  margin: auto;
+}
+@media only screen and (max-width: 650px) {
+  .outletContainer {
+    width: 100%;
+    min-width: 100px;
+  }
+}
