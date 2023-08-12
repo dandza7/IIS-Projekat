@@ -1,0 +1,363 @@
+.nutrientTable thead tr {
+  background-color: var(--darkBlue);
+  color: #ffffff;
+  text-align: left;
+}
+
+.nutrientTable th,
+.nutrientTable td {
+  padding: 0.7rem 1rem;
+  font-size: 14px;
+}
+.nutrientTable th {
+  font-weight: 400;
+}
+
+.nutrientTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.nutrientTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+}
+
+.nutrientTable tbody tr td:first-child {
+  max-width: 10px;
+}
+
+.nutrientTable tbody tr:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+
+.nutrientTable tbody tr:nth-of-type(odd) {
+  background-color: #ffffff;
+}
+
+.nutrientTable tbody tr:last-of-type {
+  border-bottom: 1px solid rgb(244, 242, 242);
+}
+
+.nutrientTable tbody tr:hover {
+  border-bottom: 1px solid #dddddd;
+  color: rgb(52, 51, 51);
+  background-color: rgb(212, 214, 213);
+  transition: 0.3s;
+}
+
+.nutrientTable {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  font-size: 14px;
+}
+.nutrientContainer {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 1rem;
+}
+
+.macro {
+  display: flex;
+  flex-direction: column;
+}
+.micro {
+  display: flex;
+  flex-direction: column;
+}
+
+.micros {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 50%;
+}
+.macros {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 50%;
+}
+@media only screen and (max-width: 650px) {
+  .nutrientContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  .macros,
+  .micros {
+    width: 100%;
+  }
+  .chartsContainer {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.chartsContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.chartContainer {
+  width: 30%;
+  min-width: 250px;
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nutrientInput {
+  height: 1.3rem;
+  border: 1px solid rgb(203, 203, 203);
+  background-color: rgb(224, 238, 236);
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  font-size: 1rem;
+  font-family: "Raleway", sans-serif;
+  width: 50px;
+}
+.nutrientInput:hover {
+  background-color: rgb(254, 255, 255);
+}
+.allergenTable thead tr {
+  background-color: var(--darkBlue);
+  color: #ffffff;
+  text-align: left;
+}
+
+.allergenTable th,
+.allergenTable td {
+  padding: 0.7rem 6.4rem;
+}
+.allergenTable th {
+  font-size: 1rem;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.allergenTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.allergenTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+}
+
+.allergenTable tbody tr td:first-child {
+  max-width: 10px;
+}
+
+.allergenTable tbody tr:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+
+.allergenTable tbody tr:nth-of-type(odd) {
+  background-color: #ffffff;
+}
+
+.allergenTable tbody tr:last-of-type {
+  border-bottom: 1px solid rgb(244, 242, 242);
+}
+
+.allergenTable tbody tr:hover {
+  border-bottom: 1px solid #dddddd;
+  color: rgb(52, 51, 51);
+  background-color: rgb(212, 214, 213);
+  transition: 0.3s;
+}
+
+.allergenTable {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border-radius: 1rem;
+  font-size: 14px;
+  height: 300px;
+  overflow-y: scroll;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.modal {
+  width: 100%;
+}
+.modalContainer {
+  padding: 1rem;
+}
+
+.modalTitle {
+  background-color: var(--darkBlue);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modalClose {
+  margin-top: -1rem;
+  background-color: rgba(45, 89, 77, 0.704);
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.addAllergyButton {
+  background-color: rgb(176, 176, 176);
+  padding: 0.5rem 0.8rem;
+  color: white;
+  border: 0px;
+  border-radius: 0.5rem;
+}
+
+.removeAllergyButton {
+  background-color: rgb(70, 125, 120);
+  padding: 0.5rem 1rem;
+  color: white;
+  border: 0px;
+  border-radius: 0.5rem;
+  margin: 0.2rem;
+}
+.categoryContainer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.nameInput {
+  height: 36px;
+  border: 1px solid rgb(203, 203, 203);
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  font-size: 1rem;
+  font-family: "Raleway", sans-serif;
+  width: 87%;
+}
+.topContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5rem;
+}
+.foodTable thead tr {
+  background-color: var(--darkBlue);
+  color: #ffffff;
+  text-align: left;
+}
+
+.foodTable th,
+.foodTable td {
+  padding: 0.7rem 5rem;
+}
+.foodTable th {
+  font-size: 1rem;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.foodTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.foodTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+}
+
+.foodTable tbody tr td:first-child {
+  max-width: 10px;
+}
+
+.foodTable tbody tr:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+
+.foodTable tbody tr:nth-of-type(odd) {
+  background-color: #ffffff;
+}
+
+.foodTable tbody tr:last-of-type {
+  border-bottom: 1px solid rgb(194, 194, 194);
+}
+
+.foodTable tbody tr:hover {
+  border-bottom: 1px solid #dddddd;
+  color: rgb(52, 51, 51);
+  background-color: rgb(212, 214, 213);
+  transition: 0.3s;
+}
+
+.foodTable {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border-radius: 1rem;
+  font-size: 14px;
+  height: 300px;
+  overflow-y: scroll;
+  display: block;
+  margin-bottom: 1rem;
+}
+@media only screen and (max-width: 850px) {
+  .foodTable th,
+  .foodTable td {
+    padding: 0.7rem 3rem;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .modal {
+    width: 100%;
+  }
+  .allergenTable th,
+  .allergenTable td {
+    padding: 0.7rem 3rem;
+  }
+  .foodTable th,
+  .foodTable td {
+    padding: 0.7rem 1.8rem;
+  }
+}
+.ingredientsContainer {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recipeName {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.recipeTitle {
+  font-weight: 600;
+  font-size: 1.1rem;
+}

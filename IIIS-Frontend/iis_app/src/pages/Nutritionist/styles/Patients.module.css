@@ -1,0 +1,69 @@
+.patientsTable thead tr {
+  background-color: var(--darkBlue);
+  color: #ffffff;
+  text-align: left;
+}
+
+.patientsTable th,
+.patientsTable td {
+  padding: 0.7rem 1rem;
+}
+.patientsTable th {
+  font-size: 1rem;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.patientsTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.patientsTable tbody tr {
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+}
+
+.patientsTable tbody tr:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+
+.patientsTable tbody tr:nth-of-type(odd) {
+  background-color: #ffffff;
+}
+
+.patientsTable tbody tr:last-of-type {
+  border-bottom: 1px solid rgb(43, 18, 18);
+}
+
+.patientsTable tbody tr:hover {
+  border-bottom: 1px solid #dddddd;
+  color: rgb(52, 51, 51);
+  background-color: rgb(212, 214, 213);
+  transition: 0.3s;
+}
+
+.patientsTable {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.mealPlanButton {
+  padding: 0.7rem 1rem;
+  background-color: rgb(11, 183, 131);
+  color: white;
+  cursor: pointer;
+  border: 1px solid white;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

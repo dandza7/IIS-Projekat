@@ -1,0 +1,8 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  --darkBlue: rgb(32, 141, 103);
+  --navbaritemColor: rgba(41, 67, 70, 0.2);
+  --openedMenuColor: rgb(22, 83, 72);
+  --ligtGrey: rgb(230, 229, 229);
+}

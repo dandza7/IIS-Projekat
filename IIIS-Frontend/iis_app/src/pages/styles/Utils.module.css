@@ -1,0 +1,56 @@
+.whiteContainer {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+.centerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.rightContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.leftContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+.greenButton {
+  padding: 0.7rem 3rem;
+  background-color: rgb(11, 183, 131);
+  color: white;
+  cursor: pointer;
+  border: 1px solid white;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.redButton {
+  padding: 0.7rem 3rem;
+  background-color: rgb(181, 181, 181);
+  color: white;
+  cursor: pointer;
+  border: 1px solid white;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.select {
+  height: 36px;
+  border: 1px solid rgb(203, 203, 203);
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  font-size: 1rem;
+  font-family: "Raleway", sans-serif;
+  width: 165px;
+}
