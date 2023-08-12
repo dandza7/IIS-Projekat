@@ -31,6 +31,7 @@ namespace IIS_Projekat.Repositories
         IGenericRepository<FoodSupplyReport> FoodSupplyReportRepository { get; }
         IGenericRepository<Measurement> MeasurementRepository { get; }
         IGenericRepository<Notification> NotificationRepository { get; }
+        IGenericRepository<EmailValidation> EmailValidationRepository { get; }
 
         void SaveChanges();
     }

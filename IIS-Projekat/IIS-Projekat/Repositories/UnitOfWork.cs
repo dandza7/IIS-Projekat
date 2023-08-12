@@ -32,7 +32,7 @@ namespace IIS_Projekat.Repositories
         private IGenericRepository<FoodOrder> _foodOrderRepository;
         private IGenericRepository<Measurement> _measurementRepository;
         private IGenericRepository<Notification> _notificationRepository;
-
+        private IGenericRepository<EmailValidation> _emailValidationRepository;
         private DbContext _dbContext;
 
         public UnitOfWork(DbContext dbContext)
@@ -280,6 +280,15 @@ namespace IIS_Projekat.Repositories
             {
                 _notificationRepository ??= new GenericRepository<Notification>(_dbContext);
                 return _notificationRepository;
+            }
+        }
+
+        public IGenericRepository<EmailValidation> EmailValidationRepository
+        {
+            get
+            {
+                _emailValidationRepository ??= new GenericRepository<EmailValidation>(_dbContext);
+                return _emailValidationRepository;
             }
         }
 

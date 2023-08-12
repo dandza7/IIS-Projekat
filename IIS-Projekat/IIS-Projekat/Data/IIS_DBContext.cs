@@ -32,6 +32,7 @@ namespace IIS_Projekat.Data
         public DbSet<FoodSupplyReport> FoodSupplyReports { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<EmailValidation> EmailValidations { get; set; }
 
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -604,6 +605,11 @@ namespace IIS_Projekat.Data
 
             modelBuilder.Entity<Notification>().HasQueryFilter(n => !n.IsDeleted);
             modelBuilder.Entity<Notification>().HasKey(m => m.Id);
+
+            modelBuilder.Entity<EmailValidation>().HasQueryFilter(ev => !ev.IsDeleted);
+            modelBuilder.Entity<EmailValidation>().HasKey(ev => ev.Id);
+            modelBuilder.Entity<EmailValidation>().Property(ev => ev.Code).IsRequired();
+            modelBuilder.Entity<EmailValidation>().HasOne(ev => ev.User).WithOne();
         }
     }
 }
