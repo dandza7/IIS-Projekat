@@ -31,6 +31,7 @@ namespace IIS_Projekat.Services.Impl
             _unitOfWork.SaveChanges();
             return newRecipe.Id;
         }
+
         private void AddIngredientsToRecipe(Recipe recipe, ICollection<NewIngredientDTO> ingredients)
         {
             foreach (var ingredient in ingredients)
@@ -56,41 +57,11 @@ namespace IIS_Projekat.Services.Impl
             return new PaginationWrapper<PreviewRecipeDTO>(_mapper.Map<List<PreviewRecipeDTO>>(paginationResult.Items), paginationResult.TotalCount);
         }
 
-        public PaginationWrapper<PreviewRecipeDTO> GetSuitableRecipes(long id, int page)
+        public PaginationWrapper<PreviewRecipeDTO> GetSuitableRecipes(long patientId, PaginationQuery paginationQuery)
         {
-            var user = _unitOfWork.UserRepository.GetAll().Where(u => u.Id == id).Include(u => u.MedicalRecord).Include(u => u.MedicalRecord.Allergies).FirstOrDefault();
-            if (user == null)
-            {
-                throw new NotFoundException($"User with id {id} does not exist!");
-            }
-            var allergies = user.MedicalRecord.Allergies;
-            var recipes = _unitOfWork.RecipeRepository.GetAll().Include(r => r.FoodShares).ThenInclude(fs => fs.Food).ThenInclude(f => f.Allergies).ToList();
-            var suitableRecipes = new List<Recipe>();
-            foreach (var recipe in recipes)
-            {
-                var isSutiable = true;
-                foreach (var share in recipe.FoodShares)
-                {
-                    foreach (var allergy in share.Food.Allergies)
-                    {
-                        if (allergies.Contains(allergy))
-                        {
-                            isSutiable = false;
-                            break;
-                        }
-                    }
-                    if (!isSutiable)
-                    {
-                        break;
-                    }
-                }
-                if (isSutiable)
-                {
-                    suitableRecipes.Add(recipe);
-                }
-            }
-            var count = suitableRecipes.Count();
-            return new PaginationWrapper<PreviewRecipeDTO>(_mapper.Map<List<PreviewRecipeDTO>>(suitableRecipes.Skip((page - 1) * 10).Take(10)), count);
+            var recipes = RemoveUnsuitableRecipes(patientId);
+            var recipeDTOs = _mapper.Map<List<PreviewRecipeDTO>>(recipes);
+            return PaginationWrapper<PreviewRecipeDTO>.WrapItems(_mapper, paginationQuery, recipeDTOs);
         }
 
         public PaginationWrapper<PreviewRecipeDetailedDTO> GetAllDetailed(PaginationQuery paginationQuery)
@@ -102,6 +73,17 @@ namespace IIS_Projekat.Services.Impl
                 detailedList.Add(GetDetailed(recipe.Id));
             }
             return new PaginationWrapper<PreviewRecipeDetailedDTO>(detailedList, paginationResult.TotalCount);
+        }
+
+        public PaginationWrapper<PreviewRecipeDetailedDTO> GetSuitableRecipesDetailed(long patientId, PaginationQuery paginationQuery)
+        {
+            var recipes = RemoveUnsuitableRecipes(patientId);
+            var detailedList = new List<PreviewRecipeDetailedDTO>();
+            foreach (var recipe in recipes)
+            {
+                detailedList.Add(GetDetailed(recipe.Id));
+            }
+            return PaginationWrapper<PreviewRecipeDetailedDTO>.WrapItems(_mapper, paginationQuery, detailedList);
         }
 
         public PreviewRecipeDetailedDTO GetDetailed(long id)
@@ -196,6 +178,41 @@ namespace IIS_Projekat.Services.Impl
                         break;
                 }
             }
+        }
+
+        private List<Recipe> RemoveUnsuitableRecipes(long patientId)
+        {
+            var recipes = _unitOfWork.RecipeRepository.GetAll()
+                .Include(r => r.FoodShares)
+                    .ThenInclude(fs => fs.Food)
+                    .ThenInclude(f => f.Allergies)
+                .Include(r => r.FoodShares)
+                    .ThenInclude(fs => fs.Food)
+                    .ThenInclude(f => f.Diagnoses)
+                .ToList();
+            var medicalRecord = _unitOfWork.MedicalRecordRepository
+                .GetAll(mr => mr.Diagnoses, mr => mr.Allergies).Where(mr => mr.PatientId == patientId).FirstOrDefault();
+            if (medicalRecord == null)
+            {
+                throw new NotFoundException($"Patient with id: {patientId} does not have a medical record.");
+            }
+            foreach (var recipe in recipes)
+            {
+                foreach (var foodShares in recipe.FoodShares)
+                {
+                    bool isAllergic = false, isInadvisable = false;
+                    foreach (var allergy in medicalRecord.Allergies)
+                    {
+                        if (foodShares.Food.Allergies.Contains(allergy)) isAllergic = true;
+                    }
+                    foreach (var diagnosis in medicalRecord.Diagnoses)
+                    {
+                        if (foodShares.Food.Diagnoses.Contains(diagnosis)) isInadvisable = true;
+                    }
+                    if (isAllergic || isInadvisable) recipes.Remove(recipe);
+                }
+            }
+            return recipes;
         }
     }
 }

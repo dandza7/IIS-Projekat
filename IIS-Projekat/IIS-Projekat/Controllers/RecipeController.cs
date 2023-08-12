@@ -42,14 +42,19 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
-        /// [Nutritionist] Gets all recipes (with pagination)
+        /// [Nutritionist] Gets all suitable recipes (with pagination)
         /// </summary>
+        /// <remarks>
+        /// Pagination constraints (Everything is case insenstive):
+        /// <br/>  > Page and PageSize must be greater than 0 (0 if you want all items at once)
+        /// </remarks>
         /// <response code="200">Returns all suitable recipes</response>
-        [HttpPost("{id}/{page}", Name = "GetSuitableRecipes")]
+        /// <response code="404">If medical record for patient was not found</response>
+        [HttpPost("{patientId}", Name = "GetSuitableRecipes")]
         [Authorize(Roles = $"{Roles.Nutritionist}")]
-        public ActionResult<PaginationWrapper<PreviewRecipeDTO>> GetSuitableRecipes(long id, int page)
+        public ActionResult<PaginationWrapper<PreviewRecipeDTO>> GetSuitableRecipes(long patientId, [FromBody] PaginationQuery paginationQuery)
         {
-            return Ok(_recipeService.GetSuitableRecipes(id, page));
+            return Ok(_recipeService.GetSuitableRecipes(patientId, paginationQuery));
         }
 
         /// <summary>
@@ -74,6 +79,22 @@ namespace IIS_Projekat.Controllers
         public ActionResult<PaginationWrapper<PreviewRecipeDetailedDTO>> GetAllRecipesDetailed([FromBody] PaginationQuery paginationQuery)
         {
             return Ok(_recipeService.GetAllDetailed(paginationQuery));
+        }
+
+        /// <summary>
+        /// [Nutritionist] Gets all suitable recipes detailed(with pagination)
+        /// </summary>
+        /// <remarks>
+        /// Pagination constraints (Everything is case insenstive):
+        /// <br/>  > Page and PageSize must be greater than 0 (0 if you want all items at once)
+        /// </remarks>
+        /// <response code="200">Returns all suitable recipes</response>
+        /// <response code="404">If medical record for patient was not found</response>
+        [HttpPost("detailed/{patientId}", Name = "GetSuitableRecipesDetailed")]
+        [Authorize(Roles = $"{Roles.Nutritionist}")]
+        public ActionResult<PaginationWrapper<PreviewRecipeDTO>> GetSuitableRecipesDetailed(long patientId, [FromBody] PaginationQuery paginationQuery)
+        {
+            return Ok(_recipeService.GetSuitableRecipesDetailed(patientId, paginationQuery));
         }
 
         /// <summary>

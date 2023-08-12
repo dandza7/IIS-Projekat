@@ -7,7 +7,6 @@ namespace IIS_Projekat.Services
     {
         long Create(NewFoodDTO newFoodDTO);
         public PaginationWrapper<PreviewFoodDTO> GetAll(PaginationQuery paginationQuery);
-        public PaginationWrapper<PreviewFoodDTO> GetSuitableFoods(long patientId, PaginationQuery paginationQuery);
         public void Delete(long id);
     }
 }
