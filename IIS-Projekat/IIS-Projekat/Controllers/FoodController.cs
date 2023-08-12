@@ -66,5 +66,21 @@ namespace IIS_Projekat.Controllers
         {
             return Ok(_foodService.GetAll(paginationQuery));
         }
+
+        /// <summary>
+        /// [Nutritionis] Gets food according to patients diagonses and allergies
+        /// </summary>
+        /// <remarks>
+        /// Pagination constraints (Everything is case insenstive):
+        /// <br/>  > Page and PageSize must be greater than 0 (0 if you want all items at once)
+        /// </remarks>
+        /// <response code="200">Returns suitable foods</response>
+        /// <response code="404">If patient does not have a medical record</response>
+        [HttpPost("suitable-foods/{patientId}", Name = "GetSuitableFood")]
+        [Authorize(Roles = Roles.Nutritionist)]
+        public ActionResult<PaginationWrapper<PreviewFoodDTO>> GetSuitableFoods([FromBody] PaginationQuery paginationQuery, long patientId)
+        {
+            return Ok(_foodService.GetSuitableFoods(patientId, paginationQuery));
+        }
     }
 }
