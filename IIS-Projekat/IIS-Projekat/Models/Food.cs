@@ -12,6 +12,7 @@ namespace IIS_Projekat.Models
         public ICollection<FoodShare> Participations { get; set; } = new List<FoodShare>();
         public ICollection<NutrientShare> NutrientShares { get; set; } = new List<NutrientShare>();
         public ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();
+        public ICollection<Diagnosis> Diagnoses { get; set; } = new List<Diagnosis>();
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }

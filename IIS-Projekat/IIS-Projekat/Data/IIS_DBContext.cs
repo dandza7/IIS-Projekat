@@ -316,6 +316,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<Diagnosis>().HasQueryFilter(d => !d.IsDeleted);
             modelBuilder.Entity<Diagnosis>().HasKey(d => d.Id);
             modelBuilder.Entity<Diagnosis>().Property(d => d.Name).IsRequired();
+            modelBuilder.Entity<Diagnosis>().HasMany(d => d.InadvisableFoods).WithMany(f => f.Diagnoses);
 
             modelBuilder.Entity<Nutrient>().HasQueryFilter(n => !n.IsDeleted);
             modelBuilder.Entity<Nutrient>().HasKey(n => n.Id);
@@ -603,6 +604,12 @@ namespace IIS_Projekat.Data
 
             modelBuilder.Entity<Notification>().HasQueryFilter(n => !n.IsDeleted);
             modelBuilder.Entity<Notification>().HasKey(m => m.Id);
+
+            modelBuilder.Entity<Supplement>().HasQueryFilter(s => !s.IsDeleted);
+            modelBuilder.Entity<Supplement>().HasKey(s => s.Id);
+            modelBuilder.Entity<Supplement>().Property(s => s.Unit).IsRequired();
+            modelBuilder.Entity<Supplement>().Property(s => s.Dose).IsRequired();
+            modelBuilder.Entity<Supplement>().HasMany(s => s.NutritionPlans).WithMany(np => np.Supplements);
         }
     }
 }
