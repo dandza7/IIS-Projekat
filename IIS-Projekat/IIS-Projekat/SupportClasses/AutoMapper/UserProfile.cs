@@ -21,7 +21,8 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
                 .ForMember(up => up.Surname, opt => opt.MapFrom(src => src.Profile.Surname))
                 .ForMember(up => up.BirthDate, opt => opt.MapFrom(src => src.Profile.BirthDate))
                 .ForMember(up => up.Gender, opt => opt.MapFrom(src => src.Profile.Gender))
-                .ForMember(up => up.Role, opt => opt.MapFrom(src => src.Role));
+                .ForMember(up => up.Role, opt => opt.MapFrom(src => src.Role))
+                .ForMember(up => up.IsEmailSubscribed, opt => opt.MapFrom(src => src.Profile.IsEmailSubscribed));
             CreateMap<User, PreviewPatientDetailedDTO>()
                 .ForMember(up => up.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(up => up.Email, opt => opt.MapFrom(src => src.Email))
