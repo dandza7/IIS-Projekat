@@ -52,7 +52,7 @@ namespace IIS_Projekat.Services.Impl
             {
                 throw new NotFoundException($"Patient with id: {patientId} does not have a medical record.");
             }
-            var suitableFoods = GetSuitableFoods(foods, medicalRecord);
+            var suitableFoods = RemoveUnsuitableFoods(foods, medicalRecord);
             var result = PaginationWrapper<PreviewFoodDTO>.WrapItems(_mapper, paginationQuery, suitableFoods);
             foreach(var item in result.Items)
             {
@@ -61,7 +61,7 @@ namespace IIS_Projekat.Services.Impl
             return result;
         }
 
-        private List<PreviewFoodDTO> GetSuitableFoods(List<Food> foods, MedicalRecord medicalRecord)
+        private List<PreviewFoodDTO> RemoveUnsuitableFoods(List<Food> foods, MedicalRecord medicalRecord)
         {
             foreach (var food in foods)
             {
