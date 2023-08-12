@@ -36,6 +36,8 @@ namespace IIS_Projekat.Services.Impl
             AddMeals(newNutritionPlanDTO.Lunches, "LUNCH", nutritionPlan);
             AddMeals(newNutritionPlanDTO.Dinners, "DINNER", nutritionPlan);
             AddMeals(newNutritionPlanDTO.Snacks, "SNACK", nutritionPlan);
+            AddMeals(newNutritionPlanDTO.Supplements, "SUPPLEMENT", nutritionPlan);
+
             _unitOfWork.SaveChanges();
         }
 
@@ -96,6 +98,9 @@ namespace IIS_Projekat.Services.Impl
                     case "SNACK":
                         response.Snacks.Add(new PreviewMealDTO { PortionSize = meal.PortionSize, Recipe = GetDetailed(meal.RecipeId) });
                         break;
+                    case "SUPPLEMENT":
+                        response.Supplements.Add(new PreviewMealDTO { PortionSize = meal.PortionSize, Recipe = GetDetailed(meal.RecipeId) });
+                        break;
                 }
             }
             return response;
@@ -133,6 +138,9 @@ namespace IIS_Projekat.Services.Impl
                             break;
                         case "SNACK":
                             dailyPlan.Snacks.Add(new PreviewMealDTO { PortionSize = meal.PortionSize, Recipe = GetDetailed(meal.RecipeId) });
+                            break;
+                        case "SUPPLEMENT":
+                            dailyPlan.Supplements.Add(new PreviewMealDTO { PortionSize = meal.PortionSize, Recipe = GetDetailed(meal.RecipeId) });
                             break;
                     }
                 }

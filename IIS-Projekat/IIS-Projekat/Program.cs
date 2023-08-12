@@ -101,7 +101,6 @@ builder.Services.AddScoped<ITherapyService, TherapyService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMeasurementService, MeasurementService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<ISupplementService, SupplementService>();
 
 // Enabled CORS
 
