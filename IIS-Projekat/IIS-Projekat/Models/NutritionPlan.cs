@@ -14,6 +14,5 @@ namespace IIS_Projekat.Models
         public DateTime ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsOrdered { get; set; }
-        public ICollection<Supplement> Supplements { get; set; } = new List<Supplement>();
     }
 }

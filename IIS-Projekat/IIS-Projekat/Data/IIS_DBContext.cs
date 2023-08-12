@@ -604,13 +604,6 @@ namespace IIS_Projekat.Data
 
             modelBuilder.Entity<Notification>().HasQueryFilter(n => !n.IsDeleted);
             modelBuilder.Entity<Notification>().HasKey(m => m.Id);
-
-            modelBuilder.Entity<Supplement>().HasQueryFilter(s => !s.IsDeleted);
-            modelBuilder.Entity<Supplement>().HasKey(s => s.Id);
-            modelBuilder.Entity<Supplement>().Property(s => s.Name).IsRequired();
-            modelBuilder.Entity<Supplement>().Property(s => s.Unit).IsRequired();
-            modelBuilder.Entity<Supplement>().Property(s => s.Dose).IsRequired();
-            modelBuilder.Entity<Supplement>().HasMany(s => s.NutritionPlans).WithMany(np => np.Supplements);
         }
     }
 }

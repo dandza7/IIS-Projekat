@@ -8,6 +8,6 @@
         public List<NewMealDTO> Lunches { get; set; } = new List<NewMealDTO>();
         public List<NewMealDTO> Dinners { get; set; } = new List<NewMealDTO>();
         public List<NewMealDTO> Snacks { get; set; } = new List<NewMealDTO>();
-        public List<long> SupplementIds { get; set; } = new List<long>();
+        public List<NewMealDTO> Supplements { get; set; } = new List<NewMealDTO>();
     }
 }

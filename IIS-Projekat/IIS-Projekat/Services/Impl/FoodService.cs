@@ -2,6 +2,7 @@
 using IIS_Projekat.Models;
 using IIS_Projekat.Models.DTOs.Food;
 using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.Recipe;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 
@@ -28,8 +29,29 @@ namespace IIS_Projekat.Services.Impl
             newFood = _unitOfWork.FoodRepository.Create(newFood);
             AddAllergiesToFood(newFoodDTO.AllergyIds, newFood);
             AddNutrientsToFood(newFoodDTO.NutrientTable, newFood);
+
+            if(newFood.Category == "SUPPLEMENT")
+            {
+                var newRecipe = new Recipe
+                {
+                    Name = newFood.Name
+                };
+                AddSupplementToRecipe(newRecipe, newFood);
+                newRecipe = _unitOfWork.RecipeRepository.Create(newRecipe);
+            }
             _unitOfWork.SaveChanges();
             return newFood.Id;
+        }
+
+        private void AddSupplementToRecipe(Recipe recipe, Food supplement)
+        {
+            var foodShare = new FoodShare
+            {
+                Share = 1F,
+                Recipe = recipe,
+                Food = supplement
+            };
+            _unitOfWork.FoodShareRepository.Create(foodShare);
         }
 
         public PaginationWrapper<PreviewFoodDTO> GetAll(PaginationQuery paginationQuery)
