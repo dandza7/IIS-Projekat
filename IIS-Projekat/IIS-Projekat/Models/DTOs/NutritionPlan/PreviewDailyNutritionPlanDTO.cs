@@ -1,4 +1,6 @@
-﻿namespace IIS_Projekat.Models.DTOs.NutritionPlan
+﻿using IIS_Projekat.Models.DTOs.Supplement;
+
+namespace IIS_Projekat.Models.DTOs.NutritionPlan
 {
     public class PreviewDailyNutritionPlanDTO
     {
@@ -7,5 +9,6 @@
         public List<PreviewMealDTO> Lunches { get; set; } = new List<PreviewMealDTO>();
         public List<PreviewMealDTO> Dinners { get; set; } = new List<PreviewMealDTO>();
         public List<PreviewMealDTO> Snacks { get; set; } = new List<PreviewMealDTO>();
+        public List<PreviewSupplementDTO> Supplements { get; set; } = new List<PreviewSupplementDTO>();
     }
 }
