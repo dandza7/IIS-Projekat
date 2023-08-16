@@ -39,6 +39,7 @@ namespace IIS_Projekat.Services.Impl
             var trainingPlan = _unitOfWork.TrainingPlanRepository
                 .GetAll().Where(tp => tp.Id == updateDTO.TrainingPlanId)
                 .Include(tp => tp.TrainingSessions).ThenInclude(ts => ts.ExercisesInSession)
+                .Include(tp => tp.Client)
                 .FirstOrDefault();
             if (trainingPlan == null)
             {
