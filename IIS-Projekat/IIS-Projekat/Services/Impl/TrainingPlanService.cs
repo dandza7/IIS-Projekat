@@ -230,16 +230,10 @@ namespace IIS_Projekat.Services.Impl
             {
                 throw new NotFoundException($"Trainer was not found in the database!");
             }
-            trainingPlan.Trainer = trainer;
-            trainingPlan.TrainerId = trainer.Id;
-
-            var client = _unitOfWork.UserRepository.GetById(updateDTO.ClientId);
-            if (client == null)
+            if(trainer.Id != trainingPlan.TrainerId)
             {
-                throw new NotFoundException($"Client with ID: {updateDTO.ClientId} does not exist!");
+                throw new BadHttpRequestException("You can only update training plans of your own clients.");
             }
-            trainingPlan.Client = client;
-            trainingPlan.ClientId = client.Id;
             return _unitOfWork.TrainingPlanRepository.Update(trainingPlan);
         }
 
