@@ -40,6 +40,7 @@ namespace IIS_Projekat.Controllers
         /// </summary>
         /// <response code="200">If new training plan was updated successfully</response>
         /// <response code="404">If client that requested the plan is now deleted</response>
+        /// <response code="400">If trainer trying to update plan is not the trainer of the client</response>
         /// <response code="400">If there is duplicate training session name</response>
         /// <response code="404">If client profile was not found</response>
         [HttpPut("update", Name = "UpdateTrainingPlan")]
