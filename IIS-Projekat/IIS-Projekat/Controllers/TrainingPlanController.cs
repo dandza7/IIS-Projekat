@@ -46,7 +46,7 @@ namespace IIS_Projekat.Controllers
         [Authorize(Roles = Roles.Trainer)]
         public ActionResult<long> UpdateTrainingPlan([FromBody] UpdateTrainingPlanDTO updateTrainingPlanDTO)
         {
-            return Ok(_trainingPlanService.UpdateTrainingPlan(updateTrainingPlanDTO));
+            return Ok(_trainingPlanService.UpdateTrainingPlan(updateTrainingPlanDTO, User.GetEmail()));
         }
 
         /// <summary>
