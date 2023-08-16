@@ -9,6 +9,7 @@ using IIS_Projekat.Models.DTOs.Training.Session;
 using IIS_Projekat.Repositories;
 using IIS_Projekat.SupportClasses.GlobalExceptionHandler.CustomExceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace IIS_Projekat.Services.Impl
 {
@@ -33,7 +34,7 @@ namespace IIS_Projekat.Services.Impl
             return trainingPlan.Id;
         }
 
-        public long UpdateTrainingPlan(UpdateTrainingPlanDTO updateDTO)
+        public long UpdateTrainingPlan(UpdateTrainingPlanDTO updateDTO, string email)
         {
             var trainingPlan = _unitOfWork.TrainingPlanRepository
                 .GetAll().Where(tp => tp.Id == updateDTO.TrainingPlanId)
@@ -54,7 +55,7 @@ namespace IIS_Projekat.Services.Impl
             }
             _unitOfWork.SaveChanges();
 
-            trainingPlan = UpdateTrainingPlanBase(trainingPlan, updateDTO);
+            trainingPlan = UpdateTrainingPlanBase(trainingPlan, updateDTO, email);
             AddTrainingSessionsToPlan(trainingPlan, updateDTO.TrainingSessions);
             HandleUpdateNotifications(trainingPlan);
 
@@ -220,11 +221,11 @@ namespace IIS_Projekat.Services.Impl
             _notificationService.CreateNotification(notificationDTO);
         }
 
-        private TrainingPlan UpdateTrainingPlanBase(TrainingPlan trainingPlan, UpdateTrainingPlanDTO updateDTO)
+        private TrainingPlan UpdateTrainingPlanBase(TrainingPlan trainingPlan, UpdateTrainingPlanDTO updateDTO, string email)
         {
             trainingPlan.TrainingGoal = updateDTO.TrainingGoal;
             trainingPlan.SessionsPerWeek = updateDTO.SessionsPerWeek;
-            var trainer = _unitOfWork.UserRepository.GetById(updateDTO.TrainerId);
+            var trainer = _unitOfWork.UserRepository.GetAll().Where(u => u.Email == email).FirstOrDefault();
             if (trainer == null)
             {
                 throw new NotFoundException($"Trainer was not found in the database!");
