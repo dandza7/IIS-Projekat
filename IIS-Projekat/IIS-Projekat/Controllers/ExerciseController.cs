@@ -31,9 +31,9 @@ namespace IIS_Projekat.Controllers
         /// <response code="400">If muscle group is not valid</response>
         [HttpPost("create", Name = "ExerciseCreation")]
         [Authorize(Roles = Roles.Trainer)]
-        public ActionResult<long> CreateExercise([FromBody] NewExerciseDTO newExerciseDTO, string email)
+        public ActionResult<long> CreateExercise([FromBody] NewExerciseDTO newExerciseDTO)
         {
-            return Ok(_exerciseService.CreateExercise(newExerciseDTO, email));
+            return Ok(_exerciseService.CreateExercise(newExerciseDTO, User.GetEmail()));
         }
 
         /// <summary>
