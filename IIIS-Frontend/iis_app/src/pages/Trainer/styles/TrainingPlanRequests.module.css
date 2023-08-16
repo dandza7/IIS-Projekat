@@ -13,11 +13,12 @@
   .requestsTable th,
   .requestsTable td {
     padding: 0.7rem 0.7rem;
+    font-size: 0.8rem;
   }
 }
 
 .requestsTable th {
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 400;
 }
 

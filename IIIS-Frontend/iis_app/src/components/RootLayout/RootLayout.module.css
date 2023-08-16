@@ -1,12 +1,13 @@
 .rootLayout {
   min-height: 100vh;
+  background-color: var(--ligtGrey);
 }
 
 .main {
   background-color: var(--ligtGrey);
   padding: 1rem;
   padding-top: 5.2rem;
-  min-height: 100vh;
+  height: 100%;
 }
 .outletContainer {
   width: 65%;
@@ -17,5 +18,9 @@
   .outletContainer {
     width: 100%;
     min-width: 100px;
+  }
+  .main {
+    padding: 0rem;
+    padding-top: 5.2rem;
   }
 }
