@@ -44,9 +44,21 @@ const SideMenu = (props) => {
           </div>
           <div
             className={classes.openMenuItem}
-            onClick={() => openPageHandler("/staff")}
+            onClick={() => openPageHandler("/training-plan-requests")}
           >
-            <div className={classes.NavLink}>Staff</div>
+            <div className={classes.NavLink}>Training plan requests</div>
+          </div>
+          <div
+            className={classes.openMenuItem}
+            onClick={() => openPageHandler("/training-plans")}
+          >
+            <div className={classes.NavLink}>Training plans</div>
+          </div>
+          <div
+            className={classes.openMenuItem}
+            onClick={() => openPageHandler("/training-plan-request")}
+          >
+            <div className={classes.NavLink}>Training Plan Request</div>
           </div>
         </div>
       </div>

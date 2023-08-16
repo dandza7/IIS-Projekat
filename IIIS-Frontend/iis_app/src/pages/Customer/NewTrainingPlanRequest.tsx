@@ -161,7 +161,7 @@ const NewTrainingPlanRequest = () => {
           </div>
         )}
         {page === "TRAINERS" && (
-          <div className={classes.trainers}>
+          <div className={classes.trainersContainer}>
             <h3>Choose your trainer</h3>
             <div className={classes.trainers}>
               {trainers.map((trainer, index: any) => (

@@ -21,7 +21,11 @@ import MealPlan from "./pages/Nutritionist/MealPlan";
 import NewRecipe from "./pages/Nutritionist/NewRecipe";
 import { NewFood } from "./pages/Nutritionist/NewFood";
 import Patients from "./pages/Nutritionist/Patients";
-
+import NewExercise from "./pages/Trainer/NewExercise";
+import NewTrainingPlan from "./pages/Trainer/NewTrainingPlan";
+import TrainingPlan from "./pages/Trainer/TrainingPlan";
+import TrainingPlans from "./pages/Trainer/TrainingPlans";
+import MyTrainingPlan from "./pages/Customer/MyTrainingPlan";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -48,9 +52,9 @@ const router = createBrowserRouter(
         {<Route path="/recipe/:id" index element={<Recipe></Recipe>}></Route>}
         {
           <Route
-            path="/training-plan-requests"
+            path="/my-training-plan"
             index
-            element={<TrainingPlanRequests></TrainingPlanRequests>}
+            element={<MyTrainingPlan></MyTrainingPlan>}
           ></Route>
         }
         {
@@ -76,6 +80,34 @@ const router = createBrowserRouter(
           ></Route>
         }
         {<Route path="/patients" index element={<Patients></Patients>}></Route>}
+        {
+          <Route
+            path="/new-exercise"
+            index
+            element={<NewExercise></NewExercise>}
+          ></Route>
+        }
+        {
+          <Route
+            path="/new-training-plan/:id"
+            index
+            element={<NewTrainingPlan></NewTrainingPlan>}
+          ></Route>
+        }
+        {
+          <Route
+            path="/training-plan/:id"
+            index
+            element={<TrainingPlan></TrainingPlan>}
+          ></Route>
+        }{" "}
+        {
+          <Route
+            path="/training-plans"
+            index
+            element={<TrainingPlans></TrainingPlans>}
+          ></Route>
+        }
       </Route>
     </Route>
   )
