@@ -293,10 +293,10 @@ namespace IIS_Projekat.Services.Impl
             foreach (var exerciseDTO in trainingSessionDTO.ExerciseInfo)
             {
                 ExerciseTrainingSession exerciseForSession = _mapper.Map<ExerciseTrainingSession>(exerciseDTO);
-                var exercise = _unitOfWork.ExerciseRepository.GetById(exerciseDTO.ExerciseId);
+                var exercise = _unitOfWork.ExerciseRepository.GetAll().Where(e => e.Name == exerciseDTO.ExerciseName).FirstOrDefault();
                 if (exercise == null)
                 {
-                    throw new NotFoundException($"Exercise with ID: {exerciseDTO.ExerciseId} does not exist in the database");
+                    throw new NotFoundException($"Exercise with name: {exerciseDTO.ExerciseName} does not exist in the database");
                 }
                 exerciseForSession.TrainingSession = trainingSession;
                 exerciseForSession.Exercise = exercise;
