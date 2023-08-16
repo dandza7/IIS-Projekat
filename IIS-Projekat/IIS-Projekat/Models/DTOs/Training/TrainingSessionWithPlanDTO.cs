@@ -3,6 +3,6 @@
     public class TrainingSessionWithPlanDTO
     {
         public string Name { get; set; }
-        public ICollection<ExerciseWithTrainingSessionDTO> Exercises { get; set; } = new List<ExerciseWithTrainingSessionDTO>();
+        public ICollection<ExerciseWithTrainingSessionDTO> ExerciseInfo { get; set; } = new List<ExerciseWithTrainingSessionDTO>();
     }
 }

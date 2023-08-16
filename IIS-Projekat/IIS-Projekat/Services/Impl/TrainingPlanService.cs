@@ -296,7 +296,7 @@ namespace IIS_Projekat.Services.Impl
         }
         private void AddExercisesToTrainingSession(TrainingSession trainingSession, TrainingSessionWithPlanDTO trainingSessionDTO)
         {
-            foreach (var exerciseDTO in trainingSessionDTO.Exercises)
+            foreach (var exerciseDTO in trainingSessionDTO.ExerciseInfo)
             {
                 ExerciseTrainingSession exerciseForSession = _mapper.Map<ExerciseTrainingSession>(exerciseDTO);
                 var exercise = _unitOfWork.ExerciseRepository.GetById(exerciseDTO.ExerciseId);
