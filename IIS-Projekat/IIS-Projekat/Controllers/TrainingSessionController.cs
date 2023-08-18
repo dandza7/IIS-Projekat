@@ -23,14 +23,27 @@ namespace IIS_Projekat.Controllers
         /// <summary>
         /// [Customer] Gets information for page rendering
         /// </summary>
-        /// <response code="200">If new training session was updated successfully</response>
-        /// <response code="404">If training session was not found</response>
+        /// <response code="200">If information was retrieved successfully</response>
+        /// <response code="404">If user or his plan were not found</response>
         [HttpGet("display", Name = "GetDisplayInformation")]
         [Authorize(Roles = Roles.Customer)]
         public ActionResult<ShouldDocumentNewTrainingSessionDTO> GetDisplayInformation()
         {
             return Ok(_trainingSessionService.ShouldDocumentNewSessionDTO(User.GetEmail()));
         }
-        
+
+        /// <summary>
+        /// [Customer] Documents training session
+        /// </summary>
+        /// <response code="200">If training session was documented successfully</response>
+        /// <response code="404">If user, his plan or an exercise were not found</response>
+        [HttpPost(Name = "DocumentTrainingSession")]
+        [Authorize(Roles = Roles.Customer)]
+        public ActionResult DocumentTrainingSession([FromBody] NewDocumentedTrainingSessionDTO session)
+        {
+            _trainingSessionService.DocumentNewTrainingSession(User.GetEmail(), session);
+            return Ok();
+        }
+
     }
 }

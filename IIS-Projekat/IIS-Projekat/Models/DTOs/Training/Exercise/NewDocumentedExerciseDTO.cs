@@ -5,6 +5,6 @@ namespace IIS_Projekat.Models.DTOs.Training.Exercise
     public class NewDocumentedExerciseDTO
     {
         public string Name { get; set; }
-        public ICollection<NewTrainingSetDTO> SetInfo = new List<NewTrainingSetDTO>();
+        public ICollection<NewTrainingSetDTO> SetInfo { get; set; } = new List<NewTrainingSetDTO>();
     }
 }
