@@ -132,8 +132,8 @@ const NewTrainingPlan = () => {
 
     const sessions: {
       name: string;
-      exercises: {
-        exerciseId: number;
+      exerciseInfo: {
+        exerciseName: string;
         repetitionRange: string;
         numberOfSets: number;
       }[];
@@ -143,14 +143,14 @@ const NewTrainingPlan = () => {
     );
 
     sessionNames.forEach((sessionName) => {
-      sessions.push({ name: sessionName, exercises: [] });
+      sessions.push({ name: sessionName, exerciseInfo: [] });
     });
 
     sessions.forEach((session) => {
       exercises.forEach((exercise) => {
         if (exercise.sessionName === session.name) {
-          session.exercises.push({
-            exerciseId: exercise.id,
+          session.exerciseInfo.push({
+            exerciseName: exercise.name,
             repetitionRange: exercise.range,
             numberOfSets: exercise.amount,
           });
