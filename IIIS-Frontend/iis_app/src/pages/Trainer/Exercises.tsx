@@ -4,6 +4,8 @@ import { useState, useEffect, useContext } from "react";
 import AuthContext from "../../store/auth-context";
 import Pagination from "../../components/Utils/Pagination";
 import dayjs from "dayjs";
+import utils from "../styles/Utils.module.css";
+import { useNavigate } from "react-router";
 
 const Exercises = () => {
   const authCtx = useContext(AuthContext);
@@ -11,7 +13,7 @@ const Exercises = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [selectedPage, setSelectedPage] = useState(1);
   const pageSize = 5;
-
+  const navigate = useNavigate();
   const changePage = (page: number) => {
     setSelectedPage(page);
     window.scrollTo({ top: 0, left: 0 });
@@ -48,6 +50,17 @@ const Exercises = () => {
     <div>
       <div className={classes.whiteContainer}>
         <h2>Exercises</h2>
+        <br></br>
+        <div className={utils.rightContainer}>
+          <button
+            className={utils.greenButton}
+            onClick={() => {
+              navigate("/new-exercise");
+            }}
+          >
+            Add
+          </button>
+        </div>
         <br></br>
         <div className={classes.exercises}>
           <table className={classes.exercisesTable}>

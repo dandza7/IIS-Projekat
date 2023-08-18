@@ -7,6 +7,7 @@
 .notificationTable th,
 .notificationTable td {
   padding: 0.7rem 1rem;
+  min-width: 100px;
 }
 .notificationTable th {
   font-size: 1rem;
@@ -55,6 +56,7 @@
   padding: 0;
   width: 100%;
   border-radius: 1rem;
+
   overflow: hidden;
   font-size: 14px;
 }
@@ -67,4 +69,45 @@
 
 .notificationContent {
   max-width: 5ch;
+}
+.notificationContentUnread {
+  max-width: 5ch;
+  font-weight: 600;
+}
+
+.modal {
+  max-width: 500px;
+  width: 90vw;
+  padding-bottom: 1rem;
+}
+.modalContainer {
+  padding: 0rem 1rem;
+}
+
+.modalTitle {
+  background-color: white;
+  color: rgb(43, 43, 43);
+  padding: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modalClose {
+  margin-top: -1rem;
+  background-color: rgba(210, 214, 213, 0.704);
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.modalBody {
+  padding: 1rem;
+  padding-top: 0rem;
+}
+.rightContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }

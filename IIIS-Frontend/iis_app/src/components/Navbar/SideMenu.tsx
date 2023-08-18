@@ -2,9 +2,12 @@ import React from "react";
 import classes from "./Navbar.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../../store/auth-context";
 
 const SideMenu = (props) => {
   const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
 
   const openPageHandler = (url: string) => {
     props.handleOpenMenu(false);
@@ -24,42 +27,70 @@ const SideMenu = (props) => {
           </button>
         </div>
         <div className={classes.openedMenuItems}>
-          <div
-            className={classes.openMenuItem}
-            onClick={() => openPageHandler("/foods")}
-          >
-            <div className={classes.NavLink}>Foods</div>
-          </div>
-          <div
-            className={classes.openMenuItem}
-            onClick={() => openPageHandler("/recipes")}
-          >
-            <div className={classes.NavLink}>Recipes</div>
-          </div>
-          <div
-            className={classes.openMenuItem}
-            onClick={() => openPageHandler("/exercises")}
-          >
-            <div className={classes.NavLink}>Exercises</div>
-          </div>
-          <div
-            className={classes.openMenuItem}
-            onClick={() => openPageHandler("/training-plan-requests")}
-          >
-            <div className={classes.NavLink}>Training plan requests</div>
-          </div>
-          <div
-            className={classes.openMenuItem}
-            onClick={() => openPageHandler("/training-plans")}
-          >
-            <div className={classes.NavLink}>Training plans</div>
-          </div>
-          <div
-            className={classes.openMenuItem}
-            onClick={() => openPageHandler("/training-plan-request")}
-          >
-            <div className={classes.NavLink}>Training Plan Request</div>
-          </div>
+          {authCtx.role == "NUTRITIONIST" && (
+            <div
+              className={classes.openMenuItem}
+              onClick={() => openPageHandler("/foods")}
+            >
+              <div className={classes.NavLink}>Foods</div>
+            </div>
+          )}
+          {authCtx.role == "NUTRITIONIST" && (
+            <div
+              className={classes.openMenuItem}
+              onClick={() => openPageHandler("/recipes")}
+            >
+              <div className={classes.NavLink}>Recipes</div>
+            </div>
+          )}
+          {authCtx.role == "TRAINER" && (
+            <div
+              className={classes.openMenuItem}
+              onClick={() => openPageHandler("/exercises")}
+            >
+              <div className={classes.NavLink}>Exercises</div>
+            </div>
+          )}
+          {authCtx.role == "TRAINER" && (
+            <div
+              className={classes.openMenuItem}
+              onClick={() => openPageHandler("/training-plan-requests")}
+            >
+              <div className={classes.NavLink}>Training plan requests</div>
+            </div>
+          )}
+          {authCtx.role == "TRAINER" && (
+            <div
+              className={classes.openMenuItem}
+              onClick={() => openPageHandler("/training-plans")}
+            >
+              <div className={classes.NavLink}>Training plans</div>
+            </div>
+          )}
+          {authCtx.role == "CUSTOMER" && (
+            <div
+              className={classes.openMenuItem}
+              onClick={() => openPageHandler("/training-plan-request")}
+            >
+              <div className={classes.NavLink}>Training plan request</div>
+            </div>
+          )}
+          {authCtx.role == "CUSTOMER" && (
+            <div
+              className={classes.openMenuItem}
+              onClick={() => openPageHandler("/my-training-plan")}
+            >
+              <div className={classes.NavLink}>My training Plan </div>
+            </div>
+          )}
+          {authCtx.role == "CUSTOMER" && (
+            <div
+              className={classes.openMenuItem}
+              onClick={() => openPageHandler("/session")}
+            >
+              <div className={classes.NavLink}>My session</div>
+            </div>
+          )}
         </div>
       </div>
     </div>
