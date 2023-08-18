@@ -120,11 +120,13 @@ namespace IIS_Projekat.Services.Impl
                         Weight = 0,
                         Repetitions = 0
                     });
-               
+
                 newTrainingSessionDTO.ExerciseInfo.Add(
                         new PreviewNewExerciseDTO
                         {
                             Name = exerciseInfo.Exercise.Name,
+                            RepetitionRange = exerciseInfo.RepetitionRange,
+                            NumberOfSets = exerciseInfo.NumberOfSets,
                             SetInfo = setInfo
                         }
                     );

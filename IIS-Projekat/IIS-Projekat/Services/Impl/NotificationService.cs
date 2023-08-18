@@ -59,9 +59,11 @@ namespace IIS_Projekat.Services.Impl
                 throw new NotFoundException($"User does not have a profile.");
             }
             var notifications = _unitOfWork.NotificationRepository.GetAll(n => n.Reciever).Where(n => n.Reciever == usersProfile).ToList();
+            if(paginationQuery.Page == 0) paginationQuery.Page = 1;
+            if (paginationQuery.PageSize == 0) paginationQuery.PageSize = notifications.Count;
             return new PaginationWrapper<PreviewNotificationDTO>
             (
-                _mapper.Map<List<PreviewNotificationDTO>>(notifications.Skip((paginationQuery.Page - 1) * paginationQuery.PageSize).Take(paginationQuery.PageSize)),
+                _mapper.Map<List<PreviewNotificationDTO>>(notifications.OrderByDescending(n => n.CreatedDate).Skip((paginationQuery.Page - 1) * paginationQuery.PageSize).Take(paginationQuery.PageSize)),
                 notifications.Count()
             );
         }
