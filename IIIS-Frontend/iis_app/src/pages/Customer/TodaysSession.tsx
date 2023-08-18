@@ -88,7 +88,7 @@ export const TodaySession = () => {
 
   const saveSession = () => {
     console.log(session);
-    fetch("http://localhost:5041/api/training-session", {
+    fetch("http://localhost:5041/api/training-session/document", {
       method: "POST",
       body: JSON.stringify(session),
       headers: {
@@ -98,7 +98,7 @@ export const TodaySession = () => {
     })
       .then((res) => {
         if (res.ok) {
-          navigate("/my-training-plan");
+          navigate("/my-sessions");
         } else if (res.status == 404) {
           throw new Error("error");
         }

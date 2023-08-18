@@ -80,7 +80,7 @@ const SideMenu = (props) => {
               className={classes.openMenuItem}
               onClick={() => openPageHandler("/my-training-plan")}
             >
-              <div className={classes.NavLink}>My training Plan </div>
+              <div className={classes.NavLink}>My training plan </div>
             </div>
           )}
           {authCtx.role == "CUSTOMER" && (
@@ -88,7 +88,23 @@ const SideMenu = (props) => {
               className={classes.openMenuItem}
               onClick={() => openPageHandler("/session")}
             >
-              <div className={classes.NavLink}>My session</div>
+              <div className={classes.NavLink}>Today's session</div>
+            </div>
+          )}
+          {authCtx.role == "CUSTOMER" && (
+            <div
+              className={classes.openMenuItem}
+              onClick={() => openPageHandler("/my-sessions")}
+            >
+              <div className={classes.NavLink}>My sessions</div>
+            </div>
+          )}
+          {authCtx.role == "CUSTOMER" && (
+            <div
+              className={classes.openMenuItem}
+              onClick={() => openPageHandler("/new-measurement")}
+            >
+              <div className={classes.NavLink}>New measurent</div>
             </div>
           )}
         </div>
