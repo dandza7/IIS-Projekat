@@ -27,6 +27,7 @@ import TrainingPlan from "./pages/Trainer/TrainingPlan";
 import TrainingPlans from "./pages/Trainer/TrainingPlans";
 import MyTrainingPlan from "./pages/Customer/MyTrainingPlan";
 import Session from "./pages/Customer/Session";
+import TodaySession from "./pages/Customer/TodaysSession";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -116,7 +117,13 @@ const router = createBrowserRouter(
             element={<TrainingPlans></TrainingPlans>}
           ></Route>
         }
-        {<Route path="/session" index element={<Session></Session>}></Route>}
+        {
+          <Route
+            path="/session"
+            index
+            element={<TodaySession></TodaySession>}
+          ></Route>
+        }
       </Route>
     </Route>
   )
