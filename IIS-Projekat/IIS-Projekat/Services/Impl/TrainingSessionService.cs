@@ -37,7 +37,7 @@ namespace IIS_Projekat.Services.Impl
                 var documentedSets = _unitOfWork.TrainingSetRepository.GetAll()
                     .Where(set => set.TrainingSession == session).ToList();
                 if (documentedSets.Count == 0) continue;
-                sessionDTO.Date = session.CreatedDate;
+
                 sessionDTO.Name = session.Name;
                 foreach (var exerciseDTO in session.ExercisesInSession)
                 {
@@ -47,7 +47,7 @@ namespace IIS_Projekat.Services.Impl
 
                     var setsOfExercise = _unitOfWork.TrainingSetRepository.GetAll()
                         .Where(ts => ts.TrainingSession == session && ts.Exercise == exerciseDTO.Exercise).ToList();
-                    
+                    sessionDTO.Date = setsOfExercise[0].CreatedDate;
                     foreach(var trainingSet in setsOfExercise)
                     {
                         var setDTO = new PreviewTrainingSetDTO();
@@ -120,11 +120,13 @@ namespace IIS_Projekat.Services.Impl
                         Weight = 0,
                         Repetitions = 0
                     });
-               
+
                 newTrainingSessionDTO.ExerciseInfo.Add(
                         new PreviewNewExerciseDTO
                         {
                             Name = exerciseInfo.Exercise.Name,
+                            RepetitionRange = exerciseInfo.RepetitionRange,
+                            NumberOfSets = exerciseInfo.NumberOfSets,
                             SetInfo = setInfo
                         }
                     );
