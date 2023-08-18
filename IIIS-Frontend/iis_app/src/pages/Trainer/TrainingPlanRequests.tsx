@@ -37,21 +37,27 @@ const TrainingPlanRequests = () => {
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Sessions per week</th>
+                <th>Sessions</th>
                 <th>Goal</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {requests?.map((request) => (
-                <tr
-                  key={request.id}
-                  onClick={() => {
-                    navigate("/new-training-plan/" + request.id);
-                  }}
-                >
+                <tr key={request.id}>
                   <td>{request.clientFullName}</td>
                   <td>{request.sessionsPerWeek}</td>
                   <td>{request.trainingGoal}</td>
+                  <td>
+                    <button
+                      className={utils.greenMenuButton}
+                      onClick={() => {
+                        navigate("/new-training-plan/" + request.id);
+                      }}
+                    >
+                      Details
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -112,7 +112,7 @@ export const MyTrainingPlan = () => {
 
   return (
     <div className={utils.whiteContainer}>
-      <h2>Training plan overview</h2>
+      <h2>My training plan</h2>
       <div id="report">
         <div className={utils.form}>
           <div className={classes.container}>

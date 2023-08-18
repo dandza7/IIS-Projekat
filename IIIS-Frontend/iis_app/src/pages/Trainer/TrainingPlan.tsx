@@ -41,9 +41,23 @@ export const TrainingPlan = () => {
   const [selectedNature, setSelectedNature] = useState(null);
 
   const updatePlanHandler = () => {
-    console.log(plan);
+    const backendModel = {
+      trainingPlanId: plan?.trainingPlanId,
+      trainingGoal: plan?.trainingGoal,
+      sessionsPerWeek: plan?.sessionsPerWeek,
+      trainingSessions: plan?.trainingSessions.map((session) => {
+        const exerciseInfo = session.exerciseInfo.map((exercise) => {
+          const { isUnhappy, note, ...rest } = exercise;
+          return rest;
+        });
 
-    const newPlan: planUpdate = planToUpdatePlan(plan);
+        return {
+          name: session.name,
+          exerciseInfo: exerciseInfo,
+        };
+      }),
+    };
+    console.log(backendModel);
 
     fetch("http://localhost:5041/api/training-plan/update", {
       method: "PUT",
@@ -51,11 +65,11 @@ export const TrainingPlan = () => {
         "Content-Type": "application/json",
         Authorization: "Bearer " + authCtx.token,
       },
-      body: JSON.stringify({}),
+      body: JSON.stringify(backendModel),
     })
       .then((response) => response.json())
       .then((actualData) => {
-        console.log(actualData.items);
+        console.log(actualData);
       });
   };
 
@@ -331,13 +345,7 @@ export const TrainingPlan = () => {
               <span>{plan?.sessionsPerWeek}</span>
             </div>
             <div className={utils.rightContainer}>
-              <button
-                className={utils.greenButton}
-                onClic={updatePlanHandler}
-                onClick={() => {
-                  console.log(plan);
-                }}
-              >
+              <button className={utils.greenButton} onClick={updatePlanHandler}>
                 Update
               </button>
             </div>
