@@ -5,6 +5,6 @@ namespace IIS_Projekat.Models.DTOs.Training.Exercise
     public class PreviewDocumentedExerciseDTO
     {
         public string Name { get; set; }
-        public ICollection<PreviewTrainingSetDTO> SetInfo = new List<PreviewTrainingSetDTO>();
+        public ICollection<PreviewTrainingSetDTO> SetInfo { get; set; } = new List<PreviewTrainingSetDTO>();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using IIS_Projekat.Models;
+using IIS_Projekat.Models.DTOs.Pagination;
 using IIS_Projekat.Models.DTOs.Training;
 using IIS_Projekat.Models.DTOs.Training.Exercise;
 using IIS_Projekat.Models.DTOs.Training.Session;
@@ -22,7 +23,49 @@ namespace IIS_Projekat.Services.Impl
             _mapper = mapper;
         }
 
-        public ShouldDocumentNewTrainingSessionDTO ShouldDocumentNewSessionDTO(string email)
+        public PaginationWrapper<PreviewDocumentedSessionDTO> GetSessionForClient(TrainnigSessionPaginationDTO query, string email)
+        {
+            bool shouldFilter = false;
+            if (query.Name != "Any") shouldFilter = true;
+
+            var trainingPlan = GetClientsTrainingPlan(email);
+            var retValDTO = new List<PreviewDocumentedSessionDTO>();
+            foreach (var session in trainingPlan.TrainingSessions)
+            {
+                var sessionDTO = new PreviewDocumentedSessionDTO();
+                if (shouldFilter && session.Name != query.Name) continue;
+                var documentedSets = _unitOfWork.TrainingSetRepository.GetAll()
+                    .Where(set => set.TrainingSession == session).ToList();
+                if (documentedSets.Count == 0) continue;
+                sessionDTO.Date = session.CreatedDate;
+                sessionDTO.Name = session.Name;
+                foreach (var exerciseDTO in session.ExercisesInSession)
+                {
+                    var previewExercise = new PreviewDocumentedExerciseDTO();
+                    previewExercise.Name = exerciseDTO.Exercise.Name;
+                    var previewSet = new List<PreviewTrainingSetDTO>();
+
+                    var setsOfExercise = _unitOfWork.TrainingSetRepository.GetAll()
+                        .Where(ts => ts.TrainingSession == session && ts.Exercise == exerciseDTO.Exercise).ToList();
+                    
+                    foreach(var trainingSet in setsOfExercise)
+                    {
+                        var setDTO = new PreviewTrainingSetDTO();
+                        setDTO.Weight = trainingSet.Weight;
+                        setDTO.Repetitions = trainingSet.Repetitions;
+                        previewExercise.SetInfo.Add(setDTO);
+                    }
+                    sessionDTO.ExerciseInfo.Add(previewExercise);
+                }
+                retValDTO.Add(sessionDTO); 
+            }
+
+            return PaginationWrapper<PreviewDocumentedSessionDTO>.WrapItems(_mapper, query.PaginationQuery, retValDTO);
+        }
+
+        // Danas je 18.8.2023., ako ovo gledaš u budućnosti srećno jer 
+        // jedva i sad znaš kako radi. -N.V.
+        public ShouldDocumentNewTrainingSessionDTO ShouldDocumentNewSession(string email)
         {
             var trainingPlan = GetClientsTrainingPlan(email);
             // -1 jer je ponedeljak 1 a ne 0
