@@ -2,7 +2,7 @@
 
 namespace IIS_Projekat.Models.DTOs.Training
 {
-    public class LastDocumentedTrainingSessionDTO
+    public class ShouldDocumentNewTrainingSessionDTO
     {
         public bool isTodayDocumented { get; set; }
         public bool isMaxSessionsReached { get; set; }
