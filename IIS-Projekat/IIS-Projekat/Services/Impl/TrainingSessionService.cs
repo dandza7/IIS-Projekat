@@ -60,6 +60,12 @@ namespace IIS_Projekat.Services.Impl
             retVal.isMaxSessionsReached = documentedSessionsThisWeek == trainingPlan.SessionsPerWeek;
 
             var newTrainingSessionDTO = new PreviewNewTrainingSessionDTO();
+            if(retVal.isTodayDocumented || retVal.isMaxSessionsReached)
+            {
+                retVal.NewTrainingSessionInfo = newTrainingSessionDTO;
+                return retVal;
+            }
+
             var newSessionIndex = (lastSessionIndex == (trainingPlan.TrainingSessions.Count - 1)) ? 0 : lastSessionIndex + 1;
             newTrainingSessionDTO.Name = trainingPlan.TrainingSessions.ToList()[newSessionIndex].Name;
             foreach(var exerciseInfo in trainingPlan.TrainingSessions.ToList()[newSessionIndex].ExercisesInSession)
@@ -82,6 +88,47 @@ namespace IIS_Projekat.Services.Impl
             }
             retVal.NewTrainingSessionInfo = newTrainingSessionDTO;
             return retVal;
+        }
+
+        public void DocumentNewTrainingSession(string email, NewDocumentedTrainingSessionDTO session)
+        {
+            var trainingPlan = GetClientsTrainingPlan(email);
+            TrainingSession enteredSession = CheckIfTrainingSessionExistsInPlan(trainingPlan, session.Name);
+
+            foreach (var exerciseDTO in session.ExerciseInfo)
+            {
+                var exercise = _unitOfWork.ExerciseRepository.GetAll().Where(e => e.Name == exerciseDTO.Name).FirstOrDefault();
+                if(exercise == null)
+                {
+                    throw new NotFoundException($"Exercise with name {exerciseDTO.Name} does not exist in the database.");
+                }
+                foreach (var setDTO in exerciseDTO.SetInfo)
+                {
+                    var trainingSet = MapTrainingSet(enteredSession, exercise, setDTO);
+                    _unitOfWork.TrainingSetRepository.Create(trainingSet);
+                }
+            }
+            _unitOfWork.SaveChanges();
+        }
+
+        private TrainingSet MapTrainingSet(TrainingSession enteredSession, Exercise exercise, NewTrainingSetDTO setDTO)
+        {
+            var trainingSet = new TrainingSet();
+            trainingSet.TrainingSession = enteredSession;
+            trainingSet.TrainingSessionId = enteredSession.Id;
+            trainingSet.Exercise = exercise;
+            trainingSet.ExerciseId = exercise.Id;
+            trainingSet.Repetitions = setDTO.Repetitions;
+            trainingSet.Weight = setDTO.Weight;
+            return trainingSet;
+        }
+
+        private TrainingSession CheckIfTrainingSessionExistsInPlan(TrainingPlan trainingPlan, string sessionName)
+        {
+            foreach (var trainingSession in trainingPlan.TrainingSessions)
+                if (trainingSession.Name == sessionName) return trainingSession;
+
+            throw new NotFoundException($"Session with name {sessionName} does not exist in client's plan.");
         }
 
         private bool CompareTodayWithLastDocumented(DateTime lastDocumentedSession)

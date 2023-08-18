@@ -6,5 +6,6 @@ namespace IIS_Projekat.Services
     public interface ITrainingSessionService
     {
         public ShouldDocumentNewTrainingSessionDTO ShouldDocumentNewSessionDTO(string email);
+        public void DocumentNewTrainingSession(string email, NewDocumentedTrainingSessionDTO session);
     }
 }
