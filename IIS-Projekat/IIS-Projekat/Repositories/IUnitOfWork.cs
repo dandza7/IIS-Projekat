@@ -32,6 +32,7 @@ namespace IIS_Projekat.Repositories
         IGenericRepository<Measurement> MeasurementRepository { get; }
         IGenericRepository<Notification> NotificationRepository { get; }
         IGenericRepository<EmailValidation> EmailValidationRepository { get; }
+        IGenericRepository<TrainingSet> TrainingSetRepository { get; }
 
         void SaveChanges();
     }
