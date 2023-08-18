@@ -12,5 +12,6 @@ namespace IIS_Projekat.Models
         public string Name { get; set; }
         public TrainingPlan TrainingPlan { get; set; }
         public ICollection<ExerciseTrainingSession> ExercisesInSession { get; set; } = new List<ExerciseTrainingSession>();
+        public ICollection<TrainingSet> DocumentedSets { get; set; } = new List<TrainingSet>();
     }
 }

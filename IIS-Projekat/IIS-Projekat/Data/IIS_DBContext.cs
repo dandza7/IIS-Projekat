@@ -33,7 +33,7 @@ namespace IIS_Projekat.Data
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<EmailValidation> EmailValidations { get; set; }
-
+        public DbSet<TrainingSet> TrainingSets { get; set; }
         public IIS_DBContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -618,6 +618,15 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<EmailValidation>().HasKey(ev => ev.Id);
             modelBuilder.Entity<EmailValidation>().Property(ev => ev.Code).IsRequired();
             modelBuilder.Entity<EmailValidation>().HasOne(ev => ev.User).WithOne();
+
+            modelBuilder.Entity<TrainingSet>().HasQueryFilter(ts => !ts.IsDeleted);
+            modelBuilder.Entity<TrainingSet>().HasKey(ts => ts.Id);
+            modelBuilder.Entity<TrainingSet>().Property(ts => ts.Weight).IsRequired();
+            modelBuilder.Entity<TrainingSet>().Property(ts => ts.Repetitions).IsRequired();
+            modelBuilder.Entity<TrainingSet>().HasOne(ts => ts.TrainingSession).WithMany(ts => ts.DocumentedSets)
+                .HasForeignKey(ts => ts.TrainingSessionId).IsRequired();
+            modelBuilder.Entity<TrainingSet>().HasOne(ts => ts.Exercise).WithMany(e => e.ExerciseSets)
+                .HasForeignKey(ts => ts.ExerciseId).IsRequired();
         }
     }
 }
