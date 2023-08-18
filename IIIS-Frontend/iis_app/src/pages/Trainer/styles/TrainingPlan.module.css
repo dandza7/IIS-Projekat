@@ -211,12 +211,6 @@
   margin-top: 0.5rem;
 }
 
-.span {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
 .note {
   border-radius: 0.5rem;
   border: 1px solid rgb(170, 169, 169);
@@ -233,8 +227,7 @@
 .span {
   display: flex;
   gap: 1rem;
-  align-items: start;
-  justify-content: start;
+  align-items: center;
 }
 
 .unhappy {
@@ -246,6 +239,26 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+}
+
+.session_titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inputNumber {
+  width: 40px;
+  border: 1px solid rgb(214, 214, 214);
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+}
+
+.session_exerciseInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
 }
 
 @media only screen and (max-width: 650px) {
