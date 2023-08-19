@@ -40,7 +40,7 @@ const MySessions = () => {
       body: JSON.stringify({
         name: "Any",
         paginationQuery: {
-          pageSize: 1,
+          pageSize: 5,
           page: 1,
         },
       }),

@@ -27,7 +27,7 @@ export const TodaySession = () => {
   const [session, setSession] = useState<any[]>([]);
   const [weight, setWeight] = React.useState(0);
   const [doneReps, setDoneReps] = React.useState(0);
-  const [selectedSet, setSelectedSet] = React.useState(null);
+  const [selectedSet, setSelectedSet] = React.useState({ label: 1, value: 1 });
   const setRef = useRef();
   const [sessionInfo, setSessionInfo] = useState(null);
   const saveExerciseHandler = () => {
@@ -214,6 +214,7 @@ export const TodaySession = () => {
 
                     <Select
                       onChange={setSelectedSet}
+                      defaultValue={selectedSet}
                       options={selectedExercise?.setInfo?.map((set, index) => {
                         return { label: index + 1, value: index + 1 };
                       })}
@@ -241,7 +242,11 @@ export const TodaySession = () => {
                 <div className={utils.centerContainer}>
                   <button
                     className={utils.greenButton}
-                    onClick={saveExerciseHandler}
+                    onClick={() => {
+                      saveExerciseHandler();
+                      setDoneReps(0);
+                      setWeight(0);
+                    }}
                   >
                     Add
                   </button>
