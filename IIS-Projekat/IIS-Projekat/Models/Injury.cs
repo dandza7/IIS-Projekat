@@ -2,7 +2,7 @@
 
 namespace IIS_Projekat.Models
 {
-    public class InjuredMuscleTherapy : IEntity
+    public class Injury : IEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }

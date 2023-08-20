@@ -87,7 +87,7 @@ namespace IIS_Projekat.Services.Impl
                     throw new NotFoundException($"Muscle group with name: {newInjury.InjuredMuscle} was not found.");
                 }
                 var patient = _unitOfWork.AppointmentRepository.GetById(therapyDTO.AppointmentId, a => a.Patient).Patient;
-                var injuredMusclesInTherapy = new InjuredMuscleTherapy();
+                var injuredMusclesInTherapy = new Injury();
                 injuredMusclesInTherapy.Therapy = therapy;
                 injuredMusclesInTherapy.InjuredMuscle = injuredMuscle;
                 injuredMusclesInTherapy.InjurySeverity = newInjury.Severity;
