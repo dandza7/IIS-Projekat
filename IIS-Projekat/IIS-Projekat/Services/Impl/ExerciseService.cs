@@ -146,7 +146,7 @@ namespace IIS_Projekat.Services.Impl
 
         private HashSet<MuscleGroup> DiagnoseInjuriesWithGivenSeverity(string severity, MedicalRecord medicalRecord)
         {
-            ICollection<InjuredMuscleTherapy> clientInjuries = _unitOfWork.InjuredMuscleTherapyRepository.GetAll(imt => imt.InjuredMuscle).Include(it => it.Therapy).ThenInclude(t => t.MedicalRecord).Where(it => it.Therapy.MedicalRecord == medicalRecord).ToList();
+            ICollection<Injury> clientInjuries = _unitOfWork.InjuredMuscleTherapyRepository.GetAll(imt => imt.InjuredMuscle).Include(it => it.Therapy).ThenInclude(t => t.MedicalRecord).Where(it => it.Therapy.MedicalRecord == medicalRecord).ToList();
             HashSet<MuscleGroup> injuredMuscleGroups = new HashSet<MuscleGroup>();
 
             foreach(var injury in clientInjuries) { 
