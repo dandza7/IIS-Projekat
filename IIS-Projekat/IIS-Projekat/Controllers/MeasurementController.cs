@@ -1,5 +1,6 @@
 ﻿using IIS_Projekat.Models.DTOs.Measurement;
 using IIS_Projekat.Models.DTOs.Pagination;
+using IIS_Projekat.Models.DTOs.Training;
 using IIS_Projekat.Models.DTOs.Training.Plan;
 using IIS_Projekat.Services;
 using IIS_Projekat.Services.Impl;
@@ -35,23 +36,31 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
-        /// [Trainer, Doctor, Customer] Gets Customers Measurements For Time Period
+        /// [Trainer, Doctor, Customer] Gets Customers Statistics For Time Period
         /// </summary>
         /// /// <remarks>
-        /// Timer period (filter) constraints:
+        /// Send -1 as customerId if it's customer getting his own statistics
+        /// <br/> Time period (filter) constraints:
         /// <br/>  > Values:
-        /// <br/>  >>> "Monthly": measurements after or on the same day of previous month
-        /// <br/>  >>> "Yearly": measurements after or on the same day of previous year
-        /// <br/>  >>> Default: all time measurements
+        /// <br/>  >>> "Month": statistics for the last 30 days
+        /// <br/>  >>> "Year": statistics for the last 365 days
+        /// <br/>  >>> Default: statistics for the last 10 years
+        /// <br/> Other constraints:
+        /// <br/>  > ExerciseName:
+        /// <br/>  >>> "False": doesn't get any exercises
+        /// <br/>  >>> Any other: statistics for the exercise with that name for time period
+        /// <br/>  > Boolean values:
+        /// <br/>  >>> true: gets that measurement for time period
         /// </remarks>
-        /// <response code="200">If measurements were retrieved successfully</response>
+        /// <response code="200">If statistics were retrieved successfully</response>
         /// <response code="404">If patient was not found</response>
         /// <response code="404">If patient's medical record was not found</response>
-        [HttpPost("getMeasurements/{customerId}", Name = "GetCustomersMeasurements")]
+        /// <response code="404">If patient's training plan was not found</response>
+        [HttpPost("getStatistics/{customerId}", Name = "GetStatisticsForPatient")]
         [Authorize(Roles = $"{Roles.Trainer}, {Roles.Doctors}, {Roles.Customer}")]
-        public ActionResult<ICollection<PreviewMeasurementDTO>> GetCustomersMeasurements(long customerId, [FromBody] MeasurementFilterQuery filter)
+        public ActionResult<PreviewStatisticsDTO> GetStatisticsForPatient(long customerId, [FromBody] StatisticsFilterDTO filter)
         {
-            return Ok(_measurementService.GetMeasurementsForPatient(customerId, filter));
+            return Ok(_measurementService.GetStatisticsForPatient(customerId, User.GetEmail(), filter));
         }
     }
 }
