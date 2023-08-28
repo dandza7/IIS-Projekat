@@ -618,7 +618,7 @@ namespace IIS_Projekat.Data
             modelBuilder.Entity<EmailValidation>().HasQueryFilter(ev => !ev.IsDeleted);
             modelBuilder.Entity<EmailValidation>().HasKey(ev => ev.Id);
             modelBuilder.Entity<EmailValidation>().Property(ev => ev.Code).IsRequired();
-            modelBuilder.Entity<EmailValidation>().HasOne(ev => ev.User).WithOne();
+            modelBuilder.Entity<EmailValidation>().HasOne(ev => ev.User).WithMany();
 
             modelBuilder.Entity<TrainingSet>().HasQueryFilter(ts => !ts.IsDeleted);
             modelBuilder.Entity<TrainingSet>().HasKey(ts => ts.Id);
