@@ -10,7 +10,7 @@ namespace IIS_Projekat.Controllers
 {
     [ApiController]
     [Route("api/email-validation")]
-    public class EmailValidationController: ControllerBase
+    public class EmailValidationController : ControllerBase
     {
         private readonly IEmailValidationService _emailValidationService;
 
@@ -27,7 +27,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="400">If user is already subscribed with email</response>
         /// <response code="400">If user's profile does not have at least a name set up</response>
         [HttpPost("create", Name = "EmailValidationCreation")]
-        [Authorize(Roles = Roles.Customer)]
+        [Authorize(Roles = $"{Roles.Customer}, {Roles.Trainer}")]
         public ActionResult<long> Create()
         {
             return Ok(_emailValidationService.Create(User.GetEmail()));
@@ -41,7 +41,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="404">If user did not create a validation request</response>
         /// <response code="400">If the code user provided was incorrect</response>
         [HttpPost("validate", Name = "EmailValidation")]
-        [Authorize(Roles = Roles.Customer)]
+        [Authorize(Roles = $"{Roles.Customer}, {Roles.Trainer}")]
         public ActionResult<long> Validate([FromBody] long code)
         {
             _emailValidationService.Validate(User.GetEmail(), code);
@@ -56,7 +56,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="404">If user did not create a validation request</response>
         /// <response code="400">If the code user provided was incorrect</response>
         [HttpDelete("cancel", Name = "EmailSubscriptionCancellation")]
-        [Authorize(Roles = Roles.Customer)]
+        [Authorize(Roles = $"{Roles.Customer}, {Roles.Trainer}")]
         public ActionResult<long> CancelEmailSubscription()
         {
             _emailValidationService.CancelEmailSubscription(User.GetEmail());

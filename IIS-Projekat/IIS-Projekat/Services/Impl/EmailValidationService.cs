@@ -31,6 +31,13 @@ namespace IIS_Projekat.Services.Impl
                 throw new BadHttpRequestException($"Please set up your profile with at least name and surname.");
             }
 
+            var validation = _unitOfWork.EmailValidationRepository.GetAll().Where(ev => ev.User == user).FirstOrDefault();
+            if (validation != null)
+            {
+                SendVerificationEmail(email, user.Profile.Name, validation.Code);
+                return validation.Id;
+            }
+
             Random rnd = new Random();
             long code = rnd.Next(100000, 1000000);
             var newValidation = new EmailValidation
