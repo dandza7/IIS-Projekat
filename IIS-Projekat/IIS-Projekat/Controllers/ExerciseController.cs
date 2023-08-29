@@ -96,6 +96,25 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
+        /// [Customer, Trainer] Gets all the prescribed exercises by plan for customer
+        /// </summary>
+        /// <remarks>
+        /// Send -1 as customerId if its the customer getting his own prescribed exercises,
+        /// <br/> send the cusomterId if its the trainer getting the exercises for a customer
+        /// <br/> Pagination constraints (Everything is case insenstive):
+        /// <br/>  > Page and PageSize must be greater than 0 (0 if you want all items at once)
+        /// </remarks>
+        /// <response code="200">If prescribed exercises were retrieved successfully</response>
+        /// <response code="404">If client was not found</response>
+        /// <response code="404">If client's training plan was not found</response>
+        [HttpPost("prescribed/{customerId}", Name = "GetPrescribedExercises")]
+        [Authorize(Roles = $"{Roles.Customer}, {Roles.Trainer}")]
+        public ActionResult<PreviewExerciseNameDTO> GetPrescribedExercises(long customerId, [FromBody] PaginationQuery paginationQuery)
+        {
+            return Ok(_exerciseService.GetExercisesByPlan(paginationQuery, customerId, User.GetEmail()));
+        }
+
+        /// <summary>
         /// [Customer] Flags that customer is unhappy with the exercise
         /// </summary>
         /// <response code="200">If new exercise was flagged successfully</response>
