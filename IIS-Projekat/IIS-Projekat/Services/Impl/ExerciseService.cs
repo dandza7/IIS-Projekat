@@ -31,7 +31,7 @@ namespace IIS_Projekat.Services.Impl
         public long CreateExercise(NewExerciseDTO newExerciseDTO, string email)
         {
             Exercise newExercise = new Exercise();
-            if(_unitOfWork.ExerciseRepository.GetAll().Where(e => e.Name == newExerciseDTO.Name).FirstOrDefault() != null)
+            if (_unitOfWork.ExerciseRepository.GetAll().Where(e => e.Name == newExerciseDTO.Name).FirstOrDefault() != null)
             {
                 throw new ArgumentException("Exercise with given name already exists in the database!");
             }
@@ -44,6 +44,31 @@ namespace IIS_Projekat.Services.Impl
             newExercise = _unitOfWork.ExerciseRepository.Create(newExercise);
             _unitOfWork.SaveChanges();
             return newExercise.Id;
+        }
+
+        public PaginationWrapper<PreviewExerciseNameDTO> GetExercisesByPlan(PaginationQuery? paginationQuery, long clientId, string email)
+        {
+            var client = (clientId == -1) ? _unitOfWork.UserRepository.GetAll().Where(u => u.Email == email).FirstOrDefault() : 
+                _unitOfWork.UserRepository.GetById(clientId);
+            if(client == null)
+            {
+                throw new NotFoundException($"Customer does not exist in the database.");
+            }
+            var trainingPlan = _unitOfWork.TrainingPlanRepository.GetAll().Where(tp => tp.Client == client).FirstOrDefault();
+            if(trainingPlan == null)
+            {
+                throw new NotFoundException($"Customer does not have a training plan.");
+            }
+            var trainingSessions = _unitOfWork.TrainingSessionRepository.GetAll().Where(ts => ts.TrainingPlan == trainingPlan).ToList();
+            ICollection<Exercise> prescrbiedExercises = new HashSet<Exercise>();
+            foreach(var session in trainingSessions)
+            {
+                var exercisesInSession = _unitOfWork.ExerciseTrainingSessionRepository
+                    .GetAll(ets => ets.Exercise).Where(ets => ets.TrainingSession == session);
+                foreach(var exerciseInSession in exercisesInSession) prescrbiedExercises.Add(exerciseInSession.Exercise);
+            }
+            ICollection<PreviewExerciseNameDTO> exerciseDTOs = _mapper.Map<List<PreviewExerciseNameDTO>>(prescrbiedExercises);
+            return PaginationWrapper<PreviewExerciseNameDTO>.WrapItems(_mapper, paginationQuery, exerciseDTOs.ToList());
         }
 
         public PaginationWrapper<PreviewExerciseDTO> GetSuitableExercisesForClient(long clientId, ExerciseFilterQuery query)

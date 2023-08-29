@@ -11,6 +11,7 @@ namespace IIS_Projekat.SupportClasses.AutoMapper
         public ExerciseProfile()
         {
             CreateMap<NewExerciseDTO, Exercise>();
+            CreateMap<Exercise, PreviewExerciseNameDTO>();
             CreateMap<PreviewExerciseDTO, PreviewExerciseDTO>();
             CreateMap<Exercise, PreviewExerciseDTO>()
                 .ForMember(e => e.Type, opt => opt.MapFrom(src => src.IsHypertrophic ? "Hypertrophic" : "Rehabilitation"))

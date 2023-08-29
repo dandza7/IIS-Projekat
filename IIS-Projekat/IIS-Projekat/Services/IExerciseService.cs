@@ -6,6 +6,7 @@ namespace IIS_Projekat.Services
     public interface IExerciseService
     {
         public long CreateExercise(NewExerciseDTO newExerciseDTO, string email);
+        public PaginationWrapper<PreviewExerciseNameDTO> GetExercisesByPlan(PaginationQuery? paginationQuery, long clientId, string email);
         public PaginationWrapper<PreviewExerciseDTO> GetAll(PaginationQuery? paginationQuery);
         public PaginationWrapper<PreviewExerciseDTO> GetRehabilitationExercises(PaginationQuery? paginationQuery);
         public PaginationWrapper<PreviewExerciseDTO> GetSuitableExercisesForClient(long clientId, ExerciseFilterQuery query);
