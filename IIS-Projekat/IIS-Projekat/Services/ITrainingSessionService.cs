@@ -7,6 +7,7 @@ namespace IIS_Projekat.Services
 {
     public interface ITrainingSessionService
     {
+        public List<PreviewSessionNameDTO> GetPrescribedSessions(string email);
         public PaginationWrapper<PreviewDocumentedSessionDTO> GetSessionForClient(TrainnigSessionPaginationDTO query, string email);
         public ShouldDocumentNewTrainingSessionDTO ShouldDocumentNewSession(string email);
         public void DocumentNewTrainingSession(string email, NewDocumentedTrainingSessionDTO session);
