@@ -23,44 +23,86 @@ namespace IIS_Projekat.Services.Impl
             _mapper = mapper;
         }
 
+        public List<PreviewSessionNameDTO> GetPrescribedSessions(string email) {
+            var trainingPlan = GetClientsTrainingPlan(email);
+            return _mapper.Map<List<PreviewSessionNameDTO>>
+                (_unitOfWork.TrainingSessionRepository.GetAll().Where(ts => ts.TrainingPlan == trainingPlan).ToList());
+        }
+
         public PaginationWrapper<PreviewDocumentedSessionDTO> GetSessionForClient(TrainnigSessionPaginationDTO query, string email)
         {
             bool shouldFilter = false;
             if (query.Name != "Any") shouldFilter = true;
 
             var trainingPlan = GetClientsTrainingPlan(email);
-            var retValDTO = new List<PreviewDocumentedSessionDTO>();
-            foreach (var session in trainingPlan.TrainingSessions)
+
+            var currentSessionDate = DateTime.Now;
+            var currentExercise = new PreviewDocumentedExerciseDTO();
+            bool isFirstPass = true;
+
+            var queriedSession = _unitOfWork.TrainingSessionRepository.GetAll().
+                Where(ts => ts.TrainingPlan == trainingPlan && ts.Name == query.Name).FirstOrDefault();
+            if(shouldFilter && queriedSession == null)
             {
-                var sessionDTO = new PreviewDocumentedSessionDTO();
-                if (shouldFilter && session.Name != query.Name) continue;
-                var documentedSets = _unitOfWork.TrainingSetRepository.GetAll()
-                    .Where(set => set.TrainingSession == session).ToList();
-                if (documentedSets.Count == 0) continue;
-
-                sessionDTO.Name = session.Name;
-                foreach (var exerciseDTO in session.ExercisesInSession)
-                {
-                    var previewExercise = new PreviewDocumentedExerciseDTO();
-                    previewExercise.Name = exerciseDTO.Exercise.Name;
-                    var previewSet = new List<PreviewTrainingSetDTO>();
-
-                    var setsOfExercise = _unitOfWork.TrainingSetRepository.GetAll()
-                        .Where(ts => ts.TrainingSession == session && ts.Exercise == exerciseDTO.Exercise).ToList();
-                    sessionDTO.Date = setsOfExercise[0].CreatedDate;
-                    foreach(var trainingSet in setsOfExercise)
-                    {
-                        var setDTO = new PreviewTrainingSetDTO();
-                        setDTO.Weight = trainingSet.Weight;
-                        setDTO.Repetitions = trainingSet.Repetitions;
-                        previewExercise.SetInfo.Add(setDTO);
-                    }
-                    sessionDTO.ExerciseInfo.Add(previewExercise);
-                }
-                retValDTO.Add(sessionDTO); 
+                throw new NotFoundException($"Client does not have a session named: {query.Name}");
             }
 
-            return PaginationWrapper<PreviewDocumentedSessionDTO>.WrapItems(_mapper, query.PaginationQuery, retValDTO);
+            ICollection<TrainingSet> allDocumentedSets = new List<TrainingSet>();
+
+            if(shouldFilter == true)
+            {
+                allDocumentedSets = _unitOfWork.TrainingSetRepository.GetAll(set => set.Exercise)
+                .Where(set => set.TrainingSession == queriedSession).ToList();
+            } else
+            {
+                foreach(var session in trainingPlan.TrainingSessions)
+                {
+                    _unitOfWork.TrainingSetRepository.GetAll(set => set.Exercise, set => set.TrainingSession)
+                        .Where(set => set.TrainingSession == session)
+                        .ToList().ForEach(set => allDocumentedSets.Add(set));
+                }
+            }
+
+            var allSessions = new List<PreviewDocumentedSessionDTO>();
+            var currentSession = new PreviewDocumentedSessionDTO();
+
+            currentSession.Name = (shouldFilter) ? query.Name : allDocumentedSets.ToList()[0].TrainingSession.Name;
+            foreach(var set in allDocumentedSets)
+            {
+                if(isFirstPass)
+                {
+                    currentSessionDate = set.CreatedDate;
+                    currentSession.Date = currentSessionDate;
+                    currentExercise.Name = set.Exercise.Name;
+                    isFirstPass = false;
+                } else if(!IsSameSession(currentSessionDate, set.CreatedDate))
+                {
+                    currentSession.ExerciseInfo.Add(currentExercise);
+                    allSessions.Add(currentSession);
+                    currentSession = new PreviewDocumentedSessionDTO();
+                    currentSessionDate = set.CreatedDate;
+                    currentSession.Date = currentSessionDate;
+                    currentSession.Name = (shouldFilter) ? query.Name : set.TrainingSession.Name;
+                    currentExercise = new PreviewDocumentedExerciseDTO();
+                    currentExercise.Name = set.Exercise.Name;
+                    currentExercise.SetInfo = new List<PreviewTrainingSetDTO>();
+                } else if(currentExercise.Name != set.Exercise.Name)
+                {
+                    currentSession.ExerciseInfo.Add(currentExercise);
+                    currentExercise = new PreviewDocumentedExerciseDTO();
+                    currentExercise.Name = set.Exercise.Name;
+                    currentExercise.SetInfo = new List<PreviewTrainingSetDTO>();
+                }
+
+                var currentSetInfo = new PreviewTrainingSetDTO();
+                currentSetInfo.Repetitions = set.Repetitions;
+                currentSetInfo.Weight = set.Weight;
+                currentExercise.SetInfo.Add(currentSetInfo);
+            }
+            currentSession.ExerciseInfo.Add(currentExercise);
+            allSessions.Add(currentSession);
+
+            return PaginationWrapper<PreviewDocumentedSessionDTO>.WrapItems(_mapper, query.PaginationQuery, allSessions);
         }
 
         // Danas je 18.8.2023., ako ovo gledaš u budućnosti srećno jer 
@@ -181,6 +223,14 @@ namespace IIS_Projekat.Services.Impl
             if (lastDocumentedSession.Date.Year != DateTime.Now.Date.Year) return false;
             if (lastDocumentedSession.Date.Month != DateTime.Now.Date.Month) return false;
             if (lastDocumentedSession.Date.Day != DateTime.Now.Date.Day) return false;
+            return true;
+        }
+
+        private bool IsSameSession(DateTime currentSession, DateTime potentialNext)
+        {
+            if (currentSession.Year != potentialNext.Year) return false;
+            if (currentSession.Month != potentialNext.Month) return false;
+            if (currentSession.Day != potentialNext.Day) return false;
             return true;
         }
 

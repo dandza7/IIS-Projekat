@@ -22,6 +22,18 @@ namespace IIS_Projekat.Controllers
         }
 
         /// <summary>
+        /// [Customer] Gets list of his training sessions
+        /// </summary>
+        /// <response code="200">If information was retrieved successfully</response>
+        /// <response code="404">If user or his plan were not found</response>
+        [HttpGet("my-sessions", Name = "GetPrescribedSessions")]
+        [Authorize(Roles = Roles.Customer)]
+        public ActionResult<PreviewSessionNameDTO> GetPrescribedSessions()
+        {
+            return Ok(_trainingSessionService.GetPrescribedSessions(User.GetEmail()));
+        }
+
+        /// <summary>
         /// [Customer] Gets information for page rendering
         /// </summary>
         /// <response code="200">If information was retrieved successfully</response>
