@@ -48,6 +48,17 @@
   overflow: hidden;
   font-size: 14px;
 }
+.optionsMuscle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.optionMuscle label {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  justify-content: center;
+}
 
 .removeButton {
   background-color: rgb(73, 114, 113);
@@ -261,6 +272,15 @@
   gap: 0.5rem;
   align-items: flex-start;
 }
+.titleBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.selectRange {
+  width: 30%;
+  min-width: 150px;
+}
 
 @media only screen and (max-width: 650px) {
   .allergenTable th,
@@ -270,6 +290,13 @@
   .foodTable th,
   .foodTable td {
     padding: 0.7rem 1.8rem;
+  }
+  .optionsMuscle {
+    display: grid;
+    row-gap: 0.2rem;
+    align-items: center;
+
+    grid-template-columns: auto auto auto auto;
   }
 }
 @media only screen and (max-width: 650px) {

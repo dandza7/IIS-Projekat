@@ -242,6 +242,9 @@ const NewTrainingPlan = () => {
               <span>{request?.sessionsPerWeek}</span>
             </div>
             <div className={utils.rightContainer}>
+              <button className={utils.redButton} onClick={addPlanHandler}>
+                Details
+              </button>
               <button className={utils.greenButton} onClick={addPlanHandler}>
                 Create
               </button>

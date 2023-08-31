@@ -42,6 +42,16 @@ h2 {
   font-family: "Raleway", sans-serif;
   width: 165px;
 }
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("https://www.w3schools.com/howto/img_avatar2.png");
+  background-size: cover;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 5rem;
+}
 .selectNumber {
   width: 165px;
   height: 36px;

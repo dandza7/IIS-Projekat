@@ -30,13 +30,18 @@ import Session from "./pages/Customer/Session";
 import TodaySession from "./pages/Customer/TodaysSession";
 import MySessions from "./pages/Customer/MySessions";
 import NewMeasurement from "./pages/Customer/NewMeasurement";
+import Profile from "./pages/Profile";
+import Progress from "./pages/Progress";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/login" element={<Login></Login>} />
       <Route path="/" element={<RootLayout></RootLayout>}>
         {<Route path="/" index element={<Home></Home>}></Route>}
+        {<Route path="/my-profile" index element={<Profile></Profile>}></Route>}
         {<Route path="/foods" index element={<Foods></Foods>}></Route>}
+        {<Route path="/progress" index element={<Progress></Progress>}></Route>}
         {<Route path="/recipes" index element={<Recipes></Recipes>}></Route>}
         {
           <Route
