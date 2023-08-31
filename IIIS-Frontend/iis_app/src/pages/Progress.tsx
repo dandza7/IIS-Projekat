@@ -17,6 +17,7 @@ import faker from "faker";
 import AuthContext from "../store/auth-context";
 import dayjs from "dayjs";
 import Select from "react-select";
+import { useParams } from "react-router";
 
 const Progress = () => {
   const authCtx = useContext(AuthContext);
@@ -40,14 +41,25 @@ const Progress = () => {
   const [thigh, setThigh] = React.useState([]);
   const [waist, setWaist] = React.useState([]);
   const [weight, setWeight] = React.useState([]);
+  const [exercise, setExercise] = React.useState([]);
+  const [exerciseDates, setExerciseDates] = React.useState([]);
   const [reload, setReload] = useState(false);
+  const [exercises, setExercises] = React.useState([]);
+  const [selectedExercise, setSelectedExercise] = React.useState({
+    label: "False",
+    value: "False",
+  });
   const periodOptions = [
     { label: "Month", value: "Month" },
     { label: "Year", value: "Year" },
   ];
-
+  let params = useParams();
+  let patientId = params.id;
+  if (!patientId) {
+    patientId = "-1";
+  }
   useEffect(() => {
-    fetch("http://localhost:5041/api/measurement/getStatistics/" + 19, {
+    fetch("http://localhost:5041/api/measurement/getStatistics/" + patientId, {
       method: "POST",
       body: JSON.stringify({
         timePeriod: selectedRange?.value,
@@ -58,7 +70,7 @@ const Progress = () => {
         wantsWaist: true,
         wantsThigh: true,
         wantsCalf: true,
-        exerciseName: "False",
+        exerciseName: selectedExercise?.value,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -77,9 +89,14 @@ const Progress = () => {
         let weight = [];
         let thigh = [];
         let dates = [];
+        let exDates = [];
+        let ex = [];
         actualData.bicepStatistics.map((stat) => {
           bicep.push(stat.statistic);
           dates.push(dayjs(stat.date).format("DD.MM"));
+        });
+        actualData.exerciseStatistics.map((stat) => {
+          exDates.push(dayjs(stat.date).format("DD.MM"));
         });
         actualData.calfStatistics.map((stat) => {
           calf.push(stat.statistic);
@@ -99,6 +116,9 @@ const Progress = () => {
         actualData.thighStatistics.map((stat) => {
           thigh.push(stat.statistic);
         });
+        actualData.exerciseStatistics.map((stat) => {
+          ex.push(stat.statistic);
+        });
         isBicep ? setBicep(bicep) : setBicep([]);
         setForearm(forearm);
         setCalf(calf);
@@ -107,8 +127,30 @@ const Progress = () => {
         setWaist(waist);
         setChest(chest);
         setDates(dates);
+        setExercise(ex);
+        setExerciseDates(exDates);
       });
-  }, [selectedRange]);
+  }, [selectedRange, selectedExercise]);
+
+  useEffect(() => {
+    fetch("http://localhost:5041/api/exercise/prescribed/" + patientId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify({}),
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        console.log(actualData);
+        let ex = [];
+        actualData.items.map((item) =>
+          ex.push({ label: item.name, value: item.name })
+        );
+        setExercises(ex);
+      });
+  }, []);
 
   ChartJS.register(
     CategoryScale,
@@ -131,7 +173,7 @@ const Progress = () => {
   };
 
   const labels = dates;
-
+  const labelsEx = exerciseDates;
   const data = {
     labels,
     datasets: [
@@ -181,21 +223,53 @@ const Progress = () => {
     ],
   };
 
+  const dataEx = {
+    labelsEx,
+    datasets: [
+      {
+        label: selectedExercise.value,
+        data: exercise,
+        borderColor: "black",
+        backgroundColor: "rgba(255, 255, 255)",
+      },
+    ],
+  };
+
+  const setSelectedExerciseHandler = (selected) => {
+    if (!selected) {
+      setSelectedExercise({ label: "False", value: "False" });
+    } else {
+      setSelectedExercise(selected);
+    }
+  };
+
   return (
     <div className={utils.whiteContainer}>
       <div className={classes.titleBox}>
-        <h2>My Progress</h2>
+        <h2>{patientId == "-1" ? "My " : "Patient's "}Progress</h2>
         <div className={utils.rightContainer}>
           <Select
             className={classes.selectRange}
             name="name"
-            isClearable
             defaultValue={{ label: "Month", value: "Month" }}
             options={periodOptions}
             onChange={setSelectedRange}
             placeholder={"Select period..."}
           />
         </div>
+      </div>
+      <div className={utils.leftContainer}>
+        Choose exercise:
+        {exercises && (
+          <Select
+            className={classes.selectRange}
+            name="name"
+            isClearable
+            options={exercises}
+            onChange={setSelectedExerciseHandler}
+            placeholder={"Select exercise..."}
+          />
+        )}
       </div>
       <br></br>
       <div className={classes.optionsMuscle}>
@@ -293,6 +367,13 @@ const Progress = () => {
       </div>
       <br></br>
       <Line options={options} data={data} />
+      {selectedExercise.value !== "False" && (
+        <>
+          <br></br>
+          <h2>{selectedExercise?.value}</h2>
+          <Line options={options} data={dataEx} />
+        </>
+      )}
     </div>
   );
 };

@@ -211,6 +211,15 @@
   gap: 0.5rem;
 }
 
+.nameContainer {
+  margin-bottom: 1rem;
+}
+.patientInfoModal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .exerciseName {
   display: flex;
   align-items: center;

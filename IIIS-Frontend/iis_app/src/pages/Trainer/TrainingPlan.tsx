@@ -26,6 +26,7 @@ const natures = [
 ];
 
 export const TrainingPlan = () => {
+  const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -326,16 +327,25 @@ export const TrainingPlan = () => {
 
   return (
     <div className={utils.whiteContainer}>
-      <h2>Training plan overview</h2>
+      <div className={classes.titleBox}>
+        <h2>Training plan overview</h2>
+        <button
+          className={utils.redButton}
+          onClick={() => {
+            navigate("/progress/" + plan?.clientId);
+          }}
+        >
+          View Progress
+        </button>
+      </div>
       <div id="report">
         <div className={utils.form}>
           <div className={classes.container}>
-            <div className={classes.nameContainer}>
-              <div className={utils.span}>
-                <label>Name:</label>
-                <span>{plan?.clientName}</span>
-              </div>
+            <div className={utils.span}>
+              <label>Name:</label>
+              <span>{plan?.clientName}</span>
             </div>
+
             <div className={utils.span}>
               <label>Training goal:</label>
               <span>{plan?.trainingGoal}</span>

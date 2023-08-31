@@ -42,6 +42,13 @@ const router = createBrowserRouter(
         {<Route path="/my-profile" index element={<Profile></Profile>}></Route>}
         {<Route path="/foods" index element={<Foods></Foods>}></Route>}
         {<Route path="/progress" index element={<Progress></Progress>}></Route>}
+        {
+          <Route
+            path="/progress/:id"
+            index
+            element={<Progress></Progress>}
+          ></Route>
+        }
         {<Route path="/recipes" index element={<Recipes></Recipes>}></Route>}
         {
           <Route
