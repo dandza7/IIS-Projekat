@@ -102,57 +102,9 @@ const NewTrainingPlanRequest = () => {
             <div className={utils.rightContainer}>
               <button
                 className={utils.greenButton}
-                onClick={() => setPage("MEASUREMENTS")}
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        )}
-        {page === "MEASUREMENTS" && (
-          <div className={classes.measurements}>
-            <h2>Enter your measurements</h2>
-            <div className={classes.measurement}>
-              <label>Weight: </label>
-              <input type="text" className={classes.input}></input>
-            </div>
-            <div className={classes.measurement}>
-              <label>Bicep: </label>
-              <input type="text" className={classes.input}></input>
-            </div>
-            <div className={classes.measurement}>
-              <label>Forearm: </label>
-              <input type="text" className={classes.input}></input>
-            </div>
-            <div className={classes.measurement}>
-              <label>Chest: </label>
-              <input type="text" className={classes.input}></input>
-            </div>
-            <div className={classes.measurement}>
-              <label>Waist: </label>
-              <input type="text" className={classes.input}></input>
-            </div>
-            <div className={classes.measurement}>
-              <label>Thigh: </label>
-              <input type="text" className={classes.input}></input>
-            </div>
-            <div className={classes.measurement}>
-              <label>Calf: </label>
-              <input type="text" className={classes.input}></input>
-            </div>
-
-            <div className={utils.rightContainer}>
-              <button
-                className={utils.redButton}
-                onClick={() => setPage("GOALS")}
-              >
-                Back
-              </button>
-              <button
-                className={utils.greenButton}
                 onClick={() => {
-                  setPage("TRAINERS");
                   fetchTrainers();
+                  setPage("TRAINERS");
                 }}
               >
                 Next
@@ -160,9 +112,10 @@ const NewTrainingPlanRequest = () => {
             </div>
           </div>
         )}
+
         {page === "TRAINERS" && (
           <div className={classes.trainersContainer}>
-            <h3>Choose your trainer</h3>
+            <h2>Choose your trainer</h2>
             <div className={classes.trainers}>
               {trainers.map((trainer, index: any) => (
                 <div
@@ -193,7 +146,7 @@ const NewTrainingPlanRequest = () => {
             <div className={utils.centerContainer}>
               <button
                 className={utils.redButton}
-                onClick={() => setPage("MEASUREMENTS")}
+                onClick={() => setPage("GOALS")}
               >
                 Back
               </button>

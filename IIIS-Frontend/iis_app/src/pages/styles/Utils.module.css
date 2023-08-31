@@ -35,7 +35,7 @@
 }
 .redButton {
   padding: 0.7rem 3rem;
-  background-color: rgb(181, 181, 181);
+  background-color: rgb(137, 135, 135);
   color: white;
   cursor: pointer;
   border: 1px solid white;
@@ -80,6 +80,7 @@
   border-radius: 0.5rem;
   padding: 0.3rem;
 }
+
 .inputNumber {
   max-width: 70px;
   background-color: rgb(244, 242, 241);

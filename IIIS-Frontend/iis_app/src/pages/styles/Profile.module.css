@@ -1,0 +1,81 @@
+.whiteContainer {
+  margin: auto;
+  width: 60%;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.input {
+  height: 36px;
+  border: 1px solid rgb(203, 203, 203);
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  font-size: 1rem;
+  font-family: "Raleway", sans-serif;
+  width: 155px;
+}
+
+.inputFW {
+  height: 36px;
+  border: 1px solid rgb(203, 203, 203);
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  font-size: 1rem;
+  font-family: "Raleway", sans-serif;
+  width: 100%;
+}
+
+.spanEdit {
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal {
+  max-width: 500px;
+  width: 90vw;
+  padding-bottom: 1rem;
+  overflow-y: scroll;
+}
+.modalContainer {
+  padding: 0rem 1rem;
+}
+
+.modalTitle {
+  background-color: white;
+  color: rgb(43, 43, 43);
+  padding: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modalClose {
+  margin-top: -1rem;
+  background-color: rgba(210, 214, 213, 0.704);
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 650px) {
+  .whiteContainer {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 1rem;
+    margin: auto;
+    width: 90%;
+  }
+  .modal {
+    width: 80vw;
+    font-size: 0.8rem;
+  }
+}

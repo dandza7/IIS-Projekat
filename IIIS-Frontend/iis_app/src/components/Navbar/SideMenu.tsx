@@ -27,6 +27,12 @@ const SideMenu = (props) => {
           </button>
         </div>
         <div className={classes.openedMenuItems}>
+          <div
+            className={classes.openMenuItem}
+            onClick={() => openPageHandler("/my-profile")}
+          >
+            <div className={classes.NavLink}>My profile</div>
+          </div>
           {authCtx.role == "NUTRITIONIST" && (
             <div
               className={classes.openMenuItem}
