@@ -119,7 +119,7 @@ const Progress = () => {
         actualData.exerciseStatistics.map((stat) => {
           ex.push(stat.statistic);
         });
-        isBicep ? setBicep(bicep) : setBicep([]);
+        setBicep(bicep);
         setForearm(forearm);
         setCalf(calf);
         setThigh(thigh);
@@ -224,10 +224,10 @@ const Progress = () => {
   };
 
   const dataEx = {
-    labelsEx,
+    labels: labelsEx,
     datasets: [
       {
-        label: selectedExercise.value,
+        label: "Bicep",
         data: exercise,
         borderColor: "black",
         backgroundColor: "rgba(255, 255, 255)",
@@ -246,7 +246,7 @@ const Progress = () => {
   return (
     <div className={utils.whiteContainer}>
       <div className={classes.titleBox}>
-        <h2>{patientId == "-1" ? "My " : "Patient's "}Progress</h2>
+        <h2>{patientId == "-1" ? "My " : "Client's "}Progress</h2>
         <div className={utils.rightContainer}>
           <Select
             className={classes.selectRange}
