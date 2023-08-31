@@ -50,7 +50,7 @@ const Exercises = () => {
     <div>
       <div className={classes.whiteContainer}>
         <h2>Exercises</h2>
-        <br></br>
+
         <div className={utils.rightContainer}>
           <button
             className={utils.greenButton}

@@ -78,8 +78,13 @@ const Login = () => {
       })
       .then((data) => {
         const parsedJWT = parseJwt(data.token);
-        console.log("s");
-        authCtx.login(parsedJWT.role, parsedJWT.email, data.token);
+        console.log(parsedJWT.id);
+        authCtx.login(
+          parsedJWT.role,
+          parsedJWT.email,
+          data.token,
+          parsedJWT.id
+        );
         console.log("d");
         setTimeout(() => {
           navigateLogin(parsedJWT.role);

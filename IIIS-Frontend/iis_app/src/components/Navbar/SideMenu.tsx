@@ -80,6 +80,14 @@ const SideMenu = (props) => {
             >
               <div className={classes.NavLink}>Training plan request</div>
             </div>
+          )}{" "}
+          {authCtx.role == "CUSTOMER" && (
+            <div
+              className={classes.openMenuItem}
+              onClick={() => openPageHandler("/progress")}
+            >
+              <div className={classes.NavLink}>My progress</div>
+            </div>
           )}
           {authCtx.role == "CUSTOMER" && (
             <div

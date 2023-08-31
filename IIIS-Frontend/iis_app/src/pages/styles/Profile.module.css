@@ -41,9 +41,11 @@
 
 .modal {
   max-width: 500px;
-  width: 90vw;
+  width: 20vw;
+  min-width: 300px;
   padding-bottom: 1rem;
   overflow-y: scroll;
+  overflow-y: hidden;
 }
 .modalContainer {
   padding: 0rem 1rem;
@@ -77,5 +79,6 @@
   .modal {
     width: 80vw;
     font-size: 0.8rem;
+    max-width: 200px;
   }
 }

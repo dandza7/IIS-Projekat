@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import AddIcon from "@mui/icons-material/Add";
 import Select from "react-select";
+import dayjs from "dayjs";
 
 const style = {
   position: "absolute" as "absolute",
@@ -26,6 +27,7 @@ const NewTrainingPlan = () => {
   const listRef = useRef([]);
   const [allExercises, setAllExercises] = useState<any[]>([]);
   const [open, setOpen] = React.useState(false);
+  const [openDetails, setOpenDetails] = React.useState(false);
   const primaryMuscleRef = useRef(null);
   const secondaryMuscleRef = useRef(null);
   const natureRef = useRef(null);
@@ -60,6 +62,11 @@ const NewTrainingPlan = () => {
     setSelectedSession(i);
   };
   const handleClose = () => setOpen(false);
+
+  const handleOpenDetails = () => {
+    setOpenDetails(true);
+  };
+  const handleCloseDetails = () => setOpenDetails(false);
 
   useEffect(() => {
     fetch("http://localhost:5041/api/muscle-group", {
@@ -232,17 +239,18 @@ const NewTrainingPlan = () => {
                 <label>Name:</label>
                 <span>{request?.clientFullName}</span>
               </div>
-            </div>
-            <div className={utils.span}>
-              <label>Training goal:</label>
-              <span>{request?.trainingGoal}</span>
-            </div>
-            <div className={utils.span}>
-              <label>Sessions per week:</label>
-              <span>{request?.sessionsPerWeek}</span>
+
+              <div className={utils.span}>
+                <label>Training goal:</label>
+                <span>{request?.trainingGoal}</span>
+              </div>
+              <div className={utils.span}>
+                <label>Sessions per week:</label>
+                <span>{request?.sessionsPerWeek}</span>
+              </div>
             </div>
             <div className={utils.rightContainer}>
-              <button className={utils.redButton} onClick={addPlanHandler}>
+              <button className={utils.redButton} onClick={handleOpenDetails}>
                 Details
               </button>
               <button className={utils.greenButton} onClick={addPlanHandler}>
@@ -310,63 +318,54 @@ const NewTrainingPlan = () => {
       </div>
 
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openDetails}
+        onClose={handleCloseDetails}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <div className={classes.modal}>
             <div className={classes.modalTitle}>
-              <h2>Add allergen</h2>
-              <div className={classes.modalClose} onClick={handleClose}>
+              <h2>Medical Record</h2>
+              <div className={classes.modalClose} onClick={handleCloseDetails}>
                 X
               </div>
             </div>
 
             <div className={classes.modalContainer}>
-              <div className={classes.tableContainer}>
-                <table className={classes.allergenTable}>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selecetedSession?.exerciseInfo?.map((exercise, index) => (
-                      <tr
-                        key={index}
-                        className={
-                          exercise?.isUnhappy ? classes.unhappy : classes.normal
-                        }
-                      >
-                        <td>{exercise.exerciseName}</td>
-                        <td>
-                          <button className={classes.removeButton}>+</button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-
-                <div className={classes.selectedIngredientContainer}>
-                  <div className={classes.selectedIngredient}>
-                    <div
-                      className={classes.selectedIngredientNutrientsContainer}
-                    ></div>
-                    <div className={classes.amountContainer}>
-                      <span>Number of sets :</span>
-                      <input className={classes.amountInput}></input>
-                      <span>Repetition range :</span>
-                      <select>
-                        {ranges.map((range, index) => (
-                          <option id={index}>{range}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
+              <div className={classes.patientInfoModal}>
+                <div className={utils.span}>
+                  <label>Patient:</label>
+                  <span>{request?.clientFullName}</span>
                 </div>
+                <div className={utils.span}>
+                  <label>Gender:</label>
+                  <span>{request?.patientInfo.gender}</span>
+                </div>
+                <div className={utils.span}>
+                  <label>Birthdate:</label>
+                  <span>
+                    {dayjs(request?.patientInfo.birthDate).format("DD.MM.YYYY")}
+                  </span>
+                </div>
+                <div className={utils.span}>
+                  <label>Height:</label>
+                  <span>{request?.patientInfo.height} cm</span>
+                </div>
+                <div className={utils.span}>
+                  <label>Weight:</label>
+                  <span>{request?.patientInfo.weight} kg</span>
+                </div>
+                {request?.patientInfo.diagnoses.length > 0 && (
+                  <div className={utils.span}>
+                    <label>Diagnoses:</label>
+                    {request?.patientInfo.diagnoses.map((diagnose, index) => {
+                      if (index == request?.patientInfo.diagnoses.length - 1) {
+                        return <span>{diagnose}</span>;
+                      } else return <span>{diagnose},</span>;
+                    })}
+                  </div>
+                )}
               </div>
             </div>
           </div>
