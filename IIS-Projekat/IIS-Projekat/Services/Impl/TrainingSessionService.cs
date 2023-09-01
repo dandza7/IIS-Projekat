@@ -66,6 +66,8 @@ namespace IIS_Projekat.Services.Impl
             var allSessions = new List<PreviewDocumentedSessionDTO>();
             var currentSession = new PreviewDocumentedSessionDTO();
 
+            if(allDocumentedSets.Count == 0) return PaginationWrapper<PreviewDocumentedSessionDTO>.WrapItems(_mapper, query.PaginationQuery, allSessions);
+
             currentSession.Name = (shouldFilter) ? query.Name : allDocumentedSets.ToList()[0].TrainingSession.Name;
             foreach(var set in allDocumentedSets)
             {
@@ -101,8 +103,7 @@ namespace IIS_Projekat.Services.Impl
             }
             currentSession.ExerciseInfo.Add(currentExercise);
             allSessions.Add(currentSession);
-
-            return PaginationWrapper<PreviewDocumentedSessionDTO>.WrapItems(_mapper, query.PaginationQuery, allSessions);
+            return PaginationWrapper<PreviewDocumentedSessionDTO>.WrapItems(_mapper, query.PaginationQuery, allSessions.OrderByDescending(s => s.Date).ToList());
         }
 
         // Danas je 18.8.2023., ako ovo gledaš u budućnosti srećno jer 
