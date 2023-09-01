@@ -441,7 +441,7 @@ const NewTrainingPlan = () => {
                         <td>{exercise.name}</td>
                         <td>
                           <button
-                            className={classes.removeButton}
+                            className={utils.greenMenuButton}
                             onClick={() => {
                               setSelectedExercise(exercise);
                             }}

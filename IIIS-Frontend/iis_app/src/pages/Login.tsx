@@ -51,7 +51,12 @@ const Login = () => {
   }
 
   const navigateLogin = (role: string) => {
-    navigate("/", { replace: true });
+    if (role == "CUSTOMER") {
+      navigate("/my-profile", { replace: true });
+    }
+    if (role == "TRAINER") {
+      navigate("/training-plans", { replace: true });
+    }
   };
 
   const handleSubmit = (e: any) => {
