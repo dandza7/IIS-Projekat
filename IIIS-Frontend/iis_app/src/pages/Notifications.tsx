@@ -8,7 +8,7 @@ import utils from "./styles/Utils.module.css";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-
+import DeleteIcon from "@mui/icons-material/Delete";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -25,6 +25,9 @@ const Notifications = () => {
   const [totalCount, setTotalCount] = useState(null);
   const [selectedNotification, setSelectedNotification] = useState(null);
   const [selectedPage, setSelectedPage] = useState(1);
+  const [selectedNotifications, setSelectedNotifications] = useState<any>({
+    selectedItems: [],
+  });
   const pageSize = 5;
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -32,6 +35,22 @@ const Notifications = () => {
   const changePage = (page: number) => {
     setSelectedPage(page);
     window.scrollTo({ top: 0, left: 0 });
+  };
+
+  const toggleCheckbox = (id) => {
+    setSelectedNotifications((prevState) => {
+      const { selectedItems } = prevState;
+      const selectedIndex = selectedItems.indexOf(id);
+
+      if (selectedIndex === -1) {
+        // Item not found in selectedItems, add it
+        return { selectedItems: [...selectedItems, id] };
+      } else {
+        // Item found in selectedItems, remove it
+        selectedItems.splice(selectedIndex, 1);
+        return { selectedItems: [...selectedItems] };
+      }
+    });
   };
 
   const fetchNotifications = () => {
@@ -82,25 +101,58 @@ const Notifications = () => {
       });
   };
 
+  const handleDeleteNotifications = () => {
+    const nots = selectedNotifications?.selectedItems;
+    fetch("http://localhost:5041/api/notification/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+      body: JSON.stringify(nots),
+    })
+      .then((response) => {
+        fetchNotifications();
+      })
+      .then((actualData) => {});
+  };
+
   return (
     <div>
       <div className={classes.whiteContainer}>
         <h2>Notifications</h2>
 
         <div className={classes.notifications}>
+          <div className={utils.containerButtomMarginHalfRem}>
+            <div className={utils.rightContainer}>
+              <button
+                className={utils.trashButton}
+                onClick={handleDeleteNotifications}
+              >
+                <DeleteIcon></DeleteIcon>
+              </button>
+            </div>
+          </div>
           <table className={classes.notificationTable}>
             <thead>
               <tr>
+                <th></th>
                 <th>Date</th>
                 <th>Content</th>
               </tr>
             </thead>
             <tbody>
               {notifications?.map((notification) => (
-                <tr
-                  key={notification.id}
-                  onClick={() => viewNotification(notification)}
-                >
+                <tr key={notification.id}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedNotifications.selectedItems?.includes(
+                        notification.id
+                      )}
+                      onChange={() => toggleCheckbox(notification.id)}
+                    />
+                  </td>
                   <td>
                     <span>
                       {dayjs(notification.createdDate).format("DD.MM.YYYY.")}
@@ -108,6 +160,7 @@ const Notifications = () => {
                   </td>
                   <td>
                     <span
+                      onClick={() => viewNotification(notification)}
                       className={
                         notification.isRead
                           ? classes.notificationContent

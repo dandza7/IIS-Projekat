@@ -32,11 +32,13 @@ import MySessions from "./pages/Customer/MySessions";
 import NewMeasurement from "./pages/Customer/NewMeasurement";
 import Profile from "./pages/Profile";
 import Progress from "./pages/Progress";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/login" element={<Login></Login>} />
+      <Route path="/register" element={<Register></Register>} />
       <Route path="/" element={<RootLayout></RootLayout>}>
         {<Route path="/" index element={<Home></Home>}></Route>}
         {<Route path="/my-profile" index element={<Profile></Profile>}></Route>}

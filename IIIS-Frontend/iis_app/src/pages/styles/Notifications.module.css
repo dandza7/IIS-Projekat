@@ -6,9 +6,10 @@
 
 .notificationTable th,
 .notificationTable td {
-  padding: 0.7rem 1rem;
-  min-width: 100px;
+  padding: 0.7rem 0.5rem;
+  min-width: 80px;
 }
+
 .notificationTable th {
   font-size: 1rem;
   font-weight: 400;
@@ -56,11 +57,14 @@
   padding: 0;
   width: 100%;
   border-radius: 1rem;
-
   overflow: hidden;
   font-size: 14px;
 }
-
+.notificationTable th:first-of-type,
+.notificationTable td:first-of-type {
+  min-width: 10px;
+  padding-left: 1rem;
+}
 .whiteContainer {
   background-color: white;
   padding: 1rem;

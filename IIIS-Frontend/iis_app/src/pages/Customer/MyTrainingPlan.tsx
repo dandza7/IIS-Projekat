@@ -191,7 +191,7 @@ export const MyTrainingPlan = () => {
         <Box sx={style}>
           <div className={classes.modal}>
             <div className={classes.modalTitle}>
-              <h2>Add allergen</h2>
+              <h2>Change exercise</h2>
               <div className={classes.modalClose} onClick={handleClose}>
                 X
               </div>

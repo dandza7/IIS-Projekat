@@ -227,7 +227,7 @@ const Progress = () => {
     labels: labelsEx,
     datasets: [
       {
-        label: "Bicep",
+        label: selectedExercise?.value,
         data: exercise,
         borderColor: "black",
         backgroundColor: "rgba(255, 255, 255)",

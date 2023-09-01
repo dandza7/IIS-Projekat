@@ -156,14 +156,14 @@ export const TodaySession = () => {
                           <td>{exercise?.repetitionRange}</td>
                           <td>
                             <button
-                              className={classes.removeButton}
+                              className={classes.addMenuButton}
                               onClick={() => {
                                 setSelectedExercise(exercise);
                                 setSelectedExerciseIndex(index);
                                 handleOpen();
                               }}
                             >
-                              Add
+                              +
                             </button>
                           </td>
                         </tr>

@@ -412,7 +412,7 @@ export const TrainingPlan = () => {
                             <td>{exercise?.repetitionRange}</td>
                             <td>
                               <button
-                                className={classes.removeButton}
+                                className={utils.greenMenuButton}
                                 onClick={() => {
                                   removeExerciseHandler(session, exercise);
                                 }}
@@ -466,7 +466,7 @@ export const TrainingPlan = () => {
                       >
                         <td>{exercise.exerciseName}</td>
                         <td>
-                          <button className={classes.removeButton}>+</button>
+                          <button className={utils.greenMenuButton}>+</button>
                         </td>
                       </tr>
                     ))}
@@ -565,7 +565,7 @@ export const TrainingPlan = () => {
                         <td>{exercise.name}</td>
                         <td>
                           <button
-                            className={classes.removeButton}
+                            className={utils.greenMenuButton}
                             onClick={() => {
                               setSelectedExercise(exercise);
                             }}
