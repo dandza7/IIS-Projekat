@@ -71,6 +71,19 @@
   border-radius: 0.5rem;
   margin: 0.2rem;
 }
+.selectSession {
+  width: 250px;
+}
+.sessionFilterContainer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.filterSpan {
+  min-width: 110px;
+}
 
 .addMenuButton {
   background-color: rgb(73, 114, 113);
