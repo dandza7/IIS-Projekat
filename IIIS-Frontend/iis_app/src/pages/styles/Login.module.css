@@ -1,3 +1,7 @@
+.login {
+  margin-top: 2rem;
+}
+
 .title {
   font-size: 2rem;
 }
@@ -5,4 +9,11 @@
 .loginForm {
   margin: auto;
   width: 70%;
+}
+
+.centerContainer {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
