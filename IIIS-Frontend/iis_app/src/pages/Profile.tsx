@@ -36,6 +36,7 @@ const Profile = () => {
   const genderRef = useRef<any>(null);
   const [value, setValue] = React.useState<Dayjs | null>(dayjs("2023-05-14"));
   const genders = ["Female", "Male"];
+  const inputRef = useRef();
 
   type User = {
     email: string;
@@ -44,7 +45,7 @@ const Profile = () => {
     birthDate: Date;
     gender: string;
     role: string;
-    isEmailSubsribed: boolean;
+    isEmailSubscribed: boolean;
   };
 
   const handleToggleEdit = () => {
@@ -99,6 +100,55 @@ const Profile = () => {
       });
   }, [saved]);
 
+  const handleSubsribe = () => {
+    fetch("http://localhost:5041/api/email-validation/create", {
+      method: "POST",
+      body: JSON.stringify({}),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+    })
+      .then((response) => response.json())
+      .then((actualData) => {});
+  };
+
+  const handleUnsubscribe = () => {
+    fetch("http://localhost:5041/api/email-validation/cancel", {
+      method: "DELETE",
+      body: JSON.stringify({}),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+    })
+      .then((response) => window.location.reload())
+      .then((actualData) => {});
+  };
+  const handleValidate = () => {
+    fetch("http://localhost:5041/api/email-validation/validate", {
+      method: "POST",
+      body: JSON.stringify(inputRef.current.value),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          window.location.reload();
+        } else if (res.status == 500) {
+          throw new Error("The code you provided is incorrect.");
+        }
+      })
+      .then((actualData) => {
+        setSaved(true);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
   return (
     <>
       {!toggleEdit && (
@@ -132,19 +182,30 @@ const Profile = () => {
             <button className={utils.greenButton} onClick={handleToggleEdit}>
               Edit
             </button>
-            {!user.isEmailSubsribed ? (
-              <button
-                className={utils.greenButton}
-                onClick={() => {
-                  handleOpen();
-                }}
-              >
-                Verify email
-              </button>
-            ) : (
-              <button className={utils.redButton} onClick={() => {}}>
-                Unsubscribe
-              </button>
+            {user && (
+              <>
+                {!user.isEmailSubscribed && (
+                  <button
+                    className={utils.greenButton}
+                    onClick={() => {
+                      handleSubsribe();
+                      handleOpen();
+                    }}
+                  >
+                    Verify email
+                  </button>
+                )}
+                {user.isEmailSubscribed && (
+                  <button
+                    className={utils.redButton}
+                    onClick={() => {
+                      handleUnsubscribe();
+                    }}
+                  >
+                    Unsubscribe
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -213,11 +274,13 @@ const Profile = () => {
                 <h3>Check your email for code.</h3>
                 <br></br>
                 <label>Code: </label>
-                <input className={classes.input}></input>
+                <input className={classes.input} ref={inputRef}></input>
               </div>
               <br></br>
               <div className={utils.centerContainer}>
-                <button className={utils.greenButton}>Send</button>
+                <button className={utils.greenButton} onClick={handleValidate}>
+                  Send
+                </button>
               </div>
             </div>
           </div>

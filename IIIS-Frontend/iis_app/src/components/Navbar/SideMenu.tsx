@@ -118,7 +118,7 @@ const SideMenu = (props) => {
               className={classes.openMenuItem}
               onClick={() => openPageHandler("/new-measurement")}
             >
-              <div className={classes.NavLink}>New measurent</div>
+              <div className={classes.NavLink}>Measurement</div>
             </div>
           )}
         </div>

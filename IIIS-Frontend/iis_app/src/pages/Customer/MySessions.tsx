@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
+import Pagination from "../../components/Utils/Pagination";
 
 const style = {
   position: "absolute" as "absolute",
@@ -28,6 +29,13 @@ const MySessions = () => {
   const navigate = useNavigate();
   const [selectedSession, setSelectedSession] = useState(null);
   const [open, setOpen] = React.useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+  const [selectedPage, setSelectedPage] = useState(1);
+  const pageSize = 5;
+  const changePage = (page: number) => {
+    setSelectedPage(page);
+    window.scrollTo({ top: 0, left: 0 });
+  };
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   useEffect(() => {
@@ -40,8 +48,8 @@ const MySessions = () => {
       body: JSON.stringify({
         name: "Any",
         paginationQuery: {
-          pageSize: 5,
-          page: 1,
+          pageSize: pageSize,
+          page: selectedPage,
         },
       }),
     })
@@ -50,8 +58,9 @@ const MySessions = () => {
         console.log(actualData);
         console.log(actualData.items);
         setSessions(actualData.items);
+        setTotalCount(actualData.totalCount);
       });
-  }, []);
+  }, [selectedPage]);
 
   return (
     <div className={utils.whiteContainer}>
@@ -85,7 +94,15 @@ const MySessions = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table>{" "}
+          {totalCount > pageSize && (
+            <Pagination
+              change={changePage}
+              totalCount={totalCount}
+              pageSize={pageSize}
+              currentPage={selectedPage}
+            ></Pagination>
+          )}
         </div>
       ) : (
         <>

@@ -16,6 +16,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import DisabledByDefaultSharpIcon from "@mui/icons-material/DisabledByDefaultSharp";
+import utils from "./styles/Utils.module.css";
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -157,8 +158,8 @@ const Register = () => {
   return (
     <div className={classes.login}>
       <div className={classes.registerImage}></div>
-      <div className={classes.loginFormContainer}>
-        <div>
+      <div className={classes.centerContainer}>
+        <div className={classes.loginForm}>
           <Container maxWidth="sm">
             <Grid
               container

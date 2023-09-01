@@ -131,14 +131,9 @@ const NewTrainingPlanRequest = () => {
                 >
                   <div className={classes.avatar}></div>
                   <h3>{trainer.fullName}</h3>
-                  <div>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Molestiae vitae officiis id debitis, quam eligendi maiores
-                    nihil blanditiis harum corrupti soluta asperiores
-                    consequatur perferendis pariatur at dolorum officia dolorem
-                    ratione voluptatibus voluptas cumque delectus ad! Aliquid
-                    doloribus officia ut velit!
-                  </div>
+                  <span>Number of clients: {trainer.numberOfClients}</span>
+
+                  <div>{trainer.biography}</div>
                 </div>
               ))}
             </div>
