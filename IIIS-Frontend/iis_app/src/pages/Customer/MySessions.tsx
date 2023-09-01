@@ -11,6 +11,7 @@ import Modal from "@mui/material/Modal";
 import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
 import Pagination from "../../components/Utils/Pagination";
+import Select from "react-select";
 
 const style = {
   position: "absolute" as "absolute",
@@ -31,6 +32,10 @@ const MySessions = () => {
   const [open, setOpen] = React.useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [selectedPage, setSelectedPage] = useState(1);
+  const [selectedSessionName, setSelectedSessionName] = React.useState({
+    value: "Any",
+    label: "Any",
+  });
   const pageSize = 5;
   const changePage = (page: number) => {
     setSelectedPage(page);
@@ -38,6 +43,30 @@ const MySessions = () => {
   };
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    fetch("http://localhost:5041/api/training-session/my-sessions", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authCtx.token,
+      },
+    })
+      .then((response) => response.json())
+      .then((actualData) => {
+        console.log(actualData);
+        let sessionNamess = [];
+        actualData.map((sessionName: any) => {
+          sessionNamess.push({
+            label: sessionName.name,
+            value: sessionName.name,
+          });
+        });
+        console.log(sessionNamess);
+        setSessionNames(sessionNamess);
+      });
+  }, []);
+
   useEffect(() => {
     fetch("http://localhost:5041/api/training-session", {
       method: "POST",
@@ -46,7 +75,7 @@ const MySessions = () => {
         Authorization: "Bearer " + authCtx.token,
       },
       body: JSON.stringify({
-        name: "Any",
+        name: selectedSessionName.value,
         paginationQuery: {
           pageSize: pageSize,
           page: selectedPage,
@@ -60,11 +89,33 @@ const MySessions = () => {
         setSessions(actualData.items);
         setTotalCount(actualData.totalCount);
       });
-  }, [selectedPage]);
+  }, [selectedPage, selectedSessionName]);
+
+  const [sessionNames, setSessionNames] = useState<any[]>([]);
+
+  const setSelectedNameHandler = (selected) => {
+    if (!selected) {
+      setSelectedSessionName({ label: "Any", value: "Any" });
+    } else {
+      setSelectedSessionName(selected);
+    }
+  };
 
   return (
     <div className={utils.whiteContainer}>
       <h2>My sessions</h2>
+      <div className={classes.sessionFilterContainer}>
+        <span className={classes.filterSpan}>Session name:</span>
+        <Select
+          className={classes.selectSession}
+          name="name"
+          isClearable
+          options={sessionNames}
+          onChange={setSelectedNameHandler}
+          placeholder={"Select session..."}
+        />
+      </div>
+
       {sessions?.length !== 0 ? (
         <div className={classes.trainingPlanRequests}>
           <table className={classes.tpTable}>
