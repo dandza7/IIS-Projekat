@@ -29,6 +29,7 @@ export const TrainingPlan = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
+  const [openUH, setOpenUH] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
   const [selecetedSession, setSelectedSession] = useState(null);
   const ranges = ["5-8", "8-12", "12-15", "15-20"];
@@ -125,11 +126,10 @@ export const TrainingPlan = () => {
   };
   const handleCloseAdd = () => setOpenAdd(false);
 
-  const handleOpen = (session: any) => {
-    setOpen(true);
-    setSelectedSession(session);
+  const openUnhappy = () => {
+    setOpenUH(true);
   };
-  const handleClose = () => setOpen(false);
+  const handleCloseUnhappy = () => setOpenUH(false);
 
   const planToUpdatePlan = (plan: plan) => {
     const backendModel = {
@@ -407,7 +407,14 @@ export const TrainingPlan = () => {
                                 : classes.normal
                             }
                           >
-                            <td>{exercise?.exerciseName}</td>
+                            <td
+                              onClick={() => {
+                                exercise?.isUnhappy &&
+                                  openUnhappy(setSelectedExercise(exercise));
+                              }}
+                            >
+                              {exercise?.exerciseName}
+                            </td>
                             <td>{exercise?.numberOfSets}</td>
                             <td>{exercise?.repetitionRange}</td>
                             <td>
@@ -433,63 +440,27 @@ export const TrainingPlan = () => {
       </div>
 
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openUH}
+        onClose={handleCloseUnhappy}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div className={classes.modal}>
+          <div className={classes.modalSmall}>
             <div className={classes.modalTitle}>
-              <h2>Add allergen</h2>
-              <div className={classes.modalClose} onClick={handleClose}>
+              <h2>Exercise for removal</h2>
+              <div className={classes.modalClose} onClick={handleCloseUnhappy}>
                 X
               </div>
             </div>
-
             <div className={classes.modalContainer}>
-              <div className={classes.tableContainer}>
-                <table className={classes.allergenTable}>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selecetedSession?.exerciseInfo?.map((exercise, index) => (
-                      <tr
-                        key={index}
-                        className={
-                          exercise?.isUnhappy ? classes.unhappy : classes.normal
-                        }
-                      >
-                        <td>{exercise.exerciseName}</td>
-                        <td>
-                          <button className={utils.greenMenuButton}>+</button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-
-                <div className={classes.selectedIngredientContainer}>
-                  <div className={classes.selectedIngredient}>
-                    <div
-                      className={classes.selectedIngredientNutrientsContainer}
-                    ></div>
-                    <div className={classes.amountContainer}>
-                      <span>Number of sets :</span>
-                      <input className={classes.amountInput}></input>
-                      <span>Repetition range :</span>
-                      <select>
-                        {ranges.map((range, index) => (
-                          <option id={index}>{range}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
+              <div className={utils.span}>
+                <span>Exercise name: </span>
+                <h3>{selectedExercise?.exerciseName}</h3>
+              </div>
+              <div className={utils.spanTop}>
+                <span>Reason: </span>
+                <span>{selectedExercise?.note}</span>
               </div>
             </div>
           </div>
