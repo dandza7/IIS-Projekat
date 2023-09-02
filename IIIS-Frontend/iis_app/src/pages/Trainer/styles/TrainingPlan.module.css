@@ -104,6 +104,15 @@
   padding: 0rem 1rem;
 }
 
+.modalSmall {
+  max-width: 500px;
+  width: 90vw;
+  min-height: 100px;
+  max-height: 400px;
+  padding-bottom: 3rem;
+  overflow-y: scroll;
+}
+
 .modalTitle {
   background-color: white;
   color: rgb(43, 43, 43);

@@ -11,7 +11,9 @@ import Modal from "@mui/material/Modal";
 import AddIcon from "@mui/icons-material/Add";
 import Select from "react-select";
 import { act } from "react-dom/test-utils";
-
+import JsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import PrintIcon from "@mui/icons-material/Print";
 export const MyTrainingPlan = () => {
   const authCtx = useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
@@ -22,6 +24,7 @@ export const MyTrainingPlan = () => {
   const navigate = useNavigate();
   const [message, setMessage] = React.useState(null);
   const [changed, setChanged] = React.useState(false);
+  const [showChange, setShowChange] = React.useState(true);
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -110,9 +113,34 @@ export const MyTrainingPlan = () => {
     getPlan();
   }, []);
 
+  const generatePDF = () => {
+    setShowChange(true);
+    const input = document.getElementById("report");
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new JsPDF();
+      pdf.addImage(imgData, "PNG", 0, 0, 210, 300);
+      pdf.save("download.pdf");
+    });
+  };
+
   return (
     <div className={utils.whiteContainer}>
-      <h2>My training plan</h2>
+      <div className={classes.titleBox}>
+        <h2>My training plan</h2>
+        <button
+          className={utils.redButtonSmall}
+          onClick={() => {
+            setShowChange(false);
+            setTimeout(() => {
+              generatePDF();
+            }, 1);
+          }}
+        >
+          <PrintIcon></PrintIcon>
+        </button>
+      </div>
+
       <div id="report">
         <div className={utils.form}>
           <div className={classes.container}>
@@ -142,7 +170,7 @@ export const MyTrainingPlan = () => {
                             <th>Name</th>
                             <th>Sets</th>
                             <th>Repetition</th>
-                            <th></th>
+                            {showChange && <th></th>}
                           </tr>
                         </thead>
                         <tbody>
@@ -158,17 +186,21 @@ export const MyTrainingPlan = () => {
                               <td>{exercise?.exerciseName}</td>
                               <td>{exercise?.numberOfSets}</td>
                               <td>{exercise?.repetitionRange}</td>
-                              <td>
-                                <button
-                                  className={classes.removeButton}
-                                  onClick={() => {
-                                    setSelectedExercise(exercise?.exerciseName);
-                                    handleOpen();
-                                  }}
-                                >
-                                  Change
-                                </button>
-                              </td>
+                              {showChange && (
+                                <td>
+                                  <button
+                                    className={classes.removeButton}
+                                    onClick={() => {
+                                      setSelectedExercise(
+                                        exercise?.exerciseName
+                                      );
+                                      handleOpen();
+                                    }}
+                                  >
+                                    Change
+                                  </button>
+                                </td>
+                              )}
                             </tr>
                           ))}
                         </tbody>
