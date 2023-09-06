@@ -54,7 +54,7 @@ namespace IIS_Projekat.Controllers
         /// <response code="400">If training goal is not valid</response>
         /// <response code="400">If user has already created a training plan request</response>
         /// <response code="404">If client that requested the plan is now deleted</response>
-        /// <response code="404">If client profile was not found</response>
+        /// <response code="404">If client profile, medical record, or trainer were not found</response>
         [HttpPost("create", Name = "CreateTrainingPlanRequest")]
         [Authorize(Roles = Roles.Customer)]
         public ActionResult<long> CreateTrainingPlanRequest([FromBody] TrainingPlanRequestDTO trainingPlanRequestDTO)
