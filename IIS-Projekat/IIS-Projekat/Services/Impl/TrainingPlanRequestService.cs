@@ -43,9 +43,14 @@ namespace IIS_Projekat.Services.Impl
         {
             var trainingPlanRequest = _mapper.Map<TrainingPlanRequest>(trainingPlanRequestDTO);
             var client = _unitOfWork.UserRepository.GetAll(c => c.Profile).Where(c => c.Email == email).FirstOrDefault();
+            var medicalRecord = _unitOfWork.MedicalRecordRepository.GetAll().Where(mr => mr.Patient == client).FirstOrDefault();
             if(client == null)
             {
                 throw new NotFoundException($"User with email: {email} does not exists!");
+            }
+            if(medicalRecord == null)
+            {
+                throw new NotFoundException($"User does not have a medical record.");
             }
             if(_unitOfWork.TrainingPlanRequestRepository.GetAll().Where(tr => tr.Client == client).FirstOrDefault() != null)
             {
