@@ -6,7 +6,8 @@ import classes from "./styles/NewTrainingPlanRequest.module.css";
 import utils from "../styles/Utils.module.css";
 import { act } from "react-dom/test-utils";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const NewTrainingPlanRequest = () => {
   const goals = ["Bulk", "Cut", "Recomp", "Endurance"];
   const numberOfSessions = [2, 3, 4, 5, 6];
@@ -40,11 +41,17 @@ const NewTrainingPlanRequest = () => {
       .then((res) => {
         if (res.ok) {
           return res;
+        } else if (res.status == 404) {
+          throw new Error(
+            "You have to get assessed by a doctor for training plan eligibility."
+          );
         }
       })
       .then((data) => {
-        alert("You have succesfully created training plan request!");
         navigate("/");
+      })
+      .catch((error) => {
+        toast.error(error.message);
       });
   };
 
@@ -78,6 +85,19 @@ const NewTrainingPlanRequest = () => {
 
   return (
     <div className={classes.whiteContainer}>
+      {" "}
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div>
         {page === "GOALS" && (
           <div className={classes.goal}>
