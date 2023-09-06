@@ -112,6 +112,23 @@
   padding-bottom: 3rem;
   overflow-y: scroll;
 }
+.oneLineDiv {
+  display: block;
+}
+.diagList {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.list {
+  list-style-type: none;
+}
+
+.bold {
+  font-weight: 600;
+  text-decoration: none;
+}
 
 .modalTitle {
   background-color: white;
