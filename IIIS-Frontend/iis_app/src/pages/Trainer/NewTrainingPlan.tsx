@@ -356,16 +356,50 @@ const NewTrainingPlan = () => {
                   <label>Weight:</label>
                   <span>{request?.patientInfo.weight} kg</span>
                 </div>
-                {request?.patientInfo.diagnoses.length > 0 && (
-                  <div className={utils.span}>
-                    <label>Diagnoses:</label>
-                    {request?.patientInfo.diagnoses.map((diagnose, index) => {
-                      if (index == request?.patientInfo.diagnoses.length - 1) {
-                        return <span>{diagnose}</span>;
-                      } else return <span>{diagnose},</span>;
-                    })}
-                  </div>
-                )}
+
+                <div className={utils.span}>
+                  <label>Diagnoses:</label>
+                  {request?.patientInfo.diagnoses.length > 0 ? (
+                    <>
+                      {request?.patientInfo.diagnoses.map((diagnose, index) => {
+                        if (
+                          index ==
+                          request?.patientInfo.diagnoses.length - 1
+                        ) {
+                          return <span>{diagnose}</span>;
+                        } else return <span>{diagnose},</span>;
+                      })}
+                    </>
+                  ) : (
+                    <span>Customer does not have any diagonses.</span>
+                  )}
+                </div>
+
+                <div className={utils.span}>
+                  <label>Injuries:</label>
+                  {request?.patientInfo.injuries.length > 0 ? (
+                    <>
+                      {request?.patientInfo.injuries.map((injury, index) => {
+                        if (index == request?.patientInfo.injuries.length - 1) {
+                          return (
+                            <span>
+                              {injury.injuredMuscle} - {injury.severity} level
+                              injury{" "}
+                            </span>
+                          );
+                        } else
+                          return (
+                            <span>
+                              {injury.injuredMuscle} - {injury.severity} level
+                              injury{","}
+                            </span>
+                          );
+                      })}
+                    </>
+                  ) : (
+                    <span>Customer does not have any injuries.</span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
