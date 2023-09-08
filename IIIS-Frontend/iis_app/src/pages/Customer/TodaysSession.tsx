@@ -29,6 +29,7 @@ export const TodaySession = () => {
   const [doneReps, setDoneReps] = React.useState(0);
   const [selectedSet, setSelectedSet] = React.useState({ label: 1, value: 1 });
   const setRef = useRef();
+  const [error, setError] = React.useState("");
   const [sessionInfo, setSessionInfo] = useState(null);
   const saveExerciseHandler = () => {
     console.log("As");
@@ -73,7 +74,9 @@ export const TodaySession = () => {
         if (res.ok) {
           return res.json();
         } else if (res.status == 404) {
-          throw new Error("error");
+          setError(
+            "You do not have training plan. Create a request to get one!"
+          );
         }
       })
       .then((actualData) => {
@@ -83,6 +86,9 @@ export const TodaySession = () => {
           isTodayDocumented: actualData.isTodayDocumented,
           isMaxSessionsReached: actualData.isMaxSessionsReached,
         });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -113,70 +119,82 @@ export const TodaySession = () => {
   return (
     <div className={utils.whiteContainer}>
       <h2>Today's session</h2>
-      {!sessionInfo?.isTodayDocumented ? (
-        <div id="report">
-          <div className={utils.form}>
-            <div className={classes.container}>
-              <div>
-                <div className={classes.session}>
-                  <div className={classes.session_titleContainer}>
-                    <h3>{session?.name}</h3>
-                    <div className={utils.rightContainer}>
-                      <button
-                        onClick={saveSession}
-                        className={utils.greenButton}
-                      >
-                        Save
-                      </button>
+      {!error ? (
+        <>
+          {!sessionInfo?.isMaxSessionsReached ? (
+            <>
+              {!sessionInfo?.isTodayDocumented ? (
+                <div id="report">
+                  <div className={utils.form}>
+                    <div className={classes.container}>
+                      <div>
+                        <div className={classes.session}>
+                          <div className={classes.session_titleContainer}>
+                            <h3>{session?.name}</h3>
+                            <div className={utils.rightContainer}>
+                              <button
+                                onClick={saveSession}
+                                className={utils.greenButton}
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className={utils.buttonContainerRight}></div>
+                          <table className={classes.tpTable}>
+                            <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>Sets</th>
+                                <th>Repetition</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {session?.exerciseInfo?.map((exercise, index) => (
+                                <tr
+                                  key={index}
+                                  className={
+                                    exercise?.isUnhappy
+                                      ? classes.unhappy
+                                      : classes.normal
+                                  }
+                                >
+                                  <td>{exercise?.name}</td>
+                                  <td>{exercise?.numberOfSets}</td>
+                                  <td>{exercise?.repetitionRange}</td>
+                                  <td>
+                                    <button
+                                      className={classes.addMenuButton}
+                                      onClick={() => {
+                                        setSelectedExercise(exercise);
+                                        setSelectedExerciseIndex(index);
+                                        handleOpen();
+                                      }}
+                                    >
+                                      +
+                                    </button>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
                   </div>
-
-                  <div className={utils.buttonContainerRight}></div>
-                  <table className={classes.tpTable}>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Sets</th>
-                        <th>Repetition</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {session?.exerciseInfo?.map((exercise, index) => (
-                        <tr
-                          key={index}
-                          className={
-                            exercise?.isUnhappy
-                              ? classes.unhappy
-                              : classes.normal
-                          }
-                        >
-                          <td>{exercise?.name}</td>
-                          <td>{exercise?.numberOfSets}</td>
-                          <td>{exercise?.repetitionRange}</td>
-                          <td>
-                            <button
-                              className={classes.addMenuButton}
-                              onClick={() => {
-                                setSelectedExercise(exercise);
-                                setSelectedExerciseIndex(index);
-                                handleOpen();
-                              }}
-                            >
-                              +
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
+              ) : (
+                <div>You have already documented today's session.</div>
+              )}
+            </>
+          ) : (
+            <div>You have done all sessions for this week.</div>
+          )}
+        </>
       ) : (
-        <div>You have already documented today's session.</div>
+        <div>{error}</div>
       )}
 
       <Modal
