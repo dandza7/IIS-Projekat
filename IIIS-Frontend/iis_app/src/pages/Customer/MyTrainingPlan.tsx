@@ -25,6 +25,7 @@ export const MyTrainingPlan = () => {
   const [message, setMessage] = React.useState(null);
   const [changed, setChanged] = React.useState(false);
   const [showChange, setShowChange] = React.useState(true);
+  const [error, setError] = React.useState("");
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -101,11 +102,16 @@ export const MyTrainingPlan = () => {
         if (res.ok) {
           return res.json();
         } else if (res.status == 404) {
-          throw new Error("error");
+          setError(
+            "You do not have training plan. Create a request to get one!"
+          );
         }
       })
       .then((actualData) => {
         setPlan(actualData);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -128,91 +134,97 @@ export const MyTrainingPlan = () => {
     <div className={utils.whiteContainer}>
       <div className={classes.titleBox}>
         <h2>My training plan</h2>
-        <button
-          className={utils.redButtonSmall}
-          onClick={() => {
-            setShowChange(false);
-            setTimeout(() => {
-              generatePDF();
-            }, 1);
-          }}
-        >
-          <PrintIcon></PrintIcon>
-        </button>
+        {!error && (
+          <button
+            className={utils.redButtonSmall}
+            onClick={() => {
+              setShowChange(false);
+              setTimeout(() => {
+                generatePDF();
+              }, 1);
+            }}
+          >
+            <PrintIcon></PrintIcon>
+          </button>
+        )}
       </div>
 
-      <div id="report">
-        <div className={utils.form}>
-          <div className={classes.container}>
-            <div className={classes.tpInfo}>
-              <div className={classes.nameContainer}></div>
-              <div className={utils.span}>
-                <label>Training goal:</label>
-                <span>{plan?.trainingGoal}</span>
+      {!error ? (
+        <div id="report">
+          <div className={utils.form}>
+            <div className={classes.container}>
+              <div className={classes.tpInfo}>
+                <div className={classes.nameContainer}></div>
+                <div className={utils.span}>
+                  <label>Training goal:</label>
+                  <span>{plan?.trainingGoal}</span>
+                </div>
+                <div className={utils.span}>
+                  <label>Sessions per week:</label>
+                  <span>{plan?.sessionsPerWeek}</span>
+                </div>
               </div>
-              <div className={utils.span}>
-                <label>Sessions per week:</label>
-                <span>{plan?.sessionsPerWeek}</span>
-              </div>
-            </div>
-            <div>
-              {plan?.trainingSessions?.map(
-                (session: trainingSession, index) => (
-                  <div key={index}>
-                    <div className={classes.session}>
-                      <div className={classes.filters}>
-                        <h3>{session.name}</h3>
-                      </div>
-                      <div className={utils.buttonContainerRight}></div>
-                      <table className={classes.tpTable} key={index}>
-                        <thead>
-                          <tr>
-                            <th>Name</th>
-                            <th>Sets</th>
-                            <th>Repetition</th>
-                            {showChange && <th></th>}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {session?.exerciseInfo?.map((exercise, index) => (
-                            <tr
-                              key={index}
-                              className={
-                                exercise?.isUnhappy
-                                  ? classes.unhappy
-                                  : classes.normal
-                              }
-                            >
-                              <td>{exercise?.exerciseName}</td>
-                              <td>{exercise?.numberOfSets}</td>
-                              <td>{exercise?.repetitionRange}</td>
-                              {showChange && (
-                                <td>
-                                  <button
-                                    className={classes.removeButton}
-                                    onClick={() => {
-                                      setSelectedExercise(
-                                        exercise?.exerciseName
-                                      );
-                                      handleOpen();
-                                    }}
-                                  >
-                                    Change
-                                  </button>
-                                </td>
-                              )}
+              <div>
+                {plan?.trainingSessions?.map(
+                  (session: trainingSession, index) => (
+                    <div key={index}>
+                      <div className={classes.session}>
+                        <div className={classes.filters}>
+                          <h3>{session.name}</h3>
+                        </div>
+                        <div className={utils.buttonContainerRight}></div>
+                        <table className={classes.tpTable} key={index}>
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Sets</th>
+                              <th>Repetition</th>
+                              {showChange && <th></th>}
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {session?.exerciseInfo?.map((exercise, index) => (
+                              <tr
+                                key={index}
+                                className={
+                                  exercise?.isUnhappy
+                                    ? classes.unhappy
+                                    : classes.normal
+                                }
+                              >
+                                <td>{exercise?.exerciseName}</td>
+                                <td>{exercise?.numberOfSets}</td>
+                                <td>{exercise?.repetitionRange}</td>
+                                {showChange && (
+                                  <td>
+                                    <button
+                                      className={classes.removeButton}
+                                      onClick={() => {
+                                        setSelectedExercise(
+                                          exercise?.exerciseName
+                                        );
+                                        handleOpen();
+                                      }}
+                                    >
+                                      Change
+                                    </button>
+                                  </td>
+                                )}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                  </div>
-                )
-              )}
+                  )
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div>{error}</div>
+      )}
 
       <Modal
         open={open}

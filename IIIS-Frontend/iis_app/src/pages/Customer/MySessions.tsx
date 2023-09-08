@@ -30,6 +30,7 @@ const MySessions = () => {
   const navigate = useNavigate();
   const [selectedSession, setSelectedSession] = useState(null);
   const [open, setOpen] = React.useState(false);
+  const [error, setError] = React.useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [selectedPage, setSelectedPage] = useState(1);
   const [selectedSessionName, setSelectedSessionName] = React.useState({
@@ -82,12 +83,23 @@ const MySessions = () => {
         },
       }),
     })
-      .then((response) => response.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else if (res.status == 404) {
+          setError(
+            "You do not have training plan. Create a request to get one!"
+          );
+        }
+      })
       .then((actualData) => {
         console.log(actualData);
         console.log(actualData.items);
         setSessions(actualData.items);
         setTotalCount(actualData.totalCount);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }, [selectedPage, selectedSessionName]);
 
@@ -104,62 +116,70 @@ const MySessions = () => {
   return (
     <div className={utils.whiteContainer}>
       <h2>My sessions</h2>
-      <div className={classes.sessionFilterContainer}>
-        <span className={classes.filterSpan}>Session name:</span>
-        <Select
-          className={classes.selectSession}
-          name="name"
-          isClearable
-          options={sessionNames}
-          onChange={setSelectedNameHandler}
-          placeholder={"Select session..."}
-        />
-      </div>
-
-      {sessions?.length !== 0 ? (
-        <div className={classes.trainingPlanRequests}>
-          <table className={classes.tpTable}>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {sessions?.map((session, index) => (
-                <tr key={index}>
-                  <td>{session.name}</td>
-                  <td>{dayjs(session.date).format("DD.MM.YYYY")}</td>
-                  <td>
-                    <button
-                      className={utils.greenMenuButton}
-                      onClick={() => {
-                        setSelectedSession(session);
-                        handleOpen();
-                      }}
-                    >
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>{" "}
-          {totalCount > pageSize && (
-            <Pagination
-              change={changePage}
-              totalCount={totalCount}
-              pageSize={pageSize}
-              currentPage={selectedPage}
-            ></Pagination>
-          )}
-        </div>
-      ) : (
+      {!error ? (
         <>
-          <br></br>
-          <span>You do not have any saved sessions.</span>
+          {sessions?.length !== 0 && (
+            <div className={classes.sessionFilterContainer}>
+              <span className={classes.filterSpan}>Session name:</span>
+              <Select
+                className={classes.selectSession}
+                name="name"
+                isClearable
+                options={sessionNames}
+                onChange={setSelectedNameHandler}
+                placeholder={"Select session..."}
+              />
+            </div>
+          )}
+
+          {sessions?.length !== 0 ? (
+            <div className={classes.trainingPlanRequests}>
+              <table className={classes.tpTable}>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sessions?.map((session, index) => (
+                    <tr key={index}>
+                      <td>{session.name}</td>
+                      <td>{dayjs(session.date).format("DD.MM.YYYY")}</td>
+                      <td>
+                        <button
+                          className={utils.greenMenuButton}
+                          onClick={() => {
+                            setSelectedSession(session);
+                            handleOpen();
+                          }}
+                        >
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>{" "}
+              {totalCount > pageSize && (
+                <Pagination
+                  change={changePage}
+                  totalCount={totalCount}
+                  pageSize={pageSize}
+                  currentPage={selectedPage}
+                ></Pagination>
+              )}
+            </div>
+          ) : (
+            <>
+              <br></br>
+              <span>You do not have any saved sessions.</span>
+            </>
+          )}
         </>
+      ) : (
+        <div>{error}</div>
       )}
       <Modal
         open={open}
