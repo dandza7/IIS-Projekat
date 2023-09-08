@@ -188,7 +188,7 @@ const NewTrainingPlan = () => {
     if (isInital) {
       fetch(
         "http://localhost:5041/api/exercise/suitableForClient/" +
-          request?.clientId,
+        request?.clientId,
         {
           method: "POST",
           headers: {
@@ -206,7 +206,7 @@ const NewTrainingPlan = () => {
     } else {
       fetch(
         "http://localhost:5041/api/exercise/suitableForClient/" +
-          request?.clientId,
+        request?.clientId,
         {
           method: "POST",
           headers: {
@@ -382,7 +382,7 @@ const NewTrainingPlan = () => {
                         {request?.patientInfo.injuries.map((injury, index) => {
                           return (
                             <li className={classes.bold}>
-                              {injury.injuredMuscle} - {severity} level injury.
+                              {injury.injuredMuscle} - {injury.severity} level injury
                             </li>
                           );
                         })}
