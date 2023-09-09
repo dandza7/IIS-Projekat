@@ -5,12 +5,14 @@ import AuthContext from "../store/auth-context";
 import utils from "./styles/Utils.module.css";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
 import dayjs, { Dayjs } from "dayjs";
 import EditIcon from "@mui/icons-material/Edit";
 import EmailIcon from "@mui/icons-material/Email";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const style = {
   position: "absolute" as "absolute",
@@ -27,6 +29,7 @@ const Profile = () => {
   const [user, setUser] = useState<User>({});
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
+  const [startDate, setStartDate] = useState(new Date());
   const handleClose = () => setOpen(false);
   const authCtx = useContext(AuthContext);
   const [toggleEdit, setToggleEdit] = useState<any>(false);
@@ -59,6 +62,7 @@ const Profile = () => {
     const enteredName = nameInputRef.current.value;
     const enteredSurname = surnameInputRef.current.value;
     const enteredGender = genderRef.current.value;
+
     event?.preventDefault();
     fetch("http://localhost:5041/api/profiles/update/own", {
       method: "PUT",
@@ -66,7 +70,7 @@ const Profile = () => {
         name: enteredName,
         gender: enteredGender,
         surname: enteredSurname,
-        birthDate: user.birthDate,
+        birthDate: startDate,
         biography: "",
       }),
       headers: {
@@ -97,6 +101,7 @@ const Profile = () => {
       .then((actualData) => {
         console.log(actualData);
         setUser(actualData);
+        setStartDate(Date.parse(actualData.birthDate));
       });
   }, [saved]);
 
@@ -241,6 +246,18 @@ const Profile = () => {
                   return <option key={index}>{gender}</option>;
                 })}
               </select>
+            </div>
+            <div className={classes.spanEdit}>
+              <span>Birthdate: </span>
+              <DatePicker
+                className={classes.dPicker}
+                selected={startDate}
+                dateFormat="dd/MM/yyyy"
+                onChange={(date: any) => {
+                  setStartDate(date);
+                  console.log(date);
+                }}
+              />
             </div>
           </div>
           <br></br>

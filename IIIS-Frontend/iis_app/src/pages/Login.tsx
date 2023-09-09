@@ -22,7 +22,6 @@ import utils from "./styles/Utils.module.css";
 const Login = () => {
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
-
   const [values, setValues] = useState({
     email: "",
     pass: "",
